@@ -303,6 +303,55 @@ const renderTestimonial = (data) => {
 }
 
 /**
+ * Renderiza la sección de contacto (siempre incluida en proyectos)
+ * @returns {string} HTML del formulario de contacto
+ */
+const renderContacto = () => `
+  <section id="contacto">
+    <div class="container-fluid grid grid-cols-2 gap-6">
+      <div class="gsap-reveal contacto-header">
+        <h2 class="text-large contacto-title">
+          Contacta <br>
+          <span class="accent-text italic">con nosotros</span>
+        </h2>
+        <p class="contacto-description">
+          Conecta con nuestro equipo y asegura la imagen de tu red de puntos de venta.
+        </p>
+      </div>
+      <div class="gsap-reveal">
+        <form class="contact-form">
+          <div class="form-group">
+            <label class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" placeholder="Ej. Carlos Martínez" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Empresa / Cadena</label>
+            <input type="text" class="form-control" placeholder="Ej. Nestlé España" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Corporativo</label>
+            <input type="email" class="form-control" placeholder="carlos@empresa.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">¿En qué podemos ayudarte?</label>
+            <textarea class="form-control form-control--textarea" rows="2" placeholder="Describe brevemente tu necesidad..." required></textarea>
+          </div>
+          <div class="contacto-submit-wrapper">
+            <button type="submit" class="btn-regius btn-regius--full">
+              <div class="btn-regius-bg"></div>
+              <div class="btn-regius-text-wrapper">
+                <div class="btn-regius-text _1 btn-regius-text--large">Enviar Solicitud</div>
+                <div class="btn-regius-text _2 btn-regius-text--large">Enviar Solicitud</div>
+              </div>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+`
+
+/**
  * Combina todas las secciones del proyecto
  * @param {Object} data - Datos completos del proyecto
  * @returns {string} HTML completo del contenido del proyecto
@@ -316,6 +365,7 @@ const renderProjectContent = (data) => `
   ${render3D(data)}
   ${renderGallery(data)}
   ${renderTestimonial(data)}
+  ${renderContacto()}
 `
 
 /**
@@ -324,7 +374,7 @@ const renderProjectContent = (data) => `
  * ESTA ES LA FUNCIÓN PRINCIPAL - úsala para crear páginas de proyecto
  *
  * @param {Object} projectData - Datos del proyecto (ver estructura en docs)
- * @returns {string} HTML completo con header + proyecto + footer
+ * @returns {string} HTML completo con header + proyecto + footer + cursor
  *
  * @example
  * import { createProjectPage } from './templates/project-template.js'
@@ -334,7 +384,11 @@ const renderProjectContent = (data) => `
  */
 export const createProjectPage = (projectData) => {
   return createLayout({
-    content: renderProjectContent(projectData),
+    content: `
+      ${renderProjectContent(projectData)}
+      <div class="custom-cursor__dot"></div>
+      <div class="custom-cursor__ring"><span class="custom-cursor__text"></span></div>
+    `,
     pageClass: `page-proyecto project-${projectData.slug || 'default'}`
   })
 }
@@ -349,5 +403,6 @@ export {
   render3D,
   renderGallery,
   renderTestimonial,
+  renderContacto,
   renderProjectContent
 }

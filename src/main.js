@@ -595,23 +595,17 @@ const renderFooter = () => `
   </section>
 `
 
-import { renderProyectoTemplate, initProyectoAnimations } from './template-proyecto.js'
-import redeiaData from './data/projects/redeia.json'
+import { initProyectoAnimations } from './template-proyecto.js'
+import { initDynamicHeader } from './layout.js'
+import { getRedeiaHTML } from './pages/proyectos/redeia.js'
 
 // Inject HTML based on page type
-const isProyectoPage = document.body.dataset.page === 'proyecto';
+const pageType = document.body.dataset.page;
+const isProyectoPage = pageType === 'proyecto-redeia';
 
-if (isProyectoPage) {
-  document.querySelector('#app').innerHTML = `
-    ${renderNavbar()}
-    <main>
-      ${renderProyectoTemplate(redeiaData)}
-      ${renderContacto(true)}
-    </main>
-    ${renderFooter()}
-    <div class="custom-cursor__dot"></div>
-    <div class="custom-cursor__ring"><span class="custom-cursor__text"></span></div>
-  `
+if (pageType === 'proyecto-redeia') {
+  // Proyecto Redeia usando plantilla universal
+  document.querySelector('#app').innerHTML = getRedeiaHTML()
 } else {
   document.querySelector('#app').innerHTML = `
     ${renderNavbar()}
@@ -1119,87 +1113,11 @@ const initAnimations = () => {
   }
 }
 
-/**
- * SISTEMA DE HEADER DINÁMICO - NO MODIFICAR SIN REVISAR
- *
- * Este sistema calcula dinámicamente la altura del header según el contenido
- * del mega menu que se está mostrando. Cada sección tiene diferente contenido,
- * por lo que no podemos usar una altura fija.
- *
- * IMPORTANTE:
- * - El mega menu está posicionado en top: 70px (no 80px) para ser visible con overflow:hidden
- * - Se calcula scrollHeight del mega menu en cada hover
- * - La altura total es: 80px (barra) + scrollHeight (contenido)
- * - Transición CSS manejada en style.css (0.4s cubic-bezier)
- *
- * ESTRUCTURA CRÍTICA:
- * - .site-header: overflow: hidden (mantiene mega menu dentro)
- * - .mega-menu: top: 70px, padding-top: 10px (compensación)
- * - .nav-item-dropdown: contiene el mega menu
- *
- * @returns {void}
- */
-function initDynamicHeader() {
-  const header = document.querySelector('.site-header');
-  const navItems = document.querySelectorAll('.nav-item-dropdown');
-
-  // Validación de elementos críticos
-  if (!header) {
-    console.warn('⚠️ Header no encontrado - initDynamicHeader abortado');
-    return;
-  }
-
-  if (!navItems.length) {
-    console.warn('⚠️ Nav items con dropdown no encontrados');
-    return;
-  }
-
-  // Altura base del header (constante)
-  const HEADER_BASE_HEIGHT = 80;
-
-  // Margen de seguridad adicional (evita cortes)
-  const SAFETY_MARGIN = 10;
-
-  navItems.forEach((navItem, index) => {
-    const megaMenu = navItem.querySelector('.mega-menu');
-
-    if (!megaMenu) {
-      console.warn(`⚠️ Mega menu no encontrado en nav-item ${index}`);
-      return;
-    }
-
-    let isExpanded = false;
-
-    navItem.addEventListener('mouseenter', () => {
-      if (isExpanded) return; // Prevenir múltiples llamadas
-
-      // Calcular altura real del contenido del mega menu
-      const megaMenuHeight = megaMenu.scrollHeight;
-
-      // Validar que la altura sea razonable
-      if (megaMenuHeight < 100 || megaMenuHeight > 2000) {
-        console.warn(`⚠️ Altura anómala del mega menu: ${megaMenuHeight}px`);
-      }
-
-      // Altura total = barra superior + contenido + margen
-      const totalHeight = HEADER_BASE_HEIGHT + megaMenuHeight + SAFETY_MARGIN;
-
-      // Aplicar altura calculada
-      header.style.height = `${totalHeight}px`;
-      isExpanded = true;
-    });
-
-    navItem.addEventListener('mouseleave', () => {
-      // Volver a altura original
-      header.style.height = `${HEADER_BASE_HEIGHT}px`;
-      isExpanded = false;
-    });
-  });
-
-  console.log('✅ Header dinámico inicializado correctamente');
-}
-
 window.addEventListener('DOMContentLoaded', () => {
+  // Inicializar header dinámico (importado de layout.js)
+  initDynamicHeader();
+
+  // Inicializar animaciones según tipo de página
   if (isProyectoPage) {
     initProyectoAnimations();
   } else {
