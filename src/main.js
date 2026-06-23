@@ -1119,31 +1119,84 @@ const initAnimations = () => {
   }
 }
 
-// Header dinámico - ajusta altura según contenido del mega menu
+/**
+ * SISTEMA DE HEADER DINÁMICO - NO MODIFICAR SIN REVISAR
+ *
+ * Este sistema calcula dinámicamente la altura del header según el contenido
+ * del mega menu que se está mostrando. Cada sección tiene diferente contenido,
+ * por lo que no podemos usar una altura fija.
+ *
+ * IMPORTANTE:
+ * - El mega menu está posicionado en top: 70px (no 80px) para ser visible con overflow:hidden
+ * - Se calcula scrollHeight del mega menu en cada hover
+ * - La altura total es: 80px (barra) + scrollHeight (contenido)
+ * - Transición CSS manejada en style.css (0.4s cubic-bezier)
+ *
+ * ESTRUCTURA CRÍTICA:
+ * - .site-header: overflow: hidden (mantiene mega menu dentro)
+ * - .mega-menu: top: 70px, padding-top: 10px (compensación)
+ * - .nav-item-dropdown: contiene el mega menu
+ *
+ * @returns {void}
+ */
 function initDynamicHeader() {
   const header = document.querySelector('.site-header');
   const navItems = document.querySelectorAll('.nav-item-dropdown');
 
-  if (!header || !navItems.length) return;
+  // Validación de elementos críticos
+  if (!header) {
+    console.warn('⚠️ Header no encontrado - initDynamicHeader abortado');
+    return;
+  }
 
-  navItems.forEach(navItem => {
+  if (!navItems.length) {
+    console.warn('⚠️ Nav items con dropdown no encontrados');
+    return;
+  }
+
+  // Altura base del header (constante)
+  const HEADER_BASE_HEIGHT = 80;
+
+  // Margen de seguridad adicional (evita cortes)
+  const SAFETY_MARGIN = 10;
+
+  navItems.forEach((navItem, index) => {
     const megaMenu = navItem.querySelector('.mega-menu');
-    if (!megaMenu) return;
+
+    if (!megaMenu) {
+      console.warn(`⚠️ Mega menu no encontrado en nav-item ${index}`);
+      return;
+    }
+
+    let isExpanded = false;
 
     navItem.addEventListener('mouseenter', () => {
-      // Calcular altura del mega menu + barra superior (80px)
-      const megaMenuHeight = megaMenu.scrollHeight;
-      const totalHeight = 80 + megaMenuHeight;
+      if (isExpanded) return; // Prevenir múltiples llamadas
 
-      // Aplicar altura calculada al header
+      // Calcular altura real del contenido del mega menu
+      const megaMenuHeight = megaMenu.scrollHeight;
+
+      // Validar que la altura sea razonable
+      if (megaMenuHeight < 100 || megaMenuHeight > 2000) {
+        console.warn(`⚠️ Altura anómala del mega menu: ${megaMenuHeight}px`);
+      }
+
+      // Altura total = barra superior + contenido + margen
+      const totalHeight = HEADER_BASE_HEIGHT + megaMenuHeight + SAFETY_MARGIN;
+
+      // Aplicar altura calculada
       header.style.height = `${totalHeight}px`;
+      isExpanded = true;
     });
 
     navItem.addEventListener('mouseleave', () => {
       // Volver a altura original
-      header.style.height = '80px';
+      header.style.height = `${HEADER_BASE_HEIGHT}px`;
+      isExpanded = false;
     });
   });
+
+  console.log('✅ Header dinámico inicializado correctamente');
 }
 
 window.addEventListener('DOMContentLoaded', () => {
