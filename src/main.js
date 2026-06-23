@@ -18,28 +18,28 @@ const renderNavbar = () => `
   <header class="site-header">
     <div class="container-fluid navbar">
       <a href="/" class="navbar-brand">
-        <img src="/logo-xprina-azul.png" alt="Xprinta Pro" class="navbar-logo" style="height: 76px;" />
+        <img src="/logo-xprina-azul.png" alt="Xprinta Pro" class="navbar-logo" />
       </a>
-      <nav class="navbar-nav" style="gap: 1.5rem;">
-        
+      <nav class="navbar-nav">
+
         <div class="nav-item-dropdown" id="nav-item-proyectos">
-          <a href="#proyectos" class="nav-link" style="font-size: 0.9rem;">Proyectos <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="#proyectos" class="nav-link">Proyectos <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-proyectos-inner">
               ${content.proyectos.slice(0, 3).map(proj => `
                 <div class="mega-menu-proyectos-card">
-                  <a href="${proj.url || '#proyectos'}" style="display: block; text-decoration: none; color: inherit;">
+                  <a href="${proj.url || '#proyectos'}" class="mega-menu__link-block">
                     <img src="${proj.image}" alt="${proj.title}" class="mega-menu-proyectos-image" />
                     <h4 class="mega-menu-proyectos-title">${proj.title}</h4>
                     <p class="mega-menu-proyectos-desc">${proj.description}</p>
                   </a>
-                  <div style="margin-top: auto;">
+                  <div class="mega-menu__item-footer">
                     <span class="mega-menu-proyectos-link">Ver Proyecto &rarr;</span>
                   </div>
                 </div>
               `).join('')}
             </div>
-            <div class="container-fluid" style="display: flex; justify-content: flex-end; padding: 0 32px; margin-top: 8px;">
+            <div class="container-fluid mega-menu__footer-actions">
               <a href="#proyectos" class="btn-regius">
                 <div class="btn-regius-text-wrapper">
                   <div class="btn-regius-text _1">Ver todos los proyectos</div>
@@ -52,7 +52,7 @@ const renderNavbar = () => `
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="#servicios" class="nav-link" style="font-size: 0.9rem;">Servicios <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="#servicios" class="nav-link">Servicios <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-inner">
               <div class="mega-menu-left">
@@ -80,9 +80,9 @@ const renderNavbar = () => `
               <div class="mega-menu-right">
                 <div class="mega-menu-card">
                   <img src="https://images.pexels.com/photos/8128188/pexels-photo-8128188.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Servicios" class="mega-menu-image" />
-                  <div class="mega-menu-card-content" style="display: flex; flex-direction: column; flex: 1;">
-                    <h4 style="margin-bottom: auto;">Soluciones a medida para corporaciones</h4>
-                    <a href="#servicios" class="btn-regius outline" style="align-self: flex-start; margin-top: 16px;">
+                  <div class="mega-menu-card-content">
+                    <h4>Soluciones a medida para corporaciones</h4>
+                    <a href="#servicios" class="btn-regius outline">
                       <div class="btn-regius-text-wrapper">
                         <div class="btn-regius-text _1">Explorar Servicios</div>
                         <div class="btn-regius-text _2">Explorar Servicios</div>
@@ -97,7 +97,7 @@ const renderNavbar = () => `
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="#por-que-xprinta" class="nav-link" style="font-size: 0.9rem;">Por Qué Xprinta <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="#por-que-xprinta" class="nav-link">Por Qué Xprinta <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-inner">
               <div class="mega-menu-left">
@@ -125,9 +125,9 @@ const renderNavbar = () => `
               <div class="mega-menu-right">
                 <div class="mega-menu-card">
                   <img src="https://images.pexels.com/photos/37466061/pexels-photo-37466061.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Ventajas" class="mega-menu-image" />
-                  <div class="mega-menu-card-content" style="display: flex; flex-direction: column; flex: 1;">
-                    <h4 style="margin-bottom: auto;">Experiencia en todos los sectores productivos</h4>
-                    <a href="#por-que-xprinta" class="btn-regius outline" style="align-self: flex-start; margin-top: 16px;">
+                  <div class="mega-menu-card-content">
+                    <h4>Experiencia en todos los sectores productivos</h4>
+                    <a href="#por-que-xprinta" class="btn-regius outline">
                       <div class="btn-regius-text-wrapper">
                         <div class="btn-regius-text _1">Ver Casos de Éxito</div>
                         <div class="btn-regius-text _2">Ver Casos de Éxito</div>
@@ -142,15 +142,15 @@ const renderNavbar = () => `
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="#mapa" class="nav-link" style="font-size: 0.9rem;">Red Xprinta</a>
+          <a href="#mapa" class="nav-link">Red Xprinta</a>
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="#area-tecnica" class="nav-link" style="font-size: 0.9rem;">Área Técnica</a>
+          <a href="#area-tecnica" class="nav-link">Área Técnica</a>
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="#nosotros" class="nav-link" style="font-size: 0.9rem;">Nosotros <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="#nosotros" class="nav-link">Nosotros <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-inner">
               <div class="mega-menu-left">
@@ -244,13 +244,13 @@ const renderHero = () => `
           
           if (videoSrc) {
             return `
-              <div class="hero-slide" style="${index === 0 ? 'opacity: 1;' : ''}">
-                <video src="${videoSrc}" muted playsinline autoplay style="width: 100%; height: 100%; object-fit: cover;"></video>
+              <div class="hero-slide ${index === 0 ? 'hero-slide--active' : ''}">
+                <video src="${videoSrc}" muted playsinline autoplay class="hero-slide__video"></video>
               </div>
             `;
           }
           return `
-            <div class="hero-slide" style="background-image: url('${src}'); ${index === 0 ? 'opacity: 1;' : ''}"></div>
+            <div class="hero-slide ${index === 0 ? 'hero-slide--active' : ''}" style="background-image: url('${src}');"></div>
           `;
         }).join('')}
       </div>
@@ -261,20 +261,20 @@ const renderHero = () => `
 const renderMarquee = () => {
   const logos = [...content.clientes, ...content.clientes, ...content.clientes]
   return `
-    <section class="marquee-container gsap-reveal" id="clientes" style="padding-top: 8rem; padding-bottom: 8rem; position: relative;">
+    <section class="marquee-container gsap-reveal py-32 relative" id="clientes">
       <!-- Subtle top border/gradient -->
-      <div style="position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1) 50%, transparent);"></div>
-      
-      <div class="container-fluid" style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 6rem;">
+      <div class="marquee-container__border-gradient"></div>
+
+      <div class="container-fluid flex flex-col items-center text-center mb-24">
         <span class="text-caption">Confianza corporativa</span>
-        <h2 class="text-large" style="max-width: 900px; margin-bottom: 1.5rem;">
+        <h2 class="text-large max-w-900 mb-6">
           Trabajamos con las principales <br>
-          <span class="accent-text" style="font-style: italic;">empresas de España</span>
+          <span class="accent-text italic">empresas de España</span>
         </h2>
       </div>
-      
+
       <!-- Fade edges for marquee -->
-      <div style="position: relative; mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);">
+      <div class="marquee-container__mask">
         <div class="marquee-content">
           ${logos.map(logo => `<img src="${logo}" alt="Cliente corporativo" />`).join('')}
         </div>
@@ -345,7 +345,7 @@ const renderProyectos = () => `
     </div>
     
     <div class="nw-proyectos-footer gsap-reveal">
-      <a href="#proyectos" class="nw-link" style="font-size: 1.5rem;">
+      <a href="#proyectos" class="nw-link nw-link--large">
         Ver todos los proyectos
       </a>
     </div>
@@ -353,35 +353,33 @@ const renderProyectos = () => `
 `
 
 const renderSectores = () => `
-  <section id="sectores" style="padding-top: 8rem; padding-bottom: 8rem;">
-    <div class="container-fluid gsap-reveal" style="margin-bottom: 3rem;">
+  <section id="sectores" class="py-32">
+    <div class="container-fluid gsap-reveal mb-12">
       <span class="text-caption">01 / Aplicaciones</span>
-      <h2 class="text-large" style="max-width: 800px; margin-bottom: 1.5rem;">
+      <h2 class="text-large max-w-800 mb-6">
         Sectores de <br>
-        <span class="accent-text" style="font-style: italic;">Especialización</span>
+        <span class="accent-text italic">Especialización</span>
       </h2>
     </div>
     <div class="container-fluid">
       <div class="bento-grid">
         ${content.sectores.map((sector, index) => {
-          // Asymmetrical grid logic
-          let spanCols = 1;
-          let spanRows = 1;
-          let minHeight = "180px";
-          
+          // Asymmetrical grid logic - determine card size class
+          let sizeClass = 'bento-card--default';
+
           if (index === 0 || index === 5) {
-            spanCols = 2; spanRows = 2; minHeight = "360px";
+            sizeClass = 'bento-card--large';
           } else if (index === 2 || index === 8) {
-            spanCols = 2; spanRows = 1; minHeight = "180px";
+            sizeClass = 'bento-card--wide';
           }
-          
+
           return `
-          <div class="bento-card bento-card-bg gsap-bento-item gsap-reveal" style="grid-column: span ${spanCols}; grid-row: span ${spanRows}; min-height: ${minHeight}; padding: 2rem; background-image: url('${sector.bgImage}')">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-              <span class="text-caption" style="color: rgba(255,255,255,0.7);">0${index + 1}</span>
+          <div class="bento-card bento-card-bg ${sizeClass} gsap-bento-item gsap-reveal" style="background-image: url('${sector.bgImage}')">
+            <div class="bento-card__header">
+              <span class="text-caption bento-card__number">0${index + 1}</span>
             </div>
             <div>
-               <h3 style="font-size: clamp(1.2rem, 2.4vw, 2.0rem); line-height: 1.1; color: #FFFFFF; font-weight: 500;">${sector.name}</h3>
+               <h3 class="bento-card__title">${sector.name}</h3>
             </div>
           </div>
         `}).join('')}
@@ -391,24 +389,24 @@ const renderSectores = () => `
 `
 
 const renderMapa = () => `
-  <div id="red-nacional-container" class="container-fluid" style="padding-top: 4rem; padding-bottom: 4rem;">
-    <section id="red-nacional" style="position: relative; padding: 60px 80px; background-color: #0A0A0A; color: #FFFFFF; border-radius: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.1); overflow: hidden; min-height: 80vh; display: flex; align-items: center;">
-      
+  <div id="red-nacional-container" class="container-fluid red-nacional-container">
+    <section id="red-nacional" class="red-nacional-section">
+
       <!-- Static Background Map Image (Now much more prominent) -->
-      <div style="position: absolute; right: 0%; top: 50%; transform: translateY(-50%); width: 75%; height: 130%; display: flex; justify-content: flex-end; align-items: center; z-index: 0; pointer-events: none;">
-        <img id="static-map-image" src="/mapa/mapa-fondo.png" alt="" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); opacity: 0.1;">
+      <div class="red-nacional__map-bg">
+        <img id="static-map-image" src="/mapa/mapa-fondo.png" alt="" class="red-nacional__map-img">
       </div>
 
       <!-- Stats Content (Left side) -->
-      <div style="position: relative; z-index: 10; max-width: 500px; width: 100%; margin-top: auto; margin-bottom: auto;">
-        <h2 id="red-nacional-title" style="font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 2rem; color: #FFFFFF; line-height: 1.15; opacity: 0.1;">Una red de <span class="hero-highlight-word">fábricas</span> para la <span class="hero-highlight-word">imagen</span> de tu empresa.</h2>
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div class="red-nacional__content">
+        <h2 id="red-nacional-title" class="red-nacional__title">Una red de <span class="hero-highlight-word">fábricas</span> para la <span class="hero-highlight-word">imagen</span> de tu empresa.</h2>
+        <div class="red-nacional__stats">
           ${content.mapa.stats.map(stat => `
-            <div class="stat-block" style="border-top: 1px solid #333; padding-top: 0.8rem; opacity: 0; transform: translateY(30px);">
-              <p style="font-size: 2.8rem; font-weight: 700; color: #FFFFFF; line-height: 1; margin-bottom: 0.25rem; font-variant-numeric: tabular-nums;">
-                <span class="stat-counter" data-target="${stat.number}">0</span><span style="color: #666; font-size: 2rem; margin-left: 4px;">+</span>
+            <div class="stat-block">
+              <p class="stat-block__number">
+                <span class="stat-counter" data-target="${stat.number}">0</span><span class="stat-block__number-suffix">+</span>
               </p>
-              <p style="font-size: 0.95rem; font-weight: 400; text-transform: lowercase; color: #999; letter-spacing: 0.5px; max-width: 300px;">
+              <p class="stat-block__text">
                 ${stat.text}
               </p>
             </div>
@@ -417,7 +415,7 @@ const renderMapa = () => `
       </div>
 
       <!-- Button (Bottom Right) -->
-      <div class="stat-block" style="position: absolute; bottom: 50px; right: 80px; z-index: 20; opacity: 0; transform: translateY(30px);">
+      <div class="stat-block red-nacional__cta">
         <a href="#" class="btn-regius outline-light">
           <div class="btn-regius-bg"></div>
           <div class="btn-regius-text-wrapper">
@@ -432,43 +430,43 @@ const renderMapa = () => `
 `
 
 const renderProceso = () => `
-  <div id="proceso-container" style="background-color: var(--color-bg); padding-bottom: 20vh;">
-    <section id="proceso" style="height: 100vh; overflow: hidden; display: flex; align-items: center;">
-      <div class="container-fluid grid grid-cols-2 gap-6" style="width: 100%;">
-        
+  <div id="proceso-container">
+    <section id="proceso">
+      <div class="container-fluid grid grid-cols-2 gap-6 proceso-grid">
+
         <!-- Sticky Sidebar -->
-        <div class="sticky-sidebar" style="position: relative; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 0vh; padding-right: 4rem;">
-          
+        <div class="sticky-sidebar">
+
           <!-- Background Particles (expanded bounds to prevent clipping) -->
-          <div id="lottie-bar" style="position: absolute; top: 77%; left: 40%; transform: translate(-50%, -50%); width: 40%; height: 120%; z-index: 0; pointer-events: none;"></div>
+          <div id="lottie-bar"></div>
 
           <!-- Foreground Text -->
-          <div style="position: relative; z-index: 10;">
+          <div class="sticky-sidebar__content">
             <span class="text-caption">03 / Metodología</span>
-            <h2 class="text-large" style="margin-bottom: 1.5rem;">
+            <h2 class="text-large proceso-title">
               El Proceso <br>
-              <span class="accent-text" style="font-style: italic;">Lineal</span>
+              <span class="accent-text italic">Lineal</span>
             </h2>
-            <p style="margin-top: 2rem; font-size: 1.25rem; color: var(--color-text-muted); max-width: 400px; font-weight: 400;">
+            <p class="proceso-description">
               Estandarizamos la excelencia en 14 pasos precisos, garantizando trazabilidad y ahorro de costes a nivel nacional.
             </p>
           </div>
         </div>
-        
+
         <!-- Scrolling List -->
-        <div style="position: relative; height: 70vh; overflow: hidden; mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);">
-          <div class="process-list-wrapper" style="width: 100%;">
+        <div class="process-scroll-container">
+          <div class="process-list-wrapper">
             ${content.proceso.map((paso, index) => `
-              <div class="process-item-animated" style="opacity: 0.1; margin-bottom: 5rem; padding: 2rem 0;">
-                <div style="display: flex; align-items: baseline; gap: 1rem; margin-bottom: 0.5rem;">
-                  <span style="font-family: var(--font-mono); font-size: 1.5rem; color: var(--color-highlight);">${(index + 1).toString().padStart(2, '0')}</span> 
-                  <h3 style="font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 600; line-height: 1; margin: 0;">${paso.title}</h3>
+              <div class="process-item-animated">
+                <div class="process-item__header">
+                  <span class="process-item__number">${(index + 1).toString().padStart(2, '0')}</span>
+                  <h3 class="process-item__title">${paso.title}</h3>
                 </div>
-                <p style="font-size: 1.25rem; color: var(--color-text-muted); margin-left: 2.5rem; max-width: 550px; line-height: 1.6;">${paso.description}</p>
-                <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem; max-width: 550px; margin-left: 2.5rem;">
-                  <a href="#" class="nw-link" style="font-size: 1rem; font-weight: 500; color: var(--color-text);">
+                <p class="process-item__description">${paso.description}</p>
+                <div class="process-item__footer">
+                  <a href="#" class="nw-link nw-link--medium">
                     Conocer más
-                    <svg aria-hidden="true" viewBox="0 0 100 100" fill="currentColor" class="nw-link-icon" style="width: 1em; height: 1em; margin-left: 0.5em;"><path d="M57.40 20.30L42.50 20.30L66.50 44.30L13 44.30L13 55.10L66.50 55.10L42.50 79.10L57.40 79.10L87 49.70Z"></path></svg>
+                    <svg aria-hidden="true" viewBox="0 0 100 100" fill="currentColor" class="nw-link-icon nw-link-icon--inline"><path d="M57.40 20.30L42.50 20.30L66.50 44.30L13 44.30L13 55.10L66.50 55.10L42.50 79.10L57.40 79.10L87 49.70Z"></path></svg>
                   </a>
                 </div>
               </div>
@@ -482,15 +480,15 @@ const renderProceso = () => `
 `
 
 const renderContacto = (isProject = false) => `
-  <section id="contacto" style="padding-top: 6rem; padding-bottom: 6rem; background-color: var(--color-tertiary);">
+  <section id="contacto">
     <div class="container-fluid grid grid-cols-2 gap-6">
-      <div class="gsap-reveal" style="display: flex; flex-direction: column; justify-content: flex-start;">
+      <div class="gsap-reveal contacto-header">
         ${!isProject ? `<span class="text-caption">05 / Contacto</span>` : ''}
-        <h2 class="text-large" style="margin-bottom: 1.5rem;">
+        <h2 class="text-large contacto-title">
           Contacta <br>
-          <span class="accent-text" style="font-style: italic;">con nosotros</span>
+          <span class="accent-text italic">con nosotros</span>
         </h2>
-        <p style="color: var(--color-text-muted); font-size: 1.5rem; max-width: 400px;">
+        <p class="contacto-description">
           Conecta con nuestro equipo y asegura la imagen de tu red de puntos de venta.
         </p>
       </div>
@@ -510,14 +508,14 @@ const renderContacto = (isProject = false) => `
           </div>
           <div class="form-group">
             <label class="form-label">¿En qué podemos ayudarte?</label>
-            <textarea class="form-control" rows="2" placeholder="Describe brevemente tu necesidad..." required style="resize: vertical; background: transparent; border: none; border-bottom: 1px solid var(--color-border); color: var(--color-text); padding: 1rem 0; width: 100%; font-family: var(--font-sans); font-size: 1.25rem; outline: none; transition: border-color 0.3s;"></textarea>
+            <textarea class="form-control form-control--textarea" rows="2" placeholder="Describe brevemente tu necesidad..." required></textarea>
           </div>
-          <div style="margin-top: 2rem;">
-            <button type="submit" class="btn-regius" style="width: 100%; padding: 1.5rem;">
+          <div class="contacto-submit-wrapper">
+            <button type="submit" class="btn-regius btn-regius--full">
               <div class="btn-regius-bg"></div>
               <div class="btn-regius-text-wrapper">
-                <div class="btn-regius-text _1" style="font-size: 1.25rem;">Enviar Solicitud</div>
-                <div class="btn-regius-text _2" style="font-size: 1.25rem;">Enviar Solicitud</div>
+                <div class="btn-regius-text _1 btn-regius-text--large">Enviar Solicitud</div>
+                <div class="btn-regius-text _2 btn-regius-text--large">Enviar Solicitud</div>
               </div>
             </button>
           </div>
@@ -531,12 +529,12 @@ const renderFooter = () => `
   <section class="footer-component">
     <div class="footer-card">
       <div class="footer-top-tile">
-        <img src="${content.header.logoPath}" alt="${content.header.brandName}" style="height: 48px; object-fit: contain;">
+        <img src="${content.header.logoPath}" alt="${content.header.brandName}" class="footer-logo">
       </div>
       <div class="footer-divider"></div>
       <div class="footer-halves">
         <div class="footer-left">
-          <div class="footer-text" style="max-width: 400px;">
+          <div class="footer-text footer-text--max-width">
             <strong>Miembro de:</strong>
           </div>
           <div class="footer-logos">
@@ -584,12 +582,12 @@ const renderFooter = () => `
                 </svg>
               </a>
             </div>
-            <div class="footer-text" style="font-size: 0.85rem;">© 2026 Xprinta Pro. Trade Marketing & Corporate Visual Identity.</div>
+            <div class="footer-text footer-text--small">© 2026 Xprinta Pro. Trade Marketing & Corporate Visual Identity.</div>
           </div>
           <div class="footer-legal-links">
-            <a href="#" class="footer-text" style="font-size: 0.85rem;">Términos de Servicio</a>
-            <a href="#" class="footer-text" style="font-size: 0.85rem;">Aviso Legal</a>
-            <a href="#" class="footer-text" style="font-size: 0.85rem;">Política de Privacidad</a>
+            <a href="#" class="footer-text footer-text--small">Términos de Servicio</a>
+            <a href="#" class="footer-text footer-text--small">Aviso Legal</a>
+            <a href="#" class="footer-text footer-text--small">Política de Privacidad</a>
           </div>
         </div>
       </div>
