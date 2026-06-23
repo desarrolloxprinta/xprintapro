@@ -1,0 +1,563 @@
+`
+  <!-- HERO -->
+  <section class="project-hero" style="position: relative; width: 100%; height: 100vh; background-color: var(--color-background); display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;">
+    
+    <div class="hero-media-wrapper" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; clip-path: inset(25% 15% 25% 15% round 20px);">
+      <video class="hero-media" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.15);">
+        <source src="/proyectos/redeia/redeia_hero_video.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <div class="hero-text-container" style="text-align: center; z-index: 2; position: relative; padding: 0 15vw; width: 100%;">
+      <h1 class="hero-title text-large font-serif font-regular text-inverse" style="margin-bottom: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; overflow: hidden; color: #fff;">
+        <span class="hero-title-inner" style="display: block; transform: translateY(110%);">Campaña de rebranding sorpresa para Redeia red electrica — instalación de rótulos a nivel nacional.</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- META BENTO -->
+  <section class="project-meta" style="padding: 6rem 0; background-color: var(--color-secondary); color: var(--color-primary);">
+    <div class="container-fluid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05);">
+      
+      <div class="meta-item gsap-bento-item" style="background: var(--color-secondary); padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: flex-start;">
+        <span class="text-caption text-muted text-uppercase" style="margin-bottom: 2rem; display: block;">Cliente</span>
+        <div>
+          <h3 class="font-serif font-regular" style="font-size: 2.5rem; margin-bottom: 1rem;">Redeia</h3>
+          <p class="text-body-hero">Desde 1985 nacieron como el primer TSO del mundo. Hoy son un grupo sólido con el propósito de garantizar el suministro eléctrico.</p>
+        </div>
+      </div>
+
+      <div class="meta-item gsap-bento-item" style="background: var(--color-secondary); padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: flex-start;">
+        <span class="text-caption text-muted text-uppercase" style="margin-bottom: 2rem; display: block;">Sector</span>
+        <h3 class="font-serif font-regular" style="font-size: 2.5rem;">Energía / Corporativo</h3>
+      </div>
+
+      <div class="meta-item gsap-bento-item" style="background: var(--color-secondary); padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: flex-start;">
+        <span class="text-caption text-muted text-uppercase" style="margin-bottom: 2rem; display: block;">Servicio</span>
+        <div>
+          <h3 class="font-serif font-regular" style="font-size: 2.5rem;">Rebranding Nacional</h3>
+          <img src="/proyectos/redeia/logo-redeia.webp" alt="Redeia Logo" style="max-width: 150px; margin-top: 2rem; mix-blend-mode: multiply;" />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECT LOCATION -->
+  <section class="project-location" style="position: relative; height: 80vh; min-height: 600px; background-color: var(--color-primary); color: #FFFFFF; overflow: hidden; display: flex; align-items: center;">
+    
+    <!-- Background Map -->
+    <div style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;">
+      <div id="google-map" style="width: 100%; height: 100%;"></div>
+      <!-- Gradient overlay: black on the left fading to transparent occupying 60% of the container -->
+      <div style="position: absolute; inset: 0; background: linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) 15%, transparent 60%); pointer-events: none; z-index: 2;"></div>
+    </div>
+
+    <!-- Foreground Text -->
+    <div class="container-fluid" style="position: relative; z-index: 10; width: 100%;">
+      <div class="gsap-reveal location-content" style="max-width: 500px;">
+        <span class="text-caption text-uppercase opacity-90 text-inverse" style="color: var(--color-highlight);">Ubicación / Cobertura</span>
+        <h2 class="text-large font-serif font-regular text-inverse" style="margin: 1.5rem 0;">Despliegue Nacional</h2>
+        <p class="font-sans text-inverse opacity-80" style="font-size: 1.25rem;">
+          ${{title:`Despliegue Nacional`,description:`Implantación coordinada en múltiples puntos de la geografía española, sincronizando fabricación y logística para asegurar una cobertura total bajo estrictos tiempos de entrega.`,type:`national`,markers:[{lat:40.4168,lng:-3.7038},{lat:41.3851,lng:2.1734},{lat:39.4699,lng:-.3774},{lat:37.3891,lng:-5.9845},{lat:43.263,lng:-2.935},{lat:41.6488,lng:-.8891},{lat:36.7213,lng:-4.4214}]}.description}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORYTELLING (Challenge & Solution) -->
+  <section class="project-storytelling" style="padding: 10rem 0; background-color: var(--color-tertiary); color: var(--color-primary);">
+    <div class="container-fluid">
+      
+      <div class="story-block gsap-reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; margin-bottom: 15rem; align-items: center;">
+        <div class="story-content">
+          <span class="text-caption text-muted text-uppercase">01 &mdash; El Desafío</span>
+          <h2 class="text-large font-serif font-regular" style="margin: 2rem 0;">Un verdadero <span style="font-style: italic; color: var(--color-highlight);">reto</span>.</h2>
+          <p class="text-body-hero">El nuevo nombre y la identidad de Redeia, una red compuesta por cinco marcas y más de 2.400 profesionales. Significó un verdadero reto. El desafío consistía en lograr un cambio uniforme y de manera discreta a nivel nacional en tiempo récord que culminaba con el relanzamiento en un evento retransmitido a nivel internacional.</p>
+        </div>
+        <div class="story-image" style="overflow: hidden; border-radius: var(--border-radius-lg); box-shadow: 0 20px 50px rgba(0,0,0,0.05);">
+          <img src="/proyectos/redeia/REDEIA-CORPORATIVO-01.jpg" alt="Desafío Redeia" style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" />
+        </div>
+      </div>
+
+      <div class="story-block gsap-reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center;">
+        <div class="story-image" style="order: -1; overflow: hidden; border-radius: var(--border-radius-lg); box-shadow: 0 20px 50px rgba(0,0,0,0.05);">
+          <img src="/proyectos/redeia/REDEIA_ALBATROS_IDENTIFICACION_01.jpeg" alt="Solución Redeia" style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" />
+        </div>
+        <div class="story-content">
+          <span class="text-caption text-muted text-uppercase">02 &mdash; La Solución</span>
+          <h2 class="text-large font-serif font-regular" style="margin: 2rem 0;">Estrategia y <span style="font-style: italic; color: var(--color-highlight);">Sincronización</span>.</h2>
+          <p class="text-body-hero">Nuestro plan de actuación pasó por la creación de una estrategia que nos permitía un cambio discreto y rápido en toda España, de forma sincronizada, contando con los diferentes puntos Xprinta y los más estrictos controles de confidencialidad, con trabajos nocturnos de desmontajes y montajes.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PLANOS TECNICOS -->
+  <section class="project-blueprints" style="background-color: var(--color-primary); color: #FFFFFF; position: relative; width: 100%;">
+    <div class="blueprints-scroll-container" style="display: flex; position: relative; align-items: flex-start; width: 100%;">
+      
+      <!-- Left side: Pinned Images Full Bleed -->
+      <div class="blueprints-pinned-media" style="width: 50vw; position: sticky; top: 0; height: 100vh; background-color: #fff; overflow: hidden; z-index: 10;">
+        <img src="/proyectos/redeia/planos-tecnicos-2.png" alt="Plano 1" class="blueprint-pinned-img blueprint-img-0 lightbox-trigger" data-cursor="Ver Plano" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; padding: 4rem; z-index: 1; clip-path: inset(0% 0% 0% 0%); pointer-events: auto;" />
+        <img src="/proyectos/redeia/planos-tecnicos-3.png" alt="Plano 2" class="blueprint-pinned-img blueprint-img-1 lightbox-trigger" data-cursor="Ver Plano" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; padding: 4rem; z-index: 2; clip-path: inset(100% 0% 0% 0%); pointer-events: none;" />
+        <img src="/proyectos/redeia/planos-tecnicos-4.png" alt="Plano 3" class="blueprint-pinned-img blueprint-img-2 lightbox-trigger" data-cursor="Ver Plano" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; padding: 4rem; z-index: 3; clip-path: inset(100% 0% 0% 0%); pointer-events: none;" />
+        <img src="/proyectos/redeia/planos-tecnicos-5.png" alt="Plano 4" class="blueprint-pinned-img blueprint-img-3 lightbox-trigger" data-cursor="Ver Plano" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; padding: 4rem; z-index: 4; clip-path: inset(100% 0% 0% 0%); pointer-events: none;" />
+      </div>
+
+      <!-- Right side: Scrolling Text Blocks -->
+      <div class="blueprints-scrolling-content" style="width: 50vw; padding: 15vh 6vw 30vh 6vw; display: flex; flex-direction: column;">
+        
+        <div style="margin-bottom: 10rem;" class="gsap-reveal">
+          <span class="text-caption text-uppercase opacity-90 text-inverse">03 &mdash; Ingeniería</span>
+          <h2 class="text-large font-serif font-regular text-inverse" style="margin: 1.5rem 0;">Planos Técnicos</h2>
+          <p class="font-sans text-inverse opacity-80" style="font-size: 1.25rem; max-width: 600px;">
+            Desarrollo técnico y vistas de detalle para la producción de cada elemento corporativo.
+          </p>
+        </div>
+
+        <div class="blueprint-text-block blueprint-block-0" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; opacity: 1;">
+          <span class="text-caption" style="color: var(--color-highlight); margin-bottom: 1rem; display: block;">Fase 01</span>
+          <h3 class="font-serif text-inverse" style="font-size: 2.5rem; margin-bottom: 1.5rem;">Cotas Generales</h3>
+          <p class="font-sans text-inverse opacity-70" style="font-size: 1.2rem; line-height: 1.6; max-width: 600px;">
+            Medidas maestras y desarrollo estructural principal. Especificamos las dimensiones generales para la correcta integración arquitectónica del rótulo en fachada.
+          </p>
+        </div>
+        
+        <div class="blueprint-text-block blueprint-block-1" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; opacity: 0.3;">
+          <span class="text-caption" style="color: var(--color-highlight); margin-bottom: 1rem; display: block;">Fase 02</span>
+          <h3 class="font-serif text-inverse" style="font-size: 2.5rem; margin-bottom: 1.5rem;">Despiece de Materiales</h3>
+          <p class="font-sans text-inverse opacity-70" style="font-size: 1.2rem; line-height: 1.6; max-width: 600px;">
+            Identificación de componentes metálicos, perfilería interior y cerramientos frontales. Se asegura que la dilatación de materiales en exteriores quede compensada.
+          </p>
+        </div>
+
+        <div class="blueprint-text-block blueprint-block-2" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; opacity: 0.3;">
+          <span class="text-caption" style="color: var(--color-highlight); margin-bottom: 1rem; display: block;">Fase 03</span>
+          <h3 class="font-serif text-inverse" style="font-size: 2.5rem; margin-bottom: 1.5rem;">Electrificación</h3>
+          <p class="font-sans text-inverse opacity-70" style="font-size: 1.2rem; line-height: 1.6; max-width: 600px;">
+            Disposición de los módulos LED, recorridos de cableado y fuentes de alimentación. Optimización para garantizar una luminosidad homogénea sin sombras proyectadas.
+          </p>
+        </div>
+
+        <div class="blueprint-text-block blueprint-block-3" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; opacity: 0.3;">
+          <span class="text-caption" style="color: var(--color-highlight); margin-bottom: 1rem; display: block;">Fase 04</span>
+          <h3 class="font-serif text-inverse" style="font-size: 2.5rem; margin-bottom: 1.5rem;">Anclajes y Fijación</h3>
+          <p class="font-sans text-inverse opacity-70" style="font-size: 1.2rem; line-height: 1.6; max-width: 600px;">
+            Planos de anclaje estructural. Sistema de sujeción calculado para soportar cargas de viento y peso, garantizando la seguridad absoluta de la instalación.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3D Render Section -->
+  <section class="project-render" style="padding: 10rem 0; background-color: var(--color-background); color: var(--color-primary);">
+    <div class="container-fluid">
+      <div style="margin-bottom: 4rem;" class="gsap-reveal">
+        <span class="text-caption text-muted text-uppercase">04 &mdash; Previsualización</span>
+        <h2 class="text-large font-serif font-regular" style="margin: 1rem 0;">Render 3D Interactiva</h2>
+        <p style="color: var(--color-text-muted); font-size: 1.2rem; max-width: 600px; margin-top: 1.5rem;">
+          Explora todos los detalles de este rótulo en nuestro visor interactivo. Gira, acerca y descubre cada ángulo del modelo antes de su fabricación.
+        </p>
+      </div>
+      <div class="gsap-reveal" style="width: 100%; height: 70vh; background-color: #ececec; border-radius: var(--border-radius-lg); overflow: hidden; border: 1px solid rgba(0,0,0,0.05); cursor: grab; box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
+        <!-- Interactive 3D Model Viewer -->
+        <!-- Note: using a placeholder .glb model to demonstrate interaction since we don't have the final file -->
+        <model-viewer 
+          src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+          camera-controls 
+          auto-rotate 
+          rotation-per-second="30deg"
+          environment-image="neutral" 
+          shadow-intensity="1" 
+          style="width: 100%; height: 100%; outline: none;"
+          interaction-prompt="auto">
+        </model-viewer>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINISHED PHOTOS -->
+  <section class="project-gallery" style="padding: 10rem 0; background-color: var(--color-secondary); color: var(--color-primary);">
+    <div class="container-fluid">
+      <div style="margin-bottom: 6rem;" class="gsap-reveal">
+        <span class="text-caption text-muted text-uppercase">05 &mdash; Realidad</span>
+        <h2 class="text-large font-serif font-regular" style="margin: 1rem 0;">El Resultado <span style="font-style: italic; color: var(--color-highlight);">Final</span></h2>
+      </div>
+
+      <div class="masonry-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 2vw;">
+        <!-- Photos -->
+        <div class="masonry-item gsap-reveal" style="grid-column: span 8; height: 80vh; overflow: hidden; border-radius: var(--border-radius-md); box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
+          <img src="/proyectos/redeia/REDEIA_GAITANES_CORONACION_06.jpeg" alt="Gaitanes Coronación" style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" data-cursor="Ver Foto" />
+        </div>
+        <div class="masonry-item gsap-reveal" style="grid-column: span 4; height: 80vh; overflow: hidden; border-radius: var(--border-radius-md); box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
+          <img src="/proyectos/redeia/20221026_135051-scaled-1.jpg" alt="Instalación" style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" data-cursor="Ver Foto" />
+        </div>
+        
+        <div class="masonry-item gsap-reveal" style="grid-column: span 4; height: 60vh; overflow: hidden; border-radius: var(--border-radius-md); box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
+          <img src="/proyectos/redeia/REDEIA_ALBATROS_IDENTIFICACION_06.jpeg" alt="Albatros" style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" data-cursor="Ver Foto" />
+        </div>
+        <div class="masonry-item gsap-reveal" style="grid-column: span 4; height: 60vh; overflow: hidden; border-radius: var(--border-radius-md); box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
+          <img src="/proyectos/redeia/redeia_01.jpg" alt="Redeia Detalle" style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" data-cursor="Ver Foto" />
+        </div>
+        <div class="masonry-item gsap-reveal" style="grid-column: span 4; height: 60vh; overflow: hidden; border-radius: var(--border-radius-md); box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
+          <img src="/proyectos/redeia/20221026_133248-scaled-1.jpg" alt="Detalle Montaje" style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" data-cursor="Ver Foto" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL / CONCLUSION -->
+  <section class="project-testimonial" style="padding: 15rem 0; background-color: var(--color-primary); color: #FFFFFF; text-align: center;">
+    <div class="container-fluid" style="max-width: 100%; margin: 0 auto;" class="gsap-reveal">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--color-highlight)" stroke-width="1" style="margin-bottom: 4rem;">
+        <path d="M14.017 21L16.417 14.583C16.417 14.583 14.833 14.583 14.833 11.25C14.833 7.91667 17.5 5 21 5C24.5 5 24.5 9 24.5 9C24.5 9 22.833 9 22.833 11.25C22.833 13.5 20.333 19.333 19.333 21H14.017ZM3.517 21L5.917 14.583C5.917 14.583 4.333 14.583 4.333 11.25C4.333 7.91667 7 5 10.5 5C14 5 14 9 14 9C14 9 12.333 9 12.333 11.25C12.333 13.5 9.833 19.333 8.833 21H3.517Z" />
+      </svg>
+      <blockquote class="text-large font-serif font-light text-inverse" style="margin-bottom: 4rem; line-height: 1.3;">
+        Con este proyecto dejamos claro que proyectos exigentes en cuanto a factores tales como tiempo o compromisos de confidencialidad son <span style="font-style: italic; color: var(--color-highlight);">posibles</span> gracias a una excelente coordinación.
+      </blockquote>
+      <div class="font-sans text-uppercase text-inverse font-regular" style="font-size: 1.1rem; letter-spacing: 0.15em;">
+        <span style="color: var(--color-highlight); font-weight: 600;">Garantía Xprinta</span> / Equipo Nacional
+      </div>
+    </div>
+  </section>
+`,zu=()=>{if(window.initRedeiaMap=()=>{let e=new google.maps.Map(document.getElementById(`google-map`),{zoom:6.6,center:{lat:39.5,lng:-6.5},styles:[{featureType:`administrative.province`,elementType:`all`,stylers:[{visibility:`off`}]},{featureType:`administrative.locality`,elementType:`labels`,stylers:[{lightness:`-8`}]},{featureType:`administrative.locality`,elementType:`labels.text.fill`,stylers:[{color:`#000000`}]},{featureType:`administrative.locality`,elementType:`labels.text.stroke`,stylers:[{visibility:`off`}]},{featureType:`administrative.neighborhood`,elementType:`all`,stylers:[{color:`#acacac`}]},{featureType:`administrative.neighborhood`,elementType:`labels.text.fill`,stylers:[{color:`#484848`}]},{featureType:`administrative.neighborhood`,elementType:`labels.text.stroke`,stylers:[{color:`#ff0000`},{visibility:`off`}]},{featureType:`administrative.land_parcel`,elementType:`all`,stylers:[{lightness:`-3`}]},{featureType:`landscape`,elementType:`all`,stylers:[{saturation:-100},{lightness:`72`},{visibility:`on`}]},{featureType:`landscape`,elementType:`labels`,stylers:[{lightness:`23`}]},{featureType:`poi`,elementType:`all`,stylers:[{saturation:-100},{lightness:`30`},{visibility:`off`}]},{featureType:`road`,elementType:`all`,stylers:[{lightness:`-19`}]},{featureType:`road`,elementType:`geometry`,stylers:[{lightness:`2`},{gamma:`1.21`}]},{featureType:`road`,elementType:`geometry.stroke`,stylers:[{visibility:`off`},{saturation:`15`},{hue:`#ff0000`}]},{featureType:`road`,elementType:`labels`,stylers:[{lightness:`-43`}]},{featureType:`road`,elementType:`labels.text`,stylers:[{visibility:`on`},{lightness:`22`}]},{featureType:`road`,elementType:`labels.text.fill`,stylers:[{weight:`0.12`},{lightness:`-23`},{visibility:`on`}]},{featureType:`road`,elementType:`labels.text.stroke`,stylers:[{visibility:`off`},{lightness:`71`}]},{featureType:`road`,elementType:`labels.icon`,stylers:[{visibility:`on`}]},{featureType:`road.highway`,elementType:`all`,stylers:[{saturation:-100},{visibility:`simplified`}]},{featureType:`road.arterial`,elementType:`all`,stylers:[{saturation:-100},{lightness:30},{visibility:`on`}]},{featureType:`road.local`,elementType:`all`,stylers:[{saturation:-100},{lightness:40},{visibility:`on`}]},{featureType:`transit`,elementType:`all`,stylers:[{saturation:-100},{visibility:`simplified`}]},{featureType:`transit`,elementType:`geometry.fill`,stylers:[{saturation:`5`},{visibility:`on`},{lightness:`5`}]},{featureType:`water`,elementType:`geometry`,stylers:[{hue:`#ffff00`},{lightness:`-24`},{saturation:-97}]},{featureType:`water`,elementType:`geometry.fill`,stylers:[{saturation:`-88`},{lightness:`-23`},{visibility:`on`}]},{featureType:`water`,elementType:`labels`,stylers:[{visibility:`on`},{lightness:-25},{saturation:-100}]},{featureType:`water`,elementType:`labels.text`,stylers:[{weight:`0.01`},{lightness:`9`}]},{featureType:`water`,elementType:`labels.text.fill`,stylers:[{lightness:`-32`},{gamma:`2.99`}]}],disableDefaultUI:!0,backgroundColor:`#0a0a0a`,gestureHandling:`none`}),t=[{lat:40.4168,lng:-3.7038},{lat:41.3851,lng:2.1734},{lat:39.4699,lng:-.3774},{lat:37.3891,lng:-5.9845},{lat:43.263,lng:-2.935},{lat:41.6488,lng:-.8891},{lat:36.7213,lng:-4.4214}],n={path:`M 0,0 m -10,0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0`,fillColor:`#F18108`,fillOpacity:1,strokeWeight:2,strokeColor:`#ffffff`,scale:1.4},r=new google.maps.LatLngBounds;if(t.forEach((t,i)=>{new google.maps.Marker({position:t,map:e,icon:n}),r.extend(t)}),t.length>1){let t=window.innerWidth>992?window.innerWidth*.55:50;e.fitBounds(r,{left:t,right:50,top:50,bottom:50})}else t.length===1&&(e.setCenter(t[0]),e.setZoom(12),setTimeout(()=>{window.innerWidth>992&&e.panBy(-(window.innerWidth*.25),0)},100))},document.getElementById(`google-maps-script`))window.google&&window.google.maps&&window.initRedeiaMap();else{let e=document.createElement(`script`);e.id=`google-maps-script`,e.src=`https://maps.googleapis.com/maps/api/js?key=AIzaSyAI2t5YjVo0PA48446eeMzLwUgRrrSz9sw&callback=initRedeiaMap`,e.async=!0,e.defer=!0,document.head.appendChild(e)}q.timeline({defaults:{ease:`power4.out`}}).to(`.hero-media-wrapper`,{clipPath:`inset(0% 0% 0% 0% round 0px)`,duration:1.6,ease:`power3.inOut`,delay:.1}).to(`.hero-media`,{scale:1,duration:1.6,ease:`power3.inOut`},`<`).fromTo(`.hero-title-inner`,{yPercent:110},{yPercent:0,duration:1.2,ease:`power4.out`,clearProps:`transform`},`-=0.8`),q.to(`.hero-text-container`,{yPercent:-60,opacity:0,ease:`none`,scrollTrigger:{trigger:`.project-hero`,start:`top top`,end:`bottom top`,scrub:!0}}),q.to(`.hero-media-wrapper`,{scale:.92,yPercent:15,ease:`none`,scrollTrigger:{trigger:`.project-hero`,start:`top top`,end:`bottom top`,scrub:!0}}),q.from(`.project-render`,{opacity:0,duration:1,scrollTrigger:{trigger:`.project-render`,start:`top 80%`}}),document.querySelectorAll(`.parallax-img`).forEach(e=>{q.to(e,{yPercent:20,ease:`none`,scrollTrigger:{trigger:e.parentElement,start:`top bottom`,end:`bottom top`,scrub:!0}})});let e=document.querySelectorAll(`.blueprint-text-block`);e.length>0&&e.forEach((t,n)=>{Q.create({trigger:t,start:`top 60%`,end:`bottom 60%`,onEnter:()=>{e.forEach((e,t)=>{q.to(`.blueprint-img-${t}`,{clipPath:t<=n?`inset(0% 0% 0% 0%)`:`inset(100% 0% 0% 0%)`,pointerEvents:t===n?`auto`:`none`,duration:.8,ease:`power3.inOut`,overwrite:`auto`})}),q.to(`.blueprint-text-block`,{opacity:.3,duration:.3}),q.to(t,{opacity:1,duration:.3})},onEnterBack:()=>{e.forEach((e,t)=>{q.to(`.blueprint-img-${t}`,{clipPath:t<=n?`inset(0% 0% 0% 0%)`:`inset(100% 0% 0% 0%)`,pointerEvents:t===n?`auto`:`none`,duration:.8,ease:`power3.inOut`,overwrite:`auto`})}),q.to(`.blueprint-text-block`,{opacity:.3,duration:.3}),q.to(t,{opacity:1,duration:.3})}})}),document.querySelector(`.project-meta`)&&Q.create({trigger:`.project-meta`,start:`top 80%`,onEnter:()=>{q.to(`.gsap-bento-item`,{y:0,opacity:1,visibility:`visible`,stagger:.15,duration:1.2,ease:`power3.out`})}});let t=document.querySelectorAll(`.masonry-item`);if(t.length&&q.fromTo(t,{y:100,opacity:0},{y:0,opacity:1,stagger:.15,duration:1.5,ease:`power4.out`,scrollTrigger:{trigger:`.project-gallery`,start:`top 70%`}}),!document.getElementById(`nw-lightbox`)){let e=document.createElement(`div`);e.id=`nw-lightbox`,e.innerHTML=`<img src="" alt="Zoomed view" />`,document.body.appendChild(e),e.addEventListener(`click`,()=>{e.classList.remove(`active`),setTimeout(()=>e.querySelector(`img`).src=``,400)})}document.querySelectorAll(`.blueprint-img, .blueprint-pinned-img, .parallax-img`).forEach(e=>{e.classList.add(`lightbox-trigger`),e.addEventListener(`click`,()=>{let t=document.getElementById(`nw-lightbox`);t.querySelector(`img`).src=e.src,t.classList.add(`active`)})})};q.registerPlugin(Q);var Bu=()=>`
+  <header class="site-header">
+    <div class="container-fluid navbar">
+      <a href="/" class="navbar-brand">
+        <img src="/logo-xprina-azul.png" alt="Xprinta Pro" class="navbar-logo" style="height: 76px;" />
+      </a>
+      <nav class="navbar-nav" style="gap: 1.5rem;">
+        
+        <div class="nav-item-dropdown has-mega-menu" id="nav-item-proyectos">
+          <a href="#proyectos" class="nav-link" style="font-size: 0.9rem;">Proyectos <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <div class="mega-menu">
+            <div class="container-fluid mega-menu-proyectos-inner">
+              ${e.proyectos.slice(0,3).map(e=>`
+                <div class="mega-menu-proyectos-card">
+                  <a href="${e.url||`#proyectos`}" style="display: block; text-decoration: none; color: inherit;">
+                    <img src="${e.image}" alt="${e.title}" class="mega-menu-proyectos-image" />
+                    <h4 class="mega-menu-proyectos-title">${e.title}</h4>
+                    <p class="mega-menu-proyectos-desc">${e.description}</p>
+                  </a>
+                  <div style="margin-top: auto;">
+                    <span class="mega-menu-proyectos-link">Ver Proyecto &rarr;</span>
+                  </div>
+                </div>
+              `).join(``)}
+            </div>
+            <div class="container-fluid" style="display: flex; justify-content: flex-end; padding: 0 32px; margin-top: 8px;">
+              <a href="#proyectos" class="btn-regius">
+                <div class="btn-regius-text-wrapper">
+                  <div class="btn-regius-text _1">Ver todos los proyectos</div>
+                  <div class="btn-regius-text _2">Ver todos los proyectos</div>
+                </div>
+                <div class="btn-regius-bg"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item-dropdown has-mega-menu">
+          <a href="#servicios" class="nav-link" style="font-size: 0.9rem;">Servicios <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <div class="mega-menu">
+            <div class="container-fluid mega-menu-inner">
+              <div class="mega-menu-left">
+                <div class="mega-menu-column">
+                  <span class="mega-menu-title">Soluciones Brand</span>
+                  <div class="mega-menu-links">
+                    <a href="#" class="mega-menu-link">BRANDCOMMERCE</a>
+                    <a href="#" class="mega-menu-link">BRANDCHECK</a>
+                    <a href="#" class="mega-menu-link">BRAND SURVEYS</a>
+                    <a href="#" class="mega-menu-link">BRANDSIGNAL</a>
+                    <a href="#" class="mega-menu-link">BRANDVISION</a>
+                  </div>
+                </div>
+                <div class="mega-menu-column">
+                  <span class="mega-menu-title">Gestión y Legal</span>
+                  <div class="mega-menu-links">
+                    <a href="#" class="mega-menu-link">BRANDGUIDE</a>
+                    <a href="#" class="mega-menu-link">BRANDCENTER</a>
+                    <a href="#" class="mega-menu-link">BRANDTOOLS</a>
+                    <a href="#" class="mega-menu-link">BRANDCARE</a>
+                    <a href="#" class="mega-menu-link">BRANDLEGAL</a>
+                  </div>
+                </div>
+              </div>
+              <div class="mega-menu-right">
+                <div class="mega-menu-card">
+                  <img src="https://images.pexels.com/photos/8128188/pexels-photo-8128188.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Servicios" class="mega-menu-image" />
+                  <div class="mega-menu-card-content" style="display: flex; flex-direction: column; flex: 1;">
+                    <h4 style="margin-bottom: auto;">Soluciones a medida para corporaciones</h4>
+                    <a href="#servicios" class="btn-regius outline" style="align-self: flex-start; margin-top: 16px;">
+                      <div class="btn-regius-text-wrapper">
+                        <div class="btn-regius-text _1">Explorar Servicios</div>
+                        <div class="btn-regius-text _2">Explorar Servicios</div>
+                      </div>
+                      <div class="btn-regius-bg"></div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item-dropdown has-mega-menu">
+          <a href="#por-que-xprinta" class="nav-link" style="font-size: 0.9rem;">Por Qué Xprinta <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <div class="mega-menu">
+            <div class="container-fluid mega-menu-inner">
+              <div class="mega-menu-left">
+                <div class="mega-menu-column">
+                  <span class="mega-menu-title">Ventajas Competitivas</span>
+                  <div class="mega-menu-links">
+                    <a href="#" class="mega-menu-link">RED PROFESIONAL</a>
+                    <a href="#" class="mega-menu-link">PROVEEDOR UNIFICADO</a>
+                    <a href="#" class="mega-menu-link">AHORRO DE COSTES</a>
+                    <a href="#" class="mega-menu-link">PROYECTO PIC</a>
+                    <a href="#" class="mega-menu-link">GESTION DE PROYECTOS</a>
+                  </div>
+                </div>
+                <div class="mega-menu-column">
+                  <span class="mega-menu-title">Garantía y Seguridad</span>
+                  <div class="mega-menu-links">
+                    <a href="#" class="mega-menu-link">TRAZABILIDAD</a>
+                    <a href="#" class="mega-menu-link">FINANCIACION</a>
+                    <a href="#" class="mega-menu-link">GARANTIA XPRINTA</a>
+                    <a href="#" class="mega-menu-link">ECOSIGN</a>
+                    <a href="#" class="mega-menu-link">LEGALIZACION</a>
+                  </div>
+                </div>
+              </div>
+              <div class="mega-menu-right">
+                <div class="mega-menu-card">
+                  <img src="https://images.pexels.com/photos/37466061/pexels-photo-37466061.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Ventajas" class="mega-menu-image" />
+                  <div class="mega-menu-card-content" style="display: flex; flex-direction: column; flex: 1;">
+                    <h4 style="margin-bottom: auto;">Experiencia en todos los sectores productivos</h4>
+                    <a href="#por-que-xprinta" class="btn-regius outline" style="align-self: flex-start; margin-top: 16px;">
+                      <div class="btn-regius-text-wrapper">
+                        <div class="btn-regius-text _1">Ver Casos de Éxito</div>
+                        <div class="btn-regius-text _2">Ver Casos de Éxito</div>
+                      </div>
+                      <div class="btn-regius-bg"></div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item-dropdown">
+          <a href="#mapa" class="nav-link" style="font-size: 0.9rem;">Red Xprinta</a>
+        </div>
+
+        <div class="nav-item-dropdown">
+          <a href="#area-tecnica" class="nav-link" style="font-size: 0.9rem;">Área Técnica</a>
+        </div>
+
+        <div class="nav-item-dropdown has-mega-menu">
+          <a href="#nosotros" class="nav-link" style="font-size: 0.9rem;">Nosotros <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <div class="mega-menu">
+            <div class="container-fluid mega-menu-inner">
+              <div class="mega-menu-left">
+                <div class="mega-menu-column">
+                  <span class="mega-menu-title">Nuestra Empresa</span>
+                  <div class="mega-menu-links">
+                    <a href="#" class="mega-menu-link">HISTORIA</a>
+                    <a href="#" class="mega-menu-link">EQUIPO</a>
+                    <a href="#" class="mega-menu-link">SISTEMA XPRINTA</a>
+                    <a href="#" class="mega-menu-link">FAQs</a>
+                  </div>
+                </div>
+              </div>
+              <div class="mega-menu-right">
+                <div class="mega-menu-card">
+                  <img src="https://images.pexels.com/photos/8276211/pexels-photo-8276211.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Equipo" class="mega-menu-image" />
+                  <div class="mega-menu-card-content">
+                    <h4>Personas que construyen el éxito de tu marca</h4>
+                    <span class="mega-menu-card-link">Conocer al Equipo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </nav>
+      <div class="navbar-cta">
+        <a href="#contacto" class="btn-regius outline">
+          <div class="btn-regius-bg"></div>
+          <div class="btn-regius-text-wrapper">
+            <div class="btn-regius-text _1">Contacto</div>
+            <div class="btn-regius-text _2">Contacto</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+`,Vu=()=>`
+  <section id="hero" class="ark-hero">
+    <div class="ark-hero-left">
+      <div class="ark-hero-content gsap-reveal">
+        <h1 class="ark-hero-title">
+          <span class="hero-title-solid">Implantación de</span>
+          <span class="hero-title-solid"><span class="hero-highlight-word">imagen</span> de marca</span>
+          <span class="hero-title-solid">en toda <span class="hero-highlight-word">España</span></span>
+        </h1>
+        <p class="ark-hero-desc">Fabricación propia, logística y delegaciones en toda España para grandes proyectos. Transforma la identidad de tu marca con máxima calidad.</p>
+        
+        <div class="ark-hero-info">
+          <div class="ark-info-col">
+            <strong>COBERTURA TOTAL</strong>
+            <span>Península y Baleares</span>
+          </div>
+          <div class="ark-info-col">
+            <strong>+50 DELEGACIONES</strong>
+            <span>Fabricación propia</span>
+          </div>
+          <div class="ark-info-col ark-info-cta">
+            <a href="#contacto" class="btn-regius">
+              <div class="btn-regius-bg"></div>
+              <div class="btn-regius-text-wrapper">
+                <div class="btn-regius-text _1">EMPEZAR PROYECTO →</div>
+                <div class="btn-regius-text _2">EMPEZAR PROYECTO →</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="ark-hero-right">
+      <div class="ark-hero-slider" id="hero-slider">
+        ${e.hero.sliderImages.map((e,t)=>{let n=e.includes(`PARADIGMA`),r=e.includes(`REDEIA`),i=e.includes(`foster`),a=e.includes(`iberia`),o=e.includes(`Remax`),s=e.includes(`hellocars`),c=``;return n?c=`/imagen central hero/paradigma_hover.mp4`:r?c=`/imagen central hero/redeia_hover.mp4`:i?c=`/imagen central hero/foster_hover.mp4`:a?c=`/imagen central hero/iberia_hover.mp4`:o?c=`/imagen central hero/remax_hover.mp4`:s&&(c=`/imagen central hero/hellocars_hover.mp4`),c?`
+              <div class="hero-slide" style="${t===0?`opacity: 1;`:``}">
+                <video src="${c}" muted playsinline autoplay style="width: 100%; height: 100%; object-fit: cover;"></video>
+              </div>
+            `:`
+            <div class="hero-slide" style="background-image: url('${e}'); ${t===0?`opacity: 1;`:``}"></div>
+          `}).join(``)}
+      </div>
+    </div>
+  </section>
+`,Hu=()=>`
+    <section class="marquee-container gsap-reveal" id="clientes" style="padding-top: 8rem; padding-bottom: 8rem; position: relative;">
+      <!-- Subtle top border/gradient -->
+      <div style="position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1) 50%, transparent);"></div>
+      
+      <div class="container-fluid" style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 6rem;">
+        <span class="text-caption">Confianza corporativa</span>
+        <h2 class="text-large" style="max-width: 900px; margin-bottom: 1.5rem;">
+          Trabajamos con las principales <br>
+          <span class="accent-text" style="font-style: italic;">empresas de España</span>
+        </h2>
+      </div>
+      
+      <!-- Fade edges for marquee -->
+      <div style="position: relative; mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);">
+        <div class="marquee-content">
+          ${[...e.clientes,...e.clientes,...e.clientes].map(e=>`<img src="${e}" alt="Cliente corporativo" />`).join(``)}
+        </div>
+      </div>
+    </section>
+  `,Uu=()=>`
+  <section id="proyectos" class="nw-proyectos-section">
+    <div class="nw-proyectos-header gsap-reveal">
+      <h2 class="nw-proyectos-title">
+        Construimos <span class="nw-accent">identidades visuales</span> que dominan el espacio. Fabricación propia, precisión técnica y <span class="nw-accent">cobertura nacional</span>.
+      </h2>
+      <div class="nw-proyectos-links">
+        <a href="#nosotros" class="nw-link">
+          Nosotros
+          <svg aria-hidden="true" viewBox="0 0 100 100" fill="currentColor" class="nw-link-icon"><path d="M57.40 20.30L42.50 20.30L66.50 44.30L13 44.30L13 55.10L66.50 55.10L42.50 79.10L57.40 79.10L87 49.70Z"></path></svg>
+        </a>
+        <a href="#proyectos" class="nw-link">
+          Explorar proyectos
+          <svg aria-hidden="true" viewBox="0 0 100 100" fill="currentColor" class="nw-link-icon"><path d="M57.40 20.30L42.50 20.30L66.50 44.30L13 44.30L13 55.10L66.50 55.10L42.50 79.10L57.40 79.10L87 49.70Z"></path></svg>
+        </a>
+      </div>
+    </div>
+    
+    <div class="nw-grid">
+      ${e.proyectos.map((e,t)=>{let n=e.title.toLowerCase()===`paradigma`,r=e.title.toLowerCase()===`redeia`,i=e.title.toLowerCase()===`foster's hollywood`,a=e.title.toLowerCase()===`iberia express`,o=e.title.toLowerCase()===`remax prime`,s=e.title.toLowerCase()===`hello cars`;return`
+        <article class="nw-project-card gsap-reveal item-${t+1}" data-cursor="nw-view">
+          <a href="${e.url||`#`}" class="nw-project-link">
+            ${n?`
+              <video src="/imagen central hero/paradigma_hover.mp4" loop muted playsinline class="nw-project-video"></video>
+            `:``}
+            ${r?`
+              <video src="/imagen central hero/redeia_hover.mp4" loop muted playsinline class="nw-project-video"></video>
+            `:``}
+            ${i?`
+              <video src="/imagen central hero/foster_hover.mp4" loop muted playsinline class="nw-project-video"></video>
+            `:``}
+            ${a?`
+              <video src="/imagen central hero/iberia_hover.mp4" loop muted playsinline class="nw-project-video"></video>
+            `:``}
+            ${o?`
+              <video src="/imagen central hero/remax_hover.mp4" loop muted playsinline class="nw-project-video"></video>
+            `:``}
+            ${s?`
+              <video src="/imagen central hero/hellocars_hover.mp4" loop muted playsinline class="nw-project-video"></video>
+            `:``}
+            <img src="${e.image}" alt="${e.title}" class="nw-project-image" />
+            <div class="nw-project-overlay">
+              <h1 class="nw-project-title">${e.title}</h1>
+              <div class="nw-project-bottom">
+                <div class="nw-project-category">${e.category}</div>
+                ${e.description?`<p class="nw-project-desc">${e.description}</p>`:``}
+              </div>
+            </div>
+          </a>
+        </article>
+        `}).join(``)}
+    </div>
+    
+    <div class="nw-proyectos-footer gsap-reveal">
+      <a href="#proyectos" class="nw-link" style="font-size: 1.5rem;">
+        Ver todos los proyectos
+      </a>
+    </div>
+  </section>
+`,Wu=()=>`
+  <section id="sectores" style="padding-top: 8rem; padding-bottom: 8rem;">
+    <div class="container-fluid gsap-reveal" style="margin-bottom: 3rem;">
+      <span class="text-caption">01 / Aplicaciones</span>
+      <h2 class="text-large" style="max-width: 800px; margin-bottom: 1.5rem;">
+        Sectores de <br>
+        <span class="accent-text" style="font-style: italic;">Especialización</span>
+      </h2>
+    </div>
+    <div class="container-fluid">
+      <div class="bento-grid">
+        ${e.sectores.map((e,t)=>{let n=1,r=1,i=`180px`;return t===0||t===5?(n=2,r=2,i=`360px`):(t===2||t===8)&&(n=2,r=1,i=`180px`),`
+          <div class="bento-card bento-card-bg gsap-bento-item gsap-reveal" style="grid-column: span ${n}; grid-row: span ${r}; min-height: ${i}; padding: 2rem; background-image: url('${e.bgImage}')">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <span class="text-caption" style="color: rgba(255,255,255,0.7);">0${t+1}</span>
+            </div>
+            <div>
+               <h3 style="font-size: clamp(1.2rem, 2.4vw, 2.0rem); line-height: 1.1; color: #FFFFFF; font-weight: 500;">${e.name}</h3>
+            </div>
+          </div>
+        `}).join(``)}
+      </div>
+    </div>
+  </section>
+`,Gu=()=>`
+  <div id="red-nacional-container" class="container-fluid" style="padding-top: 4rem; padding-bottom: 4rem;">
+    <section id="red-nacional" style="position: relative; padding: 60px 80px; background-color: #0A0A0A; color: #FFFFFF; border-radius: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.1); overflow: hidden; min-height: 80vh; display: flex; align-items: center;">
+      
+      <!-- Static Background Map Image (Now much more prominent) -->
+      <div style="position: absolute; right: 0%; top: 50%; transform: translateY(-50%); width: 75%; height: 130%; display: flex; justify-content: flex-end; align-items: center; z-index: 0; pointer-events: none;">
+        <img id="static-map-image" src="/mapa/mapa-fondo.png" alt="" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); opacity: 0.1;">
+      </div>
+
+      <!-- Stats Content (Left side) -->
+      <div style="position: relative; z-index: 10; max-width: 500px; width: 100%; margin-top: auto; margin-bottom: auto;">
+        <h2 id="red-nacional-title" style="font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 2rem; color: #FFFFFF; line-height: 1.15; opacity: 0.1;">${e.mapa.title.split(` `).map(e=>[`fábricas`,`imagen`].includes(e.toLowerCase().replace(/[.,]/g,``))?`<span class="hero-highlight-word">${e}</span>`:e).join(` `)}</h2>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          ${e.mapa.stats.map(e=>`
+            <div class="stat-block" style="border-top: 1px solid #333; padding-top: 0.8rem; opacity: 0; transform: translateY(3

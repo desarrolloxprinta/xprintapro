@@ -1,0 +1,163 @@
+{
+  "header": {
+    "brandName": "Xprinta Pro",
+    "logoPath": "/logo.png"
+  },
+  "hero": {
+    "title": "TU IMAGEN A NIVEL NACIONAL",
+    "subtitle": "Implantación de marca corporativa, rotulación, mobiliario y tecnología. Fabricación e instalación unificada para grandes cadenas en España.",
+    "ctaPrimary": "Descubre el Método",
+    "ctaSecondary": "Solicitar Auditoría",
+    "sliderImages": [
+      "/imagen central hero/PARADIGMA ROTULO (5).jpeg",
+      "/imagen central hero/REDEIA_GAITANES_CORONACION_06.jpeg",
+      "/imagen central hero/Remax-Prime-Portada-1-1030x773.jpeg",
+      "/imagen central hero/foster.jpg",
+      "/imagen central hero/hellocars_02.jpeg",
+      "/imagen central hero/iberia-express.jpg"
+    ]
+  },
+  "clientes": [
+    "/logo empresas/apple-logo.png",
+    "/logo empresas/nestle-logo.png",
+    "/logo empresas/remax-logo.png",
+    "/logo empresas/ilunion-logo.png",
+    "/logo empresas/apple-logo.png",
+    "/logo empresas/nestle-logo.png",
+    "/logo empresas/remax-logo.png",
+    "/logo empresas/ilunion-logo.png"
+  ],
+  "proyectos": [
+    {
+      "title": "Redeia",
+      "category": "Identidad Corporativa",
+      "description": "Fabricación e instalación de coronación luminosa de alta precisión para la sede central.",
+      "image": "/imagen central hero/REDEIA_GAITANES_CORONACION_06.jpeg",
+      "url": "/proyecto-redeia.html"
+    },
+    {
+      "title": "Paradigma",
+      "category": "Rótulos Luminosos",
+      "description": "Desarrollo de rótulos corpóreos retroiluminados con tecnología LED eficiente.",
+      "image": "/imagen central hero/PARADIGMA ROTULO (5).jpeg"
+    },
+    {
+      "title": "Foster's Hollywood",
+      "category": "Implantación Franquicia",
+      "description": "Implantación integral de imagen corporativa en múltiples restaurantes a nivel nacional.",
+      "image": "/imagen central hero/foster.jpg"
+    },
+    {
+      "title": "Iberia Express",
+      "category": "Gran Formato",
+      "description": "Impresión e instalación de vinilos de gran formato para revestimiento exterior.",
+      "image": "/imagen central hero/iberia-express.jpg"
+    },
+    {
+      "title": "Remax Prime",
+      "category": "Rotulación Oficinas",
+      "description": "Decoración interior y señalética corporativa para red de agencias inmobiliarias.",
+      "image": "/imagen central hero/Remax-Prime-Portada-1-1030x773.jpeg"
+    },
+    {
+      "title": "Hello Cars",
+      "category": "Decoración Integral",
+      "description": "Rotulación completa de flota de vehículos y rotulación exterior de concesionarios.",
+      "image": "/imagen central hero/hellocars_02.jpeg"
+    }
+  ],
+  "sectores": [
+    {
+      "name": "Logística",
+      "bgImage": "/sectores/logistica.jpg"
+    },
+    {
+      "name": "Sanidad",
+      "bgImage": "/sectores/sanidad.jpeg"
+    },
+    {
+      "name": "Industria",
+      "bgImage": "/sectores/industria.jpeg"
+    },
+    {
+      "name": "Retail",
+      "bgImage": "/sectores/retail.jpg"
+    },
+    {
+      "name": "Restauración",
+      "bgImage": "/sectores/restauracion.jpg"
+    },
+    {
+      "name": "Corporativo",
+      "bgImage": "/sectores/corporativo.jpg"
+    },
+    {
+      "name": "Sector Público",
+      "bgImage": "/sectores/sector-publico.jpg"
+    },
+    {
+      "name": "Distribución",
+      "bgImage": "/sectores/distribucion.jpeg"
+    },
+    {
+      "name": "Servicios",
+      "bgImage": "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1000&q=80"
+    },
+    {
+      "name": "Educación",
+      "bgImage": "/sectores/educacion.jpeg"
+    }
+  ],
+  "mapa": {
+    "title": "Una red de fábricas para la imagen de tu empresa.",
+    "stats": [
+      { "number": 132, "text": "puntos xprinta en españa y portugal" },
+      { "number": 9400, "text": "elementos de marca fabricados e instalados" },
+      { "number": 2600, "text": "proyectos de imagen realizados en 10 años" }
+    ],
+    "mapTitle": "MAPA COBERTURA XPRINTA"
+  },
+  "proceso": [
+    { "title": "Brandguide", "description": "Comenzamos cada proyecto con la definición rigurosa de normas y estilo visual. Analizamos a fondo la identidad corporativa para asegurar que la implementación física sea 100% fiel a los valores y la paleta de la marca." },
+    { "title": "Brandcenter", "description": "Desplegamos una plataforma centralizada para la gestión documental de la marca. Todos los planos, normativas y catálogos de rótulos estarán accesibles en un entorno seguro y actualizado en tiempo real para tu equipo." },
+    { "title": "Auditoría Técnica", "description": "Realizamos una evaluación exhaustiva y técnica de viabilidad en cada uno de los puntos de venta. Nuestro equipo analiza fachadas, normativas locales y requerimientos estructurales para prever cualquier obstáculo." },
+    { "title": "Optimización de Costes", "description": "Aplicamos ingeniería de valor en el rediseño de elementos. Sustituimos materiales y proponemos soluciones de fabricación en serie que maximizan tu inversión sin comprometer la calidad ni la durabilidad." },
+    { "title": "Estudio Normativo", "description": "Llevamos a cabo un análisis legal detallado y gestionamos la solicitud de permisos municipales en todo el territorio nacional, evitando multas, paralizaciones o contratiempos burocráticos." },
+    { "title": "Toma de Datos", "description": "Nuestros técnicos realizan mediciones milimétricas in-situ mediante planimetría avanzada. Aseguramos un ajuste perfecto de cada elemento, eliminando márgenes de error durante la fase de montaje." },
+    { "title": "PIC y Presupuesto", "description": "Elaboramos un Plan Integral de Calendario (PIC) y una valoración detallada, desglosando cada partida. Tendrás control total sobre los tiempos de ejecución y los costes asociados al despliegue." },
+    { "title": "Aceptación del Cliente", "description": "Presentamos fotomontajes y memorias de calidades para tu firma y validación final. No iniciamos ninguna producción hasta que tengas total certidumbre sobre cómo quedará el diseño y los materiales elegidos." },
+    { "title": "Fabricación", "description": "Iniciamos la producción propia en nuestras instalaciones bajo los más altos estándares de calidad ISO. Utilizamos tecnología punta para mecanizar, rotular y ensamblar cada pieza con precisión quirúrgica." },
+    { "title": "Instalación", "description": "Desplegamos equipos especializados de montaje en paralelo en nuestra red nacional. Coordinamos la logística para minimizar el impacto en la actividad de tus locales comerciales durante la instalación." },
+    { "title": "Trabajo Terminado", "description": "Ejecutamos una revisión final de calidad (QA) directamente en el punto de venta. Validamos acabados, iluminación y anclajes, entregando el proyecto llave en mano y listo para deslumbrar." },
+    { "title": "Comunicación Digital", "description": "Asesoramos en la estrategia de lanzamiento y visibilidad online del nuevo punto de venta. Proveemos activos digitales optimizados para asegurar que el cambio de imagen se comunique con eficacia." },
+    { "title": "Reportaje Audiovisual", "description": "Documentamos el resultado final con fotografía arquitectónica y tomas en vídeo. Creamos un dossier audiovisual premium que sirve tanto de archivo técnico como de material promocional de alto impacto." },
+    { "title": "Contenidos en RRSS", "description": "Amplificamos la visibilidad del proyecto en tus redes sociales. Entregamos píldoras de contenido adaptadas a LinkedIn, Instagram o TikTok para potenciar la percepción de tu marca ante tu audiencia." }
+  ],
+  "footer": {
+    "contact": {
+      "email": "comercial@xprintapro.com",
+      "phone": "900 82 82 82"
+    },
+    "copyright": "© 2026 Xprinta Pro. Trade Marketing & Corporate Visual Identity."
+  },
+  "projectUi": {
+    "labels": {
+      "cliente": "Cliente",
+      "sector": "Sector",
+      "servicio": "Servicio",
+      "ubicacion": "Ubicación / Cobertura",
+      "desafioNumber": "01 &mdash; El Desafío",
+      "solucionNumber": "02 &mdash; La Solución",
+      "ingenieriaNumber": "03 &mdash; Ingeniería",
+      "ingenieriaTitle": "Planos Técnicos",
+      "ingenieriaDesc": "Desarrollo técnico y vistas de detalle para la producción de cada elemento corporativo.",
+      "fase": "Fase",
+      "detalleTecnico": "Detalle Técnico",
+      "previsualizacionNumber": "04 &mdash; Previsualización",
+      "realidadNumber": "05 &mdash; Realidad",
+      "resultadoFinal": "El Resultado <span style=\"font-style: italic; color: var(--color-highlight);\">Final</span>",
+      "verPlano": "Ver Plano",
+      "verFoto": "Ver Foto"
+    }
+  }
+}

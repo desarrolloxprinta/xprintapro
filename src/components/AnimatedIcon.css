@@ -1,0 +1,116 @@
+/* ========================================
+   ANIMATED ICON COMPONENT
+   Estilo para iconos del proceso con animaciones
+   ======================================== */
+
+.animated-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  opacity: 0; /* Inicial, se anima con GSAP */
+  width: 100%;
+  max-width: 200px;
+}
+
+/* SVG Container */
+.animated-icon__svg {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.animated-icon__svg svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform-origin: center center;
+}
+
+/* Texto */
+.animated-icon__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  text-align: center;
+}
+
+.animated-icon__nombre {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.animated-icon__descripcion {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-text-muted);
+  margin: 0;
+  max-width: 180px;
+}
+
+/* Responsive - Tablet */
+@media (min-width: 768px) {
+  .animated-icon {
+    max-width: 220px;
+  }
+
+  .animated-icon__svg {
+    width: 140px;
+    height: 140px;
+  }
+
+  .animated-icon__nombre {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .animated-icon__descripcion {
+    font-size: 13px;
+    line-height: 19px;
+    max-width: 200px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 1024px) {
+  .animated-icon {
+    max-width: 240px;
+  }
+
+  .animated-icon__svg {
+    width: 160px;
+    height: 160px;
+  }
+
+  .animated-icon__nombre {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .animated-icon__descripcion {
+    font-size: 14px;
+    line-height: 20px;
+    max-width: 220px;
+  }
+}
+
+/* Estados de hover (sutil) */
+.animated-icon:hover .animated-icon__svg svg {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-out;
+}
+
+.animated-icon:hover .animated-icon__nombre {
+  color: var(--color-highlight);
+  transition: color 0.3s ease;
+}

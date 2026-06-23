@@ -1,0 +1,104 @@
+{
+  "id": "redeia",
+  "title": "Campaña de rebranding sorpresa para Redeia red electrica — instalación de rótulos a nivel nacional.",
+  "hero": {
+    "video": "/proyectos/redeia/redeia_hero_video.mp4"
+  },
+  "client": {
+    "name": "Redeia",
+    "description": "Desde 1985 nacieron como el primer TSO del mundo. Hoy son un grupo sólido con el propósito de garantizar el suministro eléctrico."
+  },
+  "sector": "Energía / Corporativo",
+  "service": {
+    "title": "Rebranding Nacional",
+    "logo": "/proyectos/redeia/logo-redeia.webp"
+  },
+  "location": {
+    "title": "Despliegue Nacional",
+    "description": "Implantación coordinada en múltiples puntos de la geografía española, sincronizando fabricación y logística para asegurar una cobertura total bajo estrictos tiempos de entrega.",
+    "type": "national",
+    "markers": [
+      { "lat": 40.4168, "lng": -3.7038 },
+      { "lat": 41.3851, "lng": 2.1734 },
+      { "lat": 39.4699, "lng": -0.3774 },
+      { "lat": 37.3891, "lng": -5.9845 },
+      { "lat": 43.263, "lng": -2.935 },
+      { "lat": 41.6488, "lng": -0.8891 },
+      { "lat": 36.7213, "lng": -4.4214 }
+    ]
+  },
+  "story": {
+    "challengeTitle": "Un verdadero <span style=\"font-style: italic; color: var(--color-highlight);\">reto</span>.",
+    "challenge": "El nuevo nombre y la identidad de Redeia, una red compuesta por cinco marcas y más de 2.400 profesionales. Significó un verdadero reto. El desafío consistía en lograr un cambio uniforme y de manera discreta a nivel nacional en tiempo récord que culminaba con el relanzamiento en un evento retransmitido a nivel internacional.",
+    "challengeImage": "/proyectos/redeia/REDEIA-CORPORATIVO-01.jpg",
+    "solutionTitle": "Estrategia y <span style=\"font-style: italic; color: var(--color-highlight);\">Sincronización</span>.",
+    "solution": "Nuestro plan de actuación pasó por la creación de una estrategia que nos permitía un cambio discreto y rápido en toda España, de forma sincronizada, contando con los diferentes puntos Xprinta y los más estrictos controles de confidencialidad, con trabajos nocturnos de desmontajes y montajes.",
+    "solutionImage": "/proyectos/redeia/REDEIA_ALBATROS_IDENTIFICACION_01.jpeg"
+  },
+  "blueprints": [
+    "/proyectos/redeia/planos-tecnicos-2.png",
+    "/proyectos/redeia/planos-tecnicos-3.png",
+    "/proyectos/redeia/planos-tecnicos-4.png",
+    "/proyectos/redeia/planos-tecnicos-5.png"
+  ],
+  "blueprintSteps": [
+    {
+      "title": "Cotas Generales",
+      "description": "Medidas maestras y desarrollo estructural principal. Especificamos las dimensiones generales para la correcta integración arquitectónica del rótulo en fachada."
+    },
+    {
+      "title": "Despiece de Materiales",
+      "description": "Identificación de componentes metálicos, perfilería interior y cerramientos frontales. Se asegura que la dilatación de materiales en exteriores quede compensada."
+    },
+    {
+      "title": "Electrificación",
+      "description": "Disposición de los módulos LED, recorridos de cableado y fuentes de alimentación. Optimización para garantizar una luminosidad homogénea sin sombras proyectadas."
+    },
+    {
+      "title": "Anclajes y Fijación",
+      "description": "Planos de anclaje estructural. Sistema de sujeción calculado para soportar cargas de viento y peso, garantizando la seguridad absoluta de la instalación."
+    }
+  ],
+  "render3d": {
+    "title": "Render 3D Interactiva",
+    "description": "Explora todos los detalles de este rótulo en nuestro visor interactivo. Gira, acerca y descubre cada ángulo del modelo antes de su fabricación.",
+    "model": "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+  },
+  "gallery": [
+    {
+      "image": "/proyectos/redeia/REDEIA_GAITANES_CORONACION_06.jpeg",
+      "alt": "Gaitanes Coronación",
+      "gridCols": 8,
+      "height": "80vh"
+    },
+    {
+      "image": "/proyectos/redeia/20221026_135051-scaled-1.jpg",
+      "alt": "Instalación",
+      "gridCols": 4,
+      "height": "80vh"
+    },
+    {
+      "image": "/proyectos/redeia/REDEIA_ALBATROS_IDENTIFICACION_06.jpeg",
+      "alt": "Albatros",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/redeia/redeia_01.jpg",
+      "alt": "Redeia Detalle",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/redeia/20221026_133248-scaled-1.jpg",
+      "alt": "Detalle Montaje",
+      "gridCols": 4,
+      "height": "60vh"
+    }
+  ],
+  "testimonial": {
+    "quote": "Con este proyecto dejamos claro que proyectos exigentes en cuanto a factores tales como tiempo o compromisos de confidencialidad son <span style=\"font-style: italic; color: var(--color-highlight);\">posibles</span> gracias a una excelente coordinación.",
+    "author": "Garantía Xprinta",
+    "role": "Equipo Nacional"
+  }
+}

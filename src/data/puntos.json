@@ -1,0 +1,622 @@
+[
+  {
+    "title": "Xprinta Albacete 1",
+    "lat": 38.9982472,
+    "lng": -1.8594605
+  },
+  {
+    "title": "Xprinta Alcoi",
+    "lat": 38.68446,
+    "lng": -0.4895499999999999
+  },
+  {
+    "title": "Xprinta Alcover",
+    "lat": 41.2652132,
+    "lng": 1.2022728
+  },
+  {
+    "title": "Xprinta Alhaurín de la Torre",
+    "lat": 36.7132614,
+    "lng": -4.4320577
+  },
+  {
+    "title": "Xprinta Alicante",
+    "lat": 38.3504854,
+    "lng": -0.5565989
+  },
+  {
+    "title": "Xprinta Almendralejo",
+    "lat": 38.692633,
+    "lng": -6.4138952
+  },
+  {
+    "title": "Xprinta Almería",
+    "lat": 36.84213250000001,
+    "lng": -2.4373092
+  },
+  {
+    "title": "Xprinta Alzira",
+    "lat": 39.1654981,
+    "lng": -0.4166978
+  },
+  {
+    "title": "Xprinta Ambroz",
+    "lat": 37.1660539,
+    "lng": -3.6763774
+  },
+  {
+    "title": "Xprinta Andújar",
+    "lat": 38.0347173,
+    "lng": -4.059258499999999
+  },
+  {
+    "title": "Xprinta Arcos de la Frontera",
+    "lat": 36.7663309,
+    "lng": -5.8118651
+  },
+  {
+    "title": "Xprinta Arona 1",
+    "lat": 28.04976,
+    "lng": -16.6779254
+  },
+  {
+    "title": "Xprinta Arona 2",
+    "lat": 28.075143,
+    "lng": -16.6714597
+  },
+  {
+    "title": "Xprinta Avintes",
+    "lat": 41.0912015,
+    "lng": -8.532717
+  },
+  {
+    "title": "Xprinta Azuaga",
+    "lat": 38.2589973,
+    "lng": -5.6803556
+  },
+  {
+    "title": "Xprinta Badajoz 1",
+    "lat": 38.8988351,
+    "lng": -6.998185899999999
+  },
+  {
+    "title": "Xprinta Badajoz 2",
+    "lat": 38.588169,
+    "lng": -5.445022199999999
+  },
+  {
+    "title": "Xprinta Badajoz 3",
+    "lat": 38.87857839999999,
+    "lng": -6.9590647
+  },
+  {
+    "title": "Xprinta Barcelona 1",
+    "lat": 41.4442187,
+    "lng": 2.1804315
+  },
+  {
+    "title": "Xprinta Barcelona 2",
+    "lat": 41.3874374,
+    "lng": 2.1686496
+  },
+  {
+    "title": "Xprinta Basauri",
+    "lat": 43.3024773,
+    "lng": -2.8910099
+  },
+  {
+    "title": "Xprinta Beniaján",
+    "lat": 37.9727729,
+    "lng": -1.0748064
+  },
+  {
+    "title": "Xprinta Benicarló",
+    "lat": 40.41662669999999,
+    "lng": 0.4199007
+  },
+  {
+    "title": "Xprinta Berrioplano",
+    "lat": 42.8474679,
+    "lng": -1.688569
+  },
+  {
+    "title": "Xprinta Bilbao",
+    "lat": 43.2569095,
+    "lng": -2.9136439
+  },
+  {
+    "title": "Xprinta Bimenes",
+    "lat": 43.3158294,
+    "lng": -5.545978700000001
+  },
+  {
+    "title": "Xprinta Burgos",
+    "lat": 42.3615478,
+    "lng": -3.664843
+  },
+  {
+    "title": "Xprinta Cáceres",
+    "lat": 39.5054903,
+    "lng": -6.3686834
+  },
+  {
+    "title": "Xprinta Cartagena",
+    "lat": 37.6260376,
+    "lng": -0.9980256
+  },
+  {
+    "title": "Xprinta Castelldefels",
+    "lat": 41.2853781,
+    "lng": 1.9844947
+  },
+  {
+    "title": "Xprinta Castellón",
+    "lat": 39.98896269999999,
+    "lng": -0.0495855
+  },
+  {
+    "title": "Xprinta Chiclana de la Frontera",
+    "lat": 36.4099894,
+    "lng": -6.1663307
+  },
+  {
+    "title": "Xprinta Chilches",
+    "lat": 36.7242961,
+    "lng": -4.415903399999999
+  },
+  {
+    "title": "Xprinta Chozas de Canales",
+    "lat": 40.0980904,
+    "lng": -4.0507851
+  },
+  {
+    "title": "Xprinta Churriana de la Vega",
+    "lat": 37.1441342,
+    "lng": -3.637535599999999
+  },
+  {
+    "title": "Xprinta Ciudad Real",
+    "lat": 38.9892827,
+    "lng": -3.9050012
+  },
+  {
+    "title": "Xprinta Córdoba",
+    "lat": 37.8997978,
+    "lng": -4.7757058
+  },
+  {
+    "title": "Xprinta Donostia",
+    "lat": 43.3225565,
+    "lng": -1.9685112
+  },
+  {
+    "title": "Xprinta El Catllar",
+    "lat": 41.16230789999999,
+    "lng": 1.2733037
+  },
+  {
+    "title": "Xprinta El Vendrell",
+    "lat": 41.2329801,
+    "lng": 1.5326411
+  },
+  {
+    "title": "Xprinta Ensanche",
+    "lat": 41.3879223,
+    "lng": 2.1444723
+  },
+  {
+    "title": "Xprinta Esplugues de Llobregat",
+    "lat": 41.3778731,
+    "lng": 2.0850566
+  },
+  {
+    "title": "Xprinta Faro",
+    "lat": 37.029902,
+    "lng": -7.9624919
+  },
+  {
+    "title": "Xprinta Fuerteventura",
+    "lat": 28.5029226,
+    "lng": -13.8697645
+  },
+  {
+    "title": "Xprinta Herencia",
+    "lat": 39.3712483,
+    "lng": -3.3533809
+  },
+  {
+    "title": "Xprinta Jaen 2",
+    "lat": 37.80196,
+    "lng": -3.78518
+  },
+  {
+    "title": "Xprinta La Coruña",
+    "lat": 43.2337117,
+    "lng": -8.6830523
+  },
+  {
+    "title": "Xprinta La Guardia de Jaén",
+    "lat": 37.7450635,
+    "lng": -3.6958247
+  },
+  {
+    "title": "Xprinta La Línea",
+    "lat": 36.1621709,
+    "lng": -5.3462592
+  },
+  {
+    "title": "Xprinta Lalín",
+    "lat": 42.6771517,
+    "lng": -8.1545994
+  },
+  {
+    "title": "Xprinta Las Palmas de Gran Canaria 1",
+    "lat": 28.110857,
+    "lng": -15.4560062
+  },
+  {
+    "title": "Xprinta Las Palmas de Gran Canaria 2",
+    "lat": 27.9287297,
+    "lng": -15.4053624
+  },
+  {
+    "title": "Xprinta Lliria",
+    "lat": 39.63496629999999,
+    "lng": -0.5836789
+  },
+  {
+    "title": "Xprinta Logroño",
+    "lat": 42.4657352,
+    "lng": -2.434087
+  },
+  {
+    "title": "Xprinta Lorca",
+    "lat": 37.6253452,
+    "lng": -1.738388
+  },
+  {
+    "title": "Xprinta Lucena 1",
+    "lat": 37.3808527,
+    "lng": -4.5040558
+  },
+  {
+    "title": "Xprinta Lugo 1",
+    "lat": 43.0327797,
+    "lng": -7.5494364
+  },
+  {
+    "title": "Xprinta Málaga",
+    "lat": 36.6914566,
+    "lng": -4.463767499999999
+  },
+  {
+    "title": "Xprinta Manises",
+    "lat": 39.4904017,
+    "lng": -0.4507225
+  },
+  {
+    "title": "Xprinta Manresa 1",
+    "lat": 41.7313502,
+    "lng": 1.8351364
+  },
+  {
+    "title": "Xprinta Manresa 2",
+    "lat": 41.73221789999999,
+    "lng": 1.8207678
+  },
+  {
+    "title": "Xprinta Manzanares",
+    "lat": 38.9977764,
+    "lng": -3.3675273
+  },
+  {
+    "title": "Xprinta Marchena",
+    "lat": 37.32671819999999,
+    "lng": -5.4276737
+  },
+  {
+    "title": "Xprinta Marratxí",
+    "lat": 39.6229608,
+    "lng": 2.7160413
+  },
+  {
+    "title": "Xprinta Masapalomas",
+    "lat": 27.7658119,
+    "lng": -15.5720647
+  },
+  {
+    "title": "Xprinta Mataró",
+    "lat": 41.5272326,
+    "lng": 2.4298859
+  },
+  {
+    "title": "Xprinta Mérida",
+    "lat": 38.9191439,
+    "lng": -6.3408055
+  },
+  {
+    "title": "Xprinta Miajadas",
+    "lat": 39.1547405,
+    "lng": -5.9021324
+  },
+  {
+    "title": "Xprinta Milladoiro",
+    "lat": 42.8453739,
+    "lng": -8.575407199999999
+  },
+  {
+    "title": "Xprinta Moraleja",
+    "lat": 40.0723691,
+    "lng": -6.6571954
+  },
+  {
+    "title": "Xprinta Muriedas",
+    "lat": 43.4297151,
+    "lng": -3.8575258
+  },
+  {
+    "title": "Xprinta Navalmoral de la Mata",
+    "lat": 39.8901201,
+    "lng": -5.5378265
+  },
+  {
+    "title": "Xprinta Navalvillar de Pela",
+    "lat": 39.0913261,
+    "lng": -5.4699173
+  },
+  {
+    "title": "Xprinta Nou Barris",
+    "lat": 41.4381956,
+    "lng": 2.1807309
+  },
+  {
+    "title": "Xprinta O Cotiño",
+    "lat": 42.2110551,
+    "lng": -8.6412933
+  },
+  {
+    "title": "Xprinta Ondara",
+    "lat": 38.8227343,
+    "lng": 0.0170265
+  },
+  {
+    "title": "Xprinta Palencia",
+    "lat": 42.0012224,
+    "lng": -4.5035821
+  },
+  {
+    "title": "Xprinta Palma de Mallorca 1",
+    "lat": 39.5936981,
+    "lng": 2.6157264
+  },
+  {
+    "title": "Xprinta Palma de Mallorca 2",
+    "lat": 39.4796416,
+    "lng": 2.7364904
+  },
+  {
+    "title": "Xprinta Palmeres",
+    "lat": 39.4702183,
+    "lng": 2.7495972
+  },
+  {
+    "title": "Xprinta Cuenca",
+    "lat": 40.0543178,
+    "lng": -2.1155691
+  },
+  {
+    "title": "Xprinta Pontevedra",
+    "lat": 42.4145103,
+    "lng": -8.6176135
+  },
+  {
+    "title": "Xprinta Priego de Córdoba",
+    "lat": 37.4338542,
+    "lng": -4.198523
+  },
+  {
+    "title": "Xprinta Puente Genil",
+    "lat": 37.4012848,
+    "lng": -4.753684799999999
+  },
+  {
+    "title": "Xprinta Quintana de la Serena",
+    "lat": 38.7373841,
+    "lng": -5.6586697
+  },
+  {
+    "title": "Xprinta Requena",
+    "lat": 39.4873795,
+    "lng": -1.0960608
+  },
+  {
+    "title": "Xprinta Salamanca",
+    "lat": 40.9951035,
+    "lng": -5.666173
+  },
+  {
+    "title": "Xprinta San Andrés del Rabanedo",
+    "lat": 42.5938492,
+    "lng": -5.6067674
+  },
+  {
+    "title": "Xprinta San Javier",
+    "lat": 37.8115898,
+    "lng": -0.8298034
+  },
+  {
+    "title": "Xprinta San Pedro Alcántara 1",
+    "lat": 36.492317,
+    "lng": -4.9911406
+  },
+  {
+    "title": "Xprinta San Pedro de Alcántara 2",
+    "lat": 36.4968631,
+    "lng": -4.992344699999999
+  },
+  {
+    "title": "Xprinta Sanlúcar de Barrameda 1",
+    "lat": 36.7675815,
+    "lng": -6.3489632
+  },
+  {
+    "title": "Xprinta Sant Joan Despí",
+    "lat": 41.3677647,
+    "lng": 2.0739308
+  },
+  {
+    "title": "Xprinta Santa Cruz de Tenerife",
+    "lat": 28.4484386,
+    "lng": -16.2764308
+  },
+  {
+    "title": "Xprinta Segovia",
+    "lat": 40.95381690000001,
+    "lng": -4.106199399999999
+  },
+  {
+    "title": "Xprinta Sevilla 1",
+    "lat": 37.3702844,
+    "lng": -5.8785095
+  },
+  {
+    "title": "Xprinta Sevilla 2",
+    "lat": 37.3687764,
+    "lng": -5.7558601
+  },
+  {
+    "title": "Xprinta Sevilla 3",
+    "lat": 37.4061722,
+    "lng": -5.9319672
+  },
+  {
+    "title": "Xprinta Sevilla 4",
+    "lat": 37.3890924,
+    "lng": -5.9844589
+  },
+  {
+    "title": "Xprinta Soria",
+    "lat": 41.7661588,
+    "lng": -2.4778414
+  },
+  {
+    "title": "Xprinta Sta. Eulàlia de Ronçana",
+    "lat": 41.6551609,
+    "lng": 2.2307604
+  },
+  {
+    "title": "Xprinta Talavera de la Reina",
+    "lat": 39.975287,
+    "lng": -4.7422586
+  },
+  {
+    "title": "Xprinta Tarragona 1",
+    "lat": 41.1188392,
+    "lng": 1.2449435
+  },
+  {
+    "title": "Xprinta Tarragona 2",
+    "lat": 41.1188392,
+    "lng": 1.2449435
+  },
+  {
+    "title": "Xprinta Terrassa",
+    "lat": 41.5743009,
+    "lng": 2.0180434
+  },
+  {
+    "title": "Xprinta Terrugem",
+    "lat": 38.8531737,
+    "lng": -9.3429193
+  },
+  {
+    "title": "Xprinta Tías",
+    "lat": 28.9541915,
+    "lng": -13.652705
+  },
+  {
+    "title": "Xprinta Tomelloso",
+    "lat": 39.15807179999999,
+    "lng": -3.031114
+  },
+  {
+    "title": "Xprinta Toremejía",
+    "lat": 38.7886653,
+    "lng": -6.3729317
+  },
+  {
+    "title": "Xprinta Tortosa",
+    "lat": 40.8164041,
+    "lng": 0.5141108999999999
+  },
+  {
+    "title": "Xprinta Trescasas",
+    "lat": 40.9615118,
+    "lng": -4.0379775
+  },
+  {
+    "title": "Xprinta Tudela",
+    "lat": 42.0624507,
+    "lng": -1.6032783
+  },
+  {
+    "title": "Xprinta Úbeda",
+    "lat": 38.0265093,
+    "lng": -3.367378
+  },
+  {
+    "title": "Xprinta Valdepeñas",
+    "lat": 38.7667428,
+    "lng": -3.3878345
+  },
+  {
+    "title": "Xprinta Valencia 1",
+    "lat": 39.4731147,
+    "lng": -0.3529426
+  },
+  {
+    "title": "Xprinta Valencia 2",
+    "lat": 39.4396656,
+    "lng": -0.489629
+  },
+  {
+    "title": "Xprinta Valladolid",
+    "lat": 41.6244964,
+    "lng": -4.7359068
+  },
+  {
+    "title": "Xprinta Vélez-Málaga",
+    "lat": 36.7791216,
+    "lng": -4.1112465
+  },
+  {
+    "title": "Xprinta Vic",
+    "lat": 41.9304097,
+    "lng": 2.2530674
+  },
+  {
+    "title": "Xprinta Villanueva del Arzobispo",
+    "lat": 38.173479,
+    "lng": -3.0059813
+  },
+  {
+    "title": "Xprinta Villarrobledo",
+    "lat": 39.2635466,
+    "lng": -2.603598
+  },
+  {
+    "title": "Xprinta Vitoria-Gasteiz",
+    "lat": 42.8593802,
+    "lng": -2.7061113
+  },
+  {
+    "title": "Xprinta Zaragoza 1",
+    "lat": 41.6884522,
+    "lng": -0.8789494
+  },
+  {
+    "title": "Xprinta Zaragoza 2",
+    "lat": 41.6727517,
+    "lng": -0.9500249
+  }
+]
