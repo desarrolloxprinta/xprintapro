@@ -586,20 +586,20 @@ a:hover {
   top: 20px; /* Floating margin */
   left: 28px;
   width: calc(100% - 56px); /* Floating width */
-  height: 80px;
+  height: 80px; /* JavaScript calculará dinámicamente según contenido */
   z-index: 100;
-  background: rgba(255, 255, 255, 0.65); /* Light Glassmorphism */
+  background: rgba(255, 255, 255, 0.85); /* Aumentado de 0.65 a 0.85 (+20%) para mejor legibilidad */
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 24px;
-  overflow: hidden;
+  overflow: hidden; /* IMPORTANTE: Mantener hidden, el mega menu está DENTRO del header */
   transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
   box-shadow: 0 10px 40px rgba(0,0,0,0.08);
 }
 
 .site-header:has(.nav-item-dropdown:hover) {
-  height: 540px; /* Expands elastically to fit any sub-menu content */
+  /* Altura se maneja dinámicamente con JavaScript */
   box-shadow: 0 20px 50px rgba(0,0,0,0.12);
 }
 
@@ -647,6 +647,13 @@ a:hover {
   height: 80px; /* Keep to header height */
 }
 
+.nav-item {
+  /* Simple nav item without dropdown/mega menu */
+  display: flex;
+  align-items: center;
+  height: 80px;
+}
+
 .nav-link {
   display: flex;
   align-items: center;
@@ -666,28 +673,22 @@ a:hover {
   transform: rotate(180deg);
 }
 
+/* Mega menu - contenido dentro del header */
 .mega-menu {
   position: absolute;
-  top: 80px; /* Right below the 80px threshold inside the wrapper */
-  left: calc(-1 * var(--offset-left, 0px)); /* Will use JS or CSS to align left, but since we want full width of header: */
-  width: calc(100vw - 56px); /* Match header width */
-  opacity: 0;
-  visibility: hidden;
-  /* Instead of moving down, it fades in after the header grows */
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  pointer-events: none;
-}
-
-/* Force left 0 relative to site-header */
-.site-header { position: fixed; }
-.mega-menu {
-  position: absolute; /* Attaches to .site-header since it has backdrop-filter/position */
-  top: 80px; /* Start exactly below the 80px top bar, NO GAP */
-  left: 0; /* Align perfectly with .site-header left */
-  width: 100%; /* Full width of .site-header */
+  top: 70px; /* IMPORTANTE: top < 80px para que sea visible dentro del header con overflow:hidden */
+  left: 0;
+  width: 100%;
   min-height: 340px;
   height: auto;
-  padding-bottom: 32px;
+  padding: 10px 0 60px 0; /* Aumentado padding-bottom de 32px a 60px para el botón */
+  /* Estados de visibilidad */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  /* Transición suave */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  /* NO background: El mega menu usa el fondo del header (son una sola pieza) */
 }
 
 .nav-item-dropdown:hover .mega-menu {

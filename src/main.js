@@ -22,7 +22,7 @@ const renderNavbar = () => `
       </a>
       <nav class="navbar-nav">
 
-        <div class="nav-item-dropdown" id="nav-item-proyectos">
+        <div class="nav-item-dropdown">
           <a href="#proyectos" class="nav-link">Proyectos <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-proyectos-inner">
@@ -141,11 +141,11 @@ const renderNavbar = () => `
           </div>
         </div>
 
-        <div class="nav-item-dropdown">
+        <div class="nav-item">
           <a href="#mapa" class="nav-link">Red Xprinta</a>
         </div>
 
-        <div class="nav-item-dropdown">
+        <div class="nav-item">
           <a href="#area-tecnica" class="nav-link">Área Técnica</a>
         </div>
 
@@ -1119,10 +1119,40 @@ const initAnimations = () => {
   }
 }
 
+// Header dinámico - ajusta altura según contenido del mega menu
+function initDynamicHeader() {
+  const header = document.querySelector('.site-header');
+  const navItems = document.querySelectorAll('.nav-item-dropdown');
+
+  if (!header || !navItems.length) return;
+
+  navItems.forEach(navItem => {
+    const megaMenu = navItem.querySelector('.mega-menu');
+    if (!megaMenu) return;
+
+    navItem.addEventListener('mouseenter', () => {
+      // Calcular altura del mega menu + barra superior (80px)
+      const megaMenuHeight = megaMenu.scrollHeight;
+      const totalHeight = 80 + megaMenuHeight;
+
+      // Aplicar altura calculada al header
+      header.style.height = `${totalHeight}px`;
+    });
+
+    navItem.addEventListener('mouseleave', () => {
+      // Volver a altura original
+      header.style.height = '80px';
+    });
+  });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   if (isProyectoPage) {
     initProyectoAnimations();
   } else {
     initAnimations();
   }
+
+  // Inicializar header dinámico
+  initDynamicHeader();
 });
