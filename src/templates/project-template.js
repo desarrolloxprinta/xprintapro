@@ -40,13 +40,13 @@ const renderHero = (data) => `
       </h1>
     </div>
 
-    <div class="hero-media-wrapper" style="width: 95vw; height: 75vh; position: relative; z-index: 1; overflow: hidden; clip-path: inset(15% 15% 15% 15% round 20px);">
+    <div class="hero-media-wrapper" style="width: 95vw; height: 75vh; position: relative; z-index: 1; overflow: hidden; border-radius: 30px;">
       ${data.hero.video ? `
-      <video class="hero-media" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.15);">
+      <video class="hero-media" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
         <source src="${data.hero.video}" type="video/mp4" />
       </video>
       ` : `
-      <img class="hero-media" src="${data.hero.image}" alt="${data.title}" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.15);" />
+      <img class="hero-media" src="${data.hero.image}" alt="${data.title}" style="width: 100%; height: 100%; object-fit: cover;" />
       `}
     </div>
   </section>
@@ -110,8 +110,8 @@ const renderLocation = (data) => {
     <!-- Foreground Text -->
     <div class="container-fluid" style="position: relative; z-index: 10; width: 100%;">
       <div class="gsap-reveal location-content" style="max-width: 500px;">
-        <span class="text-caption text-uppercase opacity-90 text-inverse" style="color: var(--color-highlight);">${ui.ubicacion}</span>
-        <h2 class="text-large font-serif font-regular text-inverse" style="margin: 1.5rem 0;">${data.location.title}</h2>
+        <h2 class="text-large font-serif font-regular text-inverse" style="margin-bottom: 1.5rem;">${ui.ubicacion}</h2>
+        ${data.location.title ? `<p class="font-sans text-inverse opacity-90" style="font-size: 1.5rem; font-weight: 500; margin-bottom: 1rem;">${data.location.title}</p>` : ''}
         <p class="font-sans text-inverse opacity-80" style="font-size: 1.25rem;">
           ${data.location.description}
         </p>

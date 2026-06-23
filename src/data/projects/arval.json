@@ -1,0 +1,166 @@
+{
+  "id": "arval",
+  "title": "Proyecto de instalación del rótulo de coronación para Arval",
+  "createdDate": "2024-06-20",
+  "category": "Movilidad / Corporativo",
+  "shortDescription": "Instalación de rótulo corpóreo iluminado de gran formato en fachada principal.",
+  "hero": {
+    "video": "/proyectos/arval/arval-rotulo-animado.mp4",
+    "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (36).jpeg"
+  },
+  "client": {
+    "name": "Arval",
+    "description": "Líder europeo en renting y gestión de flotas con más de 30 años de experiencia. Parte del Grupo BNP Paribas, Arval ofrece soluciones de movilidad sostenible y servicios integrales de gestión."
+  },
+  "sector": "Movilidad / Corporativo",
+  "service": {
+    "title": "Señalética Corporativa Premium",
+    "logo": "/proyectos/arval/logo-arval.jpg"
+  },
+  "location": {
+    "title": "C. de Anabel Segura, 14, Alcobendas",
+    "description": "Instalación de rótulo corpóreo iluminado de gran formato en fachada principal. Proyecto ejecutado con precisión milimétrica para garantizar máxima visibilidad e impacto corporativo.",
+    "type": "single",
+    "markers": [
+      { "lat": 40.5168, "lng": -3.6438 }
+    ]
+  },
+  "story": {
+    "challengeTitle": "Identidad de <span style=\"font-style: italic; color: var(--color-highlight);\">marca visible</span>.",
+    "challenge": "Arval necesitaba reforzar su presencia corporativa con un rótulo de coronación que transmitiera solidez, modernidad y liderazgo en el sector de la movilidad. El desafío técnico consistía en crear letras corpóreas retroiluminadas de gran formato que mantuvieran luminosidad uniforme y resistencia a la intemperie.",
+    "challengeImage": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (26).jpeg",
+    "solutionTitle": "Fabricación <span style=\"font-style: italic; color: var(--color-highlight);\">Premium</span>.",
+    "solution": "Diseñamos y fabricamos letras corpóreas en aluminio con sistema de retroiluminación LED de alta eficiencia. Cada letra fue construida con estructura interna reforzada, acabado en metacrilato opal para difusión perfecta de la luz, y anclajes estructurales calculados para soportar condiciones meteorológicas extremas.",
+    "solutionImage": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (64).jpeg"
+  },
+  "blueprints": [
+    "/proyectos/arval/planosMesa de trabajo 1-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 2-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 3-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 4-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 5-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 6-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 7-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 8-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 9-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 10-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 11-100.jpg",
+    "/proyectos/arval/planosMesa de trabajo 12-100.jpg"
+  ],
+  "blueprintSteps": [
+    {
+      "title": "Vista General de Fachada",
+      "description": "Plano arquitectónico completo mostrando la ubicación exacta del rótulo corpóreo en la fachada del edificio. Incluye cotas generales y referencias de nivel."
+    },
+    {
+      "title": "Detalle Constructivo de Letras",
+      "description": "Sección transversal de las letras corpóreas mostrando la estructura interna de aluminio, sistema de retroiluminación LED y acabado en metacrilato opal."
+    },
+    {
+      "title": "Sistema de Anclajes Estructurales",
+      "description": "Especificación detallada de los puntos de fijación a fachada. Incluye tacos químicos M12, pletinas de acero inoxidable y cálculo de cargas de viento."
+    },
+    {
+      "title": "Instalación Eléctrica y LED",
+      "description": "Esquema eléctrico completo del sistema de iluminación LED. Módulos de 6500K, transformadores, cableado y sistema de control de encendido/apagado automático."
+    },
+    {
+      "title": "Dimensiones y Proporciones",
+      "description": "Plano acotado de cada letra individual. Altura de 800mm, proporciones según manual de identidad corporativa Arval, espaciado entre letras y kerning visual."
+    },
+    {
+      "title": "Despiece y Lista de Materiales",
+      "description": "Listado completo de componentes: perfiles de aluminio extrusionado, metacrilato opal 5mm, módulos LED, tornillería inoxidable y elementos de fijación."
+    },
+    {
+      "title": "Detalles de Ensamblaje",
+      "description": "Secuencia de montaje de cada letra corpórea. Unión de caras laterales, instalación de difusor frontal, colocación de módulos LED y cierre hermético."
+    },
+    {
+      "title": "Tratamiento de Superficie",
+      "description": "Especificaciones de acabados: lacado poliéster en blanco RAL 9003 para estructura, pulido de metacrilato para máxima transmisión lumínica."
+    },
+    {
+      "title": "Sistema de Ventilación Interna",
+      "description": "Diseño de rejillas de ventilación para evacuación de calor generado por LEDs. Prevención de condensación interna y garantía de vida útil prolongada."
+    },
+    {
+      "title": "Protección contra Intemperie",
+      "description": "Sellado perimetral con silicona neutra, juntas de neopreno, protección IP65 para componentes eléctricos y resistencia UV en materiales expuestos."
+    },
+    {
+      "title": "Plantillas de Replanteo",
+      "description": "Plantillas 1:1 para marcaje de puntos de anclaje en obra. Tolerancias de ±2mm, sistema de nivelación y verificación de verticalidad antes de perforación."
+    },
+    {
+      "title": "Secuencia de Instalación en Obra",
+      "description": "Procedimiento paso a paso: replanteo, perforación, colocación de tacos químicos, montaje de pletinas, izado de letras, conexionado eléctrico y pruebas finales."
+    }
+  ],
+  "render3d": {
+    "title": "Modelo 3D Interactivo",
+    "description": "Explora el rótulo en detalle desde todos los ángulos. Visualiza la estructura interna, el sistema de iluminación y los puntos de anclaje antes de la instalación final.",
+    "model": "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+  },
+  "gallery": [
+    {
+      "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (36).jpeg",
+      "alt": "Rótulo Arval Vista Frontal",
+      "gridCols": 8,
+      "height": "80vh"
+    },
+    {
+      "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (11).jpeg",
+      "alt": "Detalle Construcción",
+      "gridCols": 4,
+      "height": "80vh"
+    },
+    {
+      "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (26).jpeg",
+      "alt": "Proceso de Fabricación",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (38).jpeg",
+      "alt": "Instalación Nocturna",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (39).jpeg",
+      "alt": "Vista Lateral",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (41).jpeg",
+      "alt": "Detalle de Montaje",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (58).jpeg",
+      "alt": "Detalle Iluminación",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (64).jpeg",
+      "alt": "Acabado Final de Letras",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/arval/20230304-ARVAL-ROTULO-CORONACION (71).jpeg",
+      "alt": "Rótulo Finalizado",
+      "gridCols": 4,
+      "height": "60vh"
+    }
+  ],
+  "testimonial": {
+    "quote": "La calidad de fabricación y la precisión en la instalación superaron nuestras expectativas. El rótulo refuerza perfectamente nuestra <span style=\"font-style: italic; color: var(--color-highlight);\">identidad corporativa</span> con un acabado impecable.",
+    "author": "Arval España",
+    "role": "Departamento de Facilities"
+  }
+}

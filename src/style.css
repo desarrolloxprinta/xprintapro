@@ -1082,7 +1082,6 @@ a:hover {
   opacity: 0;
   transform: translateY(30px);
 }
-}
 
 /* Specific Bento Sizes */
 .bento-wide { grid-column: span 2; }
