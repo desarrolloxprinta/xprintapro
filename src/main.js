@@ -430,24 +430,24 @@ const renderMapa = () => `
 `
 
 const renderProceso = () => `
-  <div id="proceso-container">
-    <section id="proceso">
-      <div class="container-fluid grid grid-cols-2 gap-6 proceso-grid">
+  <div id="proceso-container" style="background-color: var(--color-bg); padding-bottom: 20vh;">
+    <section id="proceso" style="height: 100vh; overflow: hidden; display: flex; align-items: center;">
+      <div class="container-fluid grid grid-cols-2 gap-6" style="width: 100%;">
 
         <!-- Sticky Sidebar -->
-        <div class="sticky-sidebar">
+        <div style="position: relative; display: flex; flex-direction: column; justify-content: flex-start; padding-right: 4rem;">
 
           <!-- Background Particles (expanded bounds to prevent clipping) -->
-          <div id="lottie-bar"></div>
+          <div id="lottie-bar" style="position: absolute; top: 77%; left: 40%; transform: translate(-50%, -50%); width: 40%; height: 120%; z-index: 0; pointer-events: none;"></div>
 
           <!-- Foreground Text -->
-          <div class="sticky-sidebar__content">
+          <div style="position: relative; z-index: 10;">
             <span class="text-caption">03 / Metodología</span>
-            <h2 class="text-large proceso-title">
+            <h2 class="text-large" style="margin-bottom: 1.5rem;">
               El Proceso <br>
               <span class="accent-text italic">Lineal</span>
             </h2>
-            <p class="proceso-description">
+            <p style="margin-top: 2rem; font-size: 1.25rem; color: var(--color-text-muted); max-width: 400px; font-weight: 400;">
               Estandarizamos la excelencia en 14 pasos precisos, garantizando trazabilidad y ahorro de costes a nivel nacional.
             </p>
           </div>
@@ -473,7 +473,7 @@ const renderProceso = () => `
             `).join('')}
           </div>
         </div>
-        
+
       </div>
     </section>
   </div>
