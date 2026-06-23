@@ -29,6 +29,9 @@ importers:
       swiper:
         specifier: ^12.2.0
         version: 12.2.0
+      ws:
+        specifier: ^8.21.0
+        version: 8.21.0
     devDependencies:
       vite:
         specifier: ^8.0.12
@@ -393,6 +396,18 @@ packages:
       yaml:
         optional: true
 
+  ws@8.21.0:
+    resolution: {integrity: sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
 snapshots:
 
   '@emnapi/core@1.10.0':
@@ -671,3 +686,5 @@ snapshots:
       tinyglobby: 0.2.17
     optionalDependencies:
       fsevents: 2.3.3
+
+  ws@8.21.0: {}

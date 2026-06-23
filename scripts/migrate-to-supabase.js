@@ -4,6 +4,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import ws from 'ws';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -20,25 +21,25 @@ if (!fs.existsSync(envPath)) {
 }
 
 const envContent = fs.readFileSync(envPath, 'utf-8');
-const envLines = envContent.split('\n');
-const env = {};
 
-envLines.forEach(line => {
-  const match = line.match(/^([^=]+)=(.*)$/);
-  if (match) {
-    env[match[1]] = match[2];
-  }
-});
+// Extraer URL y Key directamente con regex
+const urlMatch = envContent.match(/VITE_SUPABASE_URL=(.*)/);
+// Usar service_role key para tener permisos de escritura (bypassea RLS)
+const serviceRoleMatch = envContent.match(/# VITE_SUPABASE_SERVICE_ROLE_KEY=(.*)/);
 
-const supabaseUrl = env.VITE_SUPABASE_URL;
-const supabaseKey = env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = urlMatch ? urlMatch[1].trim() : null;
+const supabaseKey = serviceRoleMatch ? serviceRoleMatch[1].trim() : null;
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('❌ Credenciales de Supabase no configuradas en .env.local');
   process.exit(1);
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(supabaseUrl, supabaseKey, {
+  realtime: {
+    transport: ws
+  }
+});
 
 /**
  * Migra un proyecto JSON a Supabase
