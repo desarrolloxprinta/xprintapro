@@ -106,7 +106,7 @@ const renderSectores = () => `
           }
 
           return `
-          <div class="bento-card bento-card-bg ${sizeClass} gsap-bento-item gsap-reveal" style="background-image: url('${sector.bgImage}')">
+          <div class="bento-card bento-card-bg ${sizeClass} gsap-bento-item gsap-reveal" style="background-image: url('${sector.bgImage || '/sectores/default.jpg'}')">
             <div class="bento-card__header">
               <span class="text-caption bento-card__number">0${index + 1}</span>
             </div>
