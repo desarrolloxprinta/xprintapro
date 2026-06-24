@@ -56,3 +56,4 @@ public/videos/*.html
 
 # Vercel
 .vercel/
+.vercel
