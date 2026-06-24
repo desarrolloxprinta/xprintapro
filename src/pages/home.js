@@ -232,7 +232,7 @@ async function loadHomeProjects(limit = 6) {
       title: p.client_name || p.title.split(' ').slice(0, 2).join(' '), // Ej: "Arval", "Redeia"
       category: p.category || p.sector,
       description: p.short_description || p.client_description,
-      image: p.hero_image || p.hero_video,
+      image: p.hero_image || p.hero_video || '/placeholder-project.jpg', // IMPORTANTE: fallback si no hay imagen
       url: `/proyecto-${p.slug}.html` // Arreglado: usar formato correcto /proyecto-slug.html
     }));
     return homeProjectsCache;
