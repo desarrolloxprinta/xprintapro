@@ -53,3 +53,6 @@ public/videos/*.html
 
 # Zone Identifier files (Windows WSL)
 *.Zone.Identifier
+
+# Vercel
+.vercel/

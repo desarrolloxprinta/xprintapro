@@ -18,7 +18,7 @@
 
 ### 1. Autenticación
 ```bash
-# Ya configurado con access token
+# Autenticación con access token (generar desde: https://supabase.com/dashboard/account/tokens)
 supabase login --token <YOUR_SUPABASE_ACCESS_TOKEN>
 ```
 
