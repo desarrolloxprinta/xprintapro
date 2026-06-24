@@ -336,6 +336,9 @@ export const createLayout = async ({ content, pageClass = '' }) => {
     ${content}
   </main>
   ${renderFooter()}
+  <!-- Cursor personalizado global -->
+  <div class="custom-cursor__dot"></div>
+  <div class="custom-cursor__ring"><span class="custom-cursor__text"></span></div>
 `;
 }
 

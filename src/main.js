@@ -1,5 +1,7 @@
 import './style.css'
 import './styles/proyectos.css'
+import './styles/servicios.css'
+import './styles/brandcare.css'
 import content from './data/content.json'
 import puntos from './data/puntos.json'
 import { gsap } from 'gsap'
@@ -20,6 +22,8 @@ import { getRedeiaHTML } from './pages/proyectos/redeia.js'
 import { getArvalHTML } from './pages/proyectos/arval.js'
 import { getHomeHTML } from './pages/home.js'
 import { getProyectosHTML, initProyectosDirectory } from './pages/proyectos.js'
+import { getServiciosHTML, initServiciosDirectory } from './pages/servicios.js'
+import { getBrandCareHTML } from './pages/brandcare.js'
 
 // ==========================================================================
 // Router - Sistema de Layout Universal (AHORA ASYNC)
@@ -40,6 +44,12 @@ async function loadPage() {
   } else if (pageType === 'proyectos') {
     // Directorio de Proyectos - Carga dinámica desde Supabase
     app.innerHTML = await getProyectosHTML();
+  } else if (pageType === 'servicios') {
+    // Directorio de Servicios
+    app.innerHTML = await getServiciosHTML();
+  } else if (pageType === 'brandcare') {
+    // Servicio Individual BrandCare
+    app.innerHTML = await getBrandCareHTML();
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();
@@ -57,6 +67,8 @@ async function loadPage() {
 
   if (pageType === 'proyectos') {
     initProyectosDirectory();
+  } else if (pageType === 'servicios') {
+    initServiciosDirectory();
   }
 }
 

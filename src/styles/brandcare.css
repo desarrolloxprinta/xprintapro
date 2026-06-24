@@ -1,0 +1,222 @@
+/* src/styles/brandcare.css */
+/* Integración con sistema de tokens globales */
+:root {
+  --bc-dark: var(--color-primary); /* #0A0A0A */
+  --bc-light: var(--color-secondary); /* #F4F4F5 */
+  --bc-white: var(--color-tertiary); /* #FFFFFF */
+  --bc-text-dark: var(--color-text);
+  --bc-text-muted: var(--color-text-muted);
+  --bc-text-light: var(--color-text-inverse);
+}
+
+body[data-page="brandcare"] {
+  background-color: var(--bc-light);
+  font-family: var(--font-family-base);
+  color: var(--bc-text-dark);
+}
+
+.bc-hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10vw 5vw 4rem 5vw;
+  background-color: var(--bc-dark);
+  color: var(--bc-white);
+  overflow: hidden;
+}
+
+.bc-hero-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.bc-hero-bg-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--color-primary);
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.bc-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+}
+
+.bc-label {
+  font-family: var(--font-family-serif);
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+  color: var(--color-tertiary);
+}
+
+.bc-hero h1 {
+  font-family: var(--font-family-serif);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  color: var(--color-tertiary);
+}
+
+.bc-hero p {
+  font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  max-width: 600px;
+  opacity: 0.9;
+  color: var(--color-tertiary);
+}
+
+.bc-about {
+  background-color: var(--bc-dark);
+  color: var(--bc-white);
+  padding: 8rem 5vw;
+}
+
+.bc-about-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.bc-about-text {
+  font-family: var(--font-family-serif);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.3;
+  font-weight: 300;
+}
+
+.bc-about-image img {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.bc-section {
+  padding: 8rem 5vw;
+  background-color: var(--bc-light);
+}
+
+.bc-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.bc-split {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.bc-split-left {
+  position: sticky;
+  top: 120px;
+}
+
+.bc-section-title {
+  font-family: var(--font-family-serif);
+  font-size: 2.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--bc-text-dark);
+}
+
+.bc-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bc-card {
+  background-color: var(--bc-white);
+  border-radius: 8px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bc-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.bc-card-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--bc-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: var(--bc-dark);
+}
+
+.bc-card h3 {
+  font-family: var(--font-family-serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.bc-card p {
+  color: var(--bc-text-muted);
+  line-height: 1.6;
+}
+
+.bc-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.bc-benefit-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(51, 44, 63, 0.1);
+  margin-top: 4rem;
+}
+
+.bc-benefit-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 3rem 0;
+  border-bottom: 1px solid rgba(51, 44, 63, 0.1);
+}
+
+.bc-benefit-title {
+  font-family: var(--font-family-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.bc-benefit-desc {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--bc-text-muted);
+}
+
+@media (max-width: 991px) {
+  .bc-about-grid, .bc-split, .bc-benefit-item {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .bc-split-left {
+    position: static;
+  }
+}

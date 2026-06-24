@@ -166,10 +166,6 @@ export const getProyectosHTML = async () => {
   const pageContent = `
     ${renderHeader()}
     ${renderWorkComponent(projects)}
-
-    <!-- Cursor personalizado -->
-    <div class="custom-cursor__dot"></div>
-    <div class="custom-cursor__ring"><span class="custom-cursor__text"></span></div>
   `
 
   return await createLayout({

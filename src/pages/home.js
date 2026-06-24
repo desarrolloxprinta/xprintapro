@@ -421,8 +421,6 @@ export const getHomeHTML = async () => {
       ${proyectosSection}
       ${renderMarquee()}
       ${renderContacto()}
-      <div class="custom-cursor__dot"></div>
-      <div class="custom-cursor__ring"><span class="custom-cursor__text"></span></div>
     `,
     pageClass: 'page-home'
   });
