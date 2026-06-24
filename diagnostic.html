@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico Supabase</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #1a1a1a;
+      color: #0f0;
+    }
+    .status { margin: 10px 0; padding: 10px; background: #2a2a2a; }
+    .error { color: #f00; }
+    .success { color: #0f0; }
+  </style>
+</head>
+<body>
+  <h1>🔍 Diagnóstico de Configuración Supabase</h1>
+  <div id="output"></div>
+
+  <script type="module">
+    const output = document.getElementById('output');
+
+    function log(message, isError = false) {
+      const div = document.createElement('div');
+      div.className = `status ${isError ? 'error' : 'success'}`;
+      div.textContent = message;
+      output.appendChild(div);
+    }
+
+    // Verificar variables de entorno
+    const url = import.meta.env.VITE_SUPABASE_URL;
+    const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    log(`✅ VITE_SUPABASE_URL presente: ${!!url}`);
+    log(`✅ VITE_SUPABASE_ANON_KEY presente: ${!!key}`);
+    log(`✅ URL tipo: ${typeof url}`);
+    log(`✅ Key tipo: ${typeof key}`);
+    log(`✅ URL length: ${url?.length || 0}`);
+    log(`✅ Key length: ${key?.length || 0}`);
+
+    if (url) {
+      log(`✅ URL value: ${url}`);
+    } else {
+      log(`❌ URL es undefined o null`, true);
+    }
+
+    if (key) {
+      log(`✅ Key preview: ${key.substring(0, 50)}...`);
+    } else {
+      log(`❌ Key es undefined o null`, true);
+    }
+
+    // Intentar crear cliente
+    try {
+      const { createClient } = await import('@supabase/supabase-js');
+      log(`✅ @supabase/supabase-js importado correctamente`);
+
+      if (url && key) {
+        const client = createClient(url, key);
+        log(`✅ Cliente Supabase creado exitosamente`);
+
+        // Probar query
+        try {
+          const { data, error } = await client.from('projects').select('count');
+          if (error) {
+            log(`❌ Error en query: ${error.message}`, true);
+          } else {
+            log(`✅ Query exitoso: ${JSON.stringify(data)}`);
+          }
+        } catch (e) {
+          log(`❌ Error ejecutando query: ${e.message}`, true);
+        }
+      } else {
+        log(`❌ No se puede crear cliente: faltan credenciales`, true);
+      }
+    } catch (e) {
+      log(`❌ Error creando cliente: ${e.message}`, true);
+    }
+
+    // Verificar todas las variables de entorno
+    log(`\n🔍 Todas las variables VITE_*:`);
+    Object.keys(import.meta.env).forEach(key => {
+      if (key.startsWith('VITE_')) {
+        const value = import.meta.env[key];
+        log(`  ${key}: ${typeof value} (${value?.length || 0} chars)`);
+      }
+    });
+  </script>
+</body>
+</html>
