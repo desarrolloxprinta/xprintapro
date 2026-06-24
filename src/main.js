@@ -25,6 +25,10 @@ import { getProyectosHTML, initProyectosDirectory } from './pages/proyectos.js'
 import { getServiciosHTML, initServiciosDirectory } from './pages/servicios.js'
 import { getBrandCareHTML, initBrandCareDirectory } from './pages/brandcare.js'
 import { getBrandCenterHTML, initBrandCenterDirectory } from './pages/brandcenter.js'
+import { getBrandCheckHTML, initBrandCheckDirectory } from './pages/brandcheck.js'
+import { getBrandCommerceHTML, initBrandCommerceDirectory } from './pages/brandcommerce.js'
+import { getBrandGuideHTML, initBrandGuideDirectory } from './pages/brandguide.js'
+import { getBrandLegalHTML, initBrandLegalDirectory } from './pages/brandlegal.js'
 
 // ==========================================================================
 // Router - Sistema de Layout Universal (AHORA ASYNC)
@@ -54,6 +58,18 @@ async function loadPage() {
   } else if (pageType === 'brandcenter') {
     // Servicio Individual BrandCenter
     app.innerHTML = await getBrandCenterHTML();
+  } else if (pageType === 'brandcheck') {
+    // Servicio Individual BrandCheck
+    app.innerHTML = await getBrandCheckHTML();
+  } else if (pageType === 'brandcommerce') {
+    // Servicio Individual BrandCommerce
+    app.innerHTML = await getBrandCommerceHTML();
+  } else if (pageType === 'brandguide') {
+    // Servicio Individual BrandGuide
+    app.innerHTML = await getBrandGuideHTML();
+  } else if (pageType === 'brandlegal') {
+    // Servicio Individual BrandLegal
+    app.innerHTML = await getBrandLegalHTML();
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();

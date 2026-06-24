@@ -98,8 +98,8 @@ export const renderHeader = async () => {
                 <div class="mega-menu-column">
                   <span class="mega-menu-title">Soluciones Brand</span>
                   <div class="mega-menu-links">
-                    <a href="#" class="mega-menu-link">BRANDCOMMERCE</a>
-                    <a href="#" class="mega-menu-link">BRANDCHECK</a>
+                    <a href="/brandcommerce.html" class="mega-menu-link">BRANDCOMMERCE</a>
+                    <a href="/brandcheck.html" class="mega-menu-link">BRANDCHECK</a>
                     <a href="#" class="mega-menu-link">BRAND SURVEYS</a>
                     <a href="#" class="mega-menu-link">BRANDSIGNAL</a>
                     <a href="#" class="mega-menu-link">BRANDVISION</a>
@@ -108,11 +108,11 @@ export const renderHeader = async () => {
                 <div class="mega-menu-column">
                   <span class="mega-menu-title">Gestión y Legal</span>
                   <div class="mega-menu-links">
-                    <a href="#" class="mega-menu-link">BRANDGUIDE</a>
-                    <a href="#" class="mega-menu-link">BRANDCENTER</a>
+                    <a href="/brandguide.html" class="mega-menu-link">BRANDGUIDE</a>
+                    <a href="/brandcenter.html" class="mega-menu-link">BRANDCENTER</a>
                     <a href="#" class="mega-menu-link">BRANDTOOLS</a>
-                    <a href="#" class="mega-menu-link">BRANDCARE</a>
-                    <a href="#" class="mega-menu-link">BRANDLEGAL</a>
+                    <a href="/brandcare.html" class="mega-menu-link">BRANDCARE</a>
+                    <a href="/brandlegal.html" class="mega-menu-link">BRANDLEGAL</a>
                   </div>
                 </div>
               </div>
