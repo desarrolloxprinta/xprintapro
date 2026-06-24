@@ -382,8 +382,8 @@ const renderProjectContent = (data) => `
  *
  * document.querySelector('#app').innerHTML = createProjectPage(redeiaData)
  */
-export const createProjectPage = (projectData) => {
-  return createLayout({
+export const createProjectPage = async (projectData) => {
+  return await createLayout({
     content: `
       ${renderProjectContent(projectData)}
       <div class="custom-cursor__dot"></div>

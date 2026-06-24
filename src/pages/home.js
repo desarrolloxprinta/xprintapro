@@ -7,6 +7,10 @@
 
 import { createLayout } from '../layout.js'
 import content from '../data/content.json'
+import { getRecentProjects } from '../lib/supabase.js'
+
+// Cache de proyectos para el home
+let homeProjectsCache = null;
 
 /**
  * Renderiza el Hero con slider de imágenes
@@ -214,9 +218,39 @@ const renderProceso = () => `
 `
 
 /**
- * Renderiza la galería de proyectos destacados
+ * Carga proyectos recientes desde Supabase
+ * @param {number} limit - Número de proyectos a cargar
+ * @returns {Promise<Array>} Proyectos recientes
  */
-const renderProyectos = () => `
+async function loadHomeProjects(limit = 6) {
+  if (homeProjectsCache) return homeProjectsCache;
+
+  try {
+    const projects = await getRecentProjects(limit);
+    homeProjectsCache = projects.map(p => ({
+      slug: p.slug, // IMPORTANTE: agregar slug para detección de videos
+      title: p.client_name || p.title.split(' ').slice(0, 2).join(' '), // Ej: "Arval", "Redeia"
+      category: p.category || p.sector,
+      description: p.short_description || p.client_description,
+      image: p.hero_image || p.hero_video,
+      url: `/proyecto-${p.slug}.html` // Arreglado: usar formato correcto /proyecto-slug.html
+    }));
+    return homeProjectsCache;
+  } catch (error) {
+    console.error('Error cargando proyectos para home:', error);
+    // Fallback a content.json si falla
+    return content.proyectos;
+  }
+}
+
+/**
+ * Renderiza la galería de proyectos destacados
+ * AHORA ES DINÁMICO - carga desde Supabase
+ */
+const renderProyectos = async () => {
+  const proyectos = await loadHomeProjects(6);
+
+  return `
   <section id="proyectos" class="nw-proyectos-section">
     <div class="nw-proyectos-header gsap-reveal">
       <h2 class="nw-proyectos-title">
@@ -235,13 +269,15 @@ const renderProyectos = () => `
     </div>
 
     <div class="nw-grid">
-      ${content.proyectos.map((proj, i) => {
-        const isParadigma = proj.title.toLowerCase() === 'paradigma';
-        const isRedeia = proj.title.toLowerCase() === 'redeia';
-        const isFoster = proj.title.toLowerCase() === "foster's hollywood";
-        const isIberia = proj.title.toLowerCase() === 'iberia express';
-        const isRemax = proj.title.toLowerCase() === 'remax prime';
-        const isHelloCars = proj.title.toLowerCase() === 'hello cars';
+      ${proyectos.map((proj, i) => {
+        // IMPORTANTE: Usar slug en lugar de title para detección confiable
+        const isParadigma = proj.slug === 'paradigma';
+        const isRedeia = proj.slug === 'redeia';
+        const isFoster = proj.slug === 'fosters-hollywood';
+        const isIberia = proj.slug === 'iberia-express';
+        const isRemax = proj.slug === 'remax-prime';
+        const isHelloCars = proj.slug === 'hello-cars';
+        const isArval = proj.slug === 'arval';
         return `
         <article class="nw-project-card gsap-reveal item-${i + 1}" data-cursor="nw-view">
           <a href="${proj.url || '#'}" class="nw-project-link">
@@ -262,6 +298,9 @@ const renderProyectos = () => `
             ` : ''}
             ${isHelloCars ? `
               <video src="/imagen central hero/hellocars_hover.mp4" loop muted playsinline class="nw-project-video"></video>
+            ` : ''}
+            ${isArval ? `
+              <video src="/proyectos/arval/arval-rotulo-animado.mp4" loop muted playsinline class="nw-project-video"></video>
             ` : ''}
             <img src="${proj.image}" alt="${proj.title}" class="nw-project-image" />
             <div class="nw-project-overlay">
@@ -284,6 +323,7 @@ const renderProyectos = () => `
     </div>
   </section>
 `
+}
 
 /**
  * Renderiza el marquee de logos de clientes
@@ -365,22 +405,25 @@ const renderContacto = () => `
 /**
  * Genera el HTML completo de la página home
  * usando el sistema de layout universal
+ * AHORA ES ASYNC - carga proyectos dinámicamente desde Supabase
  *
- * @returns {string} HTML completo con header + home + footer
+ * @returns {Promise<string>} HTML completo con header + home + footer
  */
-export const getHomeHTML = () => {
-  return createLayout({
+export const getHomeHTML = async () => {
+  const proyectosSection = await renderProyectos();
+
+  return await createLayout({
     content: `
       ${renderHero()}
       ${renderSectores()}
       ${renderMapa()}
       ${renderProceso()}
-      ${renderProyectos()}
+      ${proyectosSection}
       ${renderMarquee()}
       ${renderContacto()}
       <div class="custom-cursor__dot"></div>
       <div class="custom-cursor__ring"><span class="custom-cursor__text"></span></div>
     `,
     pageClass: 'page-home'
-  })
+  });
 }

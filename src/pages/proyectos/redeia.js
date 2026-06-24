@@ -14,6 +14,6 @@ import redeiaData from '../../data/projects/redeia.json'
  * Genera el HTML completo del proyecto Redeia
  * usando la plantilla universal
  *
- * @returns {string} HTML completo con header + proyecto + footer
+ * @returns {Promise<string>} HTML completo con header + proyecto + footer
  */
-export const getRedeiaHTML = () => createProjectPage(redeiaData)
+export const getRedeiaHTML = async () => await createProjectPage(redeiaData)

@@ -14,6 +14,6 @@ import arvalData from '../../data/projects/arval.json'
  * Genera el HTML completo del proyecto Arval
  * usando la plantilla universal
  *
- * @returns {string} HTML completo con header + proyecto + footer
+ * @returns {Promise<string>} HTML completo con header + proyecto + footer
  */
-export const getArvalHTML = () => createProjectPage(arvalData)
+export const getArvalHTML = async () => await createProjectPage(arvalData)

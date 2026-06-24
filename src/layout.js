@@ -16,14 +16,44 @@
  */
 
 import content from './data/content.json'
+import { getRecentProjects } from './lib/supabase.js'
+
+// Cache de proyectos recientes para el header
+let headerProjectsCache = null;
+
+/**
+ * Carga los 3 proyectos más recientes para el mega-menu
+ * @returns {Promise<Array>} Proyectos recientes
+ */
+async function loadHeaderProjects() {
+  if (headerProjectsCache) return headerProjectsCache;
+
+  try {
+    const projects = await getRecentProjects(3);
+    headerProjectsCache = projects.map(p => ({
+      title: p.title,
+      description: p.short_description || p.client_description,
+      image: p.hero_image || p.hero_video,
+      url: `/proyecto-${p.slug}.html` // Arreglado: usar formato correcto /proyecto-slug.html
+    }));
+    return headerProjectsCache;
+  } catch (error) {
+    console.error('Error cargando proyectos para header:', error);
+    // Fallback a content.json si falla
+    return content.proyectos.slice(0, 3);
+  }
+}
 
 /**
  * Renderiza el header/navbar universal
- * Ya existe en main.js, aquí solo lo importamos/referenciamos
+ * Ahora es DINÁMICO - carga proyectos desde Supabase
  *
- * @returns {string} HTML del header
+ * @returns {Promise<string>} HTML del header
  */
-export const renderHeader = () => `
+export const renderHeader = async () => {
+  const proyectosHeader = await loadHeaderProjects();
+
+  return `
   <header class="site-header">
     <div class="container-fluid navbar">
       <a href="/" class="navbar-brand">
@@ -32,12 +62,12 @@ export const renderHeader = () => `
       <nav class="navbar-nav">
 
         <div class="nav-item-dropdown">
-          <a href="#proyectos" class="nav-link">Proyectos <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="/proyectos.html" class="nav-link">Proyectos <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-proyectos-inner">
-              ${content.proyectos.slice(0, 3).map(proj => `
+              ${proyectosHeader.map(proj => `
                 <div class="mega-menu-proyectos-card">
-                  <a href="${proj.url || '#proyectos'}" class="mega-menu__link-block">
+                  <a href="${proj.url}" class="mega-menu__link-block">
                     <img src="${proj.image}" alt="${proj.title}" class="mega-menu-proyectos-image" />
                     <h4 class="mega-menu-proyectos-title">${proj.title}</h4>
                     <p class="mega-menu-proyectos-desc">${proj.description}</p>
@@ -49,7 +79,7 @@ export const renderHeader = () => `
               `).join('')}
             </div>
             <div class="container-fluid mega-menu__footer-actions">
-              <a href="#proyectos" class="btn-regius">
+              <a href="/proyectos.html" class="btn-regius">
                 <div class="btn-regius-text-wrapper">
                   <div class="btn-regius-text _1">Ver todos los proyectos</div>
                   <div class="btn-regius-text _2">Ver todos los proyectos</div>
@@ -197,6 +227,7 @@ export const renderHeader = () => `
     </div>
   </header>
 `
+}
 
 /**
  * Renderiza el footer universal
@@ -294,15 +325,19 @@ export const renderFooter = () => `
  * @param {Object} options - Opciones del layout
  * @param {string} options.content - Contenido HTML de la página
  * @param {string} [options.pageClass=''] - Clase CSS adicional para el main
- * @returns {string} HTML completo con header + contenido + footer
+ * @returns {Promise<string>} HTML completo con header + contenido + footer (AHORA ES ASYNC)
  */
-export const createLayout = ({ content, pageClass = '' }) => `
-  ${renderHeader()}
+export const createLayout = async ({ content, pageClass = '' }) => {
+  const header = await renderHeader();
+
+  return `
+  ${header}
   <main class="${pageClass}">
     ${content}
   </main>
   ${renderFooter()}
-`
+`;
+}
 
 /**
  * Inicializa el header dinámico

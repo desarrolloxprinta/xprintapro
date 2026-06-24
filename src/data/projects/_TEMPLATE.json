@@ -1,0 +1,133 @@
+{
+  "// COMENTARIO": "Este es un template completo para crear nuevos proyectos",
+  "// USO": "1. Copiar este archivo, 2. Renombrar a tu-proyecto.json, 3. Completar todos los campos",
+
+  "id": "slug-del-proyecto",
+  "title": "Título Completo del Proyecto - Descripción Breve",
+  "createdDate": "2024-06-23",
+  "category": "Sector / Tipo de Proyecto",
+  "shortDescription": "Descripción breve de 1-2 líneas que aparecerá en las cards del home y en el meta description",
+
+  "hero": {
+    "// NOTA": "Incluir video O image (al menos uno obligatorio)",
+    "video": "/proyectos/tu-proyecto/hero-video.mp4",
+    "image": "/proyectos/tu-proyecto/hero-image.jpg"
+  },
+
+  "client": {
+    "name": "Nombre del Cliente",
+    "description": "Descripción del cliente: historia, sector, tamaño de la empresa, etc. Esto aparece en la sección meta bento."
+  },
+
+  "sector": "Sector Industrial / Tipo de Cliente",
+
+  "service": {
+    "title": "Nombre del Servicio Prestado",
+    "logo": "/proyectos/tu-proyecto/logo-cliente.webp"
+  },
+
+  "// SECCIÓN LOCATION - OPCIONAL": "Si el proyecto tiene ubicación física, incluir esta sección",
+  "location": {
+    "title": "Nombre de la Ubicación o Alcance",
+    "description": "Descripción de la ubicación, alcance geográfico, particularidades del emplazamiento, etc.",
+    "type": "single",
+    "// type OPCIONES": "single (un marcador, zoom 11) o national (múltiples marcadores, auto-fit)",
+    "markers": [
+      { "lat": 40.4168, "lng": -3.7038 }
+    ],
+    "// markers EJEMPLO múltiples": [
+      { "lat": 40.4168, "lng": -3.7038 },
+      { "lat": 41.3851, "lng": 2.1734 },
+      { "lat": 39.4699, "lng": -0.3774 }
+    ]
+  },
+
+  "// SECCIÓN STORY - OPCIONAL PERO RECOMENDADA": "Desafío y Solución del proyecto",
+  "story": {
+    "challengeTitle": "Título del <span style=\"font-style: italic; color: var(--color-highlight);\">desafío</span>.",
+    "challenge": "Descripción completa del desafío o reto que presentaba el proyecto. Incluir contexto, limitaciones técnicas, plazos ajustados, complejidades específicas, etc.",
+    "challengeImage": "/proyectos/tu-proyecto/challenge-image.jpg",
+
+    "solutionTitle": "Título de la <span style=\"font-style: italic; color: var(--color-highlight);\">solución</span>.",
+    "solution": "Descripción detallada de cómo se resolvió el desafío. Incluir metodología, tecnologías aplicadas, coordinación de equipos, innovaciones implementadas, etc.",
+    "solutionImage": "/proyectos/tu-proyecto/solution-image.jpg"
+  },
+
+  "// SECCIÓN BLUEPRINTS - OPCIONAL": "Planos técnicos con scroll-spy sincronizado",
+  "blueprints": [
+    "/proyectos/tu-proyecto/plano-1.jpg",
+    "/proyectos/tu-proyecto/plano-2.jpg",
+    "/proyectos/tu-proyecto/plano-3.jpg",
+    "/proyectos/tu-proyecto/plano-4.jpg"
+  ],
+  "blueprintSteps": [
+    {
+      "title": "Paso 1: Título Técnico",
+      "description": "Descripción técnica detallada del primer aspecto del proyecto: cotas, materiales, especificaciones, etc."
+    },
+    {
+      "title": "Paso 2: Título Técnico",
+      "description": "Descripción técnica del segundo aspecto: sistema eléctrico, anclajes, acabados, etc."
+    },
+    {
+      "title": "Paso 3: Título Técnico",
+      "description": "Descripción técnica del tercer aspecto: instalación, montaje, pruebas, etc."
+    },
+    {
+      "title": "Paso 4: Título Técnico",
+      "description": "Descripción técnica del cuarto aspecto: certificaciones, normativas, garantías, etc."
+    }
+  ],
+  "// IMPORTANTE blueprintSteps": "Debe tener el MISMO número de elementos que blueprints",
+
+  "// SECCIÓN RENDER 3D - OPCIONAL": "Modelo 3D interactivo",
+  "render3d": {
+    "title": "Modelo 3D Interactivo",
+    "description": "Explora el proyecto en detalle desde todos los ángulos. Visualiza la estructura, los materiales y los acabados antes de la instalación final.",
+    "model": "https://example.com/modelo-3d.glb"
+  },
+  "// FORMATO render3d.model": "GLB o GLTF (recomendado: GLB comprimido)",
+
+  "// SECCIÓN GALLERY - OPCIONAL PERO RECOMENDADA": "Galería de fotos finales",
+  "gallery": [
+    {
+      "image": "/proyectos/tu-proyecto/foto-principal.jpg",
+      "alt": "Descripción de la foto principal",
+      "gridCols": 8,
+      "height": "80vh",
+      "// NOTA gridCols": "4 = 33%, 8 = 66%, 12 = 100% del ancho"
+    },
+    {
+      "image": "/proyectos/tu-proyecto/foto-detalle-1.jpg",
+      "alt": "Descripción del detalle 1",
+      "gridCols": 4,
+      "height": "80vh"
+    },
+    {
+      "image": "/proyectos/tu-proyecto/foto-detalle-2.jpg",
+      "alt": "Descripción del detalle 2",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/tu-proyecto/foto-detalle-3.jpg",
+      "alt": "Descripción del detalle 3",
+      "gridCols": 4,
+      "height": "60vh"
+    },
+    {
+      "image": "/proyectos/tu-proyecto/foto-detalle-4.jpg",
+      "alt": "Descripción del detalle 4",
+      "gridCols": 4,
+      "height": "60vh"
+    }
+  ],
+  "// LAYOUTS RECOMENDADOS gallery": "Hero principal (8 cols, 80vh), secundarias (4 cols, 60vh), fullwidth (12 cols, 100vh)",
+
+  "// SECCIÓN TESTIMONIAL - OPCIONAL": "Testimonio del cliente",
+  "testimonial": {
+    "quote": "Cita textual del cliente sobre el proyecto. Puede incluir <span style=\"font-style: italic; color: var(--color-highlight);\">palabras destacadas</span> para dar énfasis a conceptos clave.",
+    "author": "Nombre del Autor del Testimonio",
+    "role": "Cargo / Departamento / Empresa"
+  }
+}

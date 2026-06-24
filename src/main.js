@@ -1,4 +1,5 @@
 import './style.css'
+import './styles/proyectos.css'
 import content from './data/content.json'
 import puntos from './data/puntos.json'
 import { gsap } from 'gsap'
@@ -14,28 +15,55 @@ gsap.registerPlugin(ScrollTrigger)
 // Imports - Sistema Universal
 // ==========================================================================
 
-import { initProyectoAnimations } from './template-proyecto.js'
 import { initDynamicHeader } from './layout.js'
 import { getRedeiaHTML } from './pages/proyectos/redeia.js'
 import { getArvalHTML } from './pages/proyectos/arval.js'
 import { getHomeHTML } from './pages/home.js'
+import { getProyectosHTML, initProyectosDirectory } from './pages/proyectos.js'
 
 // ==========================================================================
-// Router - Sistema de Layout Universal
+// Router - Sistema de Layout Universal (AHORA ASYNC)
 // ==========================================================================
 
 const pageType = document.body.dataset.page;
 
-if (pageType === 'proyecto-redeia') {
-  // Proyecto Redeia usando plantilla universal
-  document.querySelector('#app').innerHTML = getRedeiaHTML()
-} else if (pageType === 'proyecto-arval') {
-  // Proyecto Arval usando plantilla universal
-  document.querySelector('#app').innerHTML = getArvalHTML()
-} else {
-  // Home usando plantilla universal
-  document.querySelector('#app').innerHTML = getHomeHTML()
+// Función async para cargar páginas dinámicamente
+async function loadPage() {
+  const app = document.querySelector('#app');
+
+  if (pageType === 'proyecto-redeia') {
+    // Proyecto Redeia usando plantilla universal
+    app.innerHTML = await getRedeiaHTML();
+  } else if (pageType === 'proyecto-arval') {
+    // Proyecto Arval usando plantilla universal
+    app.innerHTML = await getArvalHTML();
+  } else if (pageType === 'proyectos') {
+    // Directorio de Proyectos - Carga dinámica desde Supabase
+    app.innerHTML = await getProyectosHTML();
+  } else {
+    // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
+    app.innerHTML = await getHomeHTML();
+  }
+
+  // IMPORTANTE: Inicializar header dinámico DESPUÉS de cargar el HTML
+  // Esperar un tick para que el DOM se actualice
+  setTimeout(() => {
+    initDynamicHeader();
+  }, 0);
+
+  // IMPORTANTE: Inicializar animaciones en TODAS las páginas
+  // (incluye cursor personalizado, smooth scroll, y animaciones con condicionales)
+  initAnimations();
+
+  if (pageType === 'proyectos') {
+    initProyectosDirectory();
+  }
 }
+
+// Cargar la página
+loadPage().catch(error => {
+  console.error('Error cargando página:', error);
+});
 
 // ==========================================================================
 // Initialization & Animations
@@ -166,34 +194,40 @@ const initAnimations = () => {
   })
   gsap.ticker.lagSmoothing(0)
 
-  // 2. Hero Entry Animation (Butter smooth reveal)
-  const tl = gsap.timeline({ 
-    defaults: { ease: 'power4.out', duration: 1.5 },
-    onComplete: () => {
-      document.querySelector('.ark-hero-desc')?.classList.add('revealed');
-    }
-  })
-  tl.to('#hero .gsap-reveal', {
-    y: 0,
-    opacity: 1,
-    visibility: 'visible',
-    stagger: 0.2,
-    duration: 1.5
-  }, "-=1")
+  // 2. Hero Entry Animation (Butter smooth reveal) - Solo para páginas de proyecto
+  const heroElement = document.querySelector('#hero');
+  if (heroElement && document.querySelector('#hero .gsap-reveal')) {
+    const tl = gsap.timeline({
+      defaults: { ease: 'power4.out', duration: 1.5 },
+      onComplete: () => {
+        document.querySelector('.ark-hero-desc')?.classList.add('revealed');
+      }
+    })
+    tl.to('#hero .gsap-reveal', {
+      y: 0,
+      opacity: 1,
+      visibility: 'visible',
+      stagger: 0.2,
+      duration: 1.5
+    }, "-=1")
 
-  // Parallax glass scroll effect
-  gsap.to('.ark-hero-content', {
-    scrollTrigger: {
-      trigger: '#hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true
-    },
-    y: -80,
-    opacity: 0.15,
-    filter: 'blur(8px)',
-    ease: 'none'
-  });
+    // Parallax glass scroll effect
+    const arkHeroContent = document.querySelector('.ark-hero-content');
+    if (arkHeroContent) {
+      gsap.to('.ark-hero-content', {
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        },
+        y: -80,
+        opacity: 0.15,
+        filter: 'blur(8px)',
+        ease: 'none'
+      });
+    }
+  }
 
   // 3. ScrollTrigger Reveal for normal sections
   const revealElements = document.querySelectorAll('.gsap-reveal:not(#hero .gsap-reveal):not(.gsap-bento-item)')
@@ -230,47 +264,50 @@ const initAnimations = () => {
     })
   }
 
-  // 5. Interactive Pinned Scroll Timeline (Map Section)
-  const initMapAnimation = () => {
-    // Create a timeline that is locked to the scrollbar
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#red-nacional-container",
-        pin: true,           // Locks the section on the screen
-        start: "top top+=100px", // Pin it securely below the fixed navbar
-        end: "+=200%",       // Forces the user to scroll down an extra 200% of height to finish the animation
-        scrub: 1             // Smoothly scrub the timeline based on scroll position
-      }
-    })
+  // 5. Interactive Pinned Scroll Timeline (Map Section) - Solo para páginas de proyecto
+  const redNacionalContainer = document.querySelector('#red-nacional-container');
+  if (redNacionalContainer) {
+    const initMapAnimation = () => {
+      // Create a timeline that is locked to the scrollbar
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#red-nacional-container",
+          pin: true,           // Locks the section on the screen
+          start: "top top+=100px", // Pin it securely below the fixed navbar
+          end: "+=200%",       // Forces the user to scroll down an extra 200% of height to finish the animation
+          scrub: 1             // Smoothly scrub the timeline based on scroll position
+        }
+      })
 
-    // Fade the map AND the title in throughout the scroll duration
-    tl.to("#static-map-image", { opacity: 0.8, duration: 4 }, 0)
-    tl.to("#red-nacional-title", { opacity: 1, duration: 4 }, 0)
+      // Fade the map AND the title in throughout the scroll duration
+      tl.to("#static-map-image", { opacity: 0.8, duration: 4 }, 0)
+      tl.to("#red-nacional-title", { opacity: 1, duration: 4 }, 0)
 
-    // Sequence the stats
-    const statBlocks = document.querySelectorAll('.stat-block')
-    statBlocks.forEach((block, index) => {
-      const counter = block.querySelector('.stat-counter')
-      const startPos = index * 1.2 // Stagger the start time of each block
-      
-      // Block slides up and fades in
-      tl.to(block, { opacity: 1, y: 0, duration: 1 }, startPos)
+      // Sequence the stats
+      const statBlocks = document.querySelectorAll('.stat-block')
+      statBlocks.forEach((block, index) => {
+        const counter = block.querySelector('.stat-counter')
+        const startPos = index * 1.2 // Stagger the start time of each block
 
-      if (counter) {
-        const target = +counter.getAttribute('data-target')
-        let obj = { val: 0 }
-        // Counter increments synchronously
-        tl.to(obj, {
-          val: target,
-          duration: 1,
-          onUpdate: () => {
-            counter.innerHTML = Math.floor(obj.val).toLocaleString('es-ES')
-          }
-        }, startPos)
-      }
-    })
+        // Block slides up and fades in
+        tl.to(block, { opacity: 1, y: 0, duration: 1 }, startPos)
+
+        if (counter) {
+          const target = +counter.getAttribute('data-target')
+          let obj = { val: 0 }
+          // Counter increments synchronously
+          tl.to(obj, {
+            val: target,
+            duration: 1,
+            onUpdate: () => {
+              counter.innerHTML = Math.floor(obj.val).toLocaleString('es-ES')
+            }
+          }, startPos)
+        }
+      })
+    }
+    initMapAnimation()
   }
-  initMapAnimation()
 
   // 6. Interactive Pinned Scroll for Process (Must init AFTER Map)
   const initProcessAnimation = () => {
@@ -524,16 +561,325 @@ const initAnimations = () => {
       }
     });
   }
+
+  // PROJECT PAGE GOOGLE MAPS INITIALIZATION
+  if (document.getElementById('google-map')) {
+    window.initProjectMap = () => {
+      const mapElement = document.getElementById('google-map');
+
+      // Premium styled map
+      const mapStyle = [
+        {featureType: "administrative.province", elementType: "all", stylers: [{visibility: "off"}]},
+        {featureType: "administrative.locality", elementType: "labels", stylers: [{lightness: "-8"}]},
+        {featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{color: "#000000"}]},
+        {featureType: "administrative.locality", elementType: "labels.text.stroke", stylers: [{visibility: "off"}]},
+        {featureType: "administrative.neighborhood", elementType: "all", stylers: [{color: "#acacac"}]},
+        {featureType: "administrative.neighborhood", elementType: "labels.text.fill", stylers: [{color: "#484848"}]},
+        {featureType: "administrative.neighborhood", elementType: "labels.text.stroke", stylers: [{color: "#ff0000"}, {visibility: "off"}]},
+        {featureType: "landscape", elementType: "all", stylers: [{hue: "#FFAD00"}, {saturation: 10.2}, {lightness: -10.2}, {gamma: 1}]},
+        {featureType: "poi", elementType: "all", stylers: [{hue: "#FFAD00"}, {saturation: "7.7"}, {lightness: "-5.47"}, {gamma: 1}]},
+        {featureType: "poi.school", elementType: "all", stylers: [{lightness: "-2"}, {gamma: "1.00"}]},
+        {featureType: "road.highway", elementType: "all", stylers: [{hue: "#FFAD00"}, {saturation: -52.2}, {lightness: -4.6}, {gamma: 1}]},
+        {featureType: "road.arterial", elementType: "all", stylers: [{hue: "#FFAD00"}, {saturation: -17.8}, {lightness: -4.3}, {gamma: 1}]},
+        {featureType: "road.local", elementType: "all", stylers: [{hue: "#FFAD00"}, {saturation: -22}, {lightness: -3.9}, {gamma: 1}]},
+        {featureType: "transit", elementType: "all", stylers: [{visibility: "on"}]},
+        {featureType: "water", elementType: "all", stylers: [{hue: "#FFAD00"}, {saturation: -78}, {lightness: 67.6}, {gamma: 1}]}
+      ];
+
+      const map = new google.maps.Map(mapElement, {
+        zoom: 6.6,
+        center: { lat: 39.5, lng: -6.5 },
+        styles: mapStyle,
+        disableDefaultUI: true,
+        backgroundColor: '#0a0a0a',
+        gestureHandling: "none"
+      });
+
+      const markersStr = mapElement.getAttribute('data-markers');
+      if (markersStr) {
+        try {
+          const markers = JSON.parse(markersStr);
+          const bounds = new google.maps.LatLngBounds();
+
+          const markerIcon = {
+            path: "M 0,0 m -10,0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0",
+            fillColor: '#F18108',
+            fillOpacity: 1,
+            strokeWeight: 2,
+            strokeColor: '#ffffff',
+            scale: 1.4
+          };
+
+          markers.forEach(markerPos => {
+            new google.maps.Marker({
+              position: markerPos,
+              map: map,
+              icon: markerIcon
+            });
+            bounds.extend(markerPos);
+          });
+
+          if (markers.length > 0) {
+            setTimeout(() => {
+              if (markers.length === 1) {
+                // Un solo marcador: centrarlo y desplazar hacia la derecha
+                // para compensar el gradiente negro de la izquierda
+                map.setCenter(markers[0]);
+                map.setZoom(11);
+
+                // Desplazar el mapa hacia la derecha (25% del ancho del contenedor)
+                // para que el marcador quede más visible en la parte derecha
+                const mapWidth = mapElement.offsetWidth;
+                map.panBy(-mapWidth * 0.25, 0);
+              } else {
+                // Múltiples marcadores: usar padding asimétrico
+                // Más padding a la izquierda para compensar el gradiente negro
+                map.fitBounds(bounds, {
+                  left: mapElement.offsetWidth * 0.35,   // 35% padding izquierda
+                  right: mapElement.offsetWidth * 0.05,  // 5% padding derecha
+                  top: 50,
+                  bottom: 50
+                });
+              }
+            }, 100);
+          }
+        } catch (e) {
+          console.error('Error parsing markers:', e);
+        }
+      }
+    };
+
+    if (window.google && window.google.maps) {
+      window.initProjectMap();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAI2t5YjVo0PA48446eeMzLwUgRrrSz9sw&callback=initProjectMap';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  }
+
+  // PROJECT PAGE LIGHTBOX INITIALIZATION
+  // Inject Lightbox HTML if not exists
+  if (!document.getElementById('nw-lightbox')) {
+    const lb = document.createElement('div');
+    lb.id = 'nw-lightbox';
+    lb.innerHTML = '<img src="" alt="Zoomed view" />';
+    document.body.appendChild(lb);
+
+    // Close lightbox on click
+    lb.addEventListener('click', () => {
+      lb.classList.remove('active');
+      setTimeout(() => lb.querySelector('img').src = '', 400); // clean up after fade
+    });
+  }
+
+  // Bind Lightbox clicks to blueprint and gallery images
+  document.querySelectorAll('.blueprint-pinned-img, .parallax-img').forEach(img => {
+    img.classList.add('lightbox-trigger');
+    img.addEventListener('click', () => {
+      const lb = document.getElementById('nw-lightbox');
+      lb.querySelector('img').src = img.src;
+      lb.classList.add('active');
+    });
+  });
+
+  // PROJECT PAGE ANIMATIONS (Noteworthy style)
+  const projectHero = document.querySelector('.project-hero');
+  if (projectHero) {
+    // 1. Hero Load Timeline - Animate title and media
+    const heroTitleInner = document.querySelector('.hero-title-inner');
+    const heroMediaWrapper = document.querySelector('.hero-media-wrapper');
+
+    if (heroTitleInner && heroMediaWrapper) {
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+      tl.to('.hero-title-inner', {
+        y: '0%',
+        duration: 1.8,
+        delay: 0.1
+      })
+      .to('.hero-media-wrapper', {
+        clipPath: 'inset(0% 0% 0% 0% round 0px)',
+        duration: 2.2,
+        ease: 'expo.inOut'
+      }, "-=1.5");
+    }
+
+    // 2. Hero Scroll Parallax
+    const heroTextContainer = document.querySelector('.hero-text-container');
+    if (heroTextContainer) {
+      gsap.to('.hero-text-container', {
+        yPercent: -60,
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.project-hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    }
+
+    if (heroMediaWrapper) {
+      gsap.to('.hero-media-wrapper', {
+        scale: 0.92,
+        yPercent: 15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.project-hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    }
+
+    // 3. 3D Model Fade In
+    if (document.querySelector('.project-render')) {
+      gsap.from('.project-render', {
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: '.project-render',
+          start: 'top 80%',
+        }
+      });
+    }
+
+    // 4. Parallax Images
+    document.querySelectorAll('.parallax-img').forEach(img => {
+      gsap.to(img, {
+        yPercent: 20,
+        ease: "none",
+        scrollTrigger: {
+          trigger: img.parentElement,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+    });
+
+    // 5. Blueprint Scroll-Spy Animation
+    const blueprintBlocks = document.querySelectorAll('.blueprint-text-block');
+    if (blueprintBlocks.length > 0) {
+      blueprintBlocks.forEach((block, i) => {
+        ScrollTrigger.create({
+          trigger: block,
+          start: 'top 60%',
+          end: 'bottom 60%',
+          onEnter: () => {
+            gsap.to('.blueprint-pinned-wrapper', { opacity: 0, pointerEvents: 'none', duration: 0.4 });
+            gsap.to(`.blueprint-wrap-${i}`, { opacity: 1, pointerEvents: 'auto', duration: 0.5 });
+
+            gsap.to('.blueprint-text-block', { opacity: 0.3, duration: 0.3 });
+            gsap.to(block, { opacity: 1, duration: 0.3 });
+          },
+          onEnterBack: () => {
+            gsap.to('.blueprint-pinned-wrapper', { opacity: 0, pointerEvents: 'none', duration: 0.4 });
+            gsap.to(`.blueprint-wrap-${i}`, { opacity: 1, pointerEvents: 'auto', duration: 0.5 });
+
+            gsap.to('.blueprint-text-block', { opacity: 0.3, duration: 0.3 });
+            gsap.to(block, { opacity: 1, duration: 0.3 });
+          }
+        });
+      });
+    }
+
+    // 6. Stagger reveal for project meta bento
+    if (document.querySelector('.project-meta')) {
+      ScrollTrigger.create({
+        trigger: '.project-meta',
+        start: 'top 80%',
+        onEnter: () => {
+          gsap.to('.gsap-bento-item', {
+            y: 0,
+            opacity: 1,
+            stagger: 0.15,
+            duration: 1.2,
+            ease: 'power3.out'
+          });
+        }
+      });
+    }
+  }
+
+  // DIRECTORIO DE PROYECTOS - Animaciones y filtrado
+  const projectsGrid = document.querySelector('.projects-grid');
+  if (projectsGrid) {
+    // 1. Scroll Reveal con Stagger en Cards
+    const projectCards = document.querySelectorAll('.project-card');
+    if (projectCards.length > 0) {
+      gsap.from(projectCards, {
+        scrollTrigger: {
+          trigger: projectsGrid,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        },
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power3.out'
+      });
+    }
+
+    // 2. Sistema de Filtrado
+    const filterButtons = document.querySelectorAll('.filter-inline');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+
+        // Actualizar botón activo
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filtrar proyectos con animación
+        projectCards.forEach((card, index) => {
+          const cardSector = card.dataset.sector;
+          const shouldShow = filter === 'all' || cardSector === filter;
+
+          if (shouldShow) {
+            card.classList.remove('hidden');
+            card.classList.add('visible');
+            gsap.fromTo(card,
+              { opacity: 0, y: 40, scale: 0.95 },
+              { opacity: 1, y: 0, scale: 1, duration: 0.5, delay: index * 0.1, ease: 'power2.out' }
+            );
+          } else {
+            gsap.to(card, {
+              opacity: 0,
+              scale: 0.8,
+              duration: 0.3,
+              onComplete: () => {
+                card.classList.add('hidden');
+                card.classList.remove('visible');
+              }
+            });
+          }
+        });
+      });
+    });
+
+    // 3. Header Reveal
+    const projectsHeader = document.querySelector('.projects-header');
+    if (projectsHeader) {
+      gsap.from('.projects-header .gsap-reveal', {
+        y: 40,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power3.out',
+        delay: 0.2
+      });
+    }
+  }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  // Inicializar header dinámico (importado de layout.js)
-  initDynamicHeader();
-
-  // Inicializar animaciones según tipo de página
-  if (pageType && pageType.startsWith('proyecto-')) {
-    initProyectoAnimations();
-  } else {
-    initAnimations();
-  }
+  // Nota: initDynamicHeader() ahora se llama dentro de loadPage()
+  // Nota: initAnimations() ahora se llama dentro de loadPage() para TODAS las páginas
+  //       (cursor personalizado, smooth scroll, y otras animaciones globales)
 });

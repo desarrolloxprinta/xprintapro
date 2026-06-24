@@ -1,0 +1,244 @@
+/**
+ * Estilos para Directorio de Proyectos - Xprinta Pro
+ * Layout Asimétrico 100% estilo Ignite Agency
+ */
+
+/* ========================================
+   FILTROS STICKY
+   ======================================== */
+.filter-form-sticky {
+  position: sticky;
+  top: 120px;
+  z-index: 40;
+  background-color: var(--color-background);
+  padding: 1.5rem 5vw;
+  margin-left: -5vw;
+  margin-right: -5vw;
+  margin-bottom: 3rem;
+}
+
+/* Pseudo-elemento para tapar el "hueco" del top: 120px 
+   y evitar que los proyectos se vean detrás del header */
+.filter-form-sticky::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background-color: var(--color-background);
+  pointer-events: none;
+}
+
+.projects-filters-inline {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-inline {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.filter-inline:hover, .filter-inline.active {
+  color: var(--color-primary);
+}
+
+.filter-inline::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.filter-inline:hover::after, .filter-inline.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ========================================
+   LAYOUT PRINCIPAL: MENÚ + CONTENIDO
+   ======================================== */
+.work_component {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 4vw;
+  align-items: start;
+}
+
+/* ========================================
+   MENÚ DE NAVEGACIÓN (IZQUIERDA)
+   ======================================== */
+.work_project-nav {
+  position: sticky;
+  top: 200px;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+}
+.work_project-nav::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.work_project-nav_items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.work_item_title {
+  text-decoration: none;
+  color: var(--color-text-muted);
+  font-size: 1.4rem;
+  display: inline-block;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.6;
+}
+
+.work_item_toggle:hover .work_item_title {
+  opacity: 1;
+  transform: translateX(1rem);
+  color: var(--color-primary);
+}
+
+.work_item_toggle.is-active .work_item_title {
+  opacity: 1;
+  transform: translateX(1rem);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* ========================================
+   VISOR DE CONTENIDO (DERECHA)
+   ======================================== */
+.work_item_content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10rem; /* Espaciado gigante entre proyectos como en Ignite */
+  padding-bottom: 5rem;
+}
+
+.work_item_content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.work_item_image-container {
+  width: 100%;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background-color: var(--color-neutral-100);
+  position: relative;
+}
+
+.work_item_image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+.work_item_video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+/* Efecto hover suave sobre la imagen gigante y video */
+.work_item_image-container:hover .work_item_image {
+  transform: scale(1.05);
+}
+
+.work_item_image-container:hover .work_item_video {
+  opacity: 1;
+}
+
+/* ========================================
+   CONTENIDO INFERIOR DEL PROYECTO
+   ======================================== */
+.work_content-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  padding-top: 5%;
+}
+
+.project-tag {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-highlight);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-size-large {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.text-muted {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+/* ========================================
+   RESPONSIVE (MÓVIL / TABLET)
+   ======================================== */
+@media (max-width: 991px) {
+  .work_component {
+    grid-template-columns: 1fr;
+  }
+  
+  /* En móvil, la lista de navegación suele ocultarse o volverse un dropdown.
+     Para este caso, la ocultamos y el usuario simplemente hace scroll. */
+  .work_project-nav {
+    display: none;
+  }
+
+  .work_item_content-wrapper {
+    gap: 5rem;
+  }
+
+  .work_content-bottom {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .text-size-large {
+    font-size: 2rem;
+  }
+
+  .projects-filters-inline {
+    gap: 1.5rem;
+  }
+}
