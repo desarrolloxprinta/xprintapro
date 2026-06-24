@@ -9,6 +9,14 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+// DEBUG temporal
+console.log('🔍 Supabase config check:', {
+  hasUrl: !!supabaseUrl,
+  hasKey: !!supabaseAnonKey,
+  url: supabaseUrl,
+  keyLength: supabaseAnonKey?.length
+});
+
 // Validar que existan las credenciales
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn('⚠️ Credenciales de Supabase no configuradas. Usando datos de fallback (JSON).');
@@ -56,6 +64,13 @@ export async function getProjects(limit = null) {
     return data || [];
   } catch (error) {
     console.error('Error obteniendo proyectos:', error);
+    console.error('Error details:', {
+      message: error?.message,
+      code: error?.code,
+      details: error?.details,
+      hint: error?.hint,
+      stack: error?.stack?.substring(0, 200)
+    });
     return getFallbackProjects();
   }
 }
