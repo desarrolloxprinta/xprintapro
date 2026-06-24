@@ -136,7 +136,7 @@ export const getBrandCareHTML = async () => {
           <p style="font-size: 1.25rem; line-height: 1.6; opacity: 0.9; margin-bottom: 3rem;">
             BrandCare asegura que los rótulos de tu marca no solo se instalen correctamente, sino que sigan funcionando, comunicando y representando tu imagen con calidad a lo largo del tiempo.
           </p>
-          <a href="/servicios.html" class="button_component" style="background-color: var(--bc-white); color: var(--bc-dark);">Ver todos los Servicios</a>
+          <a href="/servicios.html" class="btn btn-primary">Ver todos los Servicios</a>
         </div>
       </section>
     </main>
@@ -145,3 +145,7 @@ export const getBrandCareHTML = async () => {
   // Usamos el layout global de header y footer
   return await createLayout({ content: layoutHTML, pageClass: 'page-brandcare' });
 }
+
+export const initBrandCareDirectory = () => {
+  // Inicialización de BrandCare si es necesaria
+};

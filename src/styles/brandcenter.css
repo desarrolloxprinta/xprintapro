@@ -1,0 +1,126 @@
+/* src/styles/brandcenter.css */
+/* Replicando la diagramación de Regius: Strategic Intermediation */
+
+.bcen-main {
+  background-color: var(--color-primary);
+  color: var(--color-tertiary);
+}
+
+.bcen-section-dark {
+  background-color: var(--color-primary);
+  color: var(--color-tertiary);
+}
+
+.bcen-section-light {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+/* HERO SECTION */
+.bcen-hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.bcen-hero-video-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.bcen-hero-bg-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--color-primary);
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.bcen-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* SPLIT LAYOUT */
+.bcen-split {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--spacing-16);
+}
+
+.bcen-split-left {
+  position: sticky;
+  top: 120px;
+}
+
+.bcen-split-title {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-snug);
+}
+
+.bcen-about-text {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-light);
+}
+
+/* VERTICAL LIST WITH DIVIDERS */
+.bcen-list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.bcen-list-item {
+  padding: var(--spacing-8) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bcen-list-item:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 3-COLUMN HORIZONTAL GRID */
+.bcen-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-8);
+  margin-top: var(--spacing-12);
+}
+
+.bcen-card {
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-8);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-tertiary);
+  transition: transform var(--transition-speed) var(--ease-out), box-shadow var(--transition-speed) var(--ease-out);
+}
+
+.bcen-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 991px) {
+  .bcen-split {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-8);
+  }
+  .bcen-split-left {
+    position: static;
+  }
+  .bcen-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}

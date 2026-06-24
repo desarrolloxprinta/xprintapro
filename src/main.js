@@ -23,7 +23,8 @@ import { getArvalHTML } from './pages/proyectos/arval.js'
 import { getHomeHTML } from './pages/home.js'
 import { getProyectosHTML, initProyectosDirectory } from './pages/proyectos.js'
 import { getServiciosHTML, initServiciosDirectory } from './pages/servicios.js'
-import { getBrandCareHTML } from './pages/brandcare.js'
+import { getBrandCareHTML, initBrandCareDirectory } from './pages/brandcare.js'
+import { getBrandCenterHTML, initBrandCenterDirectory } from './pages/brandcenter.js'
 
 // ==========================================================================
 // Router - Sistema de Layout Universal (AHORA ASYNC)
@@ -50,6 +51,9 @@ async function loadPage() {
   } else if (pageType === 'brandcare') {
     // Servicio Individual BrandCare
     app.innerHTML = await getBrandCareHTML();
+  } else if (pageType === 'brandcenter') {
+    // Servicio Individual BrandCenter
+    app.innerHTML = await getBrandCenterHTML();
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();
