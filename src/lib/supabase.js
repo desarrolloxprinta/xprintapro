@@ -9,6 +9,18 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+// DEBUG: Verificar valores en producción
+console.log('🔍 DEBUG Supabase Config:', {
+  hasUrl: !!supabaseUrl,
+  hasKey: !!supabaseAnonKey,
+  urlType: typeof supabaseUrl,
+  keyType: typeof supabaseAnonKey,
+  urlLength: supabaseUrl?.length,
+  keyLength: supabaseAnonKey?.length,
+  urlPreview: supabaseUrl?.substring(0, 30) + '...',
+  keyPreview: supabaseAnonKey?.substring(0, 30) + '...'
+});
+
 // Validar que existan las credenciales
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn('⚠️ Credenciales de Supabase no configuradas. Usando datos de fallback (JSON).');
