@@ -7,6 +7,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         redeia: resolve(__dirname, 'proyecto-redeia.html'),
+        diagnostic: resolve(__dirname, 'diagnostic.html'),
       },
     },
   },
