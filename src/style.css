@@ -588,9 +588,9 @@ a:hover {
   width: calc(100% - 56px); /* Floating width */
   height: 80px; /* JavaScript calculará dinámicamente según contenido */
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85); /* Aumentado de 0.65 a 0.85 (+20%) para mejor legibilidad */
-  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.90); /* Aumentado a 0.90 para mejor legibilidad */
   -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 24px;
   overflow: hidden; /* IMPORTANTE: Mantener hidden, el mega menu está DENTRO del header */
