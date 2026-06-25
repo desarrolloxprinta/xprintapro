@@ -23,9 +23,29 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 // Crear cliente de Supabase
-export const supabase = supabaseUrl && supabaseAnonKey
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
+let supabase = null;
+try {
+  if (supabaseUrl && supabaseAnonKey) {
+    // Limpiar valores (eliminar espacios/saltos de línea)
+    const cleanUrl = supabaseUrl.trim();
+    const cleanKey = supabaseAnonKey.trim();
+
+    console.log('🔧 Creating Supabase client with:', {
+      urlLength: cleanUrl.length,
+      keyLength: cleanKey.length,
+      urlValid: cleanUrl.startsWith('https://'),
+      keyValid: cleanKey.startsWith('eyJ')
+    });
+
+    supabase = createClient(cleanUrl, cleanKey);
+    console.log('✅ Supabase client created successfully');
+  }
+} catch (error) {
+  console.error('❌ Error creating Supabase client:', error);
+  supabase = null;
+}
+
+export { supabase };
 
 /**
  * Verifica si Supabase está configurado
