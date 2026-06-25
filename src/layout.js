@@ -205,7 +205,7 @@ export const renderHeader = async () => {
               </div>
               <div class="mega-menu-right">
                 <div class="mega-menu-card overflow-hidden">
-                  <img src="/nosotros/xprinta-home-800.jpg" alt="Equipo Xprinta" class="mega-menu-image dynamic-pan-image" />
+                  <video class="mega-menu-image" autoplay loop muted playsinline style="object-fit: cover;" src="/nosotros/nosotros-video-800.mp4"></video>
                   <div class="mega-menu-card-content">
                     <h4>Conoce nuestro equipo y filosofía</h4>
                     <a href="#nosotros" class="btn-regius outline">
