@@ -73,50 +73,53 @@ export function isSupabaseConfigured() {
  * @returns {Promise<Array>}
  */
 export async function getProjects(limit = null) {
-  if (!supabase) {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('Supabase no configurado. Retornando datos de fallback.');
     return getFallbackProjects();
   }
 
   try {
-    console.log('🔍 Starting query to Supabase...');
+    console.log('🔍 Using direct fetch to Supabase REST API...');
 
-    let query = supabase
-      .from('projects')
-      .select('*')
-      .eq('published', true)
-      .order('created_date', { ascending: false });
-
+    // Construir URL con query params
+    let url = `${supabaseUrl.trim()}/rest/v1/projects?select=*&published=eq.true&order=created_date.desc`;
     if (limit) {
-      query = query.limit(limit);
+      url += `&limit=${limit}`;
     }
 
-    console.log('📡 Executing query...');
-    const result = await query;
-    console.log('📦 Query result:', {
-      hasData: !!result.data,
-      hasError: !!result.error,
-      dataLength: result.data?.length,
-      errorMessage: result.error?.message
+    console.log('📡 Fetching from:', url.substring(0, 80) + '...');
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'apikey': supabaseAnonKey.trim(),
+        'Authorization': `Bearer ${supabaseAnonKey.trim()}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+      }
     });
 
-    if (result.error) {
-      console.error('❌ Supabase query error:', result.error);
-      throw result.error;
+    console.log('📦 Response status:', response.status, response.statusText);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('❌ HTTP error:', errorText);
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
     }
 
-    console.log('✅ Query successful, returning', result.data?.length, 'projects');
-    return result.data || [];
+    const data = await response.json();
+    console.log('✅ Query successful, returning', data?.length, 'projects');
+    return data || [];
   } catch (error) {
     console.error('Error obteniendo proyectos:', error);
     console.error('Error details:', {
       message: error?.message,
       code: error?.code,
-      details: error?.details,
-      hint: error?.hint,
       stack: error?.stack?.substring(0, 200),
-      name: error?.name,
-      cause: error?.cause
+      name: error?.name
     });
     console.warn('⚠️ Falling back to local JSON data');
     return getFallbackProjects();
