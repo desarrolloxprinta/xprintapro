@@ -37,8 +37,20 @@ try {
       keyValid: cleanKey.startsWith('eyJ')
     });
 
-    supabase = createClient(cleanUrl, cleanKey);
-    console.log('✅ Supabase client created successfully');
+    // Crear cliente con opciones explícitas
+    const options = {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false
+      },
+      global: {
+        headers: {}
+      }
+    };
+
+    supabase = createClient(cleanUrl, cleanKey, options);
+    console.log('✅ Supabase client created successfully with options:', options);
   }
 } catch (error) {
   console.error('❌ Error creating Supabase client:', error);
@@ -67,6 +79,8 @@ export async function getProjects(limit = null) {
   }
 
   try {
+    console.log('🔍 Starting query to Supabase...');
+
     let query = supabase
       .from('projects')
       .select('*')
@@ -77,11 +91,22 @@ export async function getProjects(limit = null) {
       query = query.limit(limit);
     }
 
-    const { data, error } = await query;
+    console.log('📡 Executing query...');
+    const result = await query;
+    console.log('📦 Query result:', {
+      hasData: !!result.data,
+      hasError: !!result.error,
+      dataLength: result.data?.length,
+      errorMessage: result.error?.message
+    });
 
-    if (error) throw error;
+    if (result.error) {
+      console.error('❌ Supabase query error:', result.error);
+      throw result.error;
+    }
 
-    return data || [];
+    console.log('✅ Query successful, returning', result.data?.length, 'projects');
+    return result.data || [];
   } catch (error) {
     console.error('Error obteniendo proyectos:', error);
     console.error('Error details:', {
@@ -89,8 +114,11 @@ export async function getProjects(limit = null) {
       code: error?.code,
       details: error?.details,
       hint: error?.hint,
-      stack: error?.stack?.substring(0, 200)
+      stack: error?.stack?.substring(0, 200),
+      name: error?.name,
+      cause: error?.cause
     });
+    console.warn('⚠️ Falling back to local JSON data');
     return getFallbackProjects();
   }
 }
