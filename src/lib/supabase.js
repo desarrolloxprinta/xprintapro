@@ -84,22 +84,42 @@ export async function getProjects(limit = null) {
   try {
     console.log('🔍 Using direct fetch to Supabase REST API...');
 
+    // Limpiar y validar credenciales
+    const cleanUrl = supabaseUrl.trim().replace(/\s+/g, '');
+    const cleanKey = supabaseAnonKey.trim().replace(/\s+/g, '').replace(/[\r\n]/g, '');
+
+    console.log('🔍 Credentials check:', {
+      urlLength: cleanUrl.length,
+      keyLength: cleanKey.length,
+      urlValid: cleanUrl.startsWith('https://'),
+      keyValid: cleanKey.startsWith('eyJ'),
+      keyHasSpaces: cleanKey !== cleanKey.trim(),
+      keyHasNewlines: /[\r\n]/.test(supabaseAnonKey)
+    });
+
     // Construir URL con query params
-    let url = `${supabaseUrl.trim()}/rest/v1/projects?select=*&published=eq.true&order=created_date.desc`;
+    let url = `${cleanUrl}/rest/v1/projects?select=*&published=eq.true&order=created_date.desc`;
     if (limit) {
       url += `&limit=${limit}`;
     }
 
     console.log('📡 Fetching from:', url.substring(0, 80) + '...');
 
+    // Crear headers object con validación
+    const headers = new Headers();
+    headers.append('apikey', cleanKey);
+    headers.append('Authorization', `Bearer ${cleanKey}`);
+    headers.append('Content-Type', 'application/json');
+
+    console.log('📋 Headers prepared:', {
+      hasApikey: headers.has('apikey'),
+      hasAuth: headers.has('Authorization'),
+      hasContentType: headers.has('Content-Type')
+    });
+
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        'apikey': supabaseAnonKey.trim(),
-        'Authorization': `Bearer ${supabaseAnonKey.trim()}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=representation'
-      }
+      headers: headers
     });
 
     console.log('📦 Response status:', response.status, response.statusText);
