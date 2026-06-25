@@ -204,8 +204,8 @@ export const renderHeader = async () => {
                 </div>
               </div>
               <div class="mega-menu-right">
-                <div class="mega-menu-card">
-                  <img src="https://images.pexels.com/photos/8276211/pexels-photo-8276211.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Equipo" class="mega-menu-image" />
+                <div class="mega-menu-card overflow-hidden">
+                  <img src="/nosotros/xprinta-home-800.jpg" alt="Equipo Xprinta" class="mega-menu-image dynamic-pan-image" />
                   <div class="mega-menu-card-content">
                     <h4>Conoce nuestro equipo y filosofía</h4>
                     <a href="#nosotros" class="btn-regius outline">
