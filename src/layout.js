@@ -166,7 +166,7 @@ export const renderHeader = async () => {
                   <video class="mega-menu-image" autoplay loop muted playsinline style="object-fit: cover;" src="/por-que-xprinta/Gestión%20de%20proyectos/header-remax-video.mp4"></video>
                   <div class="mega-menu-card-content">
                     <h4>Experiencia en todos los sectores productivos</h4>
-                    <a href="#por-que-xprinta" class="btn-regius outline">
+                    <a href="/proyectos.html" class="btn-regius outline">
                       <div class="btn-regius-text-wrapper">
                         <div class="btn-regius-text _1">Ver Casos de Éxito</div>
                         <div class="btn-regius-text _2">Ver Casos de Éxito</div>
