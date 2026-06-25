@@ -176,7 +176,7 @@ const renderProceso = () => `
         <div style="position: relative; display: flex; flex-direction: column; justify-content: flex-start; padding-right: 4rem;">
 
           <!-- Background Particles (expanded bounds to prevent clipping) -->
-          <div id="lottie-bar" style="position: absolute; top: 77%; left: 40%; transform: translate(-50%, -50%); width: 40%; height: 120%; z-index: 0; pointer-events: none;"></div>
+          <div id="lottie-bar" style="position: absolute; top: 82%; left: 43%; transform: translate(-50%, -50%); width: 58%; height: 170%; z-index: 0; pointer-events: none;"></div>
 
           <!-- Foreground Text -->
           <div style="position: relative; z-index: 10;">

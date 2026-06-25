@@ -100,9 +100,9 @@ export const renderHeader = async () => {
                   <div class="mega-menu-links">
                     <a href="/brandcommerce.html" class="mega-menu-link">BRANDCOMMERCE</a>
                     <a href="/brandcheck.html" class="mega-menu-link">BRANDCHECK</a>
-                    <a href="#" class="mega-menu-link">BRAND SURVEYS</a>
-                    <a href="#" class="mega-menu-link">BRANDSIGNAL</a>
-                    <a href="#" class="mega-menu-link">BRANDVISION</a>
+                    <a href="/brandsurveys.html" class="mega-menu-link">BRANDSURVEYS</a>
+                    <a href="/brandsignal.html" class="mega-menu-link">BRANDSIGNAL</a>
+                    <a href="/brandvision.html" class="mega-menu-link">BRANDVISION</a>
                   </div>
                 </div>
                 <div class="mega-menu-column">
@@ -110,7 +110,7 @@ export const renderHeader = async () => {
                   <div class="mega-menu-links">
                     <a href="/brandguide.html" class="mega-menu-link">BRANDGUIDE</a>
                     <a href="/brandcenter.html" class="mega-menu-link">BRANDCENTER</a>
-                    <a href="#" class="mega-menu-link">BRANDTOOLS</a>
+                    <a href="/brandtools.html" class="mega-menu-link">BRANDTOOLS</a>
                     <a href="/brandcare.html" class="mega-menu-link">BRANDCARE</a>
                     <a href="/brandlegal.html" class="mega-menu-link">BRANDLEGAL</a>
                   </div>
@@ -118,10 +118,10 @@ export const renderHeader = async () => {
               </div>
               <div class="mega-menu-right">
                 <div class="mega-menu-card">
-                  <img src="https://images.pexels.com/photos/8128188/pexels-photo-8128188.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Servicios" class="mega-menu-image" />
+                  <video class="mega-menu-image" autoplay loop muted playsinline style="object-fit: cover;" src="/servicios/video-servicio-header.mp4"></video>
                   <div class="mega-menu-card-content">
                     <h4>Soluciones a medida para corporaciones</h4>
-                    <a href="#servicios" class="btn-regius outline">
+                    <a href="/servicios.html" class="btn-regius outline">
                       <div class="btn-regius-text-wrapper">
                         <div class="btn-regius-text _1">Explorar Servicios</div>
                         <div class="btn-regius-text _2">Explorar Servicios</div>
@@ -136,34 +136,34 @@ export const renderHeader = async () => {
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="#por-que-xprinta" class="nav-link">Por Qué Xprinta <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="#por-que-xprinta" class="nav-link">¿Por qué Xprinta? <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-inner">
               <div class="mega-menu-left">
                 <div class="mega-menu-column">
                   <span class="mega-menu-title">Ventajas Competitivas</span>
                   <div class="mega-menu-links">
-                    <a href="#" class="mega-menu-link">RED PROFESIONAL</a>
-                    <a href="#" class="mega-menu-link">PROVEEDOR UNIFICADO</a>
-                    <a href="#" class="mega-menu-link">AHORRO DE COSTES</a>
-                    <a href="#" class="mega-menu-link">PROYECTO PIC</a>
-                    <a href="#" class="mega-menu-link">GESTION DE PROYECTOS</a>
+                    <a href="/red-profesional.html" class="mega-menu-link">RED PROFESIONAL</a>
+                    <a href="/proveedor-unificado.html" class="mega-menu-link">PROVEEDOR UNIFICADO</a>
+                    <a href="/ahorro-costes.html" class="mega-menu-link">AHORRO DE COSTES</a>
+                    <a href="/proyecto-pic.html" class="mega-menu-link">PROYECTO PIC</a>
+                    <a href="/gestion-proyectos.html" class="mega-menu-link">GESTION DE PROYECTOS</a>
                   </div>
                 </div>
                 <div class="mega-menu-column">
                   <span class="mega-menu-title">Garantía y Seguridad</span>
                   <div class="mega-menu-links">
-                    <a href="#" class="mega-menu-link">TRAZABILIDAD</a>
-                    <a href="#" class="mega-menu-link">FINANCIACION</a>
-                    <a href="#" class="mega-menu-link">GARANTIA XPRINTA</a>
-                    <a href="#" class="mega-menu-link">ECOSIGN</a>
-                    <a href="#" class="mega-menu-link">LEGALIZACION</a>
+                    <a href="/trazabilidad-producto.html" class="mega-menu-link">TRAZABILIDAD</a>
+                    <a href="/financiacion.html" class="mega-menu-link">FINANCIACION</a>
+                    <a href="/garantia.html" class="mega-menu-link">GARANTIA XPRINTA</a>
+                    <a href="/ecosign.html" class="mega-menu-link">ECOSIGN</a>
+                    <a href="/legalizacion.html" class="mega-menu-link">LEGALIZACION</a>
                   </div>
                 </div>
               </div>
               <div class="mega-menu-right">
                 <div class="mega-menu-card">
-                  <img src="https://images.pexels.com/photos/37466061/pexels-photo-37466061.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Ventajas" class="mega-menu-image" />
+                  <video class="mega-menu-image" autoplay loop muted playsinline style="object-fit: cover;" src="/por-que-xprinta/Gestión%20de%20proyectos/header-remax-video.mp4"></video>
                   <div class="mega-menu-card-content">
                     <h4>Experiencia en todos los sectores productivos</h4>
                     <a href="#por-que-xprinta" class="btn-regius outline">
@@ -327,8 +327,8 @@ export const renderFooter = () => `
  * @param {string} [options.pageClass=''] - Clase CSS adicional para el main
  * @returns {Promise<string>} HTML completo con header + contenido + footer (AHORA ES ASYNC)
  */
-export const createLayout = async ({ content, pageClass = '' }) => {
-  const header = await renderHeader();
+export const createLayout = async ({ content, pageClass = '', hideHeader = false }) => {
+  const header = hideHeader ? '' : await renderHeader();
 
   return `
   ${header}

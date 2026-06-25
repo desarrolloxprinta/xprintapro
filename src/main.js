@@ -29,6 +29,20 @@ import { getBrandCheckHTML, initBrandCheckDirectory } from './pages/brandcheck.j
 import { getBrandCommerceHTML, initBrandCommerceDirectory } from './pages/brandcommerce.js'
 import { getBrandGuideHTML, initBrandGuideDirectory } from './pages/brandguide.js'
 import { getBrandLegalHTML, initBrandLegalDirectory } from './pages/brandlegal.js'
+import { getBrandSignalHTML, initBrandSignalDirectory } from './pages/brandsignal.js'
+import { getBrandSurveysHTML, initBrandSurveysDirectory } from './pages/brandsurveys.js'
+import { getBrandToolsHTML, initBrandToolsDirectory } from './pages/brandtools.js'
+import { getBrandVisionHTML, initBrandVisionDirectory } from './pages/brandvision.js'
+import { renderAhorroCostes } from './pages/ahorro-costes.js'
+import { renderEcosign } from './pages/ecosign.js'
+import { renderFinanciacion } from './pages/financiacion.js'
+import { renderGarantia } from './pages/garantia.js'
+import { renderGestionProyectos } from './pages/gestion-proyectos.js'
+import { renderLegalizacion } from './pages/legalizacion.js'
+import { renderProveedorUnificado } from './pages/proveedor-unificado.js'
+import { renderProyectoPic } from './pages/proyecto-pic.js'
+import { renderRedProfesional } from './pages/red-profesional.js'
+import { renderTrazabilidadProducto } from './pages/trazabilidad-producto.js'
 
 // ==========================================================================
 // Router - Sistema de Layout Universal (AHORA ASYNC)
@@ -70,6 +84,49 @@ async function loadPage() {
   } else if (pageType === 'brandlegal') {
     // Servicio Individual BrandLegal
     app.innerHTML = await getBrandLegalHTML();
+  } else if (pageType === 'brandsignal') {
+    // Servicio Individual BrandSignal
+    app.innerHTML = await getBrandSignalHTML();
+  } else if (pageType === 'brandsurveys') {
+    // Servicio Individual BrandSurveys
+    app.innerHTML = await getBrandSurveysHTML();
+  } else if (pageType === 'brandtools') {
+    // Servicio Individual BrandTools
+    app.innerHTML = await getBrandToolsHTML();
+  } else if (pageType === 'brandvision') {
+    // Servicio Individual BrandVision
+    app.innerHTML = await getBrandVisionHTML();
+    setTimeout(() => initBrandVisionDirectory(), 0);
+  } else if (pageType === 'ahorro-costes') {
+    // Página Ahorro de Costes
+    app.innerHTML = await renderAhorroCostes();
+  } else if (pageType === 'ecosign') {
+    // Página ECOSIGN
+    app.innerHTML = await renderEcosign();
+  } else if (pageType === 'financiacion') {
+    // Página Financiación de Clientes
+    app.innerHTML = await renderFinanciacion();
+  } else if (pageType === 'garantia') {
+    // Página Garantía Xprinta
+    app.innerHTML = await renderGarantia();
+  } else if (pageType === 'gestion-proyectos') {
+    // Página Gestión de Proyectos
+    app.innerHTML = await renderGestionProyectos();
+  } else if (pageType === 'legalizacion') {
+    // Página Legalización
+    app.innerHTML = await renderLegalizacion();
+  } else if (pageType === 'proveedor-unificado') {
+    // Página Proveedor Unificado
+    app.innerHTML = await renderProveedorUnificado();
+  } else if (pageType === 'proyecto-pic') {
+    // Página Proyecto PIC
+    app.innerHTML = await renderProyectoPic();
+  } else if (pageType === 'red-profesional') {
+    // Página Red Profesional
+    app.innerHTML = await renderRedProfesional();
+  } else if (pageType === 'trazabilidad-producto') {
+    // Página Trazabilidad de Producto
+    app.innerHTML = await renderTrazabilidadProducto();
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();
@@ -354,17 +411,16 @@ const initAnimations = () => {
 
     // Initialize custom Canvas WebGL particles field (3D Sphere version)
     const dotsField = new DotsField(lottieContainer, {
-      height: 620,
-      sphereRadius: 156, // +20% from 130
-      count: 1700,
+      height: 1200, 
+      sphereRadius: 450,
+      count: 16000,
       dotColor: "#000000",
       accentColor: "#F18108",
       accentRatio: 0.4,
-      dotRadius: 3.66,
       alpha: 0.95,
       idleSpeed: 0.5,
       rotationSpeed: 0.25,
-      endLife: 0
+      core: false
     });
 
     const processTl = gsap.timeline({
@@ -377,14 +433,6 @@ const initAnimations = () => {
         onUpdate: (self) => {
           // Pass exactly the scroll progress to our canvas animation
           dotsField.setProgress(self.progress);
-          
-          // Dynamic mask to fade out the particles at the top (where text is)
-          // At progress 0: transparent 15%, black 100% (faded at very top)
-          // At progress 1: transparent 0%, black 0% (fully solid)
-          const transPoint = 15 - (self.progress * 15);
-          const fadePoint = 100 - (self.progress * 100); 
-          lottieContainer.style.maskImage = `linear-gradient(to bottom, transparent 0%, transparent ${transPoint}%, black ${fadePoint}%)`;
-          lottieContainer.style.webkitMaskImage = `linear-gradient(to bottom, transparent 0%, transparent ${transPoint}%, black ${fadePoint}%)`;
         }
       }
     });

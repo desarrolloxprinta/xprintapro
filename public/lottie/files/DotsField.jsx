@@ -17,17 +17,21 @@ import { useEffect, useRef } from "react";
 export default function DotsField({
   height = 460,            // alto del lienzo (debe superar el diámetro de la esfera)
   sphereRadius = 130,      // radio de la esfera (px); se reduce solo si no cabe
-  count = 1700,            // nº total de partículas de la esfera COMPLETA
+  count = 4000,            // nº total de partículas (más, para una esfera de granos de arena)
   startFraction = 0.2,     // fracción visible en progress=0 (0.2 = 20%); el resto se añade
   dotColor = "#000000",    // color base (puntos que aún no han virado)
   accentColor = "#F18108", // color de acento y color final de toda la esfera
   accentRatio = 0.4,       // proporción de puntos que ya nacen en el acento, en reposo
-  dotRadius = 3.66,        // radio base del punto
+  dotRadius = 0.5,         // radio base del punto (polvo muy fino)
   alpha = 0.95,            // opacidad base
   idleSpeed = 0.5,         // velocidad de interacción en reposo (1 = original)
   rotationSpeed = 0.25,    // velocidad de giro de la esfera (rad/s)
   scatter = 1,             // cuánto se dispersan los puntos al inicio (1 = normal)
   endLife = 0,             // micro-temblor extra (0 = limpio; la rotación ya da vida)
+  core = false,            // núcleo de plasma (desactivado)
+  coreColor = "#F18108",   // color del núcleo de plasma
+  corePulseSpeed = 3.0,    // velocidad del latido del núcleo (rad/s)
+  coreSize = 0.18,         // tamaño del núcleo respecto al radio de la esfera (0..1)
   progress,                // opcional 0..1: si se pasa, controla la formación y desactiva el scroll
   className,
   style,
@@ -74,6 +78,7 @@ export default function DotsField({
     let W = 0, H = 0, particles = [], order = [], grid = null, cell = 14;
     let cx = 0, cy = 0, R = 130;
     let colBase = dotColor, colAccent = accentColor, palette = [];
+    let coreRGB = { r: 241, g: 129, b: 8 }, coreHot = { r: 255, g: 214, b: 170 };
 
     const smooth = (a, b, x) => { if (b <= a) return x < a ? 0 : 1; const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
     const lerp = (a, b, t) => a + (b - a) * t;
@@ -94,6 +99,9 @@ export default function DotsField({
 
       R = Math.min(sphereRadius, H * 0.42, W * 0.42);
       cx = W / 2; cy = H / 2;
+      // colores del núcleo de plasma (centro caliente = acento aclarado hacia blanco)
+      coreRGB = hexToRgb(coreColor);
+      coreHot = { r: (coreRGB.r + (255 - coreRGB.r) * 0.6) | 0, g: (coreRGB.g + (255 - coreRGB.g) * 0.6) | 0, b: (coreRGB.b + (255 - coreRGB.b) * 0.6) | 0 };
       buildParticles();
     }
 
@@ -176,7 +184,8 @@ export default function DotsField({
         p.depth = z2;
       }
 
-      buildGrid(); // solo aparecidos
+      const needRepel = false; // repulsión desactivada: evita el "rebote" de mitad (inflado+recogida)
+      if (needRepel) buildGrid(); // solo aparecidos
 
       // pass B: física (deriva alrededor del sitio + muelle + repulsión que se apaga al integrarse)
       const Rrep = 11, R2 = Rrep * Rrep;
@@ -192,7 +201,7 @@ export default function DotsField({
         p.vx += (dx - p.x) * k; p.vy += (dy - p.y) * k;
 
         const repel = idleSpeed * (1 - prog);          // se apaga al completarse la esfera
-        if (repel > 0.02 && p.app > 0.5) {
+        if (needRepel && repel > 0.02 && p.app > 0.5 && grid) {
           const gx = Math.min(grid.cols - 1, Math.max(0, (p.x / cell) | 0));
           const gy = Math.min(grid.rows - 1, Math.max(0, (p.y / cell) | 0));
           for (let ny = gy - 1; ny <= gy + 1; ny++) {
@@ -213,15 +222,39 @@ export default function DotsField({
           }
         }
 
-        p.vx *= 0.86; p.vy *= 0.86;
+        p.vx *= 0.80; p.vy *= 0.80;
         p.x += p.vx; p.y += p.vy;
       }
 
       // dibujar de atrás hacia delante (volumen de esfera) con fundido de aparición y viraje de color
       order.sort((a, b) => particles[a].depth - particles[b].depth);
       ctx.clearRect(0, 0, W, H);
+
+      // núcleo de plasma: solo cuando la esfera está (casi) completa; late con el tiempo
+      const coreF = core ? smooth(0.8, 1.0, prog) : 0;
+      let coreR = 0, coreA = 0;
+      if (coreF > 0.001) {
+        const ps = corePulseSpeed * (reduce ? 0.5 : 1);
+        const beat = Math.pow(0.5 + 0.5 * Math.sin(t * ps), 1.8); // latido
+        coreR = R * coreSize * (0.85 + 0.22 * beat);
+        coreA = coreF * (0.5 + 0.5 * beat) * (reduce ? 0.7 : 1);
+      }
+      const drawCore = () => {
+        const cc = coreRGB, hot = coreHot, rr = Math.max(1, coreR);
+        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, rr);
+        g.addColorStop(0, "rgba(" + hot.r + "," + hot.g + "," + hot.b + "," + Math.min(1, coreA + 0.15) + ")");
+        g.addColorStop(0.25, "rgba(" + cc.r + "," + cc.g + "," + cc.b + "," + coreA + ")");
+        g.addColorStop(0.6, "rgba(" + cc.r + "," + cc.g + "," + cc.b + "," + (coreA * 0.5) + ")");
+        g.addColorStop(1, "rgba(" + cc.r + "," + cc.g + "," + cc.b + ",0)");
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(cx, cy, rr, 0, 6.2832); ctx.fill();
+      };
+
+      let coreDrawn = false;
       for (let o = 0; o < order.length; o++) {
         const p = particles[order[o]];
+        if (!coreDrawn && coreF > 0.001 && p.depth >= 0) { drawCore(); coreDrawn = true; } // entre fondo y frente
         if (p.app <= 0.001) continue;                 // aún no ha aparecido
         const dn = (p.depth + 1) / 2;                 // 0 (fondo) .. 1 (frente)
         const sizeF = 0.55 + 0.65 * dn;
@@ -233,9 +266,10 @@ export default function DotsField({
         ctx.fillStyle = palette[(m * (PAL_STEPS - 1) + 0.5) | 0];
         ctx.globalAlpha = Math.max(0, Math.min(1, drawnA));
         ctx.beginPath();
-        ctx.arc(p.x, p.y, Math.max(0.4, drawnR), 0, 6.2832);
+        ctx.arc(p.x, p.y, Math.max(0.3, drawnR), 0, 6.2832);
         ctx.fill();
       }
+      if (!coreDrawn && coreF > 0.001) drawCore();
       ctx.globalAlpha = 1;
 
       raf = requestAnimationFrame(step);
@@ -256,7 +290,7 @@ export default function DotsField({
       ro.disconnect();
       window.removeEventListener("resize", relayout);
     };
-  }, [height, sphereRadius, count, startFraction, dotColor, accentColor, accentRatio, dotRadius, alpha, idleSpeed, rotationSpeed, scatter, endLife]);
+  }, [height, sphereRadius, count, startFraction, dotColor, accentColor, accentRatio, dotRadius, alpha, idleSpeed, rotationSpeed, scatter, endLife, core, coreColor, corePulseSpeed, coreSize]);
 
   return (
     <div

@@ -1,4 +1,4 @@
 [ZoneTransfer]
 ZoneId=3
 ReferrerUrl=https://claude.ai/chat/6d8d1119-57bc-405c-bc66-7b1f5b6e4fcb
-HostUrl=https://claude.ai/api/organizations/0acd748f-0e81-4d54-a876-a58ed6d12365/conversations/6d8d1119-57bc-405c-bc66-7b1f5b6e4fcb/wiggle/download-files?paths=%2Fmnt%2Fuser-data%2Foutputs%2FDotsField.jsx&paths=%2Fmnt%2Fuser-data%2Foutputs%2FDotsField-esfera-progresiva-preview.png
+HostUrl=https://claude.ai/api/organizations/0acd748f-0e81-4d54-a876-a58ed6d12365/conversations/6d8d1119-57bc-405c-bc66-7b1f5b6e4fcb/wiggle/download-files?paths=%2Fmnt%2Fuser-data%2Foutputs%2FDotsField-preview.gif&paths=%2Fmnt%2Fuser-data%2Foutputs%2FDotsField-preview.mp4&paths=%2Fmnt%2Fuser-data%2Foutputs%2FDotsField.jsx

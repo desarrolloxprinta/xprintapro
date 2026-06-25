@@ -159,5 +159,77 @@
       "verPlano": "Ver Plano",
       "verFoto": "Ver Foto"
     }
-  }
+  },
+  "servicios_xprinta": [
+    {
+      "category": "Soluciones Brand",
+      "title": "BrandCommerce",
+      "description": "Adecuación integral de locales e-commerce, puntos de entrega y dark stores con la identidad de marca.",
+      "url": "/brandcommerce.html",
+      "image": "/servicios/brand_commerce.png"
+    },
+    {
+      "category": "Soluciones Brand",
+      "title": "BrandCheck",
+      "description": "Auditorías de estado y calidad de imagen corporativa en toda tu red de puntos de venta.",
+      "url": "/brandcheck.html",
+      "image": "/servicios/brand_check.png"
+    },
+    {
+      "category": "Soluciones Brand",
+      "title": "BrandSurveys",
+      "description": "Toma de datos técnicos y mediciones precisas in-situ para la correcta implantación visual.",
+      "url": "/brandsurveys.html",
+      "image": "/servicios/brand_surveys.png"
+    },
+    {
+      "category": "Soluciones Brand",
+      "title": "BrandSignal",
+      "description": "Estudio, diseño e implementación de sistemas de señalética corporativa para orientar y guiar.",
+      "url": "/brandsignal.html",
+      "image": "/servicios/brand_signal.png"
+    },
+    {
+      "category": "Soluciones Brand",
+      "title": "BrandVision",
+      "description": "Fotomontajes y renderizados 3D fotorrealistas para visualizar la imagen antes de fabricar.",
+      "url": "/brandvision.html",
+      "image": "/servicios/brand_vision.png"
+    },
+    {
+      "category": "Gestión y Legal",
+      "title": "BrandGuide",
+      "description": "Redacción técnica y desarrollo de manuales corporativos para estandarizar las aplicaciones.",
+      "url": "/brandguide.html",
+      "image": "/servicios/brand_guide.png"
+    },
+    {
+      "category": "Gestión y Legal",
+      "title": "BrandCenter",
+      "description": "Plataforma centralizada para la gestión, almacenamiento y distribución de activos de marca.",
+      "url": "/brandcenter.html",
+      "image": "/servicios/brand_center.png"
+    },
+    {
+      "category": "Gestión y Legal",
+      "title": "BrandTools",
+      "description": "Desarrollo tecnológico y software a medida para la gestión corporativa en punto de venta.",
+      "url": "/brandtools.html",
+      "image": "/servicios/brand_tools.png"
+    },
+    {
+      "category": "Gestión y Legal",
+      "title": "BrandCare",
+      "description": "Programas de mantenimiento preventivo y correctivo para asegurar la imagen a largo plazo.",
+      "url": "/brandcare.html",
+      "image": "/servicios/brand_care.png"
+    },
+    {
+      "category": "Gestión y Legal",
+      "title": "BrandLegal",
+      "description": "Gestión integral de licencias, permisos y cumplimiento normativo en toda España.",
+      "url": "/brandlegal.html",
+      "image": "/servicios/brand_legal.png"
+    }
+  ]
 }
