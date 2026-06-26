@@ -1,0 +1,589 @@
+/**
+ * Equipo Page Styles - Diseño Regius Group adaptado
+ * Sistema de diseño Xprinta con hero grid + team cards
+ */
+
+/* ==================== LAYOUT BASE ==================== */
+
+.page-equipo {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: white;
+}
+
+/* ==================== CONTAINER ==================== */
+
+.main-container-equipo {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 5%;
+  width: 100%;
+}
+
+/* ==================== HERO SECTION ==================== */
+
+.section.hero-equipo {
+  padding: 10rem 0 5rem 0;
+  background: white;
+}
+
+.headline-equipo {
+  margin-bottom: 4rem;
+}
+
+.heading-equipo {
+  opacity: 0;
+  margin-bottom: 1.5rem;
+}
+
+.heading-equipo h1 {
+  font-family: var(--font-family-serif);
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.subtitle-equipo {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  font-weight: 400;
+  color: var(--color-neutral-700);
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0;
+}
+
+/* ==================== EQUIPO GRID (2 columnas: imagen + quote) ==================== */
+
+.equipo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+  opacity: 0;
+}
+
+.equipo-contain-image-1 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--color-neutral-100);
+}
+
+.equipo-contain-image-2 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+}
+
+.equipo-absolute-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.image-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.video-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.parallax {
+  will-change: transform;
+}
+
+/* Card con quote */
+.card-equipo-quote {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: 2.5rem;
+}
+
+.equipo-card-top-tile {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.icon-quote {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+  opacity: 0.48;
+}
+
+.icon-quote svg {
+  width: 100%;
+  height: 100%;
+}
+
+.quote-text {
+  font-family: var(--font-family-heading);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-neutral-900);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ==================== ABOUT SECTION ==================== */
+
+.section.equipo-about-section {
+  padding: 6rem 0;
+  background: white;
+  position: relative;
+}
+
+.equipo-halves {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.label-master-dark {
+  position: sticky;
+  top: 120px;
+}
+
+.label-small-equipo {
+  font-family: var(--font-family-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-neutral-900);
+}
+
+.text-h4-equipo {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1rem, 2.5lvw, 1.25rem); /* Igual que otras páginas: 1rem-1.25rem */
+  font-weight: 400;
+  color: var(--color-neutral-900);
+  line-height: 1.75; /* Line-height relajado */
+  margin: 0;
+}
+
+.equipo-dots {
+  position: absolute;
+  bottom: -50px;
+  right: 5%;
+  width: 120px;
+  height: auto;
+  opacity: 0.4;
+}
+
+/* ==================== TEAM GRID SECTION ==================== */
+
+.section-team-grid {
+  padding: 4rem 0 8rem 0;
+  background: white;
+}
+
+.grid-team-members {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+/* Team Card Clickable */
+.team-card-clickable {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.team-card-clickable:hover {
+  transform: translateY(-8px);
+}
+
+.team-card-large {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-neutral-100);
+  aspect-ratio: 3 / 4;
+}
+
+.team-large-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.team-card-inner-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+}
+
+.team-large-bottom-tile {
+  width: 100%;
+}
+
+.team-member-name-large {
+  font-family: var(--font-family-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.team-member-role-wrap {
+  margin-top: 0.5rem;
+}
+
+.team-member-role-large {
+  font-family: var(--font-family-body);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Shadow overlay en hover */
+.team-large-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  z-index: 1;
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.team-card-clickable:hover .team-large-shadow {
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 1200px) {
+  .section.hero-equipo {
+    padding: 8rem 0 4rem 0;
+  }
+
+  .grid-team-members {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .equipo-halves {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .label-master-dark {
+    position: static;
+  }
+}
+
+@media (max-width: 900px) {
+  .section.hero-equipo {
+    padding: 7rem 0 3.5rem 0;
+  }
+
+  .equipo-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .equipo-contain-image-1,
+  .equipo-contain-image-2 {
+    aspect-ratio: 16 / 10;
+  }
+
+  .heading-equipo h1 {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+  }
+
+  .grid-team-members {
+    gap: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section.hero-equipo {
+    padding: 6rem 0 3rem 0;
+  }
+
+  .section.equipo-about-section {
+    padding: 4rem 0;
+  }
+
+  .section-team-grid {
+    padding: 3rem 0 6rem 0;
+  }
+
+  .grid-team-members {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .team-card-large {
+    aspect-ratio: 4 / 5;
+  }
+
+  .card-equipo-quote {
+    padding: 1.5rem;
+  }
+
+  .equipo-card-top-tile {
+    padding: 1.5rem;
+  }
+
+  .quote-text {
+    font-size: 1rem;
+  }
+
+  .text-h4-equipo {
+    font-size: clamp(1rem, 2.5lvw, 1.125rem); /* Responsive mobile */
+  }
+}
+
+@media (max-width: 640px) {
+  .section.hero-equipo {
+    padding: 5rem 0 2.5rem 0;
+  }
+
+  .headline-equipo {
+    margin-bottom: 3rem;
+  }
+
+  .team-member-name-large {
+    font-size: 1.25rem;
+  }
+
+  .team-member-role-large {
+    font-size: 0.875rem;
+  }
+
+  .team-card-inner-content {
+    padding: 1.5rem;
+  }
+}
+
+/* ==================== SISTEMA XPRINTA SECTION ==================== */
+
+#sistema-xprinta-container {
+  background-color: var(--color-neutral-0);
+  padding-bottom: 8rem;
+}
+
+#sistema-xprinta {
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.sistema-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  width: 100%;
+}
+
+/* Sticky Sidebar */
+.sistema-sidebar {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+  padding-right: 2rem;
+}
+
+.sistema-title {
+  font-family: var(--font-family-serif);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  line-height: 1.1;
+  margin: 1rem 0 1.5rem 0;
+}
+
+.sistema-title .italic {
+  font-style: italic;
+}
+
+.sistema-description {
+  margin-top: 2rem;
+  font-family: var(--font-family-body);
+  font-size: clamp(1rem, 2.5lvw, 1.125rem);
+  color: var(--color-neutral-700);
+  max-width: 500px;
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+/* Scrolling List */
+.sistema-scroll-container {
+  position: relative;
+}
+
+.sistema-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sistema-item {
+  background: white;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sistema-item:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 20px rgba(250, 128, 41, 0.1);
+  transform: translateX(8px);
+}
+
+.sistema-item__header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.sistema-item__number {
+  font-family: var(--font-family-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.sistema-item:hover .sistema-item__number {
+  opacity: 1;
+}
+
+.sistema-item__title {
+  font-family: var(--font-family-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.sistema-item__description {
+  font-family: var(--font-family-body);
+  font-size: 1rem;
+  color: var(--color-neutral-700);
+  line-height: 1.6;
+  margin: 0;
+  padding-left: 3.5rem;
+}
+
+/* ==================== SISTEMA XPRINTA RESPONSIVE ==================== */
+
+@media (max-width: 1200px) {
+  .sistema-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .sistema-sidebar {
+    position: static;
+    padding-right: 0;
+    margin-bottom: 2rem;
+  }
+
+  .sistema-description {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  #sistema-xprinta-container {
+    padding-bottom: 4rem;
+  }
+
+  .sistema-item {
+    padding: 1.5rem;
+  }
+
+  .sistema-item__header {
+    gap: 1rem;
+  }
+
+  .sistema-item__number {
+    font-size: 1.5rem;
+  }
+
+  .sistema-item__title {
+    font-size: 1.25rem;
+  }
+
+  .sistema-item__description {
+    padding-left: 2.5rem;
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .sistema-title {
+    font-size: 2rem;
+  }
+
+  .sistema-list-wrapper {
+    gap: 1.5rem;
+  }
+
+  .sistema-item {
+    padding: 1.25rem;
+  }
+
+  .sistema-item__description {
+    padding-left: 0;
+    margin-top: 0.75rem;
+  }
+}
+
+/* ==================== PERFORMANCE OPTIMIZATIONS ==================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .team-card-clickable,
+  .parallax,
+  .team-large-shadow,
+  .sistema-item {
+    transition: none !important;
+  }
+}

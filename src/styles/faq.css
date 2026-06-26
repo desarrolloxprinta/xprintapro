@@ -1,0 +1,153 @@
+/**
+ * FAQ Page Styles - Lista Interactiva
+ * Mismo estilo que "Qué aporta al cliente" de gestion-proyectos
+ */
+
+/* ==================== LAYOUT ==================== */
+
+.page-faq {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: white;
+}
+
+/* ==================== HERO SECTION (DARK) ==================== */
+
+.faq-hero {
+  background-color: var(--color-primary);
+  padding: 10rem 0 6rem 0;
+  margin-bottom: 0;
+}
+
+.faq-caption {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: #9ca3af;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.faq-title {
+  font-family: var(--font-family-serif);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 300;
+  font-style: normal;
+  color: white;
+  max-width: 900px;
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+}
+
+.faq-subtitle {
+  font-family: var(--font-family-body);
+  color: #9ca3af;
+  font-size: 1.125rem;
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+.faq-subtitle p {
+  margin: 0;
+}
+
+/* ==================== FAQ LIST (INTERACTIVE) ==================== */
+
+/* Solo las preguntas (h3) tienen opacidad reducida cuando no están en hover */
+.faq-list-group:hover .faq-list-item h3 {
+  opacity: 0.3;
+}
+
+.faq-list-group .faq-list-item:hover h3 {
+  opacity: 1 !important;
+}
+
+.faq-list-item {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 2.5rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  cursor: pointer;
+}
+
+.faq-list-item h3 {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.25rem, 2vw, 1.875rem);
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.faq-list-item p {
+  font-family: var(--font-family-body);
+  color: #9ca3af;
+  flex: 1;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  transition: color 0.3s ease;
+}
+
+.faq-list-item p strong {
+  font-weight: 600;
+  color: #6b7280;
+  transition: color 0.3s ease;
+}
+
+.faq-list-item:hover h3 {
+  transform: translateX(8px);
+}
+
+.faq-list-item:hover p {
+  color: #1f2937;
+}
+
+.faq-list-item:hover p strong {
+  color: #111827;
+}
+
+.faq-list-icon {
+  color: #9ca3af;
+  transition: all 0.3s ease;
+  font-size: 1.25rem;
+}
+
+.faq-list-item:hover .faq-list-icon {
+  color: #000;
+  transform: translateX(4px);
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 768px) {
+  .faq-hero {
+    padding: 6rem 0 4rem 0;
+  }
+
+  .faq-list-item p {
+    display: none;
+  }
+
+  .faq-list-item h3 {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .faq-hero {
+    padding: 5rem 0 3rem 0;
+  }
+
+  .faq-list-item {
+    padding: 1.25rem 0;
+  }
+
+  .faq-list-item h3 {
+    font-size: 1rem;
+  }
+}

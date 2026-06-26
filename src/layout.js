@@ -196,10 +196,10 @@ export const renderHeader = async () => {
                 <div class="mega-menu-column">
                   <span class="mega-menu-title">Nuestra Empresa</span>
                   <div class="mega-menu-links">
-                    <a href="#" class="mega-menu-link">HISTORIA</a>
-                    <a href="#" class="mega-menu-link">EQUIPO</a>
-                    <a href="#" class="mega-menu-link">SISTEMA XPRINTA</a>
-                    <a href="#" class="mega-menu-link">FAQs</a>
+                    <a href="/nosotros.html" class="mega-menu-link">HISTORIA</a>
+                    <a href="/equipo.html" class="mega-menu-link">EQUIPO</a>
+                    <a href="/sistema-xprinta.html" class="mega-menu-link">SISTEMA XPRINTA</a>
+                    <a href="/faq.html" class="mega-menu-link">FAQs</a>
                   </div>
                 </div>
               </div>

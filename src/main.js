@@ -2,6 +2,10 @@ import './style.css'
 import './styles/proyectos.css'
 import './styles/servicios.css'
 import './styles/brandcare.css'
+import './styles/nosotros.css'
+import './styles/faq.css'
+import './styles/equipo.css'
+import './styles/sistema-xprinta.css'
 import content from './data/content.json'
 import puntos from './data/puntos.json'
 import { gsap } from 'gsap'
@@ -43,6 +47,10 @@ import { renderProveedorUnificado } from './pages/proveedor-unificado.js'
 import { renderProyectoPic } from './pages/proyecto-pic.js'
 import { renderRedProfesional } from './pages/red-profesional.js'
 import { renderTrazabilidadProducto } from './pages/trazabilidad-producto.js'
+import { renderNosotros, initNosotrosAnimations } from './pages/nosotros.js'
+import { renderFAQ, initFAQAnimations } from './pages/faq.js'
+import { renderEquipo, initEquipoAnimations } from './pages/equipo.js'
+import { renderSistemaXprinta, initSistemaXprintaAnimations } from './pages/sistema-xprinta.js'
 
 // ==========================================================================
 // Router - Sistema de Layout Universal (AHORA ASYNC)
@@ -127,6 +135,18 @@ async function loadPage() {
   } else if (pageType === 'trazabilidad-producto') {
     // Página Trazabilidad de Producto
     app.innerHTML = await renderTrazabilidadProducto();
+  } else if (pageType === 'nosotros') {
+    // Página Nosotros (Historia)
+    app.innerHTML = await renderNosotros();
+  } else if (pageType === 'faq') {
+    // Página FAQ (Preguntas Frecuentes)
+    app.innerHTML = await renderFAQ();
+  } else if (pageType === 'equipo') {
+    // Página Equipo (Nuestro Equipo)
+    app.innerHTML = await renderEquipo();
+  } else if (pageType === 'sistema-xprinta') {
+    // Página Sistema Xprinta (Metodología)
+    app.innerHTML = await renderSistemaXprinta();
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();
@@ -137,6 +157,26 @@ async function loadPage() {
   setTimeout(() => {
     initDynamicHeader();
   }, 0);
+
+  // IMPORTANTE: Inicializar animaciones específicas de página Nosotros
+  if (pageType === 'nosotros') {
+    initNosotrosAnimations();
+  }
+
+  // IMPORTANTE: Inicializar animaciones específicas de página FAQ
+  if (pageType === 'faq') {
+    initFAQAnimations();
+  }
+
+  // IMPORTANTE: Inicializar animaciones específicas de página Equipo
+  if (pageType === 'equipo') {
+    initEquipoAnimations();
+  }
+
+  // IMPORTANTE: Inicializar animaciones específicas de página Sistema Xprinta
+  if (pageType === 'sistema-xprinta') {
+    initSistemaXprintaAnimations();
+  }
 
   // IMPORTANTE: Inicializar animaciones en TODAS las páginas
   // (incluye cursor personalizado, smooth scroll, y animaciones con condicionales)
@@ -479,6 +519,56 @@ const initAnimations = () => {
     });
   }
   initProcessAnimation();
+
+  // 6b. Interactive Timeline for History (Nosotros)
+  const initHistoryTimeline = () => {
+    const timelineComponent = document.querySelector('.timeline_component');
+    if (!timelineComponent) return;
+
+    const items = document.querySelectorAll('.timeline_item');
+    const progressBar = document.querySelector('.timeline_progress-bar');
+    
+    if (items.length > 0 && progressBar) {
+      // Pinning the left date texts or circles if needed could be done here.
+      // But the main Regius effect is scaling the progress bar and fading items.
+      
+      // Scale progress bar based on scrolling through the timeline component
+      gsap.to(progressBar, {
+        scaleY: 1,
+        transformOrigin: "top center",
+        ease: "none",
+        scrollTrigger: {
+          trigger: timelineComponent,
+          start: "top 50%",
+          end: "bottom 50%",
+          scrub: 1
+        }
+      });
+
+      // Fade in each item as it enters view
+      items.forEach((item, i) => {
+        const left = item.querySelector('.timeline_left');
+        const right = item.querySelector('.timeline_right');
+        const circle = item.querySelector('.timeline_circle');
+
+        // Initial states
+        gsap.set([left, right], { opacity: 0, y: 30 });
+        gsap.set(circle, { scale: 0, opacity: 0 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: item,
+            start: "top 60%", // Triggers when the top of the item hits 60% of viewport
+            toggleActions: "play none none reverse"
+          }
+        });
+
+        tl.to(circle, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" })
+          .to([left, right], { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.3");
+      });
+    }
+  }
+  initHistoryTimeline();
 
   // 5. Custom Premium Cursor (Noteworthy Style 100%)
   const cursorDot = document.querySelector('.custom-cursor__dot');

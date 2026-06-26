@@ -1,0 +1,302 @@
+/**
+ * Sistema Xprinta Page Styles
+ * Diseño consistente con Equipo y Nosotros
+ * Hero grid + About section + Fases grid
+ */
+
+/* ==================== LAYOUT BASE ==================== */
+
+.page-sistema-xprinta {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color-secondary);
+  overflow-x: hidden;
+  font-family: var(--font-family-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.025em;
+}
+
+/* ==================== CONTAINER ==================== */
+
+.main-container-sistema {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 5%;
+  width: 100%;
+}
+
+/* ==================== HERO SECTION ==================== */
+
+.sistema-hero {
+  min-height: 100lvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 33lvh var(--spacing-8) var(--spacing-16);
+  position: relative;
+  max-width: min(100vw, 94.5rem);
+  margin: 0 auto;
+  background: var(--color-secondary);
+}
+
+.sistema-hero-title {
+  font-family: var(--font-family-serif);
+  font-size: clamp(var(--font-size-4xl), 8lvw, 6rem);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+  font-style: italic;
+  letter-spacing: -0.025em;
+  text-align: center;
+  margin: 0;
+  padding: 0 var(--spacing-4);
+  color: var(--color-text);
+  max-width: 100%;
+}
+
+.sistema-hero-line {
+  display: block;
+  will-change: transform, opacity, filter;
+}
+
+/* ==================== ABOUT SECTION ==================== */
+
+.section.sistema-about-section {
+  padding: 6rem 0;
+  background: var(--color-secondary);
+  position: relative;
+}
+
+.sistema-halves {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.label-small-sistema {
+  font-family: var(--font-family-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-neutral-900);
+}
+
+.text-h4-sistema {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1rem, 2.5lvw, 1.25rem);
+  font-weight: 400;
+  color: var(--color-neutral-900);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.sistema-dots {
+  position: absolute;
+  bottom: -50px;
+  right: 5%;
+  width: 120px;
+  height: auto;
+  opacity: 0.4;
+}
+
+/* ==================== FASES SECTION ==================== */
+
+.section-sistema-fases {
+  padding: 4rem 0 8rem 0;
+  background: var(--color-secondary);
+}
+
+.fases-header {
+  margin-bottom: 4rem;
+  opacity: 0;
+}
+
+.fases-title {
+  font-family: var(--font-family-serif);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  line-height: 1.1;
+  margin: 1rem 0 0 0;
+}
+
+.fases-title .italic {
+  font-style: italic;
+}
+
+.grid-sistema-fases {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+/* ==================== FASE CARD ==================== */
+
+.fase-card {
+  background: white;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+}
+
+.fase-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 20px rgba(250, 128, 41, 0.1);
+  transform: translateY(-8px);
+}
+
+.fase-card__header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.fase-card__number {
+  font-family: var(--font-family-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.fase-card:hover .fase-card__number {
+  opacity: 1;
+}
+
+.fase-card__title {
+  font-family: var(--font-family-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.fase-card__description {
+  font-family: var(--font-family-body);
+  font-size: 1rem;
+  color: var(--color-neutral-700);
+  line-height: 1.6;
+  margin: 0;
+  padding-left: 3.5rem;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 1200px) {
+  .grid-sistema-fases {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .sistema-halves {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .label-master-dark {
+    position: static;
+  }
+}
+
+@media (max-width: 900px) {
+  .sistema-hero {
+    padding: 25lvh var(--spacing-6) var(--spacing-12);
+  }
+
+  .sistema-hero-title {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+  }
+
+  .grid-sistema-fases {
+    gap: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sistema-hero {
+    padding: 20lvh var(--spacing-4) var(--spacing-10);
+  }
+
+  .sistema-hero-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .section.sistema-about-section {
+    padding: 4rem 0;
+  }
+
+  .section-sistema-fases {
+    padding: 3rem 0 6rem 0;
+  }
+
+  .grid-sistema-fases {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .fase-card {
+    padding: 1.5rem;
+  }
+
+  .fase-card__header {
+    gap: 1rem;
+  }
+
+  .fase-card__number {
+    font-size: 1.5rem;
+  }
+
+  .fase-card__title {
+    font-size: 1.25rem;
+  }
+
+  .fase-card__description {
+    padding-left: 2.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .text-h4-sistema {
+    font-size: clamp(1rem, 2.5lvw, 1.125rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .sistema-hero {
+    padding: 18lvh var(--spacing-3) var(--spacing-8);
+  }
+
+  .sistema-hero-title {
+    font-size: clamp(1.75rem, 10vw, 2.5rem);
+    padding: 0 var(--spacing-2);
+  }
+
+  .fases-title {
+    font-size: 2rem;
+  }
+
+  .fase-card {
+    padding: 1.25rem;
+  }
+
+  .fase-card__description {
+    padding-left: 0;
+    margin-top: 0.75rem;
+  }
+}
+
+/* ==================== PERFORMANCE OPTIMIZATIONS ==================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax,
+  .fase-card {
+    transition: none !important;
+  }
+}
