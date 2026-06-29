@@ -1093,17 +1093,19 @@ function initColorToggle() {
   const colorToggleBtn = document.getElementById('color-toggle-btn');
   if (!colorToggleBtn) return;
 
-  // Colores originales
+  // Colores originales (NEGRO)
   const originalColors = {
-    highlight: '#F18108', // Naranja original
-    text: '#0A0A0A'       // Negro original
+    primary: '#0A0A0A', // Negro original
+    text: '#0A0A0A'     // Negro original
   };
 
-  // Colores alternativos
+  // Colores alternativos (AZUL OSCURO)
   const altColors = {
-    highlight: '#24394b', // Azul oscuro
-    text: '#24394b'       // Azul oscuro también para texto
+    primary: '#24394b', // Azul oscuro
+    text: '#24394b'     // Azul oscuro
   };
+
+  // NOTA: --color-highlight (#F18108 naranja) se mantiene SIEMPRE
 
   // Verificar si hay preferencia guardada
   const savedScheme = localStorage.getItem('colorScheme');
@@ -1114,7 +1116,7 @@ function initColorToggle() {
   // Click handler
   colorToggleBtn.addEventListener('click', () => {
     const isAlt = document.body.classList.toggle('alt-color-scheme');
-    
+
     if (isAlt) {
       applyAltColorScheme();
       localStorage.setItem('colorScheme', 'alt');
@@ -1125,17 +1127,17 @@ function initColorToggle() {
   });
 
   function applyAltColorScheme() {
-    document.documentElement.style.setProperty('--color-highlight', altColors.highlight);
+    document.documentElement.style.setProperty('--color-primary', altColors.primary);
     document.documentElement.style.setProperty('--color-text', altColors.text);
     document.body.classList.add('alt-color-scheme');
-    console.log('✅ Esquema de color alternativo aplicado (Azul #24394b)');
+    console.log('✅ Esquema alternativo: Negro → Azul #24394b (Naranja intacto)');
   }
 
   function applyOriginalColorScheme() {
-    document.documentElement.style.setProperty('--color-highlight', originalColors.highlight);
+    document.documentElement.style.setProperty('--color-primary', originalColors.primary);
     document.documentElement.style.setProperty('--color-text', originalColors.text);
     document.body.classList.remove('alt-color-scheme');
-    console.log('✅ Esquema de color original aplicado (Naranja #F18108)');
+    console.log('✅ Esquema original: Negro #0A0A0A restaurado (Naranja intacto)');
   }
 }
 
