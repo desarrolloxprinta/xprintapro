@@ -8,7 +8,7 @@
 
 import { createLayout } from '../layout.js'
 import content from '../data/content.json'
-import { supabase } from '../lib/supabase.js'
+import { getProjects } from '../lib/supabase.js'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -136,23 +136,15 @@ const renderWorkComponent = (projects) => {
 }
 
 /**
- * Obtiene proyectos desde Supabase
+ * Obtiene proyectos desde Supabase usando fetch directo
  */
 const fetchProjects = async () => {
   try {
-    const { data: projects, error } = await supabase
-      .from('projects')
-      .select('*')
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching projects:', error)
-      return []
-    }
-
-    return projects
+    // Usar la función getProjects que ya usa fetch directo
+    const projects = await getProjects()
+    return projects || []
   } catch (err) {
-    console.error('Supabase error:', err)
+    console.error('Error fetching projects:', err)
     return []
   }
 }
