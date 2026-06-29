@@ -153,26 +153,92 @@ function initRedAnimations() {
     { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.8 }
   )
 
-  // DESCRIPCIÓN: fade in
-  const descriptionItems = document.querySelectorAll('.red-description-item')
-  if (descriptionItems.length) {
-    gsap.fromTo(descriptionItems,
-      { opacity: 0, y: 30 },
+  // DESCRIPCIÓN: fade in header y grid
+  const descriptionHeader = document.querySelector('.red-description-header')
+  if (descriptionHeader) {
+    gsap.fromTo(descriptionHeader,
+      { opacity: 0, y: 40 },
       {
-        opacity: 1, y: 0, duration: 1, stagger: 0.12, ease: 'power3.out',
-        scrollTrigger: { trigger: '.red-description-section', start: 'top 80%' }
+        opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.red-description-section', start: 'top 75%' }
       }
     )
   }
 
-  // SECTORES: stagger reveal
+  const descriptionBlocks = document.querySelectorAll('.red-description-content-block, .red-description-image-block')
+  if (descriptionBlocks.length) {
+    gsap.fromTo(descriptionBlocks,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1, y: 0, duration: 0.9, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.red-description-grid-content', start: 'top 80%' }
+      }
+    )
+  }
+
+  // STATS LARGE: header y números
+  const statsHeader = document.querySelector('.red-stats-large-header')
+  if (statsHeader) {
+    gsap.fromTo(statsHeader,
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.red-stats-large-section', start: 'top 75%' }
+      }
+    )
+  }
+
+  const statsItems = document.querySelectorAll('.red-stat-large-item')
+  if (statsItems.length) {
+    gsap.fromTo(statsItems,
+      { opacity: 0, x: -30 },
+      {
+        opacity: 1, x: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+        scrollTrigger: { trigger: '.red-stats-large-grid', start: 'top 80%' }
+      }
+    )
+  }
+
+  // SECTORES: header y cards
+  const sectorsHeader = document.querySelector('.red-sectors-header')
+  if (sectorsHeader) {
+    gsap.fromTo(sectorsHeader,
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.red-sectors-section', start: 'top 75%' }
+      }
+    )
+  }
+
   const sectorCards = document.querySelectorAll('.red-sector-card')
   if (sectorCards.length) {
     gsap.fromTo(sectorCards,
       { opacity: 0, y: 40, scale: 0.96 },
       {
-        opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.08, ease: 'power3.out',
-        scrollTrigger: { trigger: '.red-sectors-section', start: 'top 85%' }
+        opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.06, ease: 'power3.out',
+        scrollTrigger: { trigger: '.red-sectors-grid', start: 'top 80%' }
+      }
+    )
+  }
+
+  // CTA: animación de entrada
+  const ctaImage = document.querySelector('.red-cta-image-block')
+  const ctaContent = document.querySelector('.red-cta-content-block')
+  if (ctaImage && ctaContent) {
+    gsap.fromTo(ctaImage,
+      { opacity: 0, x: -50 },
+      {
+        opacity: 1, x: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.red-cta-section', start: 'top 75%' }
+      }
+    )
+
+    gsap.fromTo(ctaContent,
+      { opacity: 0, x: 50 },
+      {
+        opacity: 1, x: 0, duration: 1, ease: 'power3.out', delay: 0.2,
+        scrollTrigger: { trigger: '.red-cta-section', start: 'top 75%' }
       }
     )
   }
@@ -234,32 +300,98 @@ export async function renderRedXprinta() {
     <!-- DESCRIPCIÓN -->
     <section class="red-description-section">
       <div class="red-description-container">
-        <div class="red-description-intro">
-          <h2 class="red-section-title">La mayor red de<br>rotulación en la península</h2>
-          <p class="red-description-text">
+        <div class="red-description-header">
+          <span class="red-description-label">LA RED</span>
+          <h2 class="red-description-title">La mayor red de rotulación<br>en la península ibérica</h2>
+          <p class="red-description-intro-text">
             Xprinta cuenta con una red profesional de 286 puntos distribuidos
             estratégicamente por toda España y Portugal, ofreciendo soluciones integrales
-            de imagen corporativa, rotulación y señalética.
+            de imagen corporativa, rotulación y señalética con los más altos estándares de calidad.
           </p>
         </div>
 
-        <div class="red-description-grid">
-          <div class="red-description-item">
-            <h3 class="red-description-item-title">Cobertura Nacional</h3>
-            <p class="red-description-item-text">
-              Presencia en todas las comunidades autónomas con equipos locales especializados.
+        <!-- Grid de contenido alternado -->
+        <div class="red-description-grid-content">
+          <!-- Fila 1: Texto + Imagen -->
+          <div class="red-description-content-block">
+            <h3 class="red-description-block-title">Cobertura Nacional Completa</h3>
+            <p class="red-description-block-text">
+              Presencia estratégica en todas las comunidades autónomas de España y Portugal.
+              Nuestros 286 puntos garantizan respuesta rápida y servicio local especializado
+              en cualquier ubicación de la península ibérica.
             </p>
           </div>
-          <div class="red-description-item">
-            <h3 class="red-description-item-title">Experiencia Local</h3>
-            <p class="red-description-item-text">
-              Cada punto Xprinta conoce su mercado y ofrece soluciones adaptadas a las necesidades locales.
+          <div class="red-description-image-block">
+            <img src="/images/red-description-1.jpg" alt="Instalación profesional de señalética Xprinta" class="red-description-image">
+          </div>
+
+          <!-- Fila 2: Imagen + Texto -->
+          <div class="red-description-image-block">
+            <img src="/images/red-description-2.jpg" alt="Equipo profesional Xprinta" class="red-description-image">
+          </div>
+          <div class="red-description-content-block">
+            <h3 class="red-description-block-title">Experiencia y Conocimiento Local</h3>
+            <p class="red-description-block-text">
+              Cada punto Xprinta es experto en su mercado local. Conocimiento profundo de
+              normativas municipales, proveedores regionales y particularidades de cada zona
+              para ofrecer soluciones adaptadas y eficientes.
             </p>
           </div>
-          <div class="red-description-item">
-            <h3 class="red-description-item-title">Calidad Garantizada</h3>
-            <p class="red-description-item-text">
-              Todos nuestros partners siguen los estándares de calidad y metodología Xprinta.
+
+          <!-- Fila 3: Texto + Imagen -->
+          <div class="red-description-content-block">
+            <h3 class="red-description-block-title">Calidad y Metodología Garantizada</h3>
+            <p class="red-description-block-text">
+              Todos nuestros partners certificados siguen los estándares de calidad Xprinta.
+              Metodología unificada, materiales premium y procesos validados que garantizan
+              resultados profesionales en cada proyecto.
+            </p>
+          </div>
+          <div class="red-description-image-block">
+            <img src="/images/red-description-3.jpg" alt="Red de cobertura Xprinta" class="red-description-image">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NÚMEROS / STATS GRANDE -->
+    <section class="red-stats-large-section">
+      <div class="red-stats-large-container">
+        <div class="red-stats-large-header">
+          <span class="red-stats-large-label">EN CIFRAS</span>
+          <h2 class="red-stats-large-title">Una red que abarca<br>toda la península</h2>
+        </div>
+
+        <div class="red-stats-large-grid">
+          <div class="red-stat-large-item">
+            <div class="red-stat-large-number">286</div>
+            <div class="red-stat-large-label">Puntos Xprinta</div>
+            <p class="red-stat-large-text">
+              Cobertura completa en España y Portugal para garantizar proximidad y servicio rápido
+            </p>
+          </div>
+
+          <div class="red-stat-large-item">
+            <div class="red-stat-large-number">17</div>
+            <div class="red-stat-large-label">Comunidades Autónomas</div>
+            <p class="red-stat-large-text">
+              Presencia en todas las regiones con conocimiento local y experiencia sectorial
+            </p>
+          </div>
+
+          <div class="red-stat-large-item">
+            <div class="red-stat-large-number">2</div>
+            <div class="red-stat-large-label">Países</div>
+            <p class="red-stat-large-text">
+              Red peninsular integrada con estándares unificados de calidad y servicio
+            </p>
+          </div>
+
+          <div class="red-stat-large-item">
+            <div class="red-stat-large-number">100%</div>
+            <div class="red-stat-large-label">Calidad Certificada</div>
+            <p class="red-stat-large-text">
+              Todos los partners certificados bajo los estándares Xprinta de excelencia
             </p>
           </div>
         </div>
@@ -269,48 +401,98 @@ export async function renderRedXprinta() {
     <!-- SECTORES -->
     <section class="red-sectors-section">
       <div class="red-sectors-container">
-        <h2 class="red-section-title">Sectores que atendemos</h2>
+        <div class="red-sectors-header">
+          <span class="red-sectors-label">SECTORES</span>
+          <h2 class="red-sectors-title">Experiencia profesional<br>en múltiples sectores</h2>
+          <p class="red-sectors-subtitle">
+            Soluciones especializadas adaptadas a las necesidades específicas de cada industria
+          </p>
+        </div>
+
         <div class="red-sectors-grid">
           <div class="red-sector-card">
-            <h3>Corporativo</h3>
-            <p>Soluciones de branding para empresas y organizaciones</p>
+            <div class="red-sector-card-number">01</div>
+            <h3 class="red-sector-card-title">Corporativo</h3>
+            <p class="red-sector-card-text">Soluciones integrales de branding e imagen corporativa para empresas y organizaciones de todos los tamaños</p>
           </div>
           <div class="red-sector-card">
-            <h3>Distribución</h3>
-            <p>Señalética y rotulación para centros de distribución</p>
+            <div class="red-sector-card-number">02</div>
+            <h3 class="red-sector-card-title">Retail</h3>
+            <p class="red-sector-card-text">Señalización comercial y soluciones visuales para puntos de venta que potencian la identidad de marca</p>
           </div>
           <div class="red-sector-card">
-            <h3>Educación</h3>
-            <p>Señalización y wayfinding para centros educativos</p>
+            <div class="red-sector-card-number">03</div>
+            <h3 class="red-sector-card-title">Industrial</h3>
+            <p class="red-sector-card-text">Rotulación técnica, señalización de seguridad y identificación de espacios industriales</p>
           </div>
           <div class="red-sector-card">
-            <h3>Industrial</h3>
-            <p>Rotulación técnica y de seguridad industrial</p>
+            <div class="red-sector-card-number">04</div>
+            <h3 class="red-sector-card-title">Logística</h3>
+            <p class="red-sector-card-text">Sistemas de señalización eficientes para almacenes, centros de distribución y operaciones logísticas</p>
           </div>
           <div class="red-sector-card">
-            <h3>Logística</h3>
-            <p>Señalización eficiente para almacenes y logística</p>
+            <div class="red-sector-card-number">05</div>
+            <h3 class="red-sector-card-title">Sanidad</h3>
+            <p class="red-sector-card-text">Señalización especializada para hospitales y centros sanitarios con normativa específica</p>
           </div>
           <div class="red-sector-card">
-            <h3>Restauración</h3>
-            <p>Imagen corporativa para restaurantes y hostelería</p>
+            <div class="red-sector-card-number">06</div>
+            <h3 class="red-sector-card-title">Educación</h3>
+            <p class="red-sector-card-text">Señalización y wayfinding para centros educativos, universidades y espacios de formación</p>
           </div>
           <div class="red-sector-card">
-            <h3>Retail</h3>
-            <p>Soluciones visuales para puntos de venta</p>
+            <div class="red-sector-card-number">07</div>
+            <h3 class="red-sector-card-title">Hostelería</h3>
+            <p class="red-sector-card-text">Imagen corporativa y rotulación para restaurantes, hoteles y espacios de hostelería</p>
           </div>
           <div class="red-sector-card">
-            <h3>Sanidad</h3>
-            <p>Señalización especializada para centros sanitarios</p>
+            <div class="red-sector-card-number">08</div>
+            <h3 class="red-sector-card-title">Sector Público</h3>
+            <p class="red-sector-card-text">Rotulación institucional y señalización para organismos públicos y servicios administrativos</p>
           </div>
           <div class="red-sector-card">
-            <h3>Sector Público</h3>
-            <p>Rotulación institucional y de servicio público</p>
+            <div class="red-sector-card-number">09</div>
+            <h3 class="red-sector-card-title">Distribución</h3>
+            <p class="red-sector-card-text">Señalética profesional para centros de distribución y redes de franquicias</p>
           </div>
           <div class="red-sector-card">
-            <h3>Servicios</h3>
-            <p>Imagen corporativa para empresas de servicios</p>
+            <div class="red-sector-card-number">10</div>
+            <h3 class="red-sector-card-title">Servicios</h3>
+            <p class="red-sector-card-text">Soluciones de imagen corporativa y rotulación para empresas de servicios profesionales</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="red-cta-section">
+      <div class="red-cta-container">
+        <div class="red-cta-image-block">
+          <img src="/images/red-cta.jpg" alt="Consultoría profesional Xprinta" class="red-cta-image">
+        </div>
+        <div class="red-cta-content-block">
+          <span class="red-cta-label">ENCUENTRA TU PUNTO</span>
+          <h2 class="red-cta-title">¿Listo para empezar<br>tu proyecto?</h2>
+          <p class="red-cta-text">
+            Encuentra el punto Xprinta más cercano a tu ubicación. Nuestros expertos locales
+            están preparados para ofrecerte soluciones profesionales adaptadas a las necesidades
+            específicas de tu proyecto de rotulación y señalética.
+          </p>
+          <div class="red-cta-features">
+            <div class="red-cta-feature">
+              <span class="red-cta-feature-icon">✓</span>
+              <span class="red-cta-feature-text">Asesoramiento personalizado</span>
+            </div>
+            <div class="red-cta-feature">
+              <span class="red-cta-feature-icon">✓</span>
+              <span class="red-cta-feature-text">Presupuesto sin compromiso</span>
+            </div>
+            <div class="red-cta-feature">
+              <span class="red-cta-feature-icon">✓</span>
+              <span class="red-cta-feature-text">Respuesta en menos de 24h</span>
+            </div>
+          </div>
+          <a href="#xprinta-map" class="red-cta-button">Ver mapa de puntos</a>
         </div>
       </div>
     </section>
