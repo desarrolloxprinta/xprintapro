@@ -7,49 +7,12 @@
 import { createLayout } from '../layout.js'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import xprintaLocationsData from '../data/red-xprinta-locations.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Datos de ubicaciones Xprinta (muestra de las 286 ubicaciones)
-// En producción, esto debería cargarse desde un archivo JSON o API
-const xprintaLocations = [
-  {
-    name: 'Xprinta Albacete 1',
-    company: 'Grupo Impacto Global',
-    address: 'Calle Juan Sebastián Elcano, 6, 02005 Albacete',
-    category: 'Implantación corporativa',
-    description: 'Implantación corporativa y señalética profesional'
-  },
-  {
-    name: 'Xprinta Alcoi',
-    company: 'AlcoiRotul',
-    address: 'Calle Fila Benimerines, 33, Polígono Industrial, 03801, Alcoi, Alicante',
-    category: 'Rotulación Básica',
-    description: 'Rotulación y soluciones de imagen corporativa'
-  },
-  {
-    name: 'Xprinta Málaga',
-    company: 'Framaluz',
-    address: 'Calle Fidias, 19, 29004, Málaga',
-    category: 'Implantación corporativa',
-    description: 'Soluciones integrales de imagen de marca'
-  },
-  {
-    name: 'Xprinta Madrid Centro',
-    company: 'Rotulación Madrid SL',
-    address: 'Calle Gran Vía, 45, 28013, Madrid',
-    category: 'Implantación corporativa',
-    description: 'Servicios completos de branding e imagen corporativa'
-  },
-  {
-    name: 'Xprinta Barcelona Norte',
-    company: 'Rotuls Catalunya',
-    address: 'Carrer de Balmes, 180, 08006, Barcelona',
-    category: 'Rotulación Básica',
-    description: 'Rotulación comercial y corporativa'
-  }
-  // Aquí irían las 281 ubicaciones restantes
-]
+// Cargar todas las 286 ubicaciones Xprinta desde JSON
+const xprintaLocations = xprintaLocationsData
 
 /**
  * Inicializa el mapa de Google Maps
@@ -239,7 +202,7 @@ export async function renderRedXprinta() {
         <div class="red-description-intro">
           <h2 class="red-section-title">La mayor red de<br>rotulación en la península</h2>
           <p class="red-description-text">
-            Xprinta cuenta con una red profesional de más de 250 puntos distribuidos
+            Xprinta cuenta con una red profesional de 286 puntos distribuidos
             estratégicamente por toda España y Portugal, ofreciendo soluciones integrales
             de imagen corporativa, rotulación y señalética.
           </p>
@@ -329,7 +292,7 @@ export async function renderRedXprinta() {
         <div id="xprinta-map" class="xprinta-map"></div>
         <div class="red-map-stats">
           <div class="red-map-stat">
-            <span class="red-map-stat-number">250+</span>
+            <span class="red-map-stat-number">286</span>
             <span class="red-map-stat-label">Puntos Xprinta</span>
           </div>
           <div class="red-map-stat">
