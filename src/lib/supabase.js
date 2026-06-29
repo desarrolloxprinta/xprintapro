@@ -265,6 +265,98 @@ export async function getBlogPostBySlug(slug) {
   }
 }
 
+/**
+ * Obtiene todos los posts del área técnica
+ * @returns {Promise<Array>}
+ */
+export async function getAreaTecnicaPosts() {
+  if (!supabase) {
+    console.warn('Supabase no configurado. Retornando datos de fallback para área técnica.');
+    return getFallbackAreaTecnicaPosts();
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('area_tecnica_posts')
+      .select('*')
+      .eq('published', true)
+      .order('published_date', { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+       return getFallbackAreaTecnicaPosts();
+    }
+    
+    return data.map(d => ({
+      ...d,
+      thumbnail: d.thumbnail,
+      heroVideo: d.hero_video,
+      audioUrl: d.audio_url,
+      pdfUrl: d.pdf_url
+    }));
+  } catch (error) {
+    console.error('Error obteniendo posts de área técnica:', error);
+    return getFallbackAreaTecnicaPosts();
+  }
+}
+
+/**
+ * Obtiene un post del área técnica por su slug
+ * @param {string} slug - Slug del post
+ * @returns {Promise<Object|null>}
+ */
+export async function getAreaTecnicaPostBySlug(slug) {
+  if (!supabase) {
+    console.warn('Supabase no configurado. Retornando datos de fallback para área técnica.');
+    return getFallbackAreaTecnicaPostBySlug(slug);
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('area_tecnica_posts')
+      .select('*')
+      .eq('slug', slug)
+      .eq('published', true)
+      .single();
+
+    if (error) throw error;
+
+    if (!data) {
+       // if we have supabase but data is not there yet (because they didn't run the seed),
+       // fallback to json just so the site doesn't break during transition.
+       return getFallbackAreaTecnicaPostBySlug(slug);
+    }
+
+    // Convert database snake_case to the camelCase expected by the template
+    const post = {
+      ...data,
+      thumbnail: data.thumbnail,
+      heroVideo: data.hero_video,
+      audioUrl: data.audio_url,
+      pdfUrl: data.pdf_url
+    };
+
+    // Si sections está vacío o es null, hacer fallback al JSON para obtener el contenido
+    if (!post.sections || (Array.isArray(post.sections) && post.sections.length === 0)) {
+      console.warn(`⚠️ Post "${slug}" en Supabase no tiene sections. Haciendo fallback al JSON para contenido.`);
+      const fallbackPost = await getFallbackAreaTecnicaPostBySlug(slug);
+      if (fallbackPost && fallbackPost.sections) {
+        return {
+          ...post, // Mantener metadata de Supabase (thumbnail, dates, etc.)
+          sections: fallbackPost.sections, // Usar sections del JSON
+          intro: fallbackPost.intro // Usar intro del JSON también
+        };
+      }
+    }
+
+    return post;
+  } catch (error) {
+    console.error('Error obteniendo post de área técnica:', error);
+    return getFallbackAreaTecnicaPostBySlug(slug);
+  }
+}
+
 // ============================================
 // FUNCIONES DE FALLBACK (cuando Supabase no está configurado)
 // ============================================
@@ -308,5 +400,32 @@ async function getFallbackProjectBySlug(slug) {
   } catch (error) {
     console.error(`Error cargando proyecto ${slug}:`, error);
     return null;
+  }
+}
+
+/**
+ * Obtiene un post de área técnica de fallback por slug
+ */
+async function getFallbackAreaTecnicaPostBySlug(slug) {
+  try {
+    const { default: areaTecnicaData } = await import('../data/area-tecnica.json');
+    const post = areaTecnicaData.find(p => p.slug === slug);
+    return post || null;
+  } catch (error) {
+    console.error(`Error cargando área técnica fallback ${slug}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Obtiene todos los posts de área técnica de fallback
+ */
+async function getFallbackAreaTecnicaPosts() {
+  try {
+    const { default: areaTecnicaData } = await import('../data/area-tecnica.json');
+    return areaTecnicaData;
+  } catch (error) {
+    console.error('Error cargando área técnica posts fallback:', error);
+    return [];
   }
 }
