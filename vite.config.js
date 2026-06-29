@@ -31,6 +31,7 @@ export default defineConfig({
         proyectoRedeia: resolve(__dirname, 'proyecto-redeia.html'),
         proyectos: resolve(__dirname, 'proyectos.html'),
         redProfesional: resolve(__dirname, 'red-profesional.html'),
+        redXprinta: resolve(__dirname, 'red-xprinta.html'),
         servicios: resolve(__dirname, 'servicios.html'),
         sistemaXprinta: resolve(__dirname, 'sistema-xprinta.html'),
         trazabilidadProducto: resolve(__dirname, 'trazabilidad-producto.html'),

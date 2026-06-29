@@ -6,6 +6,7 @@ import './styles/nosotros.css'
 import './styles/faq.css'
 import './styles/equipo.css'
 import './styles/sistema-xprinta.css'
+import './styles/red-xprinta.css'
 import content from './data/content.json'
 import puntos from './data/puntos.json'
 import { gsap } from 'gsap'
@@ -51,6 +52,7 @@ import { renderNosotros, initNosotrosAnimations } from './pages/nosotros.js'
 import { renderFAQ, initFAQAnimations } from './pages/faq.js'
 import { renderEquipo, initEquipoAnimations } from './pages/equipo.js'
 import { renderSistemaXprinta, initSistemaXprintaAnimations } from './pages/sistema-xprinta.js'
+import { renderRedXprinta, initRedXprintaAnimations } from './pages/red-xprinta.js'
 
 // ==========================================================================
 // Router - Sistema de Layout Universal (AHORA ASYNC)
@@ -147,6 +149,9 @@ async function loadPage() {
   } else if (pageType === 'sistema-xprinta') {
     // Página Sistema Xprinta (Metodología)
     app.innerHTML = await renderSistemaXprinta();
+  } else if (pageType === 'red-xprinta') {
+    // Página Red Xprinta (Red Profesional)
+    app.innerHTML = await renderRedXprinta();
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();
@@ -178,6 +183,11 @@ async function loadPage() {
     initSistemaXprintaAnimations();
   }
 
+  // IMPORTANTE: Inicializar animaciones específicas de página Red Xprinta
+  if (pageType === 'red-xprinta') {
+    initRedXprintaAnimations();
+  }
+
   // IMPORTANTE: Inicializar animaciones en TODAS las páginas
   // (incluye cursor personalizado, smooth scroll, y animaciones con condicionales)
   initAnimations();
@@ -197,7 +207,7 @@ loadPage().catch(error => {
 // ==========================================================================
 // Initialization & Animations
 // ==========================================================================
-const initAnimations = () => {
+function initAnimations() {
   // --- Hero Slider Futuristic Animation ---
   const slides = document.querySelectorAll('.hero-slide');
   if (slides.length > 1) {
