@@ -24,7 +24,8 @@ const teamMembers = [
   {
     name: 'Emilio Sánchez',
     role: 'Director de Operaciones',
-    photo: '/nosotros/equipo/Emilio sánchez.jpg'
+    photo: '/nosotros/equipo/Emilio sánchez.jpg',
+    hoverVideo: '/nosotros/equipo/emilio-sanchez.mp4'
   },
   // Desarrollo / IA Architect
   {
@@ -172,6 +173,22 @@ function initAnimations() {
         }
       )
     }
+    
+    // Hover video logic
+    const hoverVideo = card.querySelector('.hover-video')
+    if (hoverVideo) {
+      card.addEventListener('mouseenter', () => {
+        hoverVideo.play().catch(e => console.log('Autoplay prevented:', e))
+        hoverVideo.style.opacity = '1'
+        if (cardImage) cardImage.style.opacity = '0'
+      })
+      
+      card.addEventListener('mouseleave', () => {
+        hoverVideo.pause()
+        hoverVideo.style.opacity = '0'
+        if (cardImage) cardImage.style.opacity = '1'
+      })
+    }
   })
 
 }
@@ -183,15 +200,18 @@ export async function renderEquipo() {
   const teamCards = teamMembers.map((member, index) => `
     <div class="team-card-clickable" data-index="${index}">
       <div class="team-card-large">
-        <div class="team-large-image">
-          <img src="${member.photo}" alt="${member.name}" loading="lazy" class="image-cover" />
+        <div class="team-large-image" style="position: relative;">
+          <img src="${member.photo}" alt="${member.name}" loading="lazy" class="image-cover" style="transition: opacity 0.3s ease;" />
+          ${member.hoverVideo ? `
+            <video src="${member.hoverVideo}" class="video-cover hover-video" muted playsinline loop style="opacity: 0; transition: opacity 0.3s ease; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; pointer-events: none;"></video>
+          ` : ''}
         </div>
         <div class="team-card-inner-content">
+          <div class="team-large-top-tile">
+            <span class="team-member-role-label">${member.role}</span>
+          </div>
           <div class="team-large-bottom-tile">
-            <div class="team-member-name-large">${member.name}</div>
-            <div class="team-member-role-wrap">
-              <div class="team-member-role-large">${member.role}</div>
-            </div>
+            <h3 class="team-member-name-large">${member.name}</h3>
           </div>
         </div>
         <div class="team-large-shadow"></div>
@@ -246,6 +266,10 @@ export async function renderEquipo() {
           <div class="equipo-halves">
             <div class="label-master-dark">
               <div class="label-small-equipo">Sobre el equipo</div>
+              <h2 class="text-large" style="margin-top: 1.5rem; font-family: var(--font-family-serif); font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 600; line-height: 1.1; color: var(--color-neutral-900);">
+                Esto es <br>
+                <span style="color: var(--color-primary); font-style: italic;">Xprinta</span>
+              </h2>
             </div>
             <div class="text-h4-equipo">
               Nuestro equipo combina experiencia técnica con creatividad y compromiso.

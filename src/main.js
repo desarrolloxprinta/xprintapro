@@ -7,6 +7,7 @@ import './styles/faq.css'
 import './styles/equipo.css'
 import './styles/sistema-xprinta.css'
 import './styles/red-xprinta.css'
+import './styles/area-tecnica.css'
 import content from './data/content.json'
 import puntos from './data/puntos.json'
 import { gsap } from 'gsap'
@@ -53,6 +54,8 @@ import { renderFAQ, initFAQAnimations } from './pages/faq.js'
 import { renderEquipo, initEquipoAnimations } from './pages/equipo.js'
 import { renderSistemaXprinta, initSistemaXprintaAnimations } from './pages/sistema-xprinta.js'
 import { renderRedXprinta, initRedXprintaAnimations } from './pages/red-xprinta.js'
+import { renderAreaTecnicaPost, initAreaTecnicaPostAnimations } from './pages/area-tecnica-post.js'
+import { getAreaTecnicaIndexHTML, initAreaTecnicaIndexAnimations } from './pages/area-tecnica-index.js'
 
 // ==========================================================================
 // Router - Sistema de Layout Universal (AHORA ASYNC)
@@ -152,6 +155,14 @@ async function loadPage() {
   } else if (pageType === 'red-xprinta') {
     // Página Red Xprinta (Red Profesional)
     app.innerHTML = await renderRedXprinta();
+  } else if (pageType === 'area-tecnica-post') {
+    // Página Área Técnica (Blog Post)
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug') || 'senalizacion-de-parkings';
+    app.innerHTML = await renderAreaTecnicaPost(slug);
+  } else if (pageType === 'area-tecnica') {
+    // Directorio del Área Técnica
+    app.innerHTML = await getAreaTecnicaIndexHTML();
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();
@@ -176,6 +187,16 @@ async function loadPage() {
   // IMPORTANTE: Inicializar animaciones específicas de página Equipo
   if (pageType === 'equipo') {
     initEquipoAnimations();
+  }
+
+  // IMPORTANTE: Inicializar animaciones específicas de página Área Técnica
+  if (pageType === 'area-tecnica-post') {
+    initAreaTecnicaPostAnimations();
+  }
+
+  // IMPORTANTE: Inicializar animaciones específicas de Área Técnica (Directorio)
+  if (pageType === 'area-tecnica') {
+    initAreaTecnicaIndexAnimations();
   }
 
   // IMPORTANTE: Inicializar animaciones específicas de página Sistema Xprinta

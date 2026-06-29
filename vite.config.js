@@ -35,6 +35,8 @@ export default defineConfig({
         servicios: resolve(__dirname, 'servicios.html'),
         sistemaXprinta: resolve(__dirname, 'sistema-xprinta.html'),
         trazabilidadProducto: resolve(__dirname, 'trazabilidad-producto.html'),
+        areaTecnicaPost: resolve(__dirname, 'area-tecnica-post.html'),
+        areaTecnica: resolve(__dirname, 'area-tecnica.html'),
       },
     },
   },

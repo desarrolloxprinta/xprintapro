@@ -214,14 +214,14 @@
   gap: 2.5rem;
 }
 
-/* Team Card Clickable */
 .team-card-clickable {
   cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Add scale transition for bento style */
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .team-card-clickable:hover {
-  transform: translateY(-8px);
+  transform: scale(0.98);
 }
 
 .team-card-large {
@@ -241,12 +241,14 @@
 }
 
 .team-card-inner-content {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 2;
-  height: 100%;
   display: flex;
-  align-items: flex-end;
-  padding: 2rem;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem;
+  box-sizing: border-box;
 }
 
 .team-large-bottom-tile {
@@ -255,40 +257,37 @@
 
 .team-member-name-large {
   font-family: var(--font-family-heading);
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 500;
   color: white;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  line-height: 1.1;
 }
 
-.team-member-role-wrap {
-  margin-top: 0.5rem;
+.team-large-top-tile {
+  width: 100%;
 }
 
-.team-member-role-large {
+.team-member-role-label {
   font-family: var(--font-family-body);
-  font-size: 0.9375rem;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* Shadow overlay en hover */
+/* Shadow overlay en hover - Bento style */
 .team-large-shadow {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 60%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
   z-index: 1;
-  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .team-card-clickable:hover .team-large-shadow {
-  height: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
+  background: rgba(0, 0, 0, 0.2);
 }
 
 /* ==================== RESPONSIVE ==================== */
