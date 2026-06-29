@@ -250,3 +250,40 @@ CREATE POLICY "Public read media" ON media
 
 -- Nota: Las políticas de escritura (INSERT/UPDATE/DELETE) se configuran
 -- según los roles de administrador en Supabase Dashboard
+
+-- ============================================
+-- 9. TABLA: area_tecnica_posts
+-- ============================================
+-- Artículos y contenido profundo para el Área Técnica
+CREATE TABLE IF NOT EXISTS area_tecnica_posts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
+  category TEXT,
+  author TEXT,
+  thumbnail TEXT, -- Imagen thumbnail para cards y mega menu
+  published_date DATE,
+  hero_video TEXT,
+  audio_url TEXT,
+  pdf_url TEXT,
+  sections JSONB, -- Array de objetos {id, title, content}
+  published BOOLEAN DEFAULT false,
+
+  -- Metadata
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_area_tecnica_slug ON area_tecnica_posts(slug);
+CREATE INDEX idx_area_tecnica_published ON area_tecnica_posts(published);
+CREATE INDEX idx_area_tecnica_published_date ON area_tecnica_posts(published_date DESC);
+
+-- Trigger para updated_at
+CREATE TRIGGER update_area_tecnica_posts_updated_at BEFORE UPDATE ON area_tecnica_posts
+FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- RLS para area_tecnica_posts
+ALTER TABLE area_tecnica_posts ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read published area_tecnica" ON area_tecnica_posts
+  FOR SELECT USING (published = true);

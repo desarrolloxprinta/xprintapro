@@ -16,10 +16,11 @@
  */
 
 import content from './data/content.json'
-import { getRecentProjects } from './lib/supabase.js'
+import { getRecentProjects, getAreaTecnicaPosts } from './lib/supabase.js'
 
 // Cache de proyectos recientes para el header
 let headerProjectsCache = null;
+let headerAreaTecnicaCache = null;
 
 /**
  * Carga los 3 proyectos más recientes para el mega-menu
@@ -45,13 +46,45 @@ async function loadHeaderProjects() {
 }
 
 /**
+ * Carga los 3 artículos más recientes del Área Técnica para el mega-menu
+ * @returns {Promise<Array>} Artículos recientes
+ */
+async function loadHeaderAreaTecnica() {
+  if (headerAreaTecnicaCache) return headerAreaTecnicaCache;
+
+  try {
+    console.log('🔍 [Header] Cargando artículos de Área Técnica...');
+    const posts = await getAreaTecnicaPosts();
+    console.log('📦 [Header] Artículos recibidos:', posts?.length, posts);
+
+    // Tomar solo los 3 más recientes
+    const recentPosts = posts.slice(0, 3);
+    console.log('✂️ [Header] Artículos recientes (3):', recentPosts);
+
+    headerAreaTecnicaCache = recentPosts.map(post => ({
+      title: post.title,
+      description: post.category || 'Artículo Técnico',
+      image: post.thumbnail || '/area tecnica/thumb-parking.jpeg', // Usar thumbnail, fallback a parking
+      url: `/area-tecnica-post.html?slug=${post.slug}`
+    }));
+    console.log('✅ [Header] Cache de Área Técnica creado:', headerAreaTecnicaCache);
+    return headerAreaTecnicaCache;
+  } catch (error) {
+    console.error('❌ [Header] Error cargando artículos del área técnica:', error);
+    // Fallback vacío si falla
+    return [];
+  }
+}
+
+/**
  * Renderiza el header/navbar universal
- * Ahora es DINÁMICO - carga proyectos desde Supabase
+ * Ahora es DINÁMICO - carga proyectos y artículos del área técnica desde Supabase
  *
  * @returns {Promise<string>} HTML del header
  */
 export const renderHeader = async () => {
   const proyectosHeader = await loadHeaderProjects();
+  const areaTecnicaHeader = await loadHeaderAreaTecnica();
 
   return `
   <header class="site-header">
@@ -180,12 +213,37 @@ export const renderHeader = async () => {
           </div>
         </div>
 
-        <div class="nav-item">
-          <a href="#mapa" class="nav-link">Red Xprinta</a>
+        <div class="nav-item-dropdown">
+          <a href="/area-tecnica.html" class="nav-link">Área Técnica <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <div class="mega-menu">
+            <div class="container-fluid mega-menu-proyectos-inner">
+              ${areaTecnicaHeader.map(article => `
+                <div class="mega-menu-proyectos-card">
+                  <a href="${article.url}" class="mega-menu__link-block">
+                    <img src="${article.image}" alt="${article.title}" class="mega-menu-proyectos-image" />
+                    <h4 class="mega-menu-proyectos-title">${article.title}</h4>
+                    <p class="mega-menu-proyectos-desc">${article.description}</p>
+                  </a>
+                  <div class="mega-menu__item-footer">
+                    <span class="mega-menu-proyectos-link">Leer artículo &rarr;</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            <div class="container-fluid mega-menu__footer-actions">
+              <a href="/area-tecnica.html" class="btn-regius">
+                <div class="btn-regius-text-wrapper">
+                  <div class="btn-regius-text _1">Ver todos los artículos</div>
+                  <div class="btn-regius-text _2">Ver todos los artículos</div>
+                </div>
+                <div class="btn-regius-bg"></div>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div class="nav-item">
-          <a href="#area-tecnica" class="nav-link">Área Técnica</a>
+          <a href="/red-xprinta.html" class="nav-link">Red Xprinta</a>
         </div>
 
         <div class="nav-item-dropdown">

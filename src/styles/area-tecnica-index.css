@@ -1,0 +1,185 @@
+/* ==========================================================================
+   ÁREA TÉCNICA - DIRECTORIO (Noteworthy Clone)
+   ========================================================================== */
+
+.page-area-tecnica-index {
+  background-color: var(--color-bg-primary, #ffffff);
+  color: var(--color-text-primary, #000000);
+}
+
+.at-index-header {
+  padding: 180px 0 80px;
+}
+
+.at-index-title {
+  font-size: clamp(4rem, 8vw, 8rem);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.at-index-meta {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding-bottom: 1rem;
+  margin-top: 4rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* List Container */
+.at-index-list {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 120px;
+}
+
+/* Individual Item */
+.at-index-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  align-items: center;
+  padding: 3rem 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Grid columns content */
+.at-index-year {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.7;
+  z-index: 2;
+  transition: color 0.4s ease;
+}
+
+.at-index-info {
+  z-index: 2;
+  transition: color 0.4s ease;
+}
+
+.at-index-info h3 {
+  font-size: clamp(2rem, 3vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.at-index-info span {
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.at-index-action {
+  text-align: right;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.4s ease;
+}
+
+.at-index-action svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Background Expandable Element */
+.at-index-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scaleY(0);
+  width: calc(100% + 2rem);
+  height: 100%;
+  background-color: var(--color-primary); /* Fallback si no hay video */
+  border-radius: 1rem;
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+/* Dark mode / no video fallback bg */
+.at-index-bg.no-video {
+  background-color: #0a0a0a; 
+}
+
+.at-index-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* ==========================================================================
+   HOVER STATES
+   ========================================================================== */
+
+@media (hover: hover) {
+  .at-index-item:hover {
+    padding: 4rem 1rem;
+    border-bottom-color: transparent;
+  }
+
+  .at-index-item:hover .at-index-bg {
+    transform: translate(-50%, -50%) scaleY(1);
+    opacity: 1;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    background-color: #000000; /* Asegurar fondo negro para oscurecer el video */
+  }
+
+  .at-index-item:hover .at-index-bg video {
+    opacity: 0.3; /* Oscurecemos el video un 30% más (de 0.6 a 0.3) */
+  }
+
+  .at-index-item:hover .at-index-year,
+  .at-index-item:hover .at-index-info,
+  .at-index-item:hover .at-index-info h3,
+  .at-index-item:hover .at-index-action {
+    color: #ffffff !important; /* Texto blanco puro en hover */
+  }
+
+  .at-index-item:hover .at-index-year,
+  .at-index-item:hover .at-index-info span {
+    opacity: 0.9;
+  }
+
+  .at-index-item:hover .at-index-action svg {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .at-index-item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2rem 0;
+  }
+  
+  .at-index-year {
+    display: none; /* Hide year on mobile to save space */
+  }
+  
+  .at-index-action {
+    justify-content: flex-start;
+  }
+  
+  .at-index-bg {
+    width: calc(100% + 1rem);
+  }
+}
