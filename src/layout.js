@@ -263,7 +263,7 @@ export const renderHeader = async () => {
               </div>
               <div class="mega-menu-right">
                 <div class="mega-menu-card overflow-hidden">
-                  <video class="mega-menu-image" autoplay loop muted playsinline poster="/nosotros/xprinta-home-800.jpg">
+                  <video class="mega-menu-image" autoplay loop muted playsinline poster="/nosotros/historia/xprinta-home-800.jpg">
                     <source src="/nosotros/nosotros-video-800.mp4" type="video/mp4">
                   </video>
                   <div class="mega-menu-card-content">
