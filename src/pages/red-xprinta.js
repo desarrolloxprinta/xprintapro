@@ -132,19 +132,26 @@ function geocodeAndAddMarker(location, index) {
  * Inicializa animaciones GSAP específicas de Red Xprinta
  */
 function initRedAnimations() {
-  // HERO: blur + translateX alternando por línea
-  const heroLines = document.querySelectorAll('.red-hero-line')
-  heroLines.forEach((line, i) => {
-    const dir = i % 2 === 0 ? 1 : -1
-    gsap.fromTo(line,
-      { opacity: 0, filter: 'blur(8px)', x: `${16 * dir}%` },
-      { opacity: 1, filter: 'blur(0px)', x: '0%', duration: 1.4, ease: 'power3.out', delay: 0.1 * i }
-    )
-    gsap.to(line, {
-      opacity: 0, filter: 'blur(8px)', x: `${20 * dir}%`,
-      scrollTrigger: { trigger: '.red-hero', start: 'top top', end: 'bottom top', scrub: true }
-    })
-  })
+  // HERO: fade in y slide up para texto
+  gsap.fromTo('.red-hero-title-small',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 }
+  )
+
+  gsap.fromTo('.red-hero-title-main',
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 0.4 }
+  )
+
+  gsap.fromTo('.red-hero-description',
+    { opacity: 0, y: 20 },
+    { opacity: 0.8, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.6 }
+  )
+
+  gsap.fromTo('.red-hero-stats',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.8 }
+  )
 
   // DESCRIPCIÓN: fade in
   const descriptionItems = document.querySelectorAll('.red-description-item')
@@ -190,10 +197,38 @@ export async function renderRedXprinta() {
   const content = `
     <!-- HERO -->
     <section class="red-hero">
-      <h1 class="red-hero-title">
-        <span class="red-hero-line">Una red profesional</span>
-        <span class="red-hero-line">en España y Portugal</span>
-      </h1>
+      <div class="red-hero-container">
+        <div class="red-hero-content">
+          <div class="red-hero-text">
+            <h1 class="red-hero-title">
+              <span class="red-hero-title-small">Red Xprinta</span>
+              <span class="red-hero-title-main">Una red profesional en España y Portugal</span>
+            </h1>
+            <p class="red-hero-description">
+              286 puntos estratégicamente distribuidos ofreciendo soluciones integrales
+              de imagen corporativa, rotulación y señalética con los más altos estándares de calidad.
+            </p>
+            <div class="red-hero-stats">
+              <div class="red-hero-stat">
+                <span class="red-hero-stat-number">286</span>
+                <span class="red-hero-stat-label">Puntos</span>
+              </div>
+              <div class="red-hero-stat">
+                <span class="red-hero-stat-number">2</span>
+                <span class="red-hero-stat-label">Países</span>
+              </div>
+              <div class="red-hero-stat">
+                <span class="red-hero-stat-number">17</span>
+                <span class="red-hero-stat-label">Comunidades</span>
+              </div>
+            </div>
+          </div>
+          <div class="red-hero-images">
+            <img src="/images/red-hero-1.jpg" alt="Red profesional Xprinta" class="red-hero-image red-hero-image-1">
+            <img src="/images/red-hero-2.jpg" alt="Equipo Xprinta" class="red-hero-image red-hero-image-2">
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- DESCRIPCIÓN -->
