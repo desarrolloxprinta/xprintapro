@@ -1084,3 +1084,62 @@ window.addEventListener('DOMContentLoaded', () => {
   // Nota: initAnimations() ahora se llama dentro de loadPage() para TODAS las páginas
   //       (cursor personalizado, smooth scroll, y otras animaciones globales)
 });
+
+// ==========================================================================
+// Color Toggle Button (Experimental)
+// ==========================================================================
+
+function initColorToggle() {
+  const colorToggleBtn = document.getElementById('color-toggle-btn');
+  if (!colorToggleBtn) return;
+
+  // Colores originales
+  const originalColors = {
+    highlight: '#F18108', // Naranja original
+    text: '#0A0A0A'       // Negro original
+  };
+
+  // Colores alternativos
+  const altColors = {
+    highlight: '#24394b', // Azul oscuro
+    text: '#24394b'       // Azul oscuro también para texto
+  };
+
+  // Verificar si hay preferencia guardada
+  const savedScheme = localStorage.getItem('colorScheme');
+  if (savedScheme === 'alt') {
+    applyAltColorScheme();
+  }
+
+  // Click handler
+  colorToggleBtn.addEventListener('click', () => {
+    const isAlt = document.body.classList.toggle('alt-color-scheme');
+    
+    if (isAlt) {
+      applyAltColorScheme();
+      localStorage.setItem('colorScheme', 'alt');
+    } else {
+      applyOriginalColorScheme();
+      localStorage.setItem('colorScheme', 'original');
+    }
+  });
+
+  function applyAltColorScheme() {
+    document.documentElement.style.setProperty('--color-highlight', altColors.highlight);
+    document.documentElement.style.setProperty('--color-text', altColors.text);
+    document.body.classList.add('alt-color-scheme');
+    console.log('✅ Esquema de color alternativo aplicado (Azul #24394b)');
+  }
+
+  function applyOriginalColorScheme() {
+    document.documentElement.style.setProperty('--color-highlight', originalColors.highlight);
+    document.documentElement.style.setProperty('--color-text', originalColors.text);
+    document.body.classList.remove('alt-color-scheme');
+    console.log('✅ Esquema de color original aplicado (Naranja #F18108)');
+  }
+}
+
+// Inicializar después de cargar el DOM
+window.addEventListener('DOMContentLoaded', () => {
+  initColorToggle();
+});
