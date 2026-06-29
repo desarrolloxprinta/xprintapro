@@ -270,24 +270,53 @@ export async function getBlogPostBySlug(slug) {
  * @returns {Promise<Array>}
  */
 export async function getAreaTecnicaPosts() {
-  if (!supabase) {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('Supabase no configurado. Retornando datos de fallback para área técnica.');
     return getFallbackAreaTecnicaPosts();
   }
 
   try {
-    const { data, error } = await supabase
-      .from('area_tecnica_posts')
-      .select('*')
-      .eq('published', true)
-      .order('published_date', { ascending: false });
+    console.log('🔍 Fetching area_tecnica_posts...');
 
-    if (error) throw error;
+    // Limpiar credenciales
+    const cleanUrl = supabaseUrl.trim().replace(/\s+/g, '');
+    const cleanKey = supabaseAnonKey.trim().replace(/\s+/g, '').replace(/[\r\n]/g, '');
+
+    // Construir URL con query params
+    const url = `${cleanUrl}/rest/v1/area_tecnica_posts?select=*&published=eq.true&order=published_date.desc`;
+
+    console.log('📡 Fetching from:', url.substring(0, 80) + '...');
+
+    // Crear headers
+    const headers = new Headers();
+    headers.append('apikey', cleanKey);
+    headers.append('Authorization', `Bearer ${cleanKey}`);
+    headers.append('Content-Type', 'application/json');
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: headers
+    });
+
+    console.log('📦 Response status:', response.status);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('❌ HTTP error:', errorText);
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log('✅ Query successful, returning', data?.length, 'posts');
 
     if (!data || data.length === 0) {
-       return getFallbackAreaTecnicaPosts();
+      console.warn('⚠️ No posts from Supabase, using fallback');
+      return getFallbackAreaTecnicaPosts();
     }
-    
+
     return data.map(d => ({
       ...d,
       thumbnail: d.thumbnail,
@@ -307,34 +336,62 @@ export async function getAreaTecnicaPosts() {
  * @returns {Promise<Object|null>}
  */
 export async function getAreaTecnicaPostBySlug(slug) {
-  if (!supabase) {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('Supabase no configurado. Retornando datos de fallback para área técnica.');
     return getFallbackAreaTecnicaPostBySlug(slug);
   }
 
   try {
-    const { data, error } = await supabase
-      .from('area_tecnica_posts')
-      .select('*')
-      .eq('slug', slug)
-      .eq('published', true)
-      .single();
+    console.log('🔍 Fetching area_tecnica_post by slug:', slug);
 
-    if (error) throw error;
+    // Limpiar credenciales
+    const cleanUrl = supabaseUrl.trim().replace(/\s+/g, '');
+    const cleanKey = supabaseAnonKey.trim().replace(/\s+/g, '').replace(/[\r\n]/g, '');
 
-    if (!data) {
-       // if we have supabase but data is not there yet (because they didn't run the seed),
-       // fallback to json just so the site doesn't break during transition.
-       return getFallbackAreaTecnicaPostBySlug(slug);
+    // Construir URL con query params
+    const url = `${cleanUrl}/rest/v1/area_tecnica_posts?select=*&slug=eq.${slug}&published=eq.true&limit=1`;
+
+    console.log('📡 Fetching from:', url.substring(0, 80) + '...');
+
+    // Crear headers
+    const headers = new Headers();
+    headers.append('apikey', cleanKey);
+    headers.append('Authorization', `Bearer ${cleanKey}`);
+    headers.append('Content-Type', 'application/json');
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: headers
+    });
+
+    console.log('📦 Response status:', response.status);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('❌ HTTP error:', errorText);
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
     }
+
+    const data = await response.json();
+    console.log('✅ Query successful, data:', data);
+
+    if (!data || data.length === 0) {
+      console.warn('⚠️ No data from Supabase, using fallback');
+      return getFallbackAreaTecnicaPostBySlug(slug);
+    }
+
+    const rawPost = data[0];
 
     // Convert database snake_case to the camelCase expected by the template
     const post = {
-      ...data,
-      thumbnail: data.thumbnail,
-      heroVideo: data.hero_video,
-      audioUrl: data.audio_url,
-      pdfUrl: data.pdf_url
+      ...rawPost,
+      thumbnail: rawPost.thumbnail,
+      heroVideo: rawPost.hero_video,
+      audioUrl: rawPost.audio_url,
+      pdfUrl: rawPost.pdf_url
     };
 
     // Si sections está vacío o es null, hacer fallback al JSON para obtener el contenido
