@@ -310,6 +310,7 @@ export const renderFooter = () => `
             <img src="/miembro/aserluz-xprinta.webp" alt="Aserluz">
             <img src="/miembro/european-sign-federation-xprinta.webp" alt="European Sign Federation">
             <img src="/miembro/international-sign-association-xprinta.webp" alt="International Sign Association">
+            <img src="/miembro/logo%20fespa.webp" alt="FESPA">
           </div>
         </div>
         <div class="footer-right">
@@ -323,13 +324,14 @@ export const renderFooter = () => `
             <div class="footer-label">RED XPRINTA IBERIA</div>
             <div class="footer-links-column">
               <span class="footer-text">Más de 125 puntos Xprinta<br>en España y Portugal</span>
+              <a href="/red-xprinta.html" class="footer-link">Ver red completa →</a>
             </div>
           </div>
           <div class="footer-column">
             <div class="footer-label">CONTACTO</div>
             <div class="footer-links-column">
               <a href="tel:915052927" class="footer-link">Tel. 91 505 29 27</a>
-              <a href="mailto:${content.footer.contact.email}" class="footer-link">${content.footer.contact.email}</a>
+              <a href="mailto:presupuesto@xprinta.com?subject=Contacto%20desde%20Xprinta%20Pro" class="footer-link">presupuesto@xprinta.com</a>
               <a href="/" class="footer-link">xprintapro.com</a>
             </div>
           </div>

@@ -1748,10 +1748,11 @@ html.lenis { height: auto; }
   object-fit: contain;
   opacity: 0.6;
   filter: grayscale(100%);
-  transition: opacity var(--transition-speed);
+  transition: opacity var(--transition-speed), filter var(--transition-speed);
 }
 .footer-logos img:hover {
   opacity: 1;
+  filter: grayscale(0%); /* Recupera color original en hover */
 }
 
 .footer-right {
