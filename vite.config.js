@@ -37,6 +37,7 @@ export default defineConfig({
         trazabilidadProducto: resolve(__dirname, 'trazabilidad-producto.html'),
         areaTecnicaPost: resolve(__dirname, 'area-tecnica-post.html'),
         areaTecnica: resolve(__dirname, 'area-tecnica.html'),
+        sector: resolve(__dirname, 'sector.html'),
       },
     },
   },

@@ -56,6 +56,8 @@ import { renderSistemaXprinta, initSistemaXprintaAnimations } from './pages/sist
 import { renderRedXprinta, initRedXprintaAnimations } from './pages/red-xprinta.js'
 import { renderAreaTecnicaPost, initAreaTecnicaPostAnimations } from './pages/area-tecnica-post.js'
 import { getAreaTecnicaIndexHTML, initAreaTecnicaIndexAnimations } from './pages/area-tecnica-index.js'
+import { getSectorDetailHTML, initSectorDetailAnimations } from './pages/sector-detail.js'
+
 
 // ==========================================================================
 // Router - Sistema de Layout Universal (AHORA ASYNC)
@@ -163,6 +165,11 @@ async function loadPage() {
   } else if (pageType === 'area-tecnica') {
     // Directorio del Área Técnica
     app.innerHTML = await getAreaTecnicaIndexHTML();
+  } else if (pageType === 'sector') {
+    // Página de Sector (Ej: Industria)
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug') || 'industria';
+    app.innerHTML = await getSectorDetailHTML(slug);
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();
@@ -197,6 +204,11 @@ async function loadPage() {
   // IMPORTANTE: Inicializar animaciones específicas de Área Técnica (Directorio)
   if (pageType === 'area-tecnica') {
     initAreaTecnicaIndexAnimations();
+  }
+
+  // IMPORTANTE: Inicializar animaciones específicas de Sectores
+  if (pageType === 'sector') {
+    initSectorDetailAnimations();
   }
 
   // IMPORTANTE: Inicializar animaciones específicas de página Sistema Xprinta

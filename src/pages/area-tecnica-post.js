@@ -159,6 +159,64 @@ function generateBreadcrumbSchema(post) {
   return `<script type="application/ld+json">${JSON.stringify(schema, null, 2)}</script>`;
 }
 
+/**
+ * Dinámicamente mejora el formato del contenido del artículo para diagramarlo mejor.
+ * Convierte listas secuenciales (p.ej. Primero, Segundo...) en tarjetas (step-cards),
+ * y los detalles de "Servicio recomendado" en un bloque de recomendación premium.
+ */
+function formatArticleContent(html) {
+  if (!html) return '';
+
+  let processed = html;
+
+  // 1. Convertir listas secuenciales Primero, Segundo... en tarjetas step-card
+  const stepPattern = /<p>(Primero|Segundo|Tercero|Cuarto|Quinto|Sexto|Séptimo|Octavo),\s*([^<]+)<\/p>/gi;
+  if (stepPattern.test(processed)) {
+    processed = processed.replace(stepPattern, (match, step, text) => {
+      const parts = text.split(':');
+      const title = parts[0].trim();
+      const desc = parts.slice(1).join(':').trim();
+      return `
+        <div class="step-card">
+          <div class="step-card-badge">${step}</div>
+          <h4 class="step-card-title">${title}</h4>
+          ${desc ? `<p class="step-card-desc">${desc}</p>` : ''}
+        </div>
+      `;
+    });
+  }
+
+  // 2. Convertir la sección de Servicio Recomendado en un bloque de recomendación premium
+  const recommendedPattern = /(Servicio recomendado|Por qué te ayudaría|Qué problema concreto soluciona|Cuándo conviene contratarlo|Qué resultado podrías esperar)/gi;
+  if (recommendedPattern.test(processed)) {
+    // Primero, envolvemos el título y la descripción inicial del bloque si existiera
+    // Y envolvemos los items individuales de la recomendación
+    processed = processed.replace(/<p>(<strong>)?(Servicio recomendado|Por qué te ayudaría|Qué problema concreto soluciona|Cuándo conviene contratarlo|Qué resultado podrías esperar[^:]*)(<\/strong>)?:?\s*([^<]+)<\/p>/gi, (match, p1, label, p2, desc) => {
+      return `
+        <div class="service-recommendation-item">
+          <span class="service-recommendation-label">${label.replace(':', '')}</span>
+          <p class="service-recommendation-desc">${desc}</p>
+        </div>
+      `;
+    });
+
+    // Envolver todos los service-recommendation-item adyacentes en una grid
+    const itemsPattern = /((?:\s*<div class="service-recommendation-item">[\s\S]*?<\/div>)+)/gi;
+    processed = processed.replace(itemsPattern, (match, items) => {
+      return `
+        <div class="service-recommendation-wrapper">
+          <h3 class="service-recommendation-title">Servicio Recomendado</h3>
+          <div class="service-recommendation-grid">
+            ${items}
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  return processed;
+}
+
 export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
   const post = await getAreaTecnicaPostBySlug(slug)
 
@@ -186,21 +244,57 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
     'seo-keywords'
   ];
 
-  const visibleSections = post.sections.filter(section =>
+  const faqStartIndex = post.sections.findIndex(s => s.id === 'preguntas-seo-geo-respondidas' || s.id === 'preguntas-seo-geo-respondidas-1');
+
+  let regularSections = post.sections;
+  let faqSections = [];
+
+  if (faqStartIndex !== -1) {
+    regularSections = post.sections.slice(0, faqStartIndex);
+    faqSections = post.sections.slice(faqStartIndex + 1).filter(section =>
+      !hiddenSectionIds.includes(section.id) && section.content.trim() !== ''
+    );
+  }
+
+  const visibleSections = regularSections.filter(section =>
     !hiddenSectionIds.includes(section.id)
   );
 
-  const tocHTML = visibleSections.map(section => `
-    <li class="toc-item">
-      <a href="#${section.id}" class="toc-link">${section.title}</a>
-    </li>
-  `).join('')
+  const tocHTML = [
+    ...visibleSections.map(section => `
+      <li class="toc-item">
+        <a href="#${section.id}" class="toc-link">${section.title}</a>
+      </li>
+    `),
+    ...(faqSections.length > 0 ? [`
+      <li class="toc-item">
+        <a href="#preguntas-frecuentes" class="toc-link">Preguntas frecuentes</a>
+      </li>
+    `] : [])
+  ].join('')
 
   const contentHTML = visibleSections.map(section => `
     <div id="${section.id}" class="blog-section gsap-reveal">
-      ${section.content}
+      ${formatArticleContent(section.content)}
     </div>
   `).join('')
+
+  const faqHTML = faqSections.length > 0 ? `
+    <div id="preguntas-frecuentes" class="blog-section gsap-reveal">
+      <h2 class="font-serif" style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; color: #111827; margin-bottom: 2.5rem; margin-top: 4rem;">Preguntas frecuentes</h2>
+      <div class="faq-list-group">
+        ${faqSections.map(item => `
+          <div class="faq-list-item">
+            <div style="min-width: 0; flex: 1;">
+              <h3>${item.title}</h3>
+            </div>
+            ${item.content}
+            <span class="faq-list-icon">→</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  ` : '';
 
   const audioHTML = post.audioUrl ? `
     <div class="custom-audio-wrapper gsap-reveal">
@@ -346,6 +440,7 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
                     : ''
                 }
                 ${contentHTML}
+                ${faqHTML}
                 ${leadMagnetHTML}
               </article>
             </div>

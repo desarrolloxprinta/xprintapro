@@ -287,3 +287,41 @@ ALTER TABLE area_tecnica_posts ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Public read published area_tecnica" ON area_tecnica_posts
   FOR SELECT USING (published = true);
+
+-- ============================================
+-- 10. TABLA: sectors
+-- ============================================
+-- Sectores industriales y de negocio
+CREATE TABLE IF NOT EXISTS sectors (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
+  hero_title TEXT NOT NULL,
+  intro TEXT,
+  hero_image TEXT,
+  capabilities JSONB, -- Array de objetos {title, description, icon}
+  highlights JSONB,  -- Objeto {label, title, image, description}
+  published BOOLEAN DEFAULT false,
+  
+  -- Metadata
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_sectors_slug ON sectors(slug);
+CREATE INDEX idx_sectors_published ON sectors(published);
+
+-- Trigger para updated_at
+CREATE TRIGGER update_sectors_updated_at BEFORE UPDATE ON sectors
+FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- RLS para sectors
+ALTER TABLE sectors ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read published sectors" ON sectors
+  FOR SELECT USING (published = true);
+
+-- Modificación en proyectos para soportar vinculación múltiple con sectores
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS sectors TEXT[];
+CREATE INDEX IF NOT EXISTS idx_projects_sectors ON projects USING GIN(sectors);
+

@@ -222,6 +222,15 @@
 /* -------------------------------------- */
 /* 5. Main Article Formatting             */
 /* -------------------------------------- */
+.blog-section {
+  position: relative;
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.blog-section:last-of-type {
+  border-bottom: none;
+}
 
 .blog-main-content {
   font-family: var(--font-family-body);
@@ -233,11 +242,23 @@
 .blog-main-content h2 {
   font-family: var(--font-family-heading);
   font-size: 2.25rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-neutral-900);
-  margin-top: 4rem;
-  margin-bottom: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
   line-height: 1.3;
+  letter-spacing: -0.02em;
+  position: relative;
+}
+
+.blog-main-content h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--color-primary);
+  margin-top: 1rem;
+  border-radius: 2px;
 }
 
 .blog-main-content h3 {
@@ -245,7 +266,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-neutral-900);
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   margin-bottom: 1.25rem;
   line-height: 1.4;
 }
@@ -256,33 +277,57 @@
 }
 
 .blog-main-content ul {
-  margin-bottom: 1.75rem;
-  padding-left: 1.5rem;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 2.5rem 0;
 }
 
 .blog-main-content li {
-  margin-bottom: 0.75rem;
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.blog-main-content li::before {
+  content: '—';
+  color: var(--color-highlight, #E65000);
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 /* Hero Media - Aparece al inicio del artículo */
 .blog-content-hero-media {
   width: 100%;
-  border-radius: 12px;
-  margin-bottom: 3rem;
+  border-radius: 16px;
+  margin-bottom: 4rem;
   object-fit: cover;
   max-height: 500px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* Imágenes dentro del contenido */
+/* Imágenes y videos dentro del contenido */
 .blog-content-image {
   width: 100%;
-  border-radius: 8px;
-  margin: 3rem 0;
+  border-radius: 16px;
+  margin: 3.5rem 0;
   object-fit: cover;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s;
 }
 
-
+.blog-content-image:hover {
+  transform: scale(1.01);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.1);
+}
 /* -------------------------------------- */
 /* 6. Responsive Styles                   */
 /* -------------------------------------- */
@@ -691,3 +736,100 @@
     font-size: 2rem;
   }
 }
+
+/* -------------------------------------- */
+/* 8. Step Cards & Recommended Service Cards */
+/* -------------------------------------- */
+
+/* Container for step-cards when they flow next to each other */
+.blog-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-card {
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 2.5rem 0;
+  margin: 0;
+}
+
+.step-card-badge {
+  display: inline-block;
+  color: var(--color-highlight, #E65000);
+  font-family: var(--font-family-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+
+.step-card-title {
+  font-family: var(--font-family-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.3;
+}
+
+.step-card-desc {
+  font-family: var(--font-family-body);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-neutral-700);
+  margin: 0;
+}
+
+/* Service Recommendation Container */
+.service-recommendation-wrapper {
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 3rem 0;
+  margin: 3rem 0;
+}
+
+.service-recommendation-title {
+  font-family: var(--font-family-heading);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  margin: 0 0 2rem 0;
+  letter-spacing: -0.02em;
+}
+
+.service-recommendation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.service-recommendation-item {
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.service-recommendation-label {
+  font-family: var(--font-family-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.service-recommendation-desc {
+  font-family: var(--font-family-body);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-neutral-700);
+  margin: 0;
+}
+
