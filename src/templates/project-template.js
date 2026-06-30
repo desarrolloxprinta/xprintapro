@@ -66,6 +66,7 @@ const renderMetaBento = (data) => {
       <div class="meta-item gsap-bento-item" style="background: var(--color-secondary); padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: flex-start;">
         <span class="text-caption text-muted text-uppercase" style="margin-bottom: 2rem; display: block;">${ui.cliente}</span>
         <div>
+          ${data.service?.logo ? `<img src="${data.service.logo}" alt="${data.client.name} Logo" style="max-width: 150px; margin-bottom: 2rem; mix-blend-mode: multiply;" />` : ''}
           <h3 class="font-serif font-regular" style="font-size: 2.5rem; margin-bottom: 1rem;">${data.client.name}</h3>
           <p class="text-body-hero">${data.client.description}</p>
         </div>
@@ -78,10 +79,7 @@ const renderMetaBento = (data) => {
 
       <div class="meta-item gsap-bento-item" style="background: var(--color-secondary); padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: flex-start;">
         <span class="text-caption text-muted text-uppercase" style="margin-bottom: 2rem; display: block;">${ui.servicio}</span>
-        <div>
-          <h3 class="font-serif font-regular" style="font-size: 2.5rem;">${data.service.title}</h3>
-          ${data.service.logo ? `<img src="${data.service.logo}" alt="${data.client.name} Logo" style="max-width: 150px; margin-top: 2rem; mix-blend-mode: multiply;" />` : ''}
-        </div>
+        <h3 class="font-serif font-regular" style="font-size: 2.5rem;">${data.service.title}</h3>
       </div>
 
     </div>
