@@ -223,6 +223,7 @@ async function loadPage() {
   // Esperar un tick para que el DOM se actualice
   setTimeout(() => {
     initColorToggle();
+    initPaperform();
   }, 0);
 }
 
@@ -1148,3 +1149,27 @@ function initColorToggle() {
 }
 
 // NOTA: initColorToggle() ahora se llama dentro de loadPage() después de insertar el HTML
+
+// ==========================================================================
+// Paperform Embed Initialization
+// ==========================================================================
+
+function initPaperform() {
+  // Verificar si hay un div con data-paperform-id en el DOM
+  const paperformDiv = document.querySelector('[data-paperform-id]');
+
+  if (!paperformDiv) {
+    return; // No hay formulario Paperform en esta página
+  }
+
+  // Solo cargar el script si no existe ya
+  if (!window.Paperform && !document.querySelector('script[src*="paperform.co"]')) {
+    const script = document.createElement('script');
+    script.src = "https://paperform.co/__embed.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+    console.log('✅ Paperform script cargado');
+  }
+}
+
+// NOTA: initPaperform() se llama dentro de loadPage() después de insertar el HTML

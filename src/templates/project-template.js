@@ -319,18 +319,8 @@ const renderContacto = () => `
         </p>
       </div>
       <div class="gsap-reveal">
-        <!-- NUEVO FORMULARIO: Paperform embed -->
+        <!-- Paperform embed (script cargado en main.js) -->
         <div data-paperform-id="xprintapro-contacto"></div>
-        <script>
-          (function() {
-            // Solo cargar el script si no existe ya
-            if (!window.Paperform) {
-              var script = document.createElement('script');
-              script.src = "https://paperform.co/__embed.min.js";
-              document.body.appendChild(script);
-            }
-          })()
-        </script>
 
         <!-- FORMULARIO ORIGINAL (comentado para no perderlo)
         <form class="contact-form">

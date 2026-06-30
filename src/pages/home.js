@@ -370,6 +370,10 @@ const renderContacto = () => `
         </p>
       </div>
       <div class="gsap-reveal">
+        <!-- Paperform embed (script cargado en main.js) -->
+        <div data-paperform-id="xprintapro-contacto"></div>
+
+        <!-- FORMULARIO ORIGINAL (comentado para no perderlo)
         <form class="contact-form">
           <div class="form-group">
             <label class="form-label">Nombre Completo</label>
@@ -397,6 +401,7 @@ const renderContacto = () => `
             </button>
           </div>
         </form>
+        -->
       </div>
     </div>
   </section>
