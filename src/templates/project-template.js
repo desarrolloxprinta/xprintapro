@@ -65,10 +65,16 @@ const renderMetaBento = (data) => {
 
       <div class="meta-item gsap-bento-item" style="background: var(--color-secondary); padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: flex-start;">
         <span class="text-caption text-muted text-uppercase" style="margin-bottom: 2rem; display: block;">${ui.cliente}</span>
-        <div>
-          <h3 class="font-serif font-regular" style="font-size: 2.5rem; margin-bottom: 1rem;">${data.client.name}</h3>
-          <p class="text-body-hero">${data.client.description}</p>
-          ${data.service?.logo ? `<img src="${data.service.logo}" alt="${data.client.name} Logo" style="max-width: 150px; margin-top: 2rem; mix-blend-mode: multiply;" />` : ''}
+        <div style="display: flex; gap: 2rem; align-items: flex-start;">
+          ${data.service?.logo ? `
+            <div style="flex: 0 0 auto;">
+              <img src="${data.service.logo}" alt="${data.client.name} Logo" style="max-width: 100px; width: 100%; mix-blend-mode: multiply;" />
+            </div>
+          ` : ''}
+          <div style="flex: 1; min-width: 0;">
+            <h3 class="font-serif font-regular" style="font-size: 2.5rem; margin-bottom: 1rem;">${data.client.name}</h3>
+            <p class="text-body-hero">${data.client.description}</p>
+          </div>
         </div>
       </div>
 
