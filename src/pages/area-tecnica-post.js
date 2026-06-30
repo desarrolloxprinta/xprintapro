@@ -20,13 +20,26 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
     })
   }
 
-  const tocHTML = post.sections.map(section => `
+  // Filtrar secciones internas que no deben mostrarse (metadatos, SEO, etc.)
+  const hiddenSectionIds = [
+    'espacio-para-recomendar-proyecto',
+    'bloque-t-cnico-seo',
+    'bloque-tecnico-seo',
+    'metadatos-internos',
+    'seo-keywords'
+  ];
+
+  const visibleSections = post.sections.filter(section =>
+    !hiddenSectionIds.includes(section.id)
+  );
+
+  const tocHTML = visibleSections.map(section => `
     <li class="toc-item">
       <a href="#${section.id}" class="toc-link">${section.title}</a>
     </li>
   `).join('')
 
-  const contentHTML = post.sections.map(section => `
+  const contentHTML = visibleSections.map(section => `
     <div id="${section.id}" class="blog-section gsap-reveal">
       ${section.content}
     </div>
