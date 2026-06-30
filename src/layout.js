@@ -310,7 +310,7 @@ export const renderFooter = () => `
             <img src="/miembro/aserluz-xprinta.webp" alt="Aserluz">
             <img src="/miembro/european-sign-federation-xprinta.webp" alt="European Sign Federation">
             <img src="/miembro/international-sign-association-xprinta.webp" alt="International Sign Association">
-            <img src="/miembro/logo%20fespa.webp" alt="FESPA">
+            <img src="/miembro/fespa.png" alt="FESPA">
           </div>
         </div>
         <div class="footer-right">
