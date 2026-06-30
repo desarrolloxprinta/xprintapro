@@ -169,7 +169,12 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
             <!-- Main Content (Span 6, offset 4) -->
             <div class="blog-content_content">
               <article class="blog-main-content">
-                ${post.heroVideo ? `<video src="${post.heroVideo}" class="blog-content-image gsap-reveal" autoplay loop muted playsinline></video>` : ''}
+                ${post.heroVideo
+                  ? `<video src="${post.heroVideo}" class="blog-content-hero-media gsap-reveal" autoplay loop muted playsinline></video>`
+                  : post.thumbnail
+                    ? `<img src="${post.thumbnail}" alt="${post.title}" class="blog-content-hero-media gsap-reveal" />`
+                    : ''
+                }
                 ${contentHTML}
                 ${leadMagnetHTML}
               </article>

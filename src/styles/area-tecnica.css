@@ -264,6 +264,17 @@
   margin-bottom: 0.75rem;
 }
 
+/* Hero Media - Aparece al inicio del artículo */
+.blog-content-hero-media {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 3rem;
+  object-fit: cover;
+  max-height: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Imágenes dentro del contenido */
 .blog-content-image {
   width: 100%;
   border-radius: 8px;
