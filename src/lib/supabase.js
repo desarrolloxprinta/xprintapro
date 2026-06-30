@@ -463,8 +463,18 @@ export async function getAreaTecnicaPostBySlug(slug) {
         return {
           ...post, // Mantener metadata de Supabase (thumbnail, dates, etc.)
           sections: fallbackPost.sections, // Usar sections del JSON
-          intro: fallbackPost.intro // Usar intro del JSON también
+          intro: fallbackPost.intro, // Usar intro del JSON también
+          paperformEmbedCode: fallbackPost.paperformEmbedCode || post.paperformEmbedCode // Priorizar fallback para Paperform
         };
+      }
+    }
+
+    // IMPORTANTE: Si no hay paperformEmbedCode en Supabase, intentar obtenerlo del fallback
+    if (!post.paperformEmbedCode) {
+      const fallbackPost = await getFallbackAreaTecnicaPostBySlug(slug);
+      if (fallbackPost && fallbackPost.paperformEmbedCode) {
+        console.log(`✅ Usando paperformEmbedCode del fallback para post "${slug}"`);
+        post.paperformEmbedCode = fallbackPost.paperformEmbedCode;
       }
     }
 
