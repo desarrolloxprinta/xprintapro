@@ -218,6 +218,12 @@ async function loadPage() {
   } else if (pageType === 'servicios') {
     initServiciosDirectory();
   }
+
+  // IMPORTANTE: Inicializar botón de cambio de color DESPUÉS de cargar el HTML
+  // Esperar un tick para que el DOM se actualice
+  setTimeout(() => {
+    initColorToggle();
+  }, 0);
 }
 
 // Cargar la página
@@ -1141,7 +1147,4 @@ function initColorToggle() {
   }
 }
 
-// Inicializar después de cargar el DOM
-window.addEventListener('DOMContentLoaded', () => {
-  initColorToggle();
-});
+// NOTA: initColorToggle() ahora se llama dentro de loadPage() después de insertar el HTML
