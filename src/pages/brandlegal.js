@@ -197,7 +197,7 @@ export const getBrandLegalHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <img src="https://pikaso.cdnpk.net/private/production/4691549374/render.jpg?token=exp=1782518400~hmac=dbd15804bfcd7d4d8db6dbb79c3ed76d990cca8d6e3128af6bb528cffdfc95b8" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" alt="Legalización de rótulos" />
+          <img src="/servicios/hero_brandlegal.jpg" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" alt="Legalización de rótulos" />
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">

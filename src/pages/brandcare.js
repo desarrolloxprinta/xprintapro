@@ -5,7 +5,7 @@ export const getBrandCareHTML = async () => {
     <main class="bc-main">
       <!-- HERO -->
       <section class="bc-hero">
-        <div class="bc-hero-bg" style="background-image: url('https://pikaso.cdnpk.net/private/production/4690007295/render.jpg?token=exp=1782518400~hmac=f3916f6c5563e53a5e2dd62f5b7e0cf5e60d36be2f8e6c767f45123f4a79870d');"></div>
+        <div class="bc-hero-bg" style="background-image: url('/servicios/hero_brandcare.jpg');"></div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
           <div class="bc-label">Línea de Servicio</div>

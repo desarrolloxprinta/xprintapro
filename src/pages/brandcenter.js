@@ -6,7 +6,7 @@ export const getBrandCenterHTML = async () => {
     <main class="bc-main">
       <!-- HERO -->
       <section class="bc-hero">
-        <video class="bc-hero-video-bg" autoplay loop muted playsinline src="https://pikaso.cdnpk.net/private/production/4690167070/4c9b1a18-5ce3-4914-b7b5-95607fefebe8-0.mp4?token=exp=1782518400~hmac=ab377528504853ecb552dde49bbbd5348855d9f0e92c627a315e70aea47f5c31"></video>
+        <video class="bc-hero-video-bg" autoplay loop muted playsinline src="/servicios/hero_brandcenter.mp4"></video>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
           <div class="bc-label">Línea de Servicio</div>

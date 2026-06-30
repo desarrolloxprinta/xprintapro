@@ -243,7 +243,7 @@ export const getBrandSignalHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <img src="https://pikaso.cdnpk.net/private/production/4692249984/render.png?token=exp=1782518400~hmac=d1939b5b6fd3c016cdffadfe29ee46363332bc555303b18f2ad08d5e81d22052" alt="BrandSignal Hero" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);" />
+          <img src="/servicios/hero_brandsignal.jpg" alt="BrandSignal Hero" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);" />
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">

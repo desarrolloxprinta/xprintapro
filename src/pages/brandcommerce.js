@@ -6,7 +6,7 @@ export const getBrandCommerceHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <video id="bc-dynamic-video" autoplay loop muted playsinline src="https://pikaso.cdnpk.net/private/production/4691132115/7941a975-1928-4238-bd80-ea7d25036033-0.mp4?token=exp=1782518400~hmac=3f1093ed05c271f352e0facf89903707718d310045929cf2ace01413e47f7697" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);"></video>
+          <video id="bc-dynamic-video" autoplay loop muted playsinline src="/servicios/hero_brandcommerce.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);"></video>
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
