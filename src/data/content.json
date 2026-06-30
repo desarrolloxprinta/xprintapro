@@ -69,42 +69,52 @@
   "sectores": [
     {
       "name": "Logística",
+      "slug": "logistica",
       "bgImage": "/sectores/logistica.jpg"
     },
     {
       "name": "Sanidad",
+      "slug": "sanidad",
       "bgImage": "/sectores/sanidad.jpeg"
     },
     {
       "name": "Industria",
+      "slug": "industria",
       "bgImage": "/sectores/industria.jpeg"
     },
     {
       "name": "Retail",
+      "slug": "retail",
       "bgImage": "/sectores/retail.jpg"
     },
     {
       "name": "Restauración",
+      "slug": "restauracion",
       "bgImage": "/sectores/restauracion.jpg"
     },
     {
       "name": "Corporativo",
+      "slug": "corporativo",
       "bgImage": "/sectores/corporativo.jpg"
     },
     {
       "name": "Sector Público",
+      "slug": "sector-publico",
       "bgImage": "/sectores/sector-publico.jpg"
     },
     {
       "name": "Distribución",
+      "slug": "distribucion",
       "bgImage": "/sectores/distribucion.jpeg"
     },
     {
       "name": "Servicios",
+      "slug": "servicios",
       "bgImage": "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1000&q=80"
     },
     {
       "name": "Educación",
+      "slug": "educacion",
       "bgImage": "/sectores/educacion.jpeg"
     }
   ],

@@ -106,14 +106,14 @@ const renderSectores = () => `
           }
 
           return `
-          <div class="bento-card bento-card-bg ${sizeClass} gsap-bento-item gsap-reveal" style="background-image: url('${sector.bgImage || '/sectores/default.jpg'}')">
+          <a href="${sector.slug ? `/sector.html?slug=${sector.slug}` : '#sectores'}" class="bento-card bento-card-bg ${sizeClass} gsap-bento-item gsap-reveal" style="background-image: url('${sector.bgImage || '/sectores/default.jpg'}')">
             <div class="bento-card__header">
               <span class="text-caption bento-card__number">0${index + 1}</span>
             </div>
             <div>
                <h3 class="bento-card__title">${sector.name}</h3>
             </div>
-          </div>
+          </a>
         `}).join('')}
       </div>
     </div>

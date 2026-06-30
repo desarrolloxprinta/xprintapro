@@ -914,10 +914,22 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  text-decoration: none; /* Para cuando es un link */
+  cursor: pointer;
 }
 
 .bento-card:hover {
   transform: scale(0.98);
+}
+
+/* Cuando es link, mantener apariencia de card */
+a.bento-card {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.bento-card:visited {
+  color: inherit;
 }
 
 .bento-card-bg {
