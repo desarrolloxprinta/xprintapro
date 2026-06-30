@@ -1755,6 +1755,16 @@ html.lenis { height: auto; }
   filter: grayscale(0%); /* Recupera color original en hover */
 }
 
+/* Excepción para logo FESPA (azul oscuro) - invierte colores para visibilidad */
+.footer-logos img:last-child {
+  filter: grayscale(100%) invert(1) brightness(0.8);
+  opacity: 0.7; /* Más visible que los otros */
+}
+.footer-logos img:last-child:hover {
+  filter: grayscale(0%) invert(0) brightness(1); /* Color original en hover */
+  opacity: 1;
+}
+
 .footer-right {
   display: flex;
   flex-direction: row;
