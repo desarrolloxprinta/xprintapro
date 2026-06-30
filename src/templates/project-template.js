@@ -319,6 +319,20 @@ const renderContacto = () => `
         </p>
       </div>
       <div class="gsap-reveal">
+        <!-- NUEVO FORMULARIO: Paperform embed -->
+        <div data-paperform-id="xprintapro-contacto"></div>
+        <script>
+          (function() {
+            // Solo cargar el script si no existe ya
+            if (!window.Paperform) {
+              var script = document.createElement('script');
+              script.src = "https://paperform.co/__embed.min.js";
+              document.body.appendChild(script);
+            }
+          })()
+        </script>
+
+        <!-- FORMULARIO ORIGINAL (comentado para no perderlo)
         <form class="contact-form">
           <div class="form-group">
             <label class="form-label">Nombre Completo</label>
@@ -346,6 +360,7 @@ const renderContacto = () => `
             </button>
           </div>
         </form>
+        -->
       </div>
     </div>
   </section>
