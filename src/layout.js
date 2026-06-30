@@ -367,6 +367,50 @@ export const renderFooter = () => `
 `
 
 /**
+ * Genera meta tags SEO dinámicos
+ * @param {Object} metadata - Metadatos de la página
+ * @returns {string} HTML con meta tags
+ */
+function generateMetaTags(metadata) {
+  if (!metadata) return '';
+
+  const escapedTitle = (metadata.title || '').replace(/"/g, '&quot;');
+  const escapedDescription = (metadata.description || '').replace(/"/g, '&quot;');
+  const escapedKeywords = (metadata.keywords || '').replace(/"/g, '&quot;');
+  const escapedImage = (metadata.image || '').replace(/"/g, '&quot;');
+  const escapedUrl = (metadata.url || '').replace(/"/g, '&quot;');
+  const escapedAuthor = (metadata.author || 'Xprinta Pro').replace(/"/g, '&quot;');
+
+  return `
+    <!-- SEO Meta Tags -->
+    <title>${escapedTitle}</title>
+    <meta name="description" content="${escapedDescription}">
+    ${escapedKeywords ? `<meta name="keywords" content="${escapedKeywords}">` : ''}
+    <meta name="author" content="${escapedAuthor}">
+    <link rel="canonical" href="${escapedUrl}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="${metadata.type || 'website'}">
+    <meta property="og:url" content="${escapedUrl}">
+    <meta property="og:title" content="${escapedTitle}">
+    <meta property="og:description" content="${escapedDescription}">
+    <meta property="og:image" content="${escapedImage}">
+    ${metadata.publishedTime ? `<meta property="article:published_time" content="${metadata.publishedTime}">` : ''}
+    ${metadata.modifiedTime ? `<meta property="article:modified_time" content="${metadata.modifiedTime}">` : ''}
+    ${metadata.author ? `<meta property="article:author" content="${escapedAuthor}">` : ''}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="${escapedUrl}">
+    <meta name="twitter:title" content="${escapedTitle}">
+    <meta name="twitter:description" content="${escapedDescription}">
+    <meta name="twitter:image" content="${escapedImage}">
+
+    ${metadata.schemas ? metadata.schemas.join('\n    ') : ''}
+  `;
+}
+
+/**
  * Crea un layout completo con header + contenido + footer
  *
  * EJEMPLO DE USO:
@@ -380,17 +424,46 @@ export const renderFooter = () => `
  *       <h1>Mi Página</h1>
  *     </section>
  *   `,
- *   pageClass: 'page-home' // Opcional
+ *   pageClass: 'page-home', // Opcional
+ *   metadata: { // Opcional - para SEO
+ *     title: 'Mi Página',
+ *     description: 'Descripción de mi página',
+ *     image: '/images/hero.jpg'
+ *   }
  * })
  * ```
  *
  * @param {Object} options - Opciones del layout
  * @param {string} options.content - Contenido HTML de la página
  * @param {string} [options.pageClass=''] - Clase CSS adicional para el main
+ * @param {Object} [options.metadata] - Metadatos SEO de la página
+ * @param {boolean} [options.hideHeader=false] - Ocultar el header
  * @returns {Promise<string>} HTML completo con header + contenido + footer (AHORA ES ASYNC)
  */
-export const createLayout = async ({ content, pageClass = '', hideHeader = false }) => {
+export const createLayout = async ({ content, pageClass = '', hideHeader = false, metadata = null }) => {
   const header = hideHeader ? '' : await renderHeader();
+  const metaTags = metadata ? generateMetaTags(metadata) : '';
+
+  // Inyectar meta tags en el <head> si existen
+  if (metaTags && typeof document !== 'undefined') {
+    // En el cliente, inyectar los meta tags dinámicamente
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = metaTags;
+    const head = document.head;
+
+    // Eliminar meta tags antiguos (excepto los básicos)
+    const oldMetaTags = head.querySelectorAll('meta[property^="og:"], meta[property^="article:"], meta[name="twitter:"], meta[name="description"], meta[name="keywords"], meta[name="author"], link[rel="canonical"], script[type="application/ld+json"]');
+    oldMetaTags.forEach(tag => tag.remove());
+
+    // Agregar nuevos meta tags
+    Array.from(tempDiv.children).forEach(child => {
+      if (child.tagName === 'TITLE') {
+        document.title = child.textContent;
+      } else {
+        head.appendChild(child.cloneNode(true));
+      }
+    });
+  }
 
   return `
   ${header}

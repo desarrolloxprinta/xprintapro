@@ -5,6 +5,160 @@ import { getAreaTecnicaPostBySlug } from '../lib/supabase.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
+/**
+ * Extrae metadatos SEO de las secciones internas del post
+ * @param {Object} post - Post completo con secciones
+ * @returns {Object} Metadatos estructurados
+ */
+function extractSEOMetadata(post) {
+  // Buscar la sección de metadatos SEO
+  const seoSection = post.sections.find(s =>
+    s.id === 'bloque-t-cnico-seo' ||
+    s.id === 'bloque-tecnico-seo' ||
+    s.id === 'metadatos-internos'
+  );
+
+  let metadata = {
+    title: post.title,
+    description: post.intro || `Un buen proyecto de señalización combina diferentes capas. Todas deben funcionar juntas y mantener una lógica visual coherente.`,
+    keywords: [],
+    image: post.thumbnail || '/images/default-og-image.jpg',
+    url: `https://xprintapro.com/area-tecnica?slug=${post.slug}`,
+    type: 'article',
+    author: post.author || 'Equipo Xprinta',
+    publishedTime: post.date || new Date().toISOString(),
+    modifiedTime: post.updatedAt || post.date || new Date().toISOString(),
+    category: post.category || 'Área Técnica',
+    slug: post.slug
+  };
+
+  // Si existe sección SEO, parsear el contenido
+  if (seoSection && seoSection.content) {
+    const content = seoSection.content;
+
+    // Extraer Meta Title
+    const metaTitleMatch = content.match(/Meta title:\s*([^\n]+)/i);
+    if (metaTitleMatch) {
+      metadata.title = metaTitleMatch[1].trim();
+    }
+
+    // Extraer Meta Description
+    const metaDescMatch = content.match(/Meta description:\s*([^\n]+)/i);
+    if (metaDescMatch) {
+      metadata.description = metaDescMatch[1].trim();
+    }
+
+    // Extraer Keywords
+    const keywordMatches = [
+      content.match(/Keyword principal:\s*([^\n]+)/i),
+      content.match(/Keywords secundarias:\s*([^\n]+)/i),
+      content.match(/Keywords long tail:\s*([^\n]+)/i)
+    ];
+
+    keywordMatches.forEach(match => {
+      if (match) {
+        const keywords = match[1].split(',').map(k => k.trim());
+        metadata.keywords.push(...keywords);
+      }
+    });
+  }
+
+  return metadata;
+}
+
+/**
+ * Genera JSON-LD Schema.org para Article
+ * @param {Object} post - Post completo
+ * @param {Object} metadata - Metadatos extraídos
+ * @returns {string} JSON-LD script tag
+ */
+function generateArticleSchema(post, metadata) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": metadata.title,
+    "description": metadata.description,
+    "image": metadata.image,
+    "datePublished": metadata.publishedTime,
+    "dateModified": metadata.modifiedTime,
+    "author": {
+      "@type": "Organization",
+      "name": "Xprinta Pro",
+      "url": "https://xprintapro.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://xprintapro.com/images/logo-xprinta.png"
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Xprinta Pro",
+      "url": "https://xprintapro.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://xprintapro.com/images/logo-xprinta.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": metadata.url
+    }
+  };
+
+  if (post.audioUrl) {
+    schema.audio = {
+      "@type": "AudioObject",
+      "contentUrl": post.audioUrl,
+      "description": `Audio resumen del artículo: ${metadata.title}`
+    };
+  }
+
+  if (post.heroVideo) {
+    schema.video = {
+      "@type": "VideoObject",
+      "contentUrl": post.heroVideo,
+      "thumbnailUrl": metadata.image,
+      "description": `Video relacionado con: ${metadata.title}`
+    };
+  }
+
+  return `<script type="application/ld+json">${JSON.stringify(schema, null, 2)}</script>`;
+}
+
+/**
+ * Genera JSON-LD Schema.org para BreadcrumbList
+ * @param {Object} post - Post completo
+ * @returns {string} JSON-LD script tag
+ */
+function generateBreadcrumbSchema(post) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://xprintapro.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Área Técnica",
+        "item": "https://xprintapro.com/area-tecnica"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": post.title,
+        "item": `https://xprintapro.com/area-tecnica?slug=${post.slug}`
+      }
+    ]
+  };
+
+  return `<script type="application/ld+json">${JSON.stringify(schema, null, 2)}</script>`;
+}
+
 export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
   const post = await getAreaTecnicaPostBySlug(slug)
 
@@ -19,6 +173,9 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
       pageClass: 'page-404'
     })
   }
+
+  // Extraer metadatos SEO del post
+  const metadata = extractSEOMetadata(post)
 
   // Filtrar secciones internas que no deben mostrarse (metadatos, SEO, etc.)
   const hiddenSectionIds = [
@@ -202,7 +359,22 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
 
   return await createLayout({
     content: layoutHTML,
-    pageClass: 'page-area-tecnica'
+    pageClass: 'page-area-tecnica',
+    metadata: {
+      title: metadata.title,
+      description: metadata.description,
+      keywords: metadata.keywords.join(', '),
+      image: metadata.image,
+      url: metadata.url,
+      type: metadata.type,
+      author: metadata.author,
+      publishedTime: metadata.publishedTime,
+      modifiedTime: metadata.modifiedTime,
+      schemas: [
+        generateArticleSchema(post, metadata),
+        generateBreadcrumbSchema(post)
+      ]
+    }
   })
 }
 
