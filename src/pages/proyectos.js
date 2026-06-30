@@ -19,8 +19,8 @@ gsap.registerPlugin(ScrollTrigger)
  */
 const renderHeader = () => {
   const ui = content.projectsDirectoryUi || {
-    title: 'Think Global, Sign Local',
-    subtitle: 'Nuestros trabajos'
+    title: 'your BRAND under control',
+    subtitle: 'Nuestros proyectos'
   }
 
   return `

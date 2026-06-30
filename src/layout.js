@@ -90,7 +90,7 @@ export const renderHeader = async () => {
   <header class="site-header">
     <div class="container-fluid navbar">
       <a href="/" class="navbar-brand">
-        <img src="/logo-xprina-azul.png" alt="Xprinta Pro" class="navbar-logo" />
+        <img src="/logo-xprina-azul.svg" alt="Xprinta Pro" class="navbar-logo" />
       </a>
       <nav class="navbar-nav">
 
@@ -474,14 +474,6 @@ export const createLayout = async ({ content, pageClass = '', hideHeader = false
   <!-- Cursor personalizado global -->
   <div class="custom-cursor__dot"></div>
   <div class="custom-cursor__ring"><span class="custom-cursor__text"></span></div>
-
-  <!-- Botón flotante para cambiar color primario (experimental) -->
-  <button id="color-toggle-btn" class="color-toggle-btn" title="Cambiar color primario" aria-label="Alternar color primario">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="10"/>
-      <circle cx="12" cy="12" r="3" fill="currentColor"/>
-    </svg>
-  </button>
 `;
 }
 

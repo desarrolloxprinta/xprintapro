@@ -68,11 +68,11 @@
 :root {
   /* ===== COLORS ===== */
   /* Premium Studio Aesthetic (Noteworthy, Spade, Handhold) */
-  --color-primary: #0A0A0A; /* Text and primary dark elements */
+  --color-primary: #24394b; /* Text and primary dark elements */
   --color-secondary: #F4F4F5; /* Background */
   --color-tertiary: #FFFFFF; /* Cards and elevated elements */
-  --color-text: #0A0A0A;
-  --color-text-muted: #71717A;
+  --color-text: #1d2e3d;
+  --color-text-muted: #6f879b;
   --color-text-inverse: #FFFFFF;
   --color-highlight: #F18108; /* Sophisticated vibrant orange */
   --color-border: #E4E4E7;
@@ -102,7 +102,7 @@
   --font-family-heading: 'Inter', system-ui, sans-serif;
   --font-family-body: 'Inter', system-ui, sans-serif;
 
-  /* Font Sizes */
+  /* Font Sizes - Escala optimizada para sitio corporativo */
   --font-size-xs: 0.75rem;    /* 12px */
   --font-size-sm: 0.875rem;   /* 14px */
   --font-size-base: 1rem;     /* 16px */
@@ -618,7 +618,7 @@ a:hover {
 
 /* Override for main logo */
 .navbar-logo {
-  height: 76px !important;
+  height: 40px !important;
 }
 
 .navbar-nav {
@@ -2331,52 +2331,4 @@ html.lenis { height: auto; }
 
 .btn-regius-text--large {
   font-size: 1.25rem;
-}
-
-/* ==========================================================================
-   Botón Flotante para Cambio de Color (Experimental)
-   ========================================================================== */
-
-.color-toggle-btn {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--color-neutral-900);
-  color: var(--color-white);
-  border: 1px solid var(--color-border);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0.4;
-}
-
-.color-toggle-btn:hover {
-  opacity: 1;
-  transform: scale(1.05);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-}
-
-.color-toggle-btn:active {
-  transform: scale(0.95);
-}
-
-.color-toggle-btn svg {
-  transition: transform 0.3s ease;
-}
-
-.color-toggle-btn:hover svg {
-  transform: rotate(180deg);
-}
-
-/* Estado cuando el color alternativo está activo */
-body.alt-color-scheme .color-toggle-btn {
-  background: var(--color-highlight);
-  border-color: var(--color-highlight);
 }

@@ -58,11 +58,7 @@
   line-height: 1.6;
 }
 
-.text-large {
-  font-size: var(--font-size-lg, 1.25rem);
-  line-height: 1.6;
-  color: var(--color-primary, #0A0A0A);
-}
+/* .text-large eliminado - usar definición global de style.css */
 
 /* ==========================================================================
    1. HERO SECTION (.hero-about-b)

@@ -231,10 +231,8 @@ async function loadPage() {
     initServiciosDirectory();
   }
 
-  // IMPORTANTE: Inicializar botón de cambio de color DESPUÉS de cargar el HTML
-  // Esperar un tick para que el DOM se actualice
+  // Inicializar Paperform si está presente
   setTimeout(() => {
-    initColorToggle();
     initPaperform();
   }, 0);
 }
@@ -1103,64 +1101,6 @@ window.addEventListener('DOMContentLoaded', () => {
   // Nota: initAnimations() ahora se llama dentro de loadPage() para TODAS las páginas
   //       (cursor personalizado, smooth scroll, y otras animaciones globales)
 });
-
-// ==========================================================================
-// Color Toggle Button (Experimental)
-// ==========================================================================
-
-function initColorToggle() {
-  const colorToggleBtn = document.getElementById('color-toggle-btn');
-  if (!colorToggleBtn) return;
-
-  // Colores originales (NEGRO)
-  const originalColors = {
-    primary: '#0A0A0A', // Negro original
-    text: '#0A0A0A'     // Negro original
-  };
-
-  // Colores alternativos (AZUL OSCURO)
-  const altColors = {
-    primary: '#24394b', // Azul oscuro
-    text: '#24394b'     // Azul oscuro
-  };
-
-  // NOTA: --color-highlight (#F18108 naranja) se mantiene SIEMPRE
-
-  // Verificar si hay preferencia guardada
-  const savedScheme = localStorage.getItem('colorScheme');
-  if (savedScheme === 'alt') {
-    applyAltColorScheme();
-  }
-
-  // Click handler
-  colorToggleBtn.addEventListener('click', () => {
-    const isAlt = document.body.classList.toggle('alt-color-scheme');
-
-    if (isAlt) {
-      applyAltColorScheme();
-      localStorage.setItem('colorScheme', 'alt');
-    } else {
-      applyOriginalColorScheme();
-      localStorage.setItem('colorScheme', 'original');
-    }
-  });
-
-  function applyAltColorScheme() {
-    document.documentElement.style.setProperty('--color-primary', altColors.primary);
-    document.documentElement.style.setProperty('--color-text', altColors.text);
-    document.body.classList.add('alt-color-scheme');
-    console.log('✅ Esquema alternativo: Negro → Azul #24394b (Naranja intacto)');
-  }
-
-  function applyOriginalColorScheme() {
-    document.documentElement.style.setProperty('--color-primary', originalColors.primary);
-    document.documentElement.style.setProperty('--color-text', originalColors.text);
-    document.body.classList.remove('alt-color-scheme');
-    console.log('✅ Esquema original: Negro #0A0A0A restaurado (Naranja intacto)');
-  }
-}
-
-// NOTA: initColorToggle() ahora se llama dentro de loadPage() después de insertar el HTML
 
 // ==========================================================================
 // Paperform Embed Initialization
