@@ -190,17 +190,90 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
     !hiddenSectionIds.includes(section.id)
   );
 
-  const tocHTML = visibleSections.map(section => `
+  /**
+   * Obtiene el icono apropiado para cada tipo de sección
+   */
+  function getSectionIcon(section) {
+    const title = section.title.toLowerCase();
+
+    if (title.includes('introducción') || title.includes('introduccion')) return '📘';
+    if (title.includes('respuesta rápida') || title.includes('respuesta rapida')) return '⚡';
+    if (title.includes('error') || title.includes('problema')) return '⚠️';
+    if (title.includes('servicio') || title.includes('ayud')) return '🎯';
+    if (title.includes('conclusión') || title.includes('conclusion')) return '✅';
+    if (title.includes('qué') || title.includes('que') || title.includes('incluir')) return '📋';
+    if (title.includes('cómo') || title.includes('como')) return '🔧';
+    if (title.includes('por qué') || title.includes('por que')) return '💡';
+
+    return '📌';
+  }
+
+  const tocHTML = visibleSections.map((section, index) => `
     <li class="toc-item">
-      <a href="#${section.id}" class="toc-link">${section.title}</a>
+      <a href="#${section.id}" class="toc-link">
+        <span class="toc-link__icon">${getSectionIcon(section)}</span>
+        <span class="toc-link__text">${section.title}</span>
+      </a>
     </li>
   `).join('')
 
-  const contentHTML = visibleSections.map(section => `
-    <div id="${section.id}" class="blog-section gsap-reveal">
-      ${section.content}
-    </div>
-  `).join('')
+  /**
+   * Detecta el tipo de sección basado en el contenido y aplica estilos dinámicos
+   */
+  function getSectionTypeClass(section) {
+    const content = section.content.toLowerCase();
+    const title = section.title.toLowerCase();
+
+    // Respuesta rápida / Quick answer
+    if (title.includes('respuesta rápida') || title.includes('respuesta rapida')) {
+      return 'blog-section--quick-answer';
+    }
+
+    // Introducción
+    if (title.includes('introducción') || title.includes('introduccion') || section.id === 'introduccion') {
+      return 'blog-section--intro';
+    }
+
+    // Errores / Problemas
+    if (title.includes('error') || title.includes('problema') || title.includes('evitar')) {
+      return 'blog-section--warning';
+    }
+
+    // Servicios recomendados
+    if (title.includes('servicio recomendado') || title.includes('cómo puede ayudarte') || title.includes('como puede ayudarte')) {
+      return 'blog-section--service';
+    }
+
+    // Conclusión
+    if (title.includes('conclusión') || title.includes('conclusion')) {
+      return 'blog-section--conclusion';
+    }
+
+    // Listas de verificación / Checklist
+    if (content.includes('<ul>') && (title.includes('qué') || title.includes('que') || title.includes('incluir'))) {
+      return 'blog-section--checklist';
+    }
+
+    // Default
+    return 'blog-section--default';
+  }
+
+  const contentHTML = visibleSections.map((section, index) => {
+    const sectionType = getSectionTypeClass(section);
+    const hasH3 = section.content.includes('<h3>');
+
+    return `
+      <div id="${section.id}" class="blog-section ${sectionType} gsap-reveal" data-section-index="${index}">
+        <div class="blog-section__header">
+          <div class="blog-section__number">${String(index + 1).padStart(2, '0')}</div>
+          <h2 class="blog-section__title">${section.title}</h2>
+        </div>
+        <div class="blog-section__content ${hasH3 ? 'has-subsections' : ''}">
+          ${section.content}
+        </div>
+      </div>
+    `;
+  }).join('')
 
   const audioHTML = post.audioUrl ? `
     <div class="custom-audio-wrapper gsap-reveal">
