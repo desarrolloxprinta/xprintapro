@@ -297,7 +297,10 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
   ` : '';
 
   const audioHTML = post.audioUrl ? `
-    <div class="custom-audio-wrapper gsap-reveal">
+    <div class="custom-audio-wrapper gsap-reveal" style="margin-bottom: 2.5rem;">
+      <h4 class="custom-audio-invitation" style="font-family: var(--font-family-body); font-size: 0.8rem; font-weight: 700; color: var(--color-highlight, #E65000); margin: 0 0 1rem 0; text-transform: uppercase; letter-spacing: 0.15em;">
+        ¿Poco tiempo? Escucha el resumen
+      </h4>
       <div class="custom-audio-glass">
         <div class="custom-audio-glow"></div>
         <div class="custom-audio-inner">
@@ -306,7 +309,7 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
             <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
           </button>
           <div class="custom-audio-details">
-            <span class="custom-audio-title">Escucha el resumen</span>
+            <span class="custom-audio-title">Audio Resumen</span>
             <div class="custom-audio-track" id="audio-track">
               <div class="custom-audio-progress" id="audio-progress"></div>
             </div>
@@ -385,8 +388,13 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
       <div class="nav-spacer"></div>
 
       <!-- Hero Header Section (Ignite Clone) -->
-      <section class="section_blog-header">
-        <div class="padding-global padding-section-large padding-bottom-none">
+      <section class="section_blog-header" style="position: relative; overflow: hidden; background-color: var(--color-background);">
+        <!-- Imagen de fondo con baja opacidad -->
+        ${post.thumbnail ? `
+          <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('${post.thumbnail}'); background-size: cover; background-position: center; opacity: 0.12; z-index: 1; pointer-events: none;"></div>
+        ` : ''}
+
+        <div class="padding-global padding-section-large padding-bottom-none" style="position: relative; z-index: 2;">
           <div class="blog-content_component">
             
             <div class="blog_header-top">

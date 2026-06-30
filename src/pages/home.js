@@ -151,7 +151,7 @@ const renderMapa = () => `
 
       <!-- Button (Bottom Right) -->
       <div class="stat-block red-nacional__cta">
-        <a href="#" class="btn-regius outline-light">
+        <a href="/red-xprinta.html" class="btn-regius outline-light">
           <div class="btn-regius-bg"></div>
           <div class="btn-regius-text-wrapper">
             <div class="btn-regius-text _1">VER MAPA DE DELEGACIONES</div>
@@ -202,7 +202,7 @@ const renderProceso = () => `
                 </div>
                 <p class="process-item__description">${paso.description}</p>
                 <div class="process-item__footer">
-                  <a href="#" class="nw-link nw-link--medium">
+                  <a href="/sistema-xprinta.html" class="nw-link nw-link--medium">
                     Conocer más
                     <svg aria-hidden="true" viewBox="0 0 100 100" fill="currentColor" class="nw-link-icon nw-link-icon--inline"><path d="M57.40 20.30L42.50 20.30L66.50 44.30L13 44.30L13 55.10L66.50 55.10L42.50 79.10L57.40 79.10L87 49.70Z"></path></svg>
                   </a>
@@ -257,11 +257,11 @@ const renderProyectos = async () => {
         Construimos <span class="nw-accent">identidades visuales</span> que dominan el espacio. Fabricación propia, precisión técnica y <span class="nw-accent">cobertura nacional</span>.
       </h2>
       <div class="nw-proyectos-links">
-        <a href="#nosotros" class="nw-link">
+        <a href="/nosotros.html" class="nw-link">
           Nosotros
           <svg aria-hidden="true" viewBox="0 0 100 100" fill="currentColor" class="nw-link-icon"><path d="M57.40 20.30L42.50 20.30L66.50 44.30L13 44.30L13 55.10L66.50 55.10L42.50 79.10L57.40 79.10L87 49.70Z"></path></svg>
         </a>
-        <a href="#proyectos" class="nw-link">
+        <a href="/proyectos.html" class="nw-link">
           Explorar proyectos
           <svg aria-hidden="true" viewBox="0 0 100 100" fill="currentColor" class="nw-link-icon"><path d="M57.40 20.30L42.50 20.30L66.50 44.30L13 44.30L13 55.10L66.50 55.10L42.50 79.10L57.40 79.10L87 49.70Z"></path></svg>
         </a>
@@ -317,7 +317,7 @@ const renderProyectos = async () => {
     </div>
 
     <div class="nw-proyectos-footer gsap-reveal">
-      <a href="#proyectos" class="nw-link nw-link--large">
+      <a href="/proyectos.html" class="nw-link nw-link--large">
         Ver todos los proyectos
       </a>
     </div>

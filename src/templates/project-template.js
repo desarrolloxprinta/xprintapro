@@ -66,15 +66,12 @@ const renderMetaBento = (data) => {
       <div class="meta-item gsap-bento-item" style="background: var(--color-secondary); padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: flex-start;">
         <span class="text-caption text-muted text-uppercase" style="margin-bottom: 2rem; display: block;">${ui.cliente}</span>
 
-        <!-- Logo y nombre en fila horizontal -->
-        <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 1.5rem;">
-          ${data.service?.logo ? `
-            <div style="flex: 0 0 auto;">
-              <img src="${data.service.logo}" alt="${data.client.name} Logo" style="max-width: 100px; width: 100%; mix-blend-mode: multiply;" />
-            </div>
-          ` : ''}
-          <h3 class="font-serif font-regular" style="font-size: 2.5rem; margin: 0;">${data.client.name}</h3>
-        </div>
+        <!-- Logo del servicio va aquí -->
+        ${data.service?.logo ? `
+          <div style="margin-bottom: 1.5rem;">
+            <img src="${data.service.logo}" alt="${data.client.name} Logo" style="max-width: 165px; width: 100%; mix-blend-mode: multiply;" />
+          </div>
+        ` : ''}
 
         <!-- Descripción ocupa el 100% del ancho -->
         <p class="text-body-hero" style="width: 100%;">${data.client.description}</p>
@@ -82,12 +79,12 @@ const renderMetaBento = (data) => {
 
       <div class="meta-item gsap-bento-item" style="background: var(--color-secondary); padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: flex-start;">
         <span class="text-caption text-muted text-uppercase" style="margin-bottom: 2rem; display: block;">${ui.sector}</span>
-        <h3 class="font-serif font-regular" style="font-size: 2.5rem;">${data.sector}</h3>
+        <h3 class="font-serif font-regular" style="font-size: 1.5rem;">${data.sector}</h3>
       </div>
 
       <div class="meta-item gsap-bento-item" style="background: var(--color-secondary); padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: flex-start;">
         <span class="text-caption text-muted text-uppercase" style="margin-bottom: 2rem; display: block;">${ui.servicio}</span>
-        <h3 class="font-serif font-regular" style="font-size: 2.5rem;">${data.service.title}</h3>
+        <h3 class="font-serif font-regular" style="font-size: 1.5rem;">${data.service.title}</h3>
       </div>
 
     </div>
@@ -105,24 +102,26 @@ const renderLocation = (data) => {
 
   const ui = content.projectUi.labels;
   return `
-  <section class="project-location" style="position: relative; height: 80vh; min-height: 600px; background-color: var(--color-primary); color: #FFFFFF; overflow: hidden; display: flex; align-items: center;">
+  <section class="project-location" style="position: relative; height: 85vh; min-height: 650px; overflow: hidden; width: 100%;">
 
-    <!-- Background Map -->
-    <div style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;">
+    <!-- Lado Derecho/Fondo: Mapa a pantalla completa -->
+    <div style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1;">
       <div id="google-map" style="width: 100%; height: 100%;" ${data.location.markers ? `data-markers='${JSON.stringify(data.location.markers)}'` : ''}></div>
-      <div style="position: absolute; inset: 0; background: linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) 15%, transparent 60%); pointer-events: none; z-index: 2;"></div>
     </div>
 
-    <!-- Foreground Text -->
-    <div class="container-fluid" style="position: relative; z-index: 10; width: 100%;">
-      <div class="gsap-reveal location-content" style="max-width: 500px;">
-        <h2 class="text-large font-serif font-regular text-inverse" style="margin-bottom: 1.5rem;">${ui.ubicacion}</h2>
-        ${data.location.title ? `<p class="font-sans text-inverse opacity-90" style="font-size: 1.5rem; font-weight: 500; margin-bottom: 1rem;">${data.location.title}</p>` : ''}
-        <p class="font-sans text-inverse opacity-80" style="font-size: 1.25rem;">
+    <!-- Lado Izquierdo: Información flotante sobre el mapa (efecto de scroll gsap-reveal por defecto) -->
+    <div style="position: absolute; left: 8vw; top: 50%; transform: translateY(-50%); z-index: 10; pointer-events: auto;">
+      <div class="gsap-reveal location-content" style="max-width: 460px; background-color: rgba(10, 10, 10, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 3.5rem; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1);">
+        <span class="text-caption text-uppercase" style="color: var(--color-highlight, #F18108); font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 700; margin-bottom: 1.5rem; display: block;">
+          ${ui.ubicacion}
+        </span>
+        ${data.location.title ? `<h3 class="font-serif text-inverse" style="font-size: clamp(2rem, 3vw, 2.75rem); font-weight: 400; line-height: 1.1; margin-bottom: 1.5rem; color: #FFFFFF;">${data.location.title}</h3>` : ''}
+        <p class="font-sans text-inverse opacity-80" style="font-size: 1.125rem; line-height: 1.7; color: rgba(255,255,255,0.85); margin: 0;">
           ${data.location.description}
         </p>
       </div>
     </div>
+
   </section>
   `
 }
@@ -200,7 +199,7 @@ const renderBlueprints = (data) => {
 
         ${data.blueprintSteps ? data.blueprintSteps.map((step, i) => `
         <div class="blueprint-text-block blueprint-block-${i}" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; opacity: ${i===0 ? 1 : 0.3}; transition: opacity 0.3s ease;">
-          <span class="text-caption" style="color: var(--color-highlight); margin-bottom: 1rem; display: block;">${ui.fase} 0${i+1}</span>
+          <span class="text-caption" style="color: var(--color-highlight); margin-bottom: 1rem; display: block;">Boceto 0${i+1}</span>
           <h3 class="font-serif text-inverse" style="font-size: 2.5rem; margin-bottom: 1.5rem;">${step.title}</h3>
           <p class="font-sans text-inverse opacity-70" style="font-size: 1.2rem; line-height: 1.6; max-width: 600px;">
             ${step.description}
@@ -208,7 +207,7 @@ const renderBlueprints = (data) => {
         </div>
         `).join('') : data.blueprints.map((bp, i) => `
         <div class="blueprint-text-block blueprint-block-${i}" style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; opacity: ${i===0 ? 1 : 0.3}; transition: opacity 0.3s ease;">
-          <span class="text-caption" style="color: var(--color-highlight); margin-bottom: 1rem; display: block;">${ui.fase} 0${i+1}</span>
+          <span class="text-caption" style="color: var(--color-highlight); margin-bottom: 1rem; display: block;">Boceto 0${i+1}</span>
           <h3 class="font-serif text-inverse" style="font-size: 2.5rem; margin-bottom: 1.5rem;">${ui.detalleTecnico}</h3>
         </div>
         `).join('')}
