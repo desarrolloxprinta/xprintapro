@@ -131,11 +131,11 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
             </div>
             
             <div class="blog_category gsap-reveal">
-              <div>${post.category}</div>
+              <div>${post.category || ''}</div>
             </div>
-            
+
             <div class="blog_date gsap-reveal">
-              <div>${post.date}</div>
+              <div>${post.date || ''}</div>
             </div>
 
           </div>
