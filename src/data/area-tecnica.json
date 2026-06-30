@@ -77,6 +77,7 @@
     "heroVideo": "",
     "audioUrl": "/area tecnica/Señalética_estratégica_para_edificios_seguros_y_rentables.m4a",
     "pdfUrl": "/area tecnica/facility management y senaletica.pdf",
+    "paperformEmbedCode": "<div data-paperform-id=\"xprinta-pro\"></div><script>(function() {var script = document.createElement('script'); script.src = \"https://paperform.co/__embed.min.js\"; document.body.appendChild(script); })()</script>",
     "sections": [
       {
         "id": "introducci-n",

@@ -56,52 +56,65 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
     </div>
   ` : '';
 
-  const leadMagnetHTML = post.pdfUrl ? `
-    <div class="lead-magnet-2026 gsap-reveal">
-      <div class="lead-magnet-2026__bg-element"></div>
-      <div class="lead-magnet-2026__content">
-        <div class="lead-magnet-2026__header">
-          <span class="lead-magnet-2026__badge">Material Exclusivo</span>
-          <h3 class="lead-magnet-2026__title">Descarga el informe técnico en PDF</h3>
-          <p class="lead-magnet-2026__desc">Accede a la guía detallada de este artículo con diagramas y mejores prácticas para aplicar en tu próximo proyecto.</p>
-        </div>
-        
-        <form id="lead-magnet-form" class="lead-form-grid">
-          <div class="lead-input-group">
-            <input type="text" id="lm-name" class="lead-input" required placeholder=" ">
-            <label class="lead-label" for="lm-name">Nombre y apellidos</label>
-          </div>
-          <div class="lead-input-group">
-            <input type="text" id="lm-company" class="lead-input" required placeholder=" ">
-            <label class="lead-label" for="lm-company">Empresa</label>
-          </div>
-          <div class="lead-input-group">
-            <input type="email" id="lm-email" class="lead-input" required placeholder=" ">
-            <label class="lead-label" for="lm-email">Email corporativo</label>
-          </div>
-          <div class="lead-input-group">
-            <input type="tel" id="lm-phone" class="lead-input" required placeholder=" ">
-            <label class="lead-label" for="lm-phone">Teléfono</label>
-          </div>
-          <button type="submit" class="lead-submit-btn">
-            <span>Obtener Informe PDF</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </form>
+  // Prioridad: Paperform embed > PDF Lead Magnet > Nada
+  let leadMagnetHTML = '';
 
-        <div id="lead-magnet-success" class="lead-success-state">
-          <div class="lead-success-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  if (post.paperformEmbedCode) {
+    // Si hay código de Paperform, usar embed directo
+    leadMagnetHTML = `
+      <div class="paperform-embed-wrapper gsap-reveal">
+        ${post.paperformEmbedCode}
+      </div>
+    `;
+  } else if (post.pdfUrl) {
+    // Fallback al lead magnet tradicional con PDF
+    leadMagnetHTML = `
+      <div class="lead-magnet-2026 gsap-reveal">
+        <div class="lead-magnet-2026__bg-element"></div>
+        <div class="lead-magnet-2026__content">
+          <div class="lead-magnet-2026__header">
+            <span class="lead-magnet-2026__badge">Material Exclusivo</span>
+            <h3 class="lead-magnet-2026__title">Descarga el informe técnico en PDF</h3>
+            <p class="lead-magnet-2026__desc">Accede a la guía detallada de este artículo con diagramas y mejores prácticas para aplicar en tu próximo proyecto.</p>
           </div>
-          <h4 class="lead-success-title">¡Todo listo!</h4>
-          <a href="${post.pdfUrl}" target="_blank" class="lead-download-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Abrir PDF Ahora
-          </a>
+
+          <form id="lead-magnet-form" class="lead-form-grid">
+            <div class="lead-input-group">
+              <input type="text" id="lm-name" class="lead-input" required placeholder=" ">
+              <label class="lead-label" for="lm-name">Nombre y apellidos</label>
+            </div>
+            <div class="lead-input-group">
+              <input type="text" id="lm-company" class="lead-input" required placeholder=" ">
+              <label class="lead-label" for="lm-company">Empresa</label>
+            </div>
+            <div class="lead-input-group">
+              <input type="email" id="lm-email" class="lead-input" required placeholder=" ">
+              <label class="lead-label" for="lm-email">Email corporativo</label>
+            </div>
+            <div class="lead-input-group">
+              <input type="tel" id="lm-phone" class="lead-input" required placeholder=" ">
+              <label class="lead-label" for="lm-phone">Teléfono</label>
+            </div>
+            <button type="submit" class="lead-submit-btn">
+              <span>Obtener Informe PDF</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+
+          <div id="lead-magnet-success" class="lead-success-state">
+            <div class="lead-success-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h4 class="lead-success-title">¡Todo listo!</h4>
+            <a href="${post.pdfUrl}" target="_blank" class="lead-download-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Abrir PDF Ahora
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  ` : '';
+    `;
+  }
 
   const layoutHTML = `
     <main>
@@ -185,6 +198,20 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
 
 export function initAreaTecnicaPostAnimations() {
   setTimeout(() => {
+    // 0. Inicializar Paperform si existe el embed
+    const paperformDiv = document.querySelector('[data-paperform-id]');
+    if (paperformDiv) {
+      console.log('✅ Paperform embed detectado, inicializando...');
+      // Cargar script de Paperform dinámicamente
+      if (!window.Paperform && !document.querySelector('script[src*="paperform.co"]')) {
+        const script = document.createElement('script');
+        script.src = "https://paperform.co/__embed.min.js";
+        script.async = true;
+        document.body.appendChild(script);
+        console.log('✅ Paperform script cargado');
+      }
+    }
+
     // 1. Reveal Animations
     const revealElements = document.querySelectorAll('.gsap-reveal')
     revealElements.forEach((el, index) => {

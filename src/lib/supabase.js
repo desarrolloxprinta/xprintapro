@@ -266,6 +266,66 @@ export async function getBlogPostBySlug(slug) {
 }
 
 /**
+ * Obtiene la información de un sector por su slug
+ * @param {string} slug - Slug del sector
+ * @returns {Promise<Object|null>}
+ */
+export async function getSectorBySlug(slug) {
+  if (!supabase) {
+    console.warn('Supabase no configurado. Retornando datos de fallback para sector.');
+    return getFallbackSectorBySlug(slug);
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('sectors')
+      .select('*')
+      .eq('slug', slug)
+      .eq('published', true)
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Error obteniendo sector:', error);
+    return getFallbackSectorBySlug(slug);
+  }
+}
+
+/**
+ * Obtiene todos los proyectos vinculados a un sector
+ * @param {string} sectorSlug - Slug del sector
+ * @returns {Promise<Array>}
+ */
+export async function getProjectsBySector(sectorSlug) {
+  if (!supabase) {
+    console.warn('Supabase no configurado. Retornando proyectos de fallback por sector.');
+    return getFallbackProjectsBySector(sectorSlug);
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .contains('sectors', [sectorSlug])
+      .eq('published', true);
+
+    if (error) throw error;
+    
+    return data.map(d => ({
+      ...d,
+      heroImage: d.hero_image,
+      heroVideo: d.hero_video,
+      clientName: d.client_name,
+      shortDescription: d.short_description
+    }));
+  } catch (error) {
+    console.error('Error obteniendo proyectos del sector:', error);
+    return getFallbackProjectsBySector(sectorSlug);
+  }
+}
+
+/**
  * Obtiene todos los posts del área técnica
  * @returns {Promise<Array>}
  */
@@ -391,7 +451,8 @@ export async function getAreaTecnicaPostBySlug(slug) {
       thumbnail: rawPost.thumbnail,
       heroVideo: rawPost.hero_video,
       audioUrl: rawPost.audio_url,
-      pdfUrl: rawPost.pdf_url
+      pdfUrl: rawPost.pdf_url,
+      paperformEmbedCode: rawPost.paperform_embed_code // NUEVO: soporte para embeds de Paperform
     };
 
     // Si sections está vacío o es null, hacer fallback al JSON para obtener el contenido
@@ -483,6 +544,113 @@ async function getFallbackAreaTecnicaPosts() {
     return areaTecnicaData;
   } catch (error) {
     console.error('Error cargando área técnica posts fallback:', error);
+    return [];
+  }
+}
+
+
+/**
+ * Obtiene los datos locales de un sector por slug (fallback)
+ */
+async function getFallbackSectorBySlug(slug) {
+  if (slug === 'industria') {
+    return {
+      slug: 'industria',
+      title: 'Sector Industrial',
+      hero_title: 'Rotulación para Naves Industriales y Fábricas',
+      intro: 'Diseñamos, fabricamos e instalamos soluciones de señalización de gran formato y rotulación de coronación adaptadas a los entornos más exigentes. Desde la resistencia estructural hasta la optimización de visibilidad en autopistas.',
+      hero_image: '/sectores/sector_industria_hero_large.png',
+      capabilities: [
+        {
+          title: "Rotulación de Fachadas y Coronación",
+          description: "Rótulos gigantes corpóreos retroiluminados y letras monumentales diseñadas para ser legibles a kilómetros de distancia desde autovías y accesos principales.",
+          icon: "building"
+        },
+        {
+          title: "Señalética de Seguridad e Industrial",
+          description: "Marcación vial interna, señalización de riesgos, zonas de carga y señalética de plantas solares y naves de producción cumpliendo estrictamente con la normativa vigente.",
+          icon: "shield"
+        },
+        {
+          title: "Estructuras Homologadas e Ingeniería",
+          description: "Diseño y cálculo de fatiga al viento para monopostes y rótulos gigantes, visados por ingenieros colegiados garantizando máxima seguridad estructural.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "COBERTURA NACIONAL",
+        title: "Un Solo Proveedor para Todas tus Plantas",
+        image: "/proyectos/redeia/logo-redeia.webp",
+        description: "Con nuestra red de fábricas y talleres cubrimos cualquier polígono industrial de España. Sincronizamos la implantación de marca en múltiples ubicaciones con un único interlocutor y la misma garantía Regius."
+      }
+    };
+  }
+
+  if (slug === 'sanidad') {
+    return {
+      slug: 'sanidad',
+      title: 'Sector Sanidad',
+      hero_title: 'Rotulación para Hospitales y Centros Médicos',
+      intro: 'Diseñamos y fabricamos sistemas de señalización clínica y rotulación exterior de alta visibilidad para centros de salud, clínicas y complejos hospitalarios. Soluciones higiénicas, claras y accesibles que guían con precisión.',
+      hero_image: '/sectores/sector_sanidad_hero_large.png',
+      capabilities: [
+        {
+          title: "Señalética Direccional y Accesibilidad",
+          description: "Directorios principales, placas de planta y tótems indicativos diseñados bajo criterios de accesibilidad universal para facilitar el flujo ágil de pacientes y personal médico.",
+          icon: "building"
+        },
+        {
+          title: "Materiales Antibacterianos Certificados",
+          description: "Uso de sustratos fenólicos, acrílicos y lacas especiales de fácil desinfección que resisten los tratamientos químicos de asepsia hospitalaria diaria.",
+          icon: "shield"
+        },
+        {
+          title: "Rótulos Luminosos de Urgencias 24/7",
+          description: "Rótulos corpóreos exteriores con iluminación LED de alta potencia y visibilidad para accesos prioritarios de ambulancias y áreas de atención inmediata.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "ACCESIBILIDAD Y ORIENTACIÓN",
+        title: "Entornos Médicos Claros y Libres de Estrés",
+        image: "/sectores/sector_sanidad_hero_small.png",
+        description: "El diseño de la información visual y espacial influye directamente en el bienestar emocional de los pacientes. Desarrollamos proyectos integrales de wayfinding que reducen tiempos de búsqueda y mejoran la eficiencia operativa del personal."
+      }
+    };
+  }
+
+  return null;
+}
+
+/**
+ * Obtiene proyectos locales de fallback asociados a un sector
+ */
+async function getFallbackProjectsBySector(sectorSlug) {
+  try {
+    const redeia = await import('../data/projects/redeia.json');
+    const arval = await import('../data/projects/arval.json');
+    const allProjects = [redeia.default, arval.default];
+
+    return allProjects
+      .filter(p => {
+        if (p.sectors && Array.isArray(p.sectors)) {
+          return p.sectors.includes(sectorSlug);
+        }
+        if (sectorSlug === 'industria') {
+          return p.id === 'redeia' || p.id === 'arval';
+        }
+        return false;
+      })
+      .map(p => ({
+        ...p,
+        slug: p.id,
+        heroImage: p.hero?.image,
+        heroVideo: p.hero?.video,
+        clientName: p.client?.name,
+        shortDescription: p.shortDescription
+      }));
+  } catch (error) {
+    console.error('Error obteniendo proyectos de fallback por sector:', error);
     return [];
   }
 }
