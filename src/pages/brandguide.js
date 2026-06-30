@@ -140,7 +140,7 @@ export const getBrandGuideHTML = async () => {
             <div class="gsap-reveal">
               <div style="width: 100%; aspect-ratio: 1/1; border-radius: 8px; overflow: hidden; background: linear-gradient(135deg, #e5d8d3, #a29baf);">
                  <!-- Imagen abstracta tipo Regius Intro -->
-                 <img src="https://pikaso.cdnpk.net/private/production/4691302867/render.jpg?token=exp=1782518400~hmac=6c0baf3cc2badfe804e0ea65ff43186114880b60cc9d13cb68f50b34e5a1a757" style="width: 100%; height: 100%; object-fit: cover; mix-blend-mode: overlay; opacity: 0.6;" />
+                 <img src="/servicios/brandguide_manual1.jpg" style="width: 100%; height: 100%; object-fit: cover; mix-blend-mode: overlay; opacity: 0.6;" />
               </div>
             </div>
             <div class="gsap-reveal" style="display: flex; flex-direction: column; justify-content: center;">
@@ -241,7 +241,7 @@ export const getBrandGuideHTML = async () => {
 
             <div class="gsap-reveal">
               <div style="width: 100%; border-radius: 8px; overflow: hidden; margin-bottom: 3rem; aspect-ratio: 16/9;">
-                <img src="https://pikaso.cdnpk.net/private/production/4691306342/render.png?token=exp=1782518400~hmac=95ca24aa7dcc8cf7f9031cc61c6f36e9910492320f38a97c66bab6a99e8e2879" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" alt="Brand manual visual" />
+                <img src="/servicios/brandguide_manual2.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" alt="Brand manual visual" />
               </div>
               
               <p class="regius-text-large"><strong>Uniformidad Nacional:</strong> Todos los puntos siguen las mismas especificaciones, reduciendo diferencias visuales y de calidad entre centros o proveedores locales.</p>
@@ -261,7 +261,7 @@ export const getBrandGuideHTML = async () => {
           <div class="regius-grid-halves">
             
             <div class="gsap-reveal" style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
-              <img src="https://pikaso.cdnpk.net/private/production/4691306806/render.jpg?token=exp=1782518400~hmac=ccb700fb3e23ccd7d8f5219ba932f79ed6cea8b2b016d48dc3bb09b81db1d0b6" style="width: 100%; height: 100%; object-fit: cover;" alt="Equipo analizando la implantación" />
+              <img src="/servicios/brandguide_team.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Equipo analizando la implantación" />
             </div>
 
             <div class="gsap-reveal" style="display: flex; flex-direction: column; justify-content: center;">

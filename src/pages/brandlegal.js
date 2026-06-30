@@ -219,19 +219,19 @@ export const getBrandLegalHTML = async () => {
           <div class="sa-image-grid gsap-reveal">
             <div class="sa-image-card">
               <div class="sa-image-wrapper">
-                <img src="https://pikaso.cdnpk.net/private/production/4691549890/render.jpg?token=exp=1782518400~hmac=4f34ee960522031814c088d03c60a0258a8142d2adab86b40929b63fb0db610b" alt="Revisión documental" />
+                <img src="/servicios/brandlegal_doc1.jpg" alt="Revisión documental" />
               </div>
               <h4>Asesoramiento y Expedientes</h4>
             </div>
             <div class="sa-image-card">
               <div class="sa-image-wrapper">
-                <img src="https://pikaso.cdnpk.net/private/production/4691551299/render.jpg?token=exp=1782518400~hmac=9461b36104ae43ca0e2015f4374a78f3eee7633a5b18d75702609c1b19f3a939" alt="Análisis técnico en tablet" />
+                <img src="/servicios/brandlegal_doc2.jpg" alt="Análisis técnico en tablet" />
               </div>
               <h4>Proyectos Técnicos</h4>
             </div>
             <div class="sa-image-card">
               <div class="sa-image-wrapper">
-                <img src="https://pikaso.cdnpk.net/private/production/4691551138/render.jpg?token=exp=1782518400~hmac=e79bedad0cf0c13d10d769ad7ca06ef8f5913a8bdc2898a127ee2f212c781fca" alt="Coordinación de expansión" />
+                <img src="/servicios/brandlegal_doc3.jpg" alt="Coordinación de expansión" />
               </div>
               <h4>Coordinación con Fabricación</h4>
             </div>

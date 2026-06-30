@@ -258,7 +258,7 @@ export const getBrandSignalHTML = async () => {
       <div class="container">
         <div class="about-split">
           <div class="about-left">
-            <img src="https://pikaso.cdnpk.net/private/production/4692248399/render.jpg?token=exp=1782518400~hmac=f55ce4346992b8e0c0b241edd6e2decc91f8fbaae51706b83e99ebb905d53f32" alt="Directory Map" class="about-left-img" />
+            <img src="/servicios/brandsignal_map.jpg" alt="Directory Map" class="about-left-img" />
           </div>
           <div class="about-right-content">
             <div class="regius-pill">ACERCA DEL SERVICIO</div>
@@ -316,7 +316,7 @@ export const getBrandSignalHTML = async () => {
             <!-- Stage 1 -->
             <div class="stage-card">
               <div class="stage-number">1</div>
-              <img src="https://pikaso.cdnpk.net/private/production/4692251149/render.jpg?token=exp=1782518400~hmac=4078325cd954ebb92f74874cfbfdd39a5ac05bfc57be176ce2b1d92f696b2ecd" alt="Stage 1" class="stage-img" />
+              <img src="/servicios/brandsignal_stage1.jpg" alt="Stage 1" class="stage-img" />
               <div class="stage-card-content">
                 <h3 class="stage-title">Análisis del Espacio y Recorridos</h3>
                 <p class="stage-desc">Comenzamos analizando el espacio: accesos, zonas de tránsito, puntos de decisión, servicios y áreas de atención. A partir de este estudio, definimos qué señales son necesarias, dónde deben ubicarse y qué función debe cumplir cada una para evitar puntos de confusión.</p>
@@ -325,7 +325,7 @@ export const getBrandSignalHTML = async () => {
             <!-- Stage 2 -->
             <div class="stage-card">
               <div class="stage-number">2</div>
-              <img src="https://pikaso.cdnpk.net/private/production/4692249041/render.jpg?token=exp=1782518400~hmac=be74baed7a88896e6bd0c82393cc0af1dfe34921b83ef74174d3b6936bfd55dd" alt="Stage 2" class="stage-img" />
+              <img src="/servicios/brandsignal_stage2.jpg" alt="Stage 2" class="stage-img" />
               <div class="stage-card-content">
                 <h3 class="stage-title">Diseño de Propuesta y Accesibilidad</h3>
                 <p class="stage-desc">Desarrollamos una propuesta de señalética alineada con la identidad visual del cliente. Cuando el proyecto requiere señalética accesible, incorporamos criterios como contraste, lectura táctil, braille, altorrelieve o sistemas de encaminamiento, siguiendo la normativa aplicable.</p>
@@ -334,7 +334,7 @@ export const getBrandSignalHTML = async () => {
             <!-- Stage 3 -->
             <div class="stage-card">
               <div class="stage-number">3</div>
-              <img src="https://pikaso.cdnpk.net/private/production/4692250201/render.jpg?token=exp=1782518400~hmac=7e222969c8b51c41c46ebc61d94176e5590762fe99b80f421876207b943296e8" alt="Stage 3" class="stage-img" />
+              <img src="/servicios/brandsignal_stage3.jpg" alt="Stage 3" class="stage-img" />
               <div class="stage-card-content">
                 <h3 class="stage-title">Fabricación e Instalación</h3>
                 <p class="stage-desc">Finalmente, fabricamos e instalamos los elementos, coordinando el proyecto para que el resultado sea claro, funcional y coherente con la marca en interiores, exteriores, fachadas, pasillos y zonas comunes.</p>

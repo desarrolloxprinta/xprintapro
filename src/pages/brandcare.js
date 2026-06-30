@@ -21,7 +21,7 @@ export const getBrandCareHTML = async () => {
             BrandCare es el servicio de Xprinta orientado al mantenimiento, control y seguimiento de proyectos de rotulación una vez finalizada la instalación. Porque un rótulo no termina cuando se coloca: necesita conservar su estado, cumplir su periodo de garantía, responder ante posibles incidencias y adaptarse cuando la marca o el espacio requieren una renovación.
           </div>
           <div class="bc-about-image gsap-reveal" style="transition-delay: 0.2s">
-            <img src="https://pikaso.cdnpk.net/private/production/4690008861/render.jpg?token=exp=1782518400~hmac=37fbd17bc69604137f8f04a1f48f75c506ed2c798e01e44809f806e3cbf343cd" alt="BrandCare Maintenance Technician" />
+            <img src="/servicios/brandcare_maintenance.jpg" alt="BrandCare Maintenance Technician" />
           </div>
         </div>
       </section>
