@@ -129,14 +129,6 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
               <h1 class="blog-header_heading gsap-reveal">${post.title}</h1>
               <div class="spacer-xxlarge"></div>
             </div>
-            
-            <div class="blog_category gsap-reveal">
-              <div>${post.category || ''}</div>
-            </div>
-
-            <div class="blog_date gsap-reveal">
-              <div>${post.date || ''}</div>
-            </div>
 
           </div>
         </div>
