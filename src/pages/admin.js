@@ -1895,25 +1895,53 @@ async function loadEditingArticleFields() {
     console.log('📦 [Admin] Es array?:', Array.isArray(article.sections))
     console.log('📦 [Admin] Cantidad de bloques:', article.sections?.length || 0)
 
-    if (blocksContainer && article.sections && Array.isArray(article.sections)) {
+    if (blocksContainer) {
       blocksContainer.innerHTML = '' // Limpiar
 
-      article.sections.forEach((block, index) => {
-        console.log(`📝 [Admin] Creando bloque ${index + 1}:`, block)
-        const blockHTML = createArticleBlockHTML(block.id, block.title, block.content)
-        blocksContainer.insertAdjacentHTML('beforeend', blockHTML)
+      // Si hay bloques guardados, cargarlos
+      if (article.sections && Array.isArray(article.sections) && article.sections.length > 0) {
+        article.sections.forEach((block, index) => {
+          console.log(`📝 [Admin] Creando bloque ${index + 1}:`, block)
+          const blockHTML = createArticleBlockHTML(block.id, block.title, block.content)
+          blocksContainer.insertAdjacentHTML('beforeend', blockHTML)
 
-        // Inicializar editor Quill para este bloque
-        setTimeout(() => {
-          const editor = initBlockEditor(block.id, block.content)
-          if (editor) {
-            articleBlockEditors.push({ blockId: block.id, editor })
-            console.log(`✅ [Admin] Editor Quill inicializado para bloque ${block.id}`)
-          }
-        }, 100)
-      })
+          // Inicializar editor Quill para este bloque
+          setTimeout(() => {
+            const editor = initBlockEditor(block.id, block.content)
+            if (editor) {
+              articleBlockEditors.push({ blockId: block.id, editor })
+              console.log(`✅ [Admin] Editor Quill inicializado para bloque ${block.id}`)
+            }
+          }, 100)
+        })
+      } else {
+        // Si no hay bloques pero hay contenido antiguo (intro o content), crear un bloque automáticamente
+        const hasOldContent = article.intro || article.content
+        if (hasOldContent) {
+          console.log('📦 [Admin] Migrando contenido antiguo a bloques...')
+
+          // Crear bloque con contenido antiguo
+          const oldContent = `${article.intro ? '<p>' + article.intro + '</p>' : ''}${article.content || ''}`
+          const blockHTML = createArticleBlockHTML('', 'Contenido Principal', oldContent)
+          blocksContainer.insertAdjacentHTML('beforeend', blockHTML)
+
+          // Obtener el blockId del bloque recién creado
+          const newBlock = blocksContainer.lastElementChild
+          const blockId = newBlock.getAttribute('data-block-id')
+
+          setTimeout(() => {
+            const editor = initBlockEditor(blockId, oldContent)
+            if (editor) {
+              articleBlockEditors.push({ blockId, editor })
+              console.log(`✅ [Admin] Bloque migrado desde contenido antiguo`)
+            }
+          }, 100)
+        } else {
+          console.log('📦 [Admin] No hay bloques ni contenido antiguo - artículo vacío')
+        }
+      }
     } else {
-      console.warn('⚠️ [Admin] No se encontraron bloques o contenedor no existe')
+      console.warn('⚠️ [Admin] Contenedor de bloques no encontrado')
     }
 
     // FAQs relacionadas

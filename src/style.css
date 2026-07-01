@@ -1726,6 +1726,9 @@ html.lenis { height: auto; }
 
 .footer-top-tile {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer-divider {

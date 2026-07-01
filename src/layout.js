@@ -299,6 +299,23 @@ export const renderFooter = () => `
     <div class="footer-card">
       <div class="footer-top-tile">
         <img src="${content.header.logoPath}" alt="${content.header.brandName}" class="footer-logo">
+        <div class="footer-social-wrap">
+          <a href="https://www.linkedin.com/company/xprinta/" target="_blank" class="social-link" aria-label="LinkedIn">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/xprinta_signs/" target="_blank" class="social-link" aria-label="Instagram">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a href="https://www.tiktok.com/@xprinta" target="_blank" class="social-link" aria-label="TikTok">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.52-4.06-1.47-.94-.78-1.63-1.85-2-3.03V15.5c0 1.61-.39 3.25-1.35 4.55-1.54 2.12-4.26 3.19-6.81 2.69-2.83-.56-5.17-2.84-5.66-5.67-.67-3.87 1.83-7.79 5.71-8.32 1.09-.15 2.2.03 3.22.46V13.1c-.88-.41-1.89-.56-2.85-.36-1.89.4-3.32 2.15-3.26 4.09.07 2.05 1.85 3.69 3.9 3.51 1.84-.16 3.23-1.72 3.16-3.56V.02z"/>
+            </svg>
+          </a>
+        </div>
       </div>
       <div class="footer-divider"></div>
       <div class="footer-halves">
@@ -341,19 +358,7 @@ export const renderFooter = () => `
         <div class="footer-divider"></div>
         <div class="footer-bottom-wrap">
           <div class="footer-rights-wrap">
-            <div class="footer-social-wrap">
-              <a href="#" target="_blank" class="social-link" aria-label="X (Twitter)">
-                <svg class="social-icon" viewBox="0 0 24 24">
-                  <path fill-rule="evenodd" d="M5 1a4 4 0 0 0-4 4v14a4 4 0 0 0 4 4h14a4 4 0 0 0 4-4V5a4 4 0 0 0-4-4zm-.334 3.5a.75.75 0 0 0-.338 1.154l5.614 7.45l-5.915 6.345l-.044.051H6.03l4.83-5.179l3.712 4.928a.75.75 0 0 0 .337.251h4.422a.75.75 0 0 0 .336-1.154l-5.614-7.45L20.017 4.5h-2.05l-4.83 5.18l-3.714-4.928a.75.75 0 0 0-.337-.252zm10.88 13.548L6.431 5.952H8.45l9.114 12.095z" clip-rule="evenodd"></path>
-                </svg>
-              </a>
-              <a href="#" target="_blank" class="social-link" aria-label="LinkedIn">
-                <svg class="social-icon" viewBox="0 0 16 16">
-                  <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248c-.015-.709-.52-1.248-1.342-1.248c-.822 0-1.359.54-1.359 1.248c0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586c.173-.431.568-.878 1.232-.878c.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252c-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"></path>
-                </svg>
-              </a>
-            </div>
-            <div class="footer-text footer-text--small">© 2026 Xprinta Pro. Trade Marketing & Corporate Visual Identity.</div>
+            <div class="footer-text footer-text--small">© Copyright - 2026, Xprinta Signs Spain - desarrollado por Xprinta Digital</div>
           </div>
           <div class="footer-legal-links">
             <a href="#" class="footer-text footer-text--small">Términos de Servicio</a>
