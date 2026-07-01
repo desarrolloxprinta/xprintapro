@@ -220,6 +220,10 @@ function formatArticleContent(html) {
 export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
   const post = await getAreaTecnicaPostBySlug(slug)
 
+  if (post && post.slug === 'senalizacion-de-parkings') {
+    post.thumbnail = '/area tecnica/parking/ELEMENTOS GRAFICOS/SALIDA PARKING.jpeg';
+  }
+
   if (!post) {
     return await createLayout({
       content: `
@@ -329,14 +333,14 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
   if (post.paperformEmbedCode) {
     // Si hay código de Paperform, usar embed directo
     leadMagnetHTML = `
-      <div class="paperform-embed-wrapper gsap-reveal">
+      <div id="lead-magnet-section" class="paperform-embed-wrapper gsap-reveal">
         ${post.paperformEmbedCode}
       </div>
     `;
   } else if (post.pdfUrl) {
     // Fallback al lead magnet tradicional con PDF
     leadMagnetHTML = `
-      <div class="lead-magnet-2026 gsap-reveal">
+      <div id="lead-magnet-section" class="lead-magnet-2026 gsap-reveal">
         <div class="lead-magnet-2026__bg-element"></div>
         <div class="lead-magnet-2026__content">
           <div class="lead-magnet-2026__header">
@@ -388,17 +392,31 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
   const activeThumbnailUrl = post.thumbnail || '/area tecnica/parking/ELEMENTOS GRAFICOS/ORIENTACION EN EL PARKING.jpeg';
 
   const summaryVideoHTML = `
-    <div class="summary-video-thumbnail-wrapper gsap-reveal" style="position: relative; cursor: pointer; border-radius: 12px; overflow: hidden; margin-top: 2rem; aspect-ratio: 16/9; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05);" data-video-src="${activeVideoUrl}">
-      <img src="${activeThumbnailUrl}" alt="Video Resumen" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-      <div class="video-play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); transition: background 0.3s;">
-        <div class="video-play-button" style="width: 54px; height: 54px; border-radius: 50%; background: var(--color-highlight); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 15px rgba(230, 80, 0, 0.4); transition: transform 0.3s;">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+    <div style="margin-top: 2rem;">
+      <h4 style="font-family: var(--font-family-body); font-size: 0.8rem; font-weight: 700; color: var(--color-highlight, #E65000); margin: 0 0 1rem 0; text-transform: uppercase; letter-spacing: 0.15em;">
+        O ve el video resumen...
+      </h4>
+      <div class="summary-video-thumbnail-wrapper gsap-reveal" style="position: relative; cursor: pointer; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05);" data-video-src="${activeVideoUrl}">
+        <img src="${activeThumbnailUrl}" alt="Video Resumen" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <div class="video-play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); transition: background 0.3s;">
+          <div class="video-play-button" style="width: 54px; height: 54px; border-radius: 50%; background: var(--color-highlight); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 15px rgba(230, 80, 0, 0.4); transition: transform 0.3s;">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+          </div>
         </div>
+        <span style="position: absolute; bottom: 0.75rem; left: 0.75rem; color: white; font-weight: 600; font-size: 0.85rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 0.35rem; font-family: var(--font-family-body);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          Ver vídeo resumen
+        </span>
       </div>
-      <span style="position: absolute; bottom: 0.75rem; left: 0.75rem; color: white; font-weight: 600; font-size: 0.85rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 0.35rem; font-family: var(--font-family-body);">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-        Ver vídeo resumen
-      </span>
+    </div>
+
+    <!-- Card para descargar el PDF (Anchor a bottom) -->
+    <div class="pdf-download-sidebar-card gsap-reveal" style="margin-top: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+      <h5 style="margin: 0 0 1.25rem 0; font-family: var(--font-family-serif); font-size: 1.15rem; font-weight: 500; color: white; line-height: 1.3;">Descarga el informe técnico en PDF</h5>
+      <a href="#lead-magnet-section" class="btn-cookie" style="display: flex; align-items: center; justify-content: center; text-decoration: none; width: 100%; text-align: center; gap: 0.5rem; background: var(--color-highlight); border: none; color: white; font-weight: 600; padding: 0.85rem 1rem;">
+        Obtener informe en pdf
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </a>
     </div>
   `;
 
