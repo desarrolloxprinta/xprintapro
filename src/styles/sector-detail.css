@@ -423,7 +423,7 @@
   font-family: var(--font-family-serif, 'Merriweather', serif);
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: var(--font-weight-normal, 400);
-  line-height: var(--line-height-tight, 1.1);
+  line-height: var(--line-height-snug, 1.1);
   letter-spacing: -0.01em;
   margin-bottom: var(--spacing-10, 2.5rem);
   color: var(--color-primary, #0A0A0A);

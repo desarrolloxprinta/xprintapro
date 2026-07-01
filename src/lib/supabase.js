@@ -27,8 +27,8 @@ let supabase = null;
 try {
   if (supabaseUrl && supabaseAnonKey) {
     // Limpiar valores (eliminar espacios/saltos de línea)
-    const cleanUrl = supabaseUrl.trim();
-    const cleanKey = supabaseAnonKey.trim();
+    const cleanUrl = supabaseUrl.trim().replace(/\s+/g, '');
+    const cleanKey = supabaseAnonKey.trim().replace(/\s+/g, '').replace(/[\r\n]/g, '');
 
     console.log('🔧 Creating Supabase client with:', {
       urlLength: cleanUrl.length,
