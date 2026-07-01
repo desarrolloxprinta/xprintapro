@@ -59,6 +59,9 @@ import { renderAreaTecnicaPost, initAreaTecnicaPostAnimations } from './pages/ar
 import { getAreaTecnicaIndexHTML, initAreaTecnicaIndexAnimations } from './pages/area-tecnica-index.js'
 import { getSectorDetailHTML, initSectorDetailAnimations } from './pages/sector-detail.js'
 import { renderAdmin, initAdminCMS } from './pages/admin.js'
+import { getAvisoLegalHTML } from './pages/aviso-legal.js'
+import { getPoliticaDeCookiesHTML } from './pages/politica-de-cookies.js'
+import { getProteccionDeDatosHTML } from './pages/proteccion-de-datos.js'
 
 
 // ==========================================================================
@@ -175,6 +178,12 @@ async function loadPage() {
   } else if (pageType === 'admin') {
     // CMS Panel de Control
     app.innerHTML = await renderAdmin();
+  } else if (pageType === 'aviso-legal') {
+    app.innerHTML = await getAvisoLegalHTML();
+  } else if (pageType === 'politica-de-cookies') {
+    app.innerHTML = await getPoliticaDeCookiesHTML();
+  } else if (pageType === 'proteccion-de-datos') {
+    app.innerHTML = await getProteccionDeDatosHTML();
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();

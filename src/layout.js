@@ -361,9 +361,9 @@ export const renderFooter = () => `
             <div class="footer-text footer-text--small">© Copyright - 2026, Xprinta Signs Spain - desarrollado por Xprinta Digital</div>
           </div>
           <div class="footer-legal-links">
-            <a href="#" class="footer-text footer-text--small">Términos de Servicio</a>
-            <a href="#" class="footer-text footer-text--small">Aviso Legal</a>
-            <a href="#" class="footer-text footer-text--small">Política de Privacidad</a>
+            <a href="/politica-de-cookies.html" class="footer-text footer-text--small">Política de Cookies</a>
+            <a href="/aviso-legal.html" class="footer-text footer-text--small">Aviso Legal</a>
+            <a href="/proteccion-de-datos.html" class="footer-text footer-text--small">Protección de Datos</a>
           </div>
         </div>
       </div>
@@ -479,6 +479,47 @@ export const createLayout = async ({ content, pageClass = '', hideHeader = false
   <!-- Cursor personalizado global -->
   <div class="custom-cursor__dot"></div>
   <div class="custom-cursor__ring"><span class="custom-cursor__text"></span></div>
+
+  <!-- Banner de cookies RGPD -->
+  <div id="xprinta-cookie-banner" class="cookie-banner" style="display: none;">
+    <div class="cookie-banner-content">
+      <p>Utilizamos cookies propias y de terceros para analizar su navegación y mostrarle publicidad personalizada según un perfil elaborado a partir de sus hábitos de navegación. Puede aceptar todas las cookies pulsando "Aceptar todas", rechazarlas o configurar sus preferencias. Más información en nuestra <a href="/politica-de-cookies.html" style="color: var(--color-highlight); text-decoration: none; font-weight: 600;">Política de Cookies</a>.</p>
+      <div class="cookie-banner-actions">
+        <button id="cookie-btn-configure" class="btn-cookie outline">Configurar</button>
+        <button id="cookie-btn-reject" class="btn-cookie outline">Rechazar todas</button>
+        <button id="cookie-btn-accept" class="btn-cookie">Aceptar todas</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de configuración de cookies -->
+  <div id="cookie-config-modal" class="cookie-modal" style="display: none;">
+    <div class="cookie-modal-backdrop"></div>
+    <div class="cookie-modal-content">
+      <h3>Centro de Preferencias de Privacidad</h3>
+      <p style="font-size: 0.95rem; color: var(--color-text-muted); margin-bottom: 1.5rem;">De acuerdo con el Reglamento General de Protección de Datos de la UE (RGPD), puede configurar el uso de cookies en nuestro portal:</p>
+      
+      <div class="cookie-option" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div class="cookie-option-info" style="max-width: 80%;">
+          <strong style="display: block; color: var(--color-tertiary); font-size: 1rem; margin-bottom: 0.25rem;">Cookies Técnicas (Obligatorias)</strong>
+          <span style="font-size: 0.85rem; color: var(--color-text-muted);">Establecen la sesión y recuerdan sus preferencias de privacidad de forma segura.</span>
+        </div>
+        <input type="checkbox" checked disabled style="width: 20px; height: 20px;">
+      </div>
+
+      <div class="cookie-option" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 2rem;">
+        <div class="cookie-option-info" style="max-width: 80%;">
+          <strong style="display: block; color: var(--color-tertiary); font-size: 1rem; margin-bottom: 0.25rem;">Cookies Analíticas (Google Analytics)</strong>
+          <span style="font-size: 0.85rem; color: var(--color-text-muted);">Recopilan datos estadísticos de visitas a la web de forma anónima para ayudarnos a mejorar.</span>
+        </div>
+        <input type="checkbox" id="cookie-opt-analytics" checked style="width: 20px; height: 20px;">
+      </div>
+
+      <div class="cookie-modal-actions" style="display: flex; justify-content: flex-end; gap: 1rem;">
+        <button id="cookie-config-save" class="btn-cookie">Guardar Ajustes</button>
+      </div>
+    </div>
+  </div>
 `;
 }
 
@@ -535,5 +576,60 @@ export function initDynamicHeader() {
     });
   });
 
-  console.log('✅ Header dinámico inicializado correctamente');
+  // ==========================================================================
+  // Inicialización de Consentimiento de Cookies (RGPD Europea)
+  // ==========================================================================
+  const consent = localStorage.getItem('xprinta-cookie-consent');
+  const banner = document.getElementById('xprinta-cookie-banner');
+  const modal = document.getElementById('cookie-config-modal');
+
+  if (!consent && banner) {
+    banner.style.display = 'block';
+  }
+
+  const acceptBtn = document.getElementById('cookie-btn-accept');
+  const rejectBtn = document.getElementById('cookie-btn-reject');
+  const configBtn = document.getElementById('cookie-btn-configure');
+  const saveConfigBtn = document.getElementById('cookie-config-save');
+  const backdrop = modal ? modal.querySelector('.cookie-modal-backdrop') : null;
+
+  if (acceptBtn) {
+    acceptBtn.addEventListener('click', () => {
+      localStorage.setItem('xprinta-cookie-consent', 'all');
+      if (banner) banner.style.display = 'none';
+      console.log('🍪 [Cookies] Aceptadas todas las cookies');
+    });
+  }
+
+  if (rejectBtn) {
+    rejectBtn.addEventListener('click', () => {
+      localStorage.setItem('xprinta-cookie-consent', 'essential');
+      if (banner) banner.style.display = 'none';
+      console.log('🍪 [Cookies] Rechazadas las cookies de terceros');
+    });
+  }
+
+  if (configBtn && modal) {
+    configBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+  }
+
+  if (backdrop && modal) {
+    backdrop.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  }
+
+  if (saveConfigBtn && modal) {
+    saveConfigBtn.addEventListener('click', () => {
+      const analyticsAllowed = document.getElementById('cookie-opt-analytics')?.checked;
+      localStorage.setItem('xprinta-cookie-consent', analyticsAllowed ? 'all' : 'essential');
+      modal.style.display = 'none';
+      if (banner) banner.style.display = 'none';
+      console.log(`🍪 [Cookies] Preferencias guardadas. Analíticas: ${analyticsAllowed}`);
+    });
+  }
+
+  console.log('✅ Header dinámico y Consentimiento de Cookies inicializados correctamente');
 }

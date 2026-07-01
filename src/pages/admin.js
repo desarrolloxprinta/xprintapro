@@ -1440,6 +1440,55 @@ export async function initAdminCMS() {
     }
   })
 
+  // Botón para añadir imagen a la galería
+  document.getElementById('btn-add-article-image')?.addEventListener('click', () => {
+    const container = document.getElementById('article-gallery-container')
+    if (!container) return
+
+    const imageHTML = createArticleImageHTML()
+    container.insertAdjacentHTML('beforeend', imageHTML)
+  })
+
+  // Event delegation: remover imágenes de galería
+  document.getElementById('article-gallery-container')?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-remove-gallery-image')) {
+      const imageDiv = e.target.closest('.article-gallery-item')
+      if (imageDiv) imageDiv.remove()
+    }
+  })
+
+  // Event delegation: upload de imágenes de galería
+  document.getElementById('article-gallery-container')?.addEventListener('change', async (e) => {
+    if (e.target.classList.contains('article-image-file')) {
+      const file = e.target.files[0]
+      if (!file) return
+
+      const imageId = e.target.getAttribute('data-image-id')
+      const urlInput = document.querySelector(`.article-image-url[data-image-id="${imageId}"]`)
+      const preview = document.querySelector(`.article-image-preview[data-image-id="${imageId}"]`)
+
+      if (!urlInput) return
+
+      urlInput.value = 'Subiendo archivo...'
+      urlInput.style.color = 'var(--color-text-muted)'
+
+      const publicUrl = await uploadFileToSupabase(file, 'articles/gallery')
+
+      if (publicUrl) {
+        urlInput.value = publicUrl
+        urlInput.style.color = 'var(--color-text)'
+
+        if (preview) {
+          preview.style.display = 'block'
+          preview.innerHTML = `<img src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;">`
+        }
+      } else {
+        urlInput.value = ''
+        urlInput.style.color = 'var(--color-text)'
+      }
+    }
+  })
+
   // File upload: Article Thumbnail
   document.getElementById('article-thumbnail-file')?.addEventListener('change', async (e) => {
     const file = e.target.files[0]
@@ -1944,6 +1993,19 @@ async function loadEditingArticleFields() {
       console.warn('⚠️ [Admin] Contenedor de bloques no encontrado')
     }
 
+    // Galería de imágenes
+    const galleryContainer = document.getElementById('article-gallery-container')
+    if (galleryContainer && article.gallery_images && Array.isArray(article.gallery_images)) {
+      galleryContainer.innerHTML = '' // Limpiar
+
+      article.gallery_images.forEach((image) => {
+        const imageHTML = createArticleImageHTML(image.id, image.url, image.alt, image.caption)
+        galleryContainer.insertAdjacentHTML('beforeend', imageHTML)
+      })
+
+      console.log(`✅ [Admin] Cargadas ${article.gallery_images.length} imágenes de galería`)
+    }
+
     // FAQs relacionadas
     const relatedFaqIds = article.related_faqs || []
     await loadAvailableFAQs(relatedFaqIds)
@@ -2002,6 +2064,25 @@ async function submitArticle(e) {
       }
     })
     articleData.sections = blocks
+
+    // Recopilar imágenes de galería
+    const galleryImages = []
+    document.querySelectorAll('.article-gallery-item').forEach(imageDiv => {
+      const imageId = imageDiv.getAttribute('data-image-id')
+      const imageUrl = imageDiv.querySelector('.article-image-url').value.trim()
+      const imageAlt = imageDiv.querySelector('.article-image-alt').value.trim()
+      const imageCaption = imageDiv.querySelector('.article-image-caption').value.trim()
+
+      if (imageUrl) {
+        galleryImages.push({
+          id: imageId,
+          url: imageUrl,
+          alt: imageAlt,
+          caption: imageCaption
+        })
+      }
+    })
+    articleData.gallery_images = galleryImages
 
     // Recopilar FAQs seleccionadas
     const selectedFaqs = []
