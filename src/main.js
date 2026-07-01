@@ -8,6 +8,7 @@ import './styles/equipo.css'
 import './styles/sistema-xprinta.css'
 import './styles/red-xprinta.css'
 import './styles/area-tecnica.css'
+import './styles/admin.css'
 import content from './data/content.json'
 import puntos from './data/puntos.json'
 import { gsap } from 'gsap'
@@ -57,6 +58,7 @@ import { renderRedXprinta, initRedXprintaAnimations } from './pages/red-xprinta.
 import { renderAreaTecnicaPost, initAreaTecnicaPostAnimations } from './pages/area-tecnica-post.js'
 import { getAreaTecnicaIndexHTML, initAreaTecnicaIndexAnimations } from './pages/area-tecnica-index.js'
 import { getSectorDetailHTML, initSectorDetailAnimations } from './pages/sector-detail.js'
+import { renderAdmin, initAdminCMS } from './pages/admin.js'
 
 
 // ==========================================================================
@@ -170,6 +172,9 @@ async function loadPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const slug = urlParams.get('slug') || 'industria';
     app.innerHTML = await getSectorDetailHTML(slug);
+  } else if (pageType === 'admin') {
+    // CMS Panel de Control
+    app.innerHTML = await renderAdmin();
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();
@@ -229,6 +234,8 @@ async function loadPage() {
     initProyectosDirectory();
   } else if (pageType === 'servicios') {
     initServiciosDirectory();
+  } else if (pageType === 'admin') {
+    initAdminCMS();
   }
 
   // Inicializar Paperform si está presente

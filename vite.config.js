@@ -38,6 +38,7 @@ export default defineConfig({
         areaTecnicaPost: resolve(__dirname, 'area-tecnica-post.html'),
         areaTecnica: resolve(__dirname, 'area-tecnica.html'),
         sector: resolve(__dirname, 'sector.html'),
+        admin: resolve(__dirname, 'admin.html'),
       },
     },
   },
