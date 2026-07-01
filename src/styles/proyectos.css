@@ -11,9 +11,9 @@
   top: 120px;
   z-index: 40;
   background-color: var(--color-background);
-  padding: 1.5rem 5vw;
-  margin-left: -5vw;
-  margin-right: -5vw;
+  padding: 1.5rem 15vw;
+  margin-left: -15vw;
+  margin-right: -15vw;
   margin-bottom: 3rem;
 }
 
@@ -130,30 +130,35 @@
   display: flex;
   flex-direction: column;
   gap: 10rem; /* Espaciado gigante entre proyectos como en Ignite */
-  padding-bottom: 5rem;
+  z-index: 2;
 }
 
 .work_item_content {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  scroll-margin-top: 180px; /* Offset para que al hacer click no quede debajo del header sticky */
 }
 
 .work_item_image-container {
   width: 100%;
-  aspect-ratio: 16/10;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
-  background-color: var(--color-neutral-100);
+  border-radius: 12px;
   position: relative;
+  background-color: #f5f5f7;
+  cursor: pointer;
 }
 
 .work_item_image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.work_item_image-container:hover .work_item_image {
+  transform: scale(1.03);
+}
+
+/* Video en hover en el listado */
 .work_item_video {
   position: absolute;
   top: 0;
@@ -163,49 +168,40 @@
   object-fit: cover;
   opacity: 0;
   transition: opacity 0.5s ease;
-  pointer-events: none;
-}
-
-/* Efecto hover suave sobre la imagen gigante y video */
-.work_item_image-container:hover .work_item_image {
-  transform: scale(1.05);
+  pointer-events: none; /* Dejar que los clicks pasen al contenedor */
 }
 
 .work_item_image-container:hover .work_item_video {
   opacity: 1;
 }
 
-/* ========================================
-   CONTENIDO INFERIOR DEL PROYECTO
-   ======================================== */
 .work_content-bottom {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: 4vw;
+  margin-top: 1.5rem;
   align-items: start;
-  padding-top: 5%;
-}
-
-.project-tag {
-  display: inline-block;
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-highlight);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .text-size-large {
   font-size: 2.5rem;
-  color: var(--color-primary);
   line-height: 1.1;
+  font-weight: 400;
   margin: 0;
 }
 
+.project-tag {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-highlight);
+  font-weight: 700;
+}
+
 .text-muted {
-  font-size: 1.1rem;
-  color: var(--color-text-muted);
+  font-size: 1.05rem;
   line-height: 1.6;
   margin-top: 0;
   margin-bottom: 2rem;
@@ -245,15 +241,16 @@
 
 /* Cloned from area-tecnica-index.css for header uniformity */
 .at-index-header {
-  padding: 180px 0 20px;
+  padding: 180px 15vw 20px 15vw;
 }
 
 .at-index-title {
   font-size: clamp(4rem, 8vw, 8rem);
-  line-height: 1;
+  line-height: 1.15;
   font-weight: 500;
   letter-spacing: -0.02em;
   margin-bottom: 2rem;
+  overflow: visible;
 }
 
 .at-index-meta {
