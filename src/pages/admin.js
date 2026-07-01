@@ -1890,10 +1890,16 @@ async function loadEditingArticleFields() {
 
     // Bloques de contenido
     const blocksContainer = document.getElementById('article-blocks-container')
+    console.log('📦 [Admin] Contenedor de bloques:', blocksContainer)
+    console.log('📦 [Admin] article.sections:', article.sections)
+    console.log('📦 [Admin] Es array?:', Array.isArray(article.sections))
+    console.log('📦 [Admin] Cantidad de bloques:', article.sections?.length || 0)
+
     if (blocksContainer && article.sections && Array.isArray(article.sections)) {
       blocksContainer.innerHTML = '' // Limpiar
 
-      article.sections.forEach((block) => {
+      article.sections.forEach((block, index) => {
+        console.log(`📝 [Admin] Creando bloque ${index + 1}:`, block)
         const blockHTML = createArticleBlockHTML(block.id, block.title, block.content)
         blocksContainer.insertAdjacentHTML('beforeend', blockHTML)
 
@@ -1902,9 +1908,12 @@ async function loadEditingArticleFields() {
           const editor = initBlockEditor(block.id, block.content)
           if (editor) {
             articleBlockEditors.push({ blockId: block.id, editor })
+            console.log(`✅ [Admin] Editor Quill inicializado para bloque ${block.id}`)
           }
         }, 100)
       })
+    } else {
+      console.warn('⚠️ [Admin] No se encontraron bloques o contenedor no existe')
     }
 
     // FAQs relacionadas
@@ -2372,19 +2381,9 @@ async function submitFaq(e) {
  * Acciones de Edición
  */
 function editArticulo(id) {
-  const art = blogList.find(a => String(a.id) === String(id))
-  if (!art) return
-
-  document.getElementById('art-id').value = art.id
-  document.getElementById('art-title').value = art.title || ''
-  document.getElementById('art-slug').value = art.slug || ''
-  document.getElementById('art-thumbnail').value = art.thumbnail || ''
-  document.getElementById('art-published').checked = !!art.published
-  document.getElementById('art-intro').value = art.intro || ''
-  document.getElementById('art-content').value = art.content || ''
-
-  document.getElementById('modal-articulo-title').textContent = 'Editar Artículo'
-  document.getElementById('modal-articulo').classList.add('active')
+  // Navegar al editor inline (igual que proyectos)
+  currentEditingArticle = id
+  navigateTo('article-editor')
 }
 
 function editFaq(id) {
