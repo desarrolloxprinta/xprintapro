@@ -241,7 +241,7 @@ export const getBrandGuideHTML = async () => {
 
             <div class="gsap-reveal">
               <div style="width: 100%; border-radius: 8px; overflow: hidden; margin-bottom: 3rem; aspect-ratio: 16/9;">
-                <img src="/servicios/brandguide_manual2.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" alt="Brand manual visual" />
+                <img src="/servicios/videos%20hero/BRANDGUIDE/Manual.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" alt="Brand manual visual" />
               </div>
               
               <p class="regius-text-large"><strong>Uniformidad Nacional:</strong> Todos los puntos siguen las mismas especificaciones, reduciendo diferencias visuales y de calidad entre centros o proveedores locales.</p>
@@ -261,7 +261,7 @@ export const getBrandGuideHTML = async () => {
           <div class="regius-grid-halves">
             
             <div class="gsap-reveal" style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
-              <img src="/servicios/brandguide_team.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Equipo analizando la implantación" />
+              <img src="/servicios/videos%20hero/BRANDGUIDE/magnific_genera-un-mockup-con-esta_vue55KPa47.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Equipo analizando la implantación" />
             </div>
 
             <div class="gsap-reveal" style="display: flex; flex-direction: column; justify-content: center;">
