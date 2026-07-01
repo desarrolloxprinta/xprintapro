@@ -245,7 +245,7 @@
 
 /* Cloned from area-tecnica-index.css for header uniformity */
 .at-index-header {
-  padding: 180px 0 80px;
+  padding: 180px 0 20px;
 }
 
 .at-index-title {
@@ -261,7 +261,8 @@
   justify-content: space-between;
   border-bottom: 1px solid rgba(0,0,0,0.1);
   padding-bottom: 1rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
   font-weight: 500;
   font-size: 0.9rem;
+  color: var(--color-text-muted, #666666);
 }

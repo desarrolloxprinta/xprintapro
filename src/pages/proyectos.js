@@ -30,7 +30,7 @@ const renderHeader = (projectsCount) => {
         
         <div class="at-index-meta gsap-reveal">
           <span>${ui.title}</span>
-          <span>${projectsCount} Documentos</span>
+          <span>${projectsCount} Proyectos</span>
         </div>
       </div>
     </section>
@@ -59,7 +59,7 @@ const renderWorkComponent = (projects) => {
   const uniqueSectors = [...new Set(projects.map(p => (p.sector || p.category || 'retail').toLowerCase()))];
 
   return `
-    <section class="section_work" style="padding: 3rem 5vw 8rem 5vw; background-color: var(--color-background);">
+    <section class="section_work" style="padding: 1rem 5vw 8rem 5vw; background-color: var(--color-background);">
       <div class="work-container" style="max-width: 1600px; margin: 0 auto;">
         
         <!-- Filtros sticky -->
