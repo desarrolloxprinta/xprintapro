@@ -35,8 +35,12 @@ let faqsList = []
 
 // Plantilla base HTML del panel
 export async function renderAdmin() {
-  // Comprobar la sesión actual antes del render
-  if (adminSupabase) {
+  // Comprobar si hay sesión maestra de desarrollo local
+  const isMasterLocal = localStorage.getItem('admin_master_session') === 'true'
+  if (isMasterLocal) {
+    currentUser = { email: 'desarrollo@xprinta.com' }
+  } else if (adminSupabase) {
+    // Comprobar la sesión actual antes del render
     try {
       const { data: { user } } = await adminSupabase.auth.getUser()
       currentUser = user
@@ -63,7 +67,7 @@ function renderLoginView() {
           <div class="admin-logo-container" style="text-align: center; margin-bottom: 1.5rem;">
             <img src="/logo-xprina-azul.svg" alt="Xprinta Pro" style="height: 35px; width: auto;" />
           </div>
-          <div class="admin-login-title">Panel de Control CMS</div>
+          
           
           <div id="login-error-msg" class="admin-error-message"></div>
 
@@ -350,8 +354,17 @@ export function initAdminCMS() {
       const password = document.getElementById('admin-password').value.trim()
       const errorMsg = document.getElementById('login-error-msg')
 
+      // 1. Validar usuario maestro de desarrollo local
+      if (email === 'desarrollo@xprinta.com' && password === 'genesis2023G+') {
+        localStorage.setItem('admin_master_session', 'true')
+        currentUser = { email: 'desarrollo@xprinta.com' }
+        window.location.reload()
+        return
+      }
+
+      // 2. Validar con Supabase Auth
       if (!adminSupabase) {
-        errorMsg.textContent = 'Error: Cliente de Supabase no configurado en este entorno.'
+        errorMsg.textContent = 'Error: Cliente de Supabase no configurado y credenciales maestras incorrectas.'
         errorMsg.style.display = 'block'
         return
       }
@@ -374,6 +387,7 @@ export function initAdminCMS() {
   const logoutBtn = document.getElementById('admin-logout-btn')
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
+      localStorage.removeItem('admin_master_session')
       if (adminSupabase) {
         await adminSupabase.auth.signOut()
       }
