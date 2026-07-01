@@ -242,3 +242,26 @@
     gap: 1.5rem;
   }
 }
+
+/* Cloned from area-tecnica-index.css for header uniformity */
+.at-index-header {
+  padding: 180px 0 80px;
+}
+
+.at-index-title {
+  font-size: clamp(4rem, 8vw, 8rem);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.at-index-meta {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding-bottom: 1rem;
+  margin-top: 4rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}

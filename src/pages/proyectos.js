@@ -17,23 +17,23 @@ gsap.registerPlugin(ScrollTrigger)
 /**
  * Renderiza el Header del directorio (título principal)
  */
-const renderHeader = () => {
+const renderHeader = (projectsCount) => {
   const ui = content.projectsDirectoryUi || {
     title: 'your BRAND under control',
     subtitle: 'Nuestros proyectos'
   }
 
   return `
-    <header class="section_header" style="position: relative; z-index: 45; padding: 12rem 5vw 3rem 5vw; background-color: var(--color-background);">
-      <div class="gsap-reveal" style="max-width: 1600px; margin: 0 auto; text-align: center;">
-        <h1 class="font-body" style="font-size: 1.2rem; color: var(--color-text-muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
-          ${ui.title}
-        </h1>
-        <h2 class="font-serif" style="font-size: clamp(3rem, 6vw, 6rem); color: var(--color-primary); margin: 0; line-height: 1;">
-          ${ui.subtitle}
-        </h2>
+    <section class="at-index-header">
+      <div class="container-fluid">
+        <h1 class="at-index-title gsap-reveal">${ui.subtitle}</h1>
+        
+        <div class="at-index-meta gsap-reveal">
+          <span>${ui.title}</span>
+          <span>${projectsCount} Documentos</span>
+        </div>
       </div>
-    </header>
+    </section>
   `
 }
 
@@ -156,7 +156,7 @@ export const getProyectosHTML = async () => {
   const projects = await fetchProjects()
 
   const pageContent = `
-    ${renderHeader()}
+    ${renderHeader(projects.length)}
     ${renderWorkComponent(projects)}
   `
 
