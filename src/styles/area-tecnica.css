@@ -132,7 +132,7 @@
 .blog-content_content-left {
   grid-column: 1 / span 3;
   position: sticky;
-  top: 100px;
+  top: 153px;
   align-self: start;
 }
 

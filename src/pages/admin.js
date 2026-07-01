@@ -782,6 +782,28 @@ function renderDashboardView() {
                 </small>
               </div>
 
+              <!-- CARD 5: Formulario Paperform (Lead Magnet) -->
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">5. Formulario de Descarga (Lead Magnet)</h3>
+                <p style="color: var(--color-text-muted); font-size: var(--font-size-sm); margin-bottom: var(--spacing-6);">
+                  Código embed de Paperform para descargar el informe técnico en PDF. Este formulario aparecerá al final del artículo como lead magnet.
+                </p>
+
+                <div class="admin-form-group">
+                  <label for="article-paperform-embed">Código Embed de Paperform</label>
+                  <textarea
+                    id="article-paperform-embed"
+                    class="admin-input"
+                    style="height: 120px; resize: vertical; font-family: 'Courier New', monospace; font-size: 12px;"
+                    placeholder='<div data-paperform-id="tu-form-id"></div><script src="https://paperform.co/__embed.min.js"></script>'
+                  ></textarea>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-2); display: block;">
+                    Pega aquí el código embed completo de Paperform. Ejemplo:<br>
+                    <code style="background: var(--color-neutral-100); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 11px;">&lt;div data-paperform-id="..."&gt;&lt;/div&gt;&lt;script src="..."&gt;&lt;/script&gt;</code>
+                  </small>
+                </div>
+              </div>
+
               <!-- Botón de Submit -->
               <div class="admin-table-container" style="display: flex; justify-content: flex-end; gap: var(--spacing-4); border: none; padding: 0; background: transparent; box-shadow: none;">
                 <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin: 0;" id="btn-article-cancel">
@@ -2120,6 +2142,12 @@ async function loadEditingArticleFields() {
     const relatedFaqIds = article.related_faqs || []
     await loadAvailableFAQs(relatedFaqIds)
 
+    // Código embed de Paperform
+    const paperformEmbed = document.getElementById('article-paperform-embed')
+    if (paperformEmbed && article.paperform_embed_code) {
+      paperformEmbed.value = article.paperform_embed_code
+    }
+
     console.log('✅ [Admin] Artículo cargado')
   } catch (err) {
     console.error('❌ Error cargando artículo:', err)
@@ -2201,6 +2229,10 @@ async function submitArticle(e) {
       selectedFaqs.push(checkbox.value)
     })
     articleData.related_faqs = selectedFaqs
+
+    // Código embed de Paperform
+    const paperformEmbed = document.getElementById('article-paperform-embed').value.trim()
+    articleData.paperform_embed_code = paperformEmbed || null
 
     console.log('📦 [Admin] Datos a guardar:', articleData)
 
