@@ -400,12 +400,6 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
             <div class="blog_header-top">
               <h1 class="blog-header_heading gsap-reveal">${post.title}</h1>
               <div class="spacer-xxlarge"></div>
-              <div class="at-scroll-indicator gsap-reveal">
-                <span class="mouse-icon">
-                  <span class="mouse-wheel"></span>
-                </span>
-                <span class="scroll-text">Haz scroll para ver el artículo</span>
-              </div>
             </div>
 
           </div>
@@ -414,11 +408,17 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
 
       <!-- Intro Section (Ignite Clone) -->
       <section class="section_blog-intro">
-        <div class="padding-global padding-section-medium">
+        <div class="padding-global padding-section-medium" style="padding-bottom: 0;">
           <div class="blog-content_component">
             <div class="blog-intro_text-wrapper">
               <div class="gsap-reveal">
                 ${post.intro || "Un buen proyecto de señalización combina diferentes capas. Todas deben funcionar juntas y mantener una lógica visual coherente, adaptada tanto a vehículos como a peatones."}
+              </div>
+              <div class="at-scroll-indicator gsap-reveal" style="margin-top: 4rem;">
+                <span class="mouse-icon">
+                  <span class="mouse-wheel"></span>
+                </span>
+                <span class="scroll-text">Haz scroll para ver el artículo</span>
               </div>
             </div>
           </div>
