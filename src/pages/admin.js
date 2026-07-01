@@ -61,7 +61,7 @@ function renderLoginView() {
       <div class="admin-login-container">
         <div class="admin-login-card">
           <div class="admin-logo-container" style="text-align: center; margin-bottom: 1.5rem;">
-            <img src="${content.header?.logoPath || '/logo-xprina-blanco.svg'}" alt="Xprinta Pro" style="height: 35px; width: auto;" />
+            <img src="/logo-xprina-azul.svg" alt="Xprinta Pro" style="height: 35px; width: auto;" />
           </div>
           <div class="admin-login-title">Panel de Control CMS</div>
           
@@ -97,7 +97,7 @@ function renderDashboardView() {
         <!-- Header -->
         <header class="admin-header">
           <div class="admin-logo-container" style="display: flex; align-items: center; gap: 0.75rem;">
-            <img src="${content.header?.logoPath || '/logo-xprina-blanco.svg'}" alt="Xprinta Pro" style="height: 28px; width: auto;" />
+            <img src="/logo-xprina-azul.svg" alt="Xprinta Pro" style="height: 28px; width: auto;" />
             <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a1a1aa; font-weight: 600; margin-top: 2px;">CMS</span>
           </div>
           <div class="admin-header-right">

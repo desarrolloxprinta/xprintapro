@@ -59,7 +59,7 @@ body[data-page="admin"] .custom-cursor__ring {
 }
 
 .admin-logo-container img {
-  filter: brightness(0); /* Make logo black on white */
+  filter: brightness(1); /* Make logo black on white */
 }
 
 .admin-login-title {
