@@ -486,8 +486,8 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
 
       <!-- Modal del reproductor de video (Pop-Up) -->
       <div id="video-popup-modal" class="cookie-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000000; align-items: center; justify-content: center; padding: 1rem;">
-        <div class="cookie-modal-backdrop" id="video-popup-backdrop" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: -1;"></div>
-        <div class="cookie-modal-content" style="max-width: 960px; width: 90vw; padding: 0; background: transparent; border: none; box-shadow: none; overflow: visible;">
+        <div class="cookie-modal-backdrop" id="video-popup-backdrop" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 1;"></div>
+        <div class="cookie-modal-content" style="max-width: 960px; width: 90vw; padding: 0; background: transparent; border: none; box-shadow: none; overflow: visible; z-index: 2; position: relative;">
           <button id="video-popup-close" style="position: absolute; top: -3.5rem; right: 0; background: transparent; border: none; color: white; font-size: 1.25rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; z-index: 100;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             Cerrar
