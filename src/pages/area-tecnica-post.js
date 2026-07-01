@@ -297,8 +297,8 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
   ` : '';
 
   const audioHTML = post.audioUrl ? `
-    <div class="custom-audio-wrapper gsap-reveal" style="margin-bottom: 2.5rem;">
-      <h4 class="custom-audio-invitation" style="font-family: var(--font-family-body); font-size: 0.8rem; font-weight: 700; color: var(--color-highlight, #E65000); margin: 0 0 1rem 0; text-transform: uppercase; letter-spacing: 0.15em;">
+    <div class="custom-audio-wrapper gsap-reveal" style="margin-bottom: 2.5rem; margin-top: 0;">
+      <h4 class="toc-title" style="margin-top: 0; margin-bottom: 1.5rem;">
         ¿Poco tiempo? Escucha el resumen
       </h4>
       <div class="custom-audio-glass">
@@ -389,7 +389,7 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
 
   const summaryVideoHTML = `
     <div style="margin-top: 2rem;">
-      <h4 style="font-family: var(--font-family-body); font-size: 0.8rem; font-weight: 700; color: var(--color-highlight, #E65000); margin: 0 0 1rem 0; text-transform: uppercase; letter-spacing: 0.15em;">
+      <h4 class="toc-title" style="margin-top: 0; margin-bottom: 1.5rem;">
         O ve el video resumen...
       </h4>
       <div class="summary-video-thumbnail-wrapper gsap-reveal" style="position: relative; cursor: pointer; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05);" data-video-src="${activeVideoUrl}">
@@ -407,12 +407,20 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
     </div>
 
     <!-- Card para descargar el PDF (Anchor a bottom) -->
-    <div class="pdf-download-sidebar-card gsap-reveal" style="margin-top: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-      <h5 style="margin: 0 0 1.25rem 0; font-family: var(--font-family-serif); font-size: 1.15rem; font-weight: 500; color: white; line-height: 1.3;">Descarga el informe técnico en PDF</h5>
-      <a href="#lead-magnet-section" class="btn-cookie" style="display: flex; align-items: center; justify-content: center; text-decoration: none; width: 100%; text-align: center; gap: 0.5rem; background: var(--color-highlight); border: none; color: white; font-weight: 600; padding: 0.85rem 1rem;">
-        Obtener informe en pdf
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-      </a>
+    <div class="pdf-download-sidebar-card gsap-reveal" style="margin-top: 2.5rem;">
+      <h4 class="toc-title" style="margin-top: 0; margin-bottom: 1.5rem;">Descarga el informe técnico en PDF</h4>
+      <div class="custom-audio-glass">
+        <div class="custom-audio-glow"></div>
+        <div class="custom-audio-inner" style="flex-direction: column; align-items: stretch; gap: 1rem;">
+          <p style="font-family: var(--font-family-body); font-size: 0.9rem; color: var(--color-text-muted); margin: 0; line-height: 1.5;">
+            Accede a la guía detallada de este artículo con diagramas y mejores prácticas.
+          </p>
+          <a href="#lead-magnet-section" class="btn-cookie" style="display: flex; align-items: center; justify-content: center; text-decoration: none; width: 100%; text-align: center; gap: 0.5rem; background: var(--color-highlight); border: none; color: white; font-weight: 600; padding: 0.85rem 1rem; border-radius: 30px; transition: transform 0.2s;">
+            Obtener informe en pdf
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+          </a>
+        </div>
+      </div>
     </div>
   `;
 
