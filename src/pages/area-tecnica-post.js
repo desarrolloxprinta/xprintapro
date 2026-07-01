@@ -220,10 +220,6 @@ function formatArticleContent(html) {
 export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
   const post = await getAreaTecnicaPostBySlug(slug)
 
-  if (post && post.slug === 'senalizacion-de-parkings') {
-    post.thumbnail = '/area tecnica/parking/ELEMENTOS GRAFICOS/SALIDA PARKING.jpeg';
-  }
-
   if (!post) {
     return await createLayout({
       content: `
