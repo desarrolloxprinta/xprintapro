@@ -174,7 +174,7 @@ body[data-page="admin"] .custom-cursor__ring {
 }
 
 .admin-header .admin-logo-container img {
-  filter: brightness(0); /* Black logo in header */
+  filter: brightness(1); /* Black logo in header */
 }
 
 .admin-header-right {
