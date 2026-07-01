@@ -27,6 +27,97 @@ import { createLayout } from '../layout.js'
 import content from '../data/content.json'
 
 /**
+ * Estandariza los datos del proyecto (JSON plano de Supabase vs JSON anidado heredado)
+ */
+const sanitizeProjectData = (data) => {
+  if (!data) return {}
+
+  const sanitized = { ...data }
+
+  // 1. Hero
+  sanitized.hero = data.hero || {
+    video: data.hero_video || null,
+    image: data.hero_image || '/placeholder.jpg'
+  }
+
+  // 2. Cliente
+  sanitized.client = data.client || {
+    name: data.client_name || '',
+    description: data.client_info || ''
+  }
+
+  // 3. Sector & Servicio
+  sanitized.sector = data.sector || ''
+  sanitized.service = data.service || {
+    title: data.service_type || data.sector || '',
+    logo: null
+  }
+
+  // 4. Ubicación
+  if (data.address) {
+    sanitized.location = data.location || {
+      title: data.client_name || '',
+      description: data.address,
+      markers: null
+    }
+  } else {
+    sanitized.location = data.location || null
+  }
+
+  // 5. Storytelling (Desafío y Solución)
+  if (data.challenge_wysiwyg || data.solution_wysiwyg) {
+    sanitized.story = data.story || {
+      challengeTitle: 'El Desafío',
+      challenge: data.challenge_wysiwyg || '',
+      challengeImage: data.hero_image || '/placeholder.jpg',
+      solutionTitle: 'La Solución',
+      solution: data.solution_wysiwyg || '',
+      solutionImage: data.hero_image || '/placeholder.jpg'
+    }
+  } else {
+    sanitized.story = data.story || null
+  }
+
+  // 6. Planos Técnicos (Repeatable)
+  if (data.planos_tecnicos && Array.isArray(data.planos_tecnicos) && data.planos_tecnicos.length > 0) {
+    sanitized.blueprints = data.planos_tecnicos.map(p => p.url).filter(Boolean)
+    sanitized.blueprintSteps = data.planos_tecnicos.map(p => ({
+      title: p.title || 'Detalle Técnico',
+      description: p.description || ''
+    }))
+  } else {
+    sanitized.blueprints = data.blueprints || null
+    sanitized.blueprintSteps = data.blueprintSteps || null
+  }
+
+  // 7. Render 3D
+  if (data.model_3d_render) {
+    sanitized.render3d = data.render3d || {
+      title: 'Previsualización 3D',
+      description: 'Interactúa con el modelo tridimensional del rótulo final.',
+      model: data.model_3d_render
+    }
+  } else {
+    sanitized.render3d = data.render3d || null
+  }
+
+  // 8. Testimonios
+  if (data.testimonial && (data.testimonial.text || data.testimonial.quote)) {
+    sanitized.testimonial = {
+      quote: data.testimonial.text || data.testimonial.quote,
+      author: data.testimonial.author || '',
+      role: data.testimonial.role || '',
+      photo: data.testimonial.photo || '',
+      company: data.testimonial.company || ''
+    }
+  } else {
+    sanitized.testimonial = data.testimonial || null
+  }
+
+  return sanitized
+}
+
+/**
  * Renderiza la sección Hero del proyecto
  * @param {Object} data - Datos del proyecto
  * @returns {string} HTML del hero
@@ -377,17 +468,20 @@ const renderContacto = () => `
  * @param {Object} data - Datos completos del proyecto
  * @returns {string} HTML completo del contenido del proyecto
  */
-const renderProjectContent = (data) => `
-  ${renderHero(data)}
-  ${renderMetaBento(data)}
-  ${renderLocation(data)}
-  ${renderStorytelling(data)}
-  ${renderBlueprints(data)}
-  ${render3D(data)}
-  ${renderGallery(data)}
-  ${renderTestimonial(data)}
-  ${renderContacto()}
-`
+const renderProjectContent = (rawData) => {
+  const data = sanitizeProjectData(rawData)
+  return `
+    ${renderHero(data)}
+    ${renderMetaBento(data)}
+    ${renderLocation(data)}
+    ${renderStorytelling(data)}
+    ${renderBlueprints(data)}
+    ${render3D(data)}
+    ${renderGallery(data)}
+    ${renderTestimonial(data)}
+    ${renderContacto()}
+  `
+}
 
 /**
  * Crea una página completa de proyecto con layout universal

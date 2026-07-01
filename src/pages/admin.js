@@ -266,13 +266,15 @@ function renderDashboardView() {
       
       <!-- Modal Proyecto -->
       <div id="modal-proyecto" class="admin-modal">
-        <div class="admin-modal-content">
+        <div class="admin-modal-content" style="max-width: 900px;">
           <div class="admin-modal-header">
             <h3 id="modal-proyecto-title" class="admin-modal-title">Nuevo Proyecto</h3>
             <button class="admin-modal-close" id="modal-proyecto-close">&times;</button>
           </div>
           <form id="form-proyecto">
             <input type="hidden" id="proj-id">
+            
+            <h4 style="margin: 1.5rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">1. Información General</h4>
             <div class="admin-form-row">
               <div class="admin-form-group">
                 <label for="proj-title">Título del Proyecto</label>
@@ -289,27 +291,109 @@ function renderDashboardView() {
                 <input type="text" id="proj-client" class="admin-input" required>
               </div>
               <div class="admin-form-group">
-                <label for="proj-sector">Sector</label>
-                <input type="text" id="proj-sector" class="admin-input" placeholder="retail, restauracion, etc" required>
+                <label for="proj-client-info">Información del Cliente (Subtítulo)</label>
+                <input type="text" id="proj-client-info" class="admin-input" placeholder="Ej: Cadena internacional de restauración comercial">
               </div>
             </div>
             <div class="admin-form-row">
               <div class="admin-form-group">
-                <label for="proj-image">Imagen Hero (URL)</label>
+                <label for="proj-service-type">Tipo de Servicio (Clasificación)</label>
+                <select id="proj-service-type" class="admin-input" style="background: #ffffff;" required>
+                  <option value="Rotulación Luminosa">Rotulación Luminosa</option>
+                  <option value="Señalética Corpórea">Señalética Corpórea</option>
+                  <option value="Letras Corpóreas">Letras Corpóreas</option>
+                  <option value="Vinilos Decorativos">Vinilos Decorativos</option>
+                  <option value="Rotulación de Vehículos">Rotulación de Vehículos</option>
+                  <option value="Decoración Gráfica">Decoración Gráfica</option>
+                  <option value="Escaparates y Puntos de Venta">Escaparates y Puntos de Venta</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label for="proj-address">Dirección (Ubicación física)</label>
+                <input type="text" id="proj-address" class="admin-input" placeholder="C. de Anabel Segura, 14, Alcobendas, Madrid, España">
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="proj-sector">Sector (Categoría secundaria)</label>
+                <input type="text" id="proj-sector" class="admin-input" placeholder="Ej: retail, restauracion" required>
+              </div>
+              <div class="admin-form-group">
+                <label for="proj-thumbnail">Miniatura / Thumbnail (URL)</label>
+                <input type="text" id="proj-thumbnail" class="admin-input" placeholder="/proyectos/thumb-fosters.jpg">
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="proj-image">Imagen Hero Principal (URL)</label>
                 <input type="text" id="proj-image" class="admin-input">
               </div>
               <div class="admin-form-group">
-                <label for="proj-video">Video Hero (URL - Opcional)</label>
+                <label for="proj-video">Video Hero Principal (URL - Opcional)</label>
                 <input type="text" id="proj-video" class="admin-input">
               </div>
             </div>
             <div class="admin-form-group">
               <label for="proj-desc">Descripción Corta</label>
-              <textarea id="proj-desc" class="admin-input" style="height: 80px; resize: vertical;"></textarea>
+              <textarea id="proj-desc" class="admin-input" style="height: 60px; resize: vertical;"></textarea>
             </div>
+
+            <h4 style="margin: 2rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">2. Desafío y Solución</h4>
+            <div class="admin-form-group">
+              <label for="proj-challenge">El Desafío (Editor de texto / HTML)</label>
+              <textarea id="proj-challenge" class="admin-input" style="height: 100px; resize: vertical;" placeholder="Detalla los retos técnicos y de marca..."></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label for="proj-solution">La Solución (Editor de texto / HTML)</label>
+              <textarea id="proj-solution" class="admin-input" style="height: 100px; resize: vertical;" placeholder="Explica la solución, materiales y técnicas empleadas..."></textarea>
+            </div>
+
+            <h4 style="margin: 2rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">3. Planos Técnicos y Bocetos (Repetible)</h4>
+            <div id="planos-container" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 0.5rem;">
+              <!-- Se inyectan filas dinámicamente -->
+            </div>
+            <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.5rem 1rem; font-size: 0.8rem;" id="btn-add-plano">+ Añadir Plano Técnico</button>
+
+            <h4 style="margin: 2rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">4. Renderizado 3D y Galería</h4>
+            <div class="admin-form-group">
+              <label for="proj-model-3d">Modelo 3D Renderizado (URL - Opcional)</label>
+              <input type="text" id="proj-model-3d" class="admin-input" placeholder="/modelos3d/fosters-coronacion.glb o .gltf">
+            </div>
+            <label style="display: block; font-size: 0.75rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 600;">Galería de Fotos/Videos del Trabajo Final (Repetible)</label>
+            <div id="gallery-urls-container" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <!-- Se inyectan urls dinámicamente -->
+            </div>
+            <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.5rem 1rem; font-size: 0.8rem;" id="btn-add-gallery-item">+ Añadir Recurso a Galería</button>
+
+            <h4 style="margin: 2rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">5. Testimonio del Cliente</h4>
+            <div class="admin-form-group">
+              <label for="testi-text">Testimonio (Cita textual)</label>
+              <textarea id="testi-text" class="admin-input" style="height: 80px; resize: vertical;" placeholder="El servicio de Xprinta ha sido excelente..."></textarea>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="testi-photo">Foto del Autor (URL)</label>
+                <input type="text" id="testi-photo" class="admin-input" placeholder="/testimonios/autor.jpg">
+              </div>
+              <div class="admin-form-group">
+                <label for="testi-author">Autor (Nombre completo)</label>
+                <input type="text" id="testi-author" class="admin-input" placeholder="Juan Pérez">
+              </div>
+            </div>
+            <div class="admin-form-row">
+              <div class="admin-form-group">
+                <label for="testi-role">Cargo / Puesto</label>
+                <input type="text" id="testi-role" class="admin-input" placeholder="Director de Expansión">
+              </div>
+              <div class="admin-form-group">
+                <label for="testi-company">Empresa / Marca</label>
+                <input type="text" id="testi-company" class="admin-input" placeholder="Foster's Hollywood">
+              </div>
+            </div>
+
             <div class="admin-modal-footer">
               <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin: 0;" id="modal-proyecto-cancel">Cancelar</button>
-              <button type="submit" class="admin-btn" style="width: auto; margin: 0;">Guardar</button>
+              <button type="submit" class="admin-btn" style="width: auto; margin: 0;">Guardar Proyecto</button>
             </div>
           </form>
         </div>
@@ -693,6 +777,26 @@ async function seedFaqsData() {
   }
 }
 
+function createPlanoRowHTML(title = '', desc = '', url = '') {
+  return `
+    <div class="plano-row" style="display: flex; gap: 0.75rem; align-items: center; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
+      <input type="text" class="admin-input plano-title" placeholder="Título (ej: Alzado frontal)" value="${title}" style="flex: 2;">
+      <input type="text" class="admin-input plano-desc" placeholder="Descripción" value="${desc}" style="flex: 3;">
+      <input type="text" class="admin-input plano-url" placeholder="URL Boceto/Plano (JPG, PNG, PDF)" value="${url}" style="flex: 3;">
+      <button type="button" class="admin-btn admin-btn-danger btn-remove-plano" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
+    </div>
+  `;
+}
+
+function createGalleryRowHTML(url = '') {
+  return `
+    <div class="gallery-row" style="display: flex; gap: 0.75rem; align-items: center; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
+      <input type="text" class="admin-input gallery-url" placeholder="URL Foto/Video del Trabajo Final" value="${url}" style="flex: 1;">
+      <button type="button" class="admin-btn admin-btn-danger btn-remove-gallery" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
+    </div>
+  `;
+}
+
 /**
  * Configuración de botones y eventos de modales
  */
@@ -705,8 +809,30 @@ function setupModals() {
   document.getElementById('btn-new-proyecto')?.addEventListener('click', () => {
     document.getElementById('form-proyecto').reset()
     document.getElementById('proj-id').value = ''
+    document.getElementById('planos-container').innerHTML = ''
+    document.getElementById('gallery-urls-container').innerHTML = ''
     document.getElementById('modal-proyecto-title').textContent = 'Nuevo Proyecto'
     modalProj.classList.add('active')
+  })
+
+  // Escuchadores de botones repetibles de proyecto
+  document.getElementById('btn-add-plano')?.addEventListener('click', () => {
+    document.getElementById('planos-container').insertAdjacentHTML('beforeend', createPlanoRowHTML())
+  })
+  document.getElementById('btn-add-gallery-item')?.addEventListener('click', () => {
+    document.getElementById('gallery-urls-container').insertAdjacentHTML('beforeend', createGalleryRowHTML())
+  })
+
+  // Delegación de eventos para eliminar filas repetibles
+  document.getElementById('planos-container')?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-remove-plano')) {
+      e.target.closest('.plano-row').remove()
+    }
+  })
+  document.getElementById('gallery-urls-container')?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-remove-gallery')) {
+      e.target.closest('.gallery-row').remove()
+    }
   })
 
   // Artículos
@@ -749,14 +875,54 @@ async function submitProyecto(e) {
   if (!adminSupabase) return
 
   const id = document.getElementById('proj-id').value
+
+  // Recoger planos técnicos repetibles
+  const planos = []
+  document.querySelectorAll('.plano-row').forEach(row => {
+    const title = row.querySelector('.plano-title').value.trim()
+    const description = row.querySelector('.plano-desc').value.trim()
+    const url = row.querySelector('.plano-url').value.trim()
+    if (title || url) {
+      planos.push({ title, description, url })
+    }
+  })
+
+  // Recoger URLs de la galería
+  const gallery = []
+  document.querySelectorAll('.gallery-row').forEach(row => {
+    const url = row.querySelector('.gallery-url').value.trim()
+    if (url) {
+      gallery.push(url)
+    }
+  })
+
+  // Recoger estructura del testimonio
+  const testimonial = {
+    text: document.getElementById('testi-text').value.trim() || null,
+    photo: document.getElementById('testi-photo').value.trim() || null,
+    author: document.getElementById('testi-author').value.trim() || null,
+    role: document.getElementById('testi-role').value.trim() || null,
+    company: document.getElementById('testi-company').value.trim() || null
+  }
+
   const payload = {
     title: document.getElementById('proj-title').value.trim(),
     slug: document.getElementById('proj-slug').value.trim(),
     client_name: document.getElementById('proj-client').value.trim(),
+    client_info: document.getElementById('proj-client-info').value.trim() || null,
+    service_type: document.getElementById('proj-service-type').value,
+    address: document.getElementById('proj-address').value.trim() || null,
     sector: document.getElementById('proj-sector').value.trim(),
+    thumbnail: document.getElementById('proj-thumbnail').value.trim() || null,
     hero_image: document.getElementById('proj-image').value.trim() || null,
     hero_video: document.getElementById('proj-video').value.trim() || null,
-    short_description: document.getElementById('proj-desc').value.trim() || null
+    short_description: document.getElementById('proj-desc').value.trim() || null,
+    challenge_wysiwyg: document.getElementById('proj-challenge').value.trim() || null,
+    solution_wysiwyg: document.getElementById('proj-solution').value.trim() || null,
+    planos_tecnicos: planos,
+    model_3d_render: document.getElementById('proj-model-3d').value.trim() || null,
+    gallery: gallery,
+    testimonial: testimonial
   }
 
   try {
@@ -842,10 +1008,41 @@ function editProyecto(id) {
   document.getElementById('proj-title').value = proj.title || ''
   document.getElementById('proj-slug').value = proj.slug || ''
   document.getElementById('proj-client').value = proj.client_name || ''
+  document.getElementById('proj-client-info').value = proj.client_info || ''
+  document.getElementById('proj-service-type').value = proj.service_type || 'Rotulación Luminosa'
+  document.getElementById('proj-address').value = proj.address || ''
   document.getElementById('proj-sector').value = proj.sector || ''
+  document.getElementById('proj-thumbnail').value = proj.thumbnail || ''
   document.getElementById('proj-image').value = proj.hero_image || ''
   document.getElementById('proj-video').value = proj.hero_video || ''
   document.getElementById('proj-desc').value = proj.short_description || ''
+  document.getElementById('proj-challenge').value = proj.challenge_wysiwyg || ''
+  document.getElementById('proj-solution').value = proj.solution_wysiwyg || ''
+  document.getElementById('proj-model-3d').value = proj.model_3d_render || ''
+
+  // Planos Técnicos (Repeatable)
+  const planosContainer = document.getElementById('planos-container')
+  planosContainer.innerHTML = ''
+  const planos = Array.isArray(proj.planos_tecnicos) ? proj.planos_tecnicos : []
+  planos.forEach(p => {
+    planosContainer.insertAdjacentHTML('beforeend', createPlanoRowHTML(p.title, p.description, p.url))
+  })
+
+  // Galería de imágenes (Repeatable)
+  const galleryContainer = document.getElementById('gallery-urls-container')
+  galleryContainer.innerHTML = ''
+  const gallery = Array.isArray(proj.gallery) ? proj.gallery : []
+  gallery.forEach(url => {
+    galleryContainer.insertAdjacentHTML('beforeend', createGalleryRowHTML(url))
+  })
+
+  // Testimonio
+  const testi = proj.testimonial || {}
+  document.getElementById('testi-text').value = testi.text || ''
+  document.getElementById('testi-photo').value = testi.photo || ''
+  document.getElementById('testi-author').value = testi.author || ''
+  document.getElementById('testi-role').value = testi.role || ''
+  document.getElementById('testi-company').value = testi.company || ''
 
   document.getElementById('modal-proyecto-title').textContent = 'Editar Proyecto'
   document.getElementById('modal-proyecto').classList.add('active')
