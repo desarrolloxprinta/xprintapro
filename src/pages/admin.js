@@ -543,9 +543,8 @@ CREATE TABLE public.faqs (
     created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
-ALTER TABLE public.faqs ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Permitir lectura publica" ON public.faqs FOR SELECT USING (true);
-CREATE POLICY "Permitir todo a usuarios autenticados" ON public.faqs FOR ALL USING (auth.role() = 'authenticated');
+-- Deshabilitar RLS para desarrollo local (permite insertar y editar sin restricciones)
+ALTER TABLE public.faqs DISABLE ROW LEVEL SECURITY;
                 </pre>
                 Una vez ejecutado en Supabase, recarga esta página.
               </div>
