@@ -5,6 +5,8 @@
 
 import { createClient } from '@supabase/supabase-js'
 import content from '../data/content.json'
+import redeiaData from '../data/projects/redeia.json'
+import arvalData from '../data/projects/arval.json'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -90,12 +92,69 @@ const defaultFaqData = [
   }
 ]
 
+// Mapeador de datos de proyectos estáticos JSON a esquema Supabase
+const mapJsonToDbProject = (jsonData) => {
+  const planos = []
+  const blueprintsList = jsonData.blueprints || []
+  const steps = jsonData.blueprintSteps || []
+  for (let i = 0; i < Math.max(blueprintsList.length, steps.length); i++) {
+    planos.push({
+      title: steps[i]?.title || 'Boceto Técnico',
+      description: steps[i]?.description || '',
+      url: blueprintsList[i] || ''
+    })
+  }
+
+  const gallery = (jsonData.gallery || []).map(item => {
+    return typeof item === 'string' ? item : (item.image || item.video || '')
+  }).filter(Boolean)
+
+  const testi = jsonData.testimonial ? {
+    text: jsonData.testimonial.quote || null,
+    photo: jsonData.testimonial.photo || null,
+    author: jsonData.testimonial.author || null,
+    role: jsonData.testimonial.role || null,
+    company: jsonData.testimonial.company || null
+  } : {}
+
+  return {
+    title: jsonData.title || '',
+    slug: jsonData.id || '',
+    client_name: jsonData.client?.name || '',
+    client_info: jsonData.client?.description || null,
+    service_type: jsonData.service?.title || 'Rotulación Luminosa',
+    address: jsonData.location?.description || null,
+    sector: jsonData.sector || '',
+    thumbnail: jsonData.thumbnail || (jsonData.hero?.image || null),
+    hero_image: jsonData.hero?.image || null,
+    hero_video: jsonData.hero?.video || null,
+    short_description: jsonData.short_description || null,
+    challenge_wysiwyg: jsonData.story?.challenge || null,
+    solution_wysiwyg: jsonData.story?.solution || null,
+    planos_tecnicos: planos,
+    model_3d_render: jsonData.render3d?.model || null,
+    gallery: gallery,
+    testimonial: testi
+  }
+}
+
 // Estados globales de la aplicación del panel
 let currentUser = null
-let currentTab = 'proyectos' // 'proyectos', 'blog', 'faqs'
+let currentTab = 'proyectos' // 'proyectos', 'blog', 'faqs', 'proyecto-editor'
 let projectsList = []
 let blogList = []
 let faqsList = []
+let editingProjectId = null // ID del proyecto en edición (vacío para nuevo)
+
+// SPA Router
+export async function navigateTo(tab) {
+  currentTab = tab
+  const app = document.getElementById('app')
+  if (app) {
+    app.innerHTML = await renderDashboardView()
+    initAdminCMS()
+  }
+}
 
 // Plantilla base HTML del panel
 export async function renderAdmin() {
@@ -104,7 +163,6 @@ export async function renderAdmin() {
   if (isMasterLocal) {
     currentUser = { email: 'desarrollo@xprinta.com' }
   } else if (adminSupabase) {
-    // Comprobar la sesión actual antes del render
     try {
       const { data: { user } } = await adminSupabase.auth.getUser()
       currentUser = user
@@ -132,7 +190,6 @@ function renderLoginView() {
             <img src="/logo-xprina-azul.svg" alt="Xprinta Pro" style="height: 35px; width: auto;" />
           </div>
           
-          
           <div id="login-error-msg" class="admin-error-message"></div>
 
           <form id="admin-login-form">
@@ -158,6 +215,8 @@ function renderLoginView() {
  * Vista del Dashboard
  */
 function renderDashboardView() {
+  const isEditingProject = currentTab === 'proyecto-editor'
+
   return `
     <main class="page-admin">
       <div class="admin-dashboard">
@@ -166,7 +225,6 @@ function renderDashboardView() {
         <header class="admin-header">
           <div class="admin-logo-container" style="display: flex; align-items: center; gap: 0.75rem;">
             <img src="/logo-xprina-azul.svg" alt="Xprinta Pro" style="height: 28px; width: auto;" />
-            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a1a1aa; font-weight: 600; margin-top: 2px;"></span>
           </div>
           <div class="admin-header-right">
             <span class="admin-user-info">${currentUser?.email}</span>
@@ -174,15 +232,15 @@ function renderDashboardView() {
           </div>
         </header>
 
-        <!-- Navegación -->
-        <nav class="admin-nav-tabs">
+        <!-- Navegación (Se oculta al editar proyectos) -->
+        <nav class="admin-nav-tabs" style="${isEditingProject ? 'display: none;' : ''}">
           <button class="admin-tab-btn ${currentTab === 'proyectos' ? 'active' : ''}" data-tab="proyectos">Proyectos</button>
           <button class="admin-tab-btn ${currentTab === 'blog' ? 'active' : ''}" data-tab="blog">Área Técnica</button>
           <button class="admin-tab-btn ${currentTab === 'faqs' ? 'active' : ''}" data-tab="faqs">FAQs</button>
         </nav>
 
         <!-- Contenido principal -->
-        <div class="admin-content-area">
+        <div class="admin-content-area" style="${isEditingProject ? 'padding: 4rem 15vw 8rem 15vw;' : 'padding: 3rem 5vw;'}">
           
           <!-- TAB PROYECTOS -->
           <section id="tab-proyectos" class="admin-tab-content ${currentTab === 'proyectos' ? 'active' : ''}">
@@ -259,145 +317,161 @@ function renderDashboardView() {
             </div>
           </section>
 
+          <!-- VISTA EDITOR DE PROYECTO (PÁGINA COMPLETA) -->
+          <section id="tab-proyecto-editor" class="admin-tab-content ${currentTab === 'proyecto-editor' ? 'active' : ''}">
+            <div class="admin-section-header" style="margin-bottom: 3rem;">
+              <h2 id="editor-proyecto-title" class="admin-section-title" style="font-size: 2.2rem; font-weight: 700; color: #111827;">Nuevo Proyecto</h2>
+              <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.6rem 1.5rem;" id="btn-editor-cancel">Volver al Listado</button>
+            </div>
+
+            <form id="form-proyecto">
+              <input type="hidden" id="proj-id">
+              
+              <!-- CARD 1: Información General -->
+              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
+                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">1. Información General</h3>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="proj-title">Título del Proyecto</label>
+                    <input type="text" id="proj-title" class="admin-input" required>
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="proj-slug">Slug (ej: foster-hollywood)</label>
+                    <input type="text" id="proj-slug" class="admin-input" required>
+                  </div>
+                </div>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="proj-client">Nombre del Cliente</label>
+                    <input type="text" id="proj-client" class="admin-input" required>
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="proj-client-info">Información del Cliente (Subtítulo)</label>
+                    <input type="text" id="proj-client-info" class="admin-input" placeholder="Ej: Cadena internacional de restauración comercial">
+                  </div>
+                </div>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="proj-service-type">Tipo de Servicio (Clasificación)</label>
+                    <select id="proj-service-type" class="admin-input" style="background: #ffffff;" required>
+                      <option value="Rotulación Luminosa">Rotulación Luminosa</option>
+                      <option value="Señalética Corpórea">Señalética Corpórea</option>
+                      <option value="Letras Corpóreas">Letras Corpóreas</option>
+                      <option value="Vinilos Decorativos">Vinilos Decorativos</option>
+                      <option value="Rotulación de Vehículos">Rotulación de Vehículos</option>
+                      <option value="Decoración Gráfica">Decoración Gráfica</option>
+                      <option value="Escaparates y Puntos de Venta">Escaparates y Puntos de Venta</option>
+                    </select>
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="proj-address">Dirección (Ubicación física)</label>
+                    <input type="text" id="proj-address" class="admin-input" placeholder="C. de Anabel Segura, 14, Alcobendas, Madrid, España">
+                  </div>
+                </div>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="proj-sector">Sector (Categoría secundaria)</label>
+                    <input type="text" id="proj-sector" class="admin-input" placeholder="Ej: retail, restauracion" required>
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="proj-thumbnail">Miniatura / Thumbnail (URL)</label>
+                    <input type="text" id="proj-thumbnail" class="admin-input" placeholder="/proyectos/thumb-fosters.jpg">
+                  </div>
+                </div>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="proj-image">Imagen Hero Principal (URL)</label>
+                    <input type="text" id="proj-image" class="admin-input">
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="proj-video">Video Hero Principal (URL - Opcional)</label>
+                    <input type="text" id="proj-video" class="admin-input">
+                  </div>
+                </div>
+                <div class="admin-form-group">
+                  <label for="proj-desc">Descripción Corta</label>
+                  <textarea id="proj-desc" class="admin-input" style="height: 60px; resize: vertical;"></textarea>
+                </div>
+              </div>
+
+              <!-- CARD 2: Desafío y Solución -->
+              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
+                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">2. Desafío y Solución</h3>
+                <div class="admin-form-group" style="margin-bottom: 2rem;">
+                  <label for="proj-challenge">El Desafío (Editor de texto / HTML)</label>
+                  <textarea id="proj-challenge" class="admin-input" style="height: 120px; resize: vertical;" placeholder="Detalla los retos técnicos y de marca..."></textarea>
+                </div>
+                <div class="admin-form-group">
+                  <label for="proj-solution">La Solución (Editor de texto / HTML)</label>
+                  <textarea id="proj-solution" class="admin-input" style="height: 120px; resize: vertical;" placeholder="Explica la solución, materiales y técnicas empleadas..."></textarea>
+                </div>
+              </div>
+
+              <!-- CARD 3: Planos Técnicos (Repeatable) -->
+              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
+                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">3. Planos Técnicos y Bocetos</h3>
+                <div id="planos-container" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+                  <!-- Se inyectan filas dinámicamente -->
+                </div>
+                <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.6rem 1.5rem;" id="btn-add-plano">+ Añadir Plano Técnico</button>
+              </div>
+
+              <!-- CARD 4: Render 3D y Galería -->
+              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
+                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">4. Renderizado 3D y Galería</h3>
+                <div class="admin-form-group" style="margin-bottom: 2rem;">
+                  <label for="proj-model-3d">Modelo 3D Renderizado (URL - Opcional)</label>
+                  <input type="text" id="proj-model-3d" class="admin-input" placeholder="/modelos3d/fosters-coronacion.glb o .gltf">
+                </div>
+                <label style="display: block; font-size: 0.75rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; font-weight: 600;">Galería de Fotos/Videos del Trabajo Final</label>
+                <div id="gallery-urls-container" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
+                  <!-- Se inyectan urls dinámicamente -->
+                </div>
+                <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.6rem 1.5rem;" id="btn-add-gallery-item">+ Añadir Recurso a Galería</button>
+              </div>
+
+              <!-- CARD 5: Testimonio -->
+              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
+                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">5. Testimonio del Cliente</h3>
+                <div class="admin-form-group">
+                  <label for="testi-text">Testimonio (Cita textual)</label>
+                  <textarea id="testi-text" class="admin-input" style="height: 80px; resize: vertical;" placeholder="El servicio de Xprinta ha sido excelente..."></textarea>
+                </div>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="testi-photo">Foto del Autor (URL)</label>
+                    <input type="text" id="testi-photo" class="admin-input" placeholder="/testimonios/autor.jpg">
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="testi-author">Autor (Nombre completo)</label>
+                    <input type="text" id="testi-author" class="admin-input" placeholder="Juan Pérez">
+                  </div>
+                </div>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="testi-role">Cargo / Puesto</label>
+                    <input type="text" id="testi-role" class="admin-input" placeholder="Director de Expansión">
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="testi-company">Empresa / Marca</label>
+                    <input type="text" id="testi-company" class="admin-input" placeholder="Foster's Hollywood">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botones de Acción inferior -->
+              <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin: 0; padding: 0.8rem 2rem;" id="btn-editor-cancel-bottom">Cancelar</button>
+                <button type="submit" class="admin-btn" style="width: auto; margin: 0; padding: 0.8rem 2.5rem;">Guardar Cambios de Proyecto</button>
+              </div>
+
+            </form>
+          </section>
+
         </div>
       </div>
 
       <!-- MODALES DE CREACIÓN Y EDICIÓN -->
-      
-      <!-- Modal Proyecto -->
-      <div id="modal-proyecto" class="admin-modal">
-        <div class="admin-modal-content" style="max-width: 900px;">
-          <div class="admin-modal-header">
-            <h3 id="modal-proyecto-title" class="admin-modal-title">Nuevo Proyecto</h3>
-            <button class="admin-modal-close" id="modal-proyecto-close">&times;</button>
-          </div>
-          <form id="form-proyecto">
-            <input type="hidden" id="proj-id">
-            
-            <h4 style="margin: 1.5rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">1. Información General</h4>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label for="proj-title">Título del Proyecto</label>
-                <input type="text" id="proj-title" class="admin-input" required>
-              </div>
-              <div class="admin-form-group">
-                <label for="proj-slug">Slug (ej: foster-hollywood)</label>
-                <input type="text" id="proj-slug" class="admin-input" required>
-              </div>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label for="proj-client">Nombre del Cliente</label>
-                <input type="text" id="proj-client" class="admin-input" required>
-              </div>
-              <div class="admin-form-group">
-                <label for="proj-client-info">Información del Cliente (Subtítulo)</label>
-                <input type="text" id="proj-client-info" class="admin-input" placeholder="Ej: Cadena internacional de restauración comercial">
-              </div>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label for="proj-service-type">Tipo de Servicio (Clasificación)</label>
-                <select id="proj-service-type" class="admin-input" style="background: #ffffff;" required>
-                  <option value="Rotulación Luminosa">Rotulación Luminosa</option>
-                  <option value="Señalética Corpórea">Señalética Corpórea</option>
-                  <option value="Letras Corpóreas">Letras Corpóreas</option>
-                  <option value="Vinilos Decorativos">Vinilos Decorativos</option>
-                  <option value="Rotulación de Vehículos">Rotulación de Vehículos</option>
-                  <option value="Decoración Gráfica">Decoración Gráfica</option>
-                  <option value="Escaparates y Puntos de Venta">Escaparates y Puntos de Venta</option>
-                </select>
-              </div>
-              <div class="admin-form-group">
-                <label for="proj-address">Dirección (Ubicación física)</label>
-                <input type="text" id="proj-address" class="admin-input" placeholder="C. de Anabel Segura, 14, Alcobendas, Madrid, España">
-              </div>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label for="proj-sector">Sector (Categoría secundaria)</label>
-                <input type="text" id="proj-sector" class="admin-input" placeholder="Ej: retail, restauracion" required>
-              </div>
-              <div class="admin-form-group">
-                <label for="proj-thumbnail">Miniatura / Thumbnail (URL)</label>
-                <input type="text" id="proj-thumbnail" class="admin-input" placeholder="/proyectos/thumb-fosters.jpg">
-              </div>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label for="proj-image">Imagen Hero Principal (URL)</label>
-                <input type="text" id="proj-image" class="admin-input">
-              </div>
-              <div class="admin-form-group">
-                <label for="proj-video">Video Hero Principal (URL - Opcional)</label>
-                <input type="text" id="proj-video" class="admin-input">
-              </div>
-            </div>
-            <div class="admin-form-group">
-              <label for="proj-desc">Descripción Corta</label>
-              <textarea id="proj-desc" class="admin-input" style="height: 60px; resize: vertical;"></textarea>
-            </div>
-
-            <h4 style="margin: 2rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">2. Desafío y Solución</h4>
-            <div class="admin-form-group">
-              <label for="proj-challenge">El Desafío (Editor de texto / HTML)</label>
-              <textarea id="proj-challenge" class="admin-input" style="height: 100px; resize: vertical;" placeholder="Detalla los retos técnicos y de marca..."></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label for="proj-solution">La Solución (Editor de texto / HTML)</label>
-              <textarea id="proj-solution" class="admin-input" style="height: 100px; resize: vertical;" placeholder="Explica la solución, materiales y técnicas empleadas..."></textarea>
-            </div>
-
-            <h4 style="margin: 2rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">3. Planos Técnicos y Bocetos (Repetible)</h4>
-            <div id="planos-container" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 0.5rem;">
-              <!-- Se inyectan filas dinámicamente -->
-            </div>
-            <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.5rem 1rem; font-size: 0.8rem;" id="btn-add-plano">+ Añadir Plano Técnico</button>
-
-            <h4 style="margin: 2rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">4. Renderizado 3D y Galería</h4>
-            <div class="admin-form-group">
-              <label for="proj-model-3d">Modelo 3D Renderizado (URL - Opcional)</label>
-              <input type="text" id="proj-model-3d" class="admin-input" placeholder="/modelos3d/fosters-coronacion.glb o .gltf">
-            </div>
-            <label style="display: block; font-size: 0.75rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 600;">Galería de Fotos/Videos del Trabajo Final (Repetible)</label>
-            <div id="gallery-urls-container" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.5rem;">
-              <!-- Se inyectan urls dinámicamente -->
-            </div>
-            <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.5rem 1rem; font-size: 0.8rem;" id="btn-add-gallery-item">+ Añadir Recurso a Galería</button>
-
-            <h4 style="margin: 2rem 0 0.5rem 0; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.25rem; font-size: 0.95rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">5. Testimonio del Cliente</h4>
-            <div class="admin-form-group">
-              <label for="testi-text">Testimonio (Cita textual)</label>
-              <textarea id="testi-text" class="admin-input" style="height: 80px; resize: vertical;" placeholder="El servicio de Xprinta ha sido excelente..."></textarea>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label for="testi-photo">Foto del Autor (URL)</label>
-                <input type="text" id="testi-photo" class="admin-input" placeholder="/testimonios/autor.jpg">
-              </div>
-              <div class="admin-form-group">
-                <label for="testi-author">Autor (Nombre completo)</label>
-                <input type="text" id="testi-author" class="admin-input" placeholder="Juan Pérez">
-              </div>
-            </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label for="testi-role">Cargo / Puesto</label>
-                <input type="text" id="testi-role" class="admin-input" placeholder="Director de Expansión">
-              </div>
-              <div class="admin-form-group">
-                <label for="testi-company">Empresa / Marca</label>
-                <input type="text" id="testi-company" class="admin-input" placeholder="Foster's Hollywood">
-              </div>
-            </div>
-
-            <div class="admin-modal-footer">
-              <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin: 0;" id="modal-proyecto-cancel">Cancelar</button>
-              <button type="submit" class="admin-btn" style="width: auto; margin: 0;">Guardar Proyecto</button>
-            </div>
-          </form>
-        </div>
-      </div>
 
       <!-- Modal Artículo -->
       <div id="modal-articulo" class="admin-modal">
@@ -489,6 +563,26 @@ function renderDashboardView() {
   `
 }
 
+function createPlanoRowHTML(title = '', desc = '', url = '') {
+  return `
+    <div class="plano-row" style="display: flex; gap: 0.75rem; align-items: center; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
+      <input type="text" class="admin-input plano-title" placeholder="Título (ej: Alzado frontal)" value="${title}" style="flex: 2;">
+      <input type="text" class="admin-input plano-desc" placeholder="Descripción" value="${desc}" style="flex: 3;">
+      <input type="text" class="admin-input plano-url" placeholder="URL Boceto/Plano (JPG, PNG, PDF)" value="${url}" style="flex: 3;">
+      <button type="button" class="admin-btn admin-btn-danger btn-remove-plano" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
+    </div>
+  `
+}
+
+function createGalleryRowHTML(url = '') {
+  return `
+    <div class="gallery-row" style="display: flex; gap: 0.75rem; align-items: center; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
+      <input type="text" class="admin-input gallery-url" placeholder="URL Foto/Video del Trabajo Final" value="${url}" style="flex: 1;">
+      <button type="button" class="admin-btn admin-btn-danger btn-remove-gallery" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
+    </div>
+  `
+}
+
 /**
  * Inicializador del panel CMS y lógica interactiva
  */
@@ -502,7 +596,6 @@ export function initAdminCMS() {
       const password = document.getElementById('admin-password').value.trim()
       const errorMsg = document.getElementById('login-error-msg')
 
-      // 1. Validar usuario maestro de desarrollo local
       if (email === 'desarrollo@xprinta.com' && password === 'genesis2023G+') {
         localStorage.setItem('admin_master_session', 'true')
         currentUser = { email: 'desarrollo@xprinta.com' }
@@ -510,7 +603,6 @@ export function initAdminCMS() {
         return
       }
 
-      // 2. Validar con Supabase Auth
       if (!adminSupabase) {
         errorMsg.textContent = 'Error: Cliente de Supabase no configurado y credenciales maestras incorrectas.'
         errorMsg.style.display = 'block'
@@ -522,7 +614,6 @@ export function initAdminCMS() {
         if (error) throw error
 
         currentUser = data.user
-        // Recargar la vista completa
         window.location.reload()
       } catch (err) {
         errorMsg.textContent = err.message || 'Error de credenciales.'
@@ -544,33 +635,143 @@ export function initAdminCMS() {
     })
   }
 
-  // Lógica de Tabs / Pestanas
+  // Escuchadores del listado de proyectos
+  document.getElementById('btn-new-proyecto')?.addEventListener('click', () => {
+    editingProjectId = null
+    navigateTo('proyecto-editor')
+  })
+
+  // Escuchadores de botones del editor
+  const goBack = () => navigateTo('proyectos')
+  document.getElementById('btn-editor-cancel')?.addEventListener('click', goBack)
+  document.getElementById('btn-editor-cancel-bottom')?.addEventListener('click', goBack)
+
+  document.getElementById('btn-add-plano')?.addEventListener('click', () => {
+    document.getElementById('planos-container')?.insertAdjacentHTML('beforeend', createPlanoRowHTML())
+  })
+  document.getElementById('btn-add-gallery-item')?.addEventListener('click', () => {
+    document.getElementById('gallery-urls-container')?.insertAdjacentHTML('beforeend', createGalleryRowHTML())
+  })
+
+  document.getElementById('planos-container')?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-remove-plano')) {
+      e.target.closest('.plano-row').remove()
+    }
+  })
+  document.getElementById('gallery-urls-container')?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-remove-gallery')) {
+      e.target.closest('.gallery-row').remove()
+    }
+  })
+
+  // Modales Artículos y FAQs
+  const modalArt = document.getElementById('modal-articulo')
+  const modalFaq = document.getElementById('modal-faq')
+
+  document.getElementById('btn-new-article')?.addEventListener('click', () => {
+    document.getElementById('form-articulo').reset()
+    document.getElementById('art-id').value = ''
+    document.getElementById('modal-articulo-title').textContent = 'Nuevo Artículo'
+    modalArt.classList.add('active')
+  })
+
+  document.getElementById('btn-new-faq')?.addEventListener('click', () => {
+    document.getElementById('form-faq').reset()
+    document.getElementById('faq-id').value = ''
+    document.getElementById('modal-faq-title').textContent = 'Nueva Pregunta Frecuente'
+    modalFaq.classList.add('active')
+  })
+
+  const closes = ['modal-articulo-close', 'modal-articulo-cancel', 'modal-faq-close', 'modal-faq-cancel']
+  closes.forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => {
+      modalArt.classList.remove('active')
+      modalFaq.classList.remove('active')
+    })
+  })
+
+  // Enrutador de pestañas
   const tabBtns = document.querySelectorAll('.admin-tab-btn')
   tabBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       const targetTab = e.currentTarget.getAttribute('data-tab')
-      currentTab = targetTab
-
-      tabBtns.forEach(b => b.classList.remove('active'))
-      e.currentTarget.classList.add('active')
-
-      document.querySelectorAll('.admin-tab-content').forEach(content => {
-        content.classList.remove('active')
-      })
-      document.getElementById(`tab-${targetTab}`).classList.add('active')
-      
-      // Cargar datos del tab correspondiente
-      loadTabData(targetTab)
+      navigateTo(targetTab)
     })
   })
 
+  // Eventos submit de formularios
+  document.getElementById('form-proyecto')?.addEventListener('submit', submitProyecto)
+  document.getElementById('form-articulo')?.addEventListener('submit', submitArticulo)
+  document.getElementById('form-faq')?.addEventListener('submit', submitFaq)
+
   // Carga inicial de datos de la pestaña activa
   if (currentUser) {
-    loadTabData(currentTab)
+    // Si estamos editando un proyecto en particular, mapear sus campos
+    if (currentTab === 'proyecto-editor') {
+      loadEditingProjectFields()
+    } else {
+      loadTabData(currentTab)
+    }
+  }
+}
+
+/**
+ * Rellena los campos si estamos editando un proyecto
+ */
+function loadEditingProjectFields() {
+  if (!editingProjectId) {
+    // Nuevo proyecto
+    document.getElementById('editor-proyecto-title').textContent = 'Nuevo Proyecto'
+    document.getElementById('form-proyecto').reset()
+    document.getElementById('proj-id').value = ''
+    document.getElementById('planos-container').innerHTML = ''
+    document.getElementById('gallery-urls-container').innerHTML = ''
+    return
   }
 
-  // Configuración de modales de creación
-  setupModals()
+  const proj = projectsList.find(p => String(p.id) === String(editingProjectId))
+  if (!proj) return
+
+  document.getElementById('editor-proyecto-title').textContent = 'Editar Proyecto: ' + proj.title
+  document.getElementById('proj-id').value = proj.id
+  document.getElementById('proj-title').value = proj.title || ''
+  document.getElementById('proj-slug').value = proj.slug || ''
+  document.getElementById('proj-client').value = proj.client_name || ''
+  document.getElementById('proj-client-info').value = proj.client_info || ''
+  document.getElementById('proj-service-type').value = proj.service_type || 'Rotulación Luminosa'
+  document.getElementById('proj-address').value = proj.address || ''
+  document.getElementById('proj-sector').value = proj.sector || ''
+  document.getElementById('proj-thumbnail').value = proj.thumbnail || ''
+  document.getElementById('proj-image').value = proj.hero_image || ''
+  document.getElementById('proj-video').value = proj.hero_video || ''
+  document.getElementById('proj-desc').value = proj.short_description || ''
+  document.getElementById('proj-challenge').value = proj.challenge_wysiwyg || ''
+  document.getElementById('proj-solution').value = proj.solution_wysiwyg || ''
+  document.getElementById('proj-model-3d').value = proj.model_3d_render || ''
+
+  // Planos Técnicos
+  const planosContainer = document.getElementById('planos-container')
+  planosContainer.innerHTML = ''
+  const planos = Array.isArray(proj.planos_tecnicos) ? proj.planos_tecnicos : []
+  planos.forEach(p => {
+    planosContainer.insertAdjacentHTML('beforeend', createPlanoRowHTML(p.title, p.description, p.url))
+  })
+
+  // Galería
+  const galleryContainer = document.getElementById('gallery-urls-container')
+  galleryContainer.innerHTML = ''
+  const gallery = Array.isArray(proj.gallery) ? proj.gallery : []
+  gallery.forEach(url => {
+    galleryContainer.insertAdjacentHTML('beforeend', createGalleryRowHTML(url))
+  })
+
+  // Testimonio
+  const testi = proj.testimonial || {}
+  document.getElementById('testi-text').value = testi.text || ''
+  document.getElementById('testi-photo').value = testi.photo || ''
+  document.getElementById('testi-author').value = testi.author || ''
+  document.getElementById('testi-role').value = testi.role || ''
+  document.getElementById('testi-company').value = testi.company || ''
 }
 
 /**
@@ -648,7 +849,15 @@ ALTER TABLE public.faqs DISABLE ROW LEVEL SECURITY;
 function renderProjectsTable() {
   const tbody = document.getElementById('projects-table-body')
   if (!projectsList.length) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #71717a;">No hay proyectos registrados.</td></tr>`
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" style="text-align: center; padding: 3rem 1.5rem; color: #71717a;">
+          <p style="margin-bottom: 1rem;">No hay proyectos registrados en Supabase.</p>
+          <button class="admin-btn" style="width: auto; padding: 0.6rem 1.5rem;" id="btn-seed-projects">Semillar con Proyectos Iniciales (Redeia y Arval)</button>
+        </td>
+      </tr>
+    `
+    document.getElementById('btn-seed-projects')?.addEventListener('click', seedProjectsData)
     return
   }
 
@@ -671,11 +880,41 @@ function renderProjectsTable() {
 
   // Asignar escuchadores
   document.querySelectorAll('.btn-edit-proj').forEach(btn => {
-    btn.addEventListener('click', (e) => editProyecto(e.currentTarget.getAttribute('data-id')))
+    btn.addEventListener('click', (e) => {
+      editingProjectId = e.currentTarget.getAttribute('data-id')
+      navigateTo('proyecto-editor')
+    })
   })
   document.querySelectorAll('.btn-delete-proj').forEach(btn => {
     btn.addEventListener('click', (e) => deleteProyecto(e.currentTarget.getAttribute('data-id')))
   })
+}
+
+/**
+ * Semillar proyectos
+ */
+async function seedProjectsData() {
+  if (!adminSupabase) return
+  const btn = document.getElementById('btn-seed-projects')
+  if (btn) {
+    btn.disabled = true
+    btn.textContent = 'Semillando proyectos...'
+  }
+  try {
+    const redeiaDb = mapJsonToDbProject(redeiaData)
+    const arvalDb = mapJsonToDbProject(arvalData)
+
+    const { error } = await adminSupabase.from('projects').insert([redeiaDb, arvalDb])
+    if (error) throw error
+
+    loadTabData('proyectos')
+  } catch (err) {
+    alert('Error al semillar proyectos: ' + err.message)
+    if (btn) {
+      btn.disabled = false
+      btn.textContent = 'Semillar con Proyectos Iniciales'
+    }
+  }
 }
 
 /**
@@ -777,96 +1016,6 @@ async function seedFaqsData() {
   }
 }
 
-function createPlanoRowHTML(title = '', desc = '', url = '') {
-  return `
-    <div class="plano-row" style="display: flex; gap: 0.75rem; align-items: center; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
-      <input type="text" class="admin-input plano-title" placeholder="Título (ej: Alzado frontal)" value="${title}" style="flex: 2;">
-      <input type="text" class="admin-input plano-desc" placeholder="Descripción" value="${desc}" style="flex: 3;">
-      <input type="text" class="admin-input plano-url" placeholder="URL Boceto/Plano (JPG, PNG, PDF)" value="${url}" style="flex: 3;">
-      <button type="button" class="admin-btn admin-btn-danger btn-remove-plano" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
-    </div>
-  `;
-}
-
-function createGalleryRowHTML(url = '') {
-  return `
-    <div class="gallery-row" style="display: flex; gap: 0.75rem; align-items: center; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
-      <input type="text" class="admin-input gallery-url" placeholder="URL Foto/Video del Trabajo Final" value="${url}" style="flex: 1;">
-      <button type="button" class="admin-btn admin-btn-danger btn-remove-gallery" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
-    </div>
-  `;
-}
-
-/**
- * Configuración de botones y eventos de modales
- */
-function setupModals() {
-  const modalProj = document.getElementById('modal-proyecto')
-  const modalArt = document.getElementById('modal-articulo')
-  const modalFaq = document.getElementById('modal-faq')
-
-  // Proyectos
-  document.getElementById('btn-new-proyecto')?.addEventListener('click', () => {
-    document.getElementById('form-proyecto').reset()
-    document.getElementById('proj-id').value = ''
-    document.getElementById('planos-container').innerHTML = ''
-    document.getElementById('gallery-urls-container').innerHTML = ''
-    document.getElementById('modal-proyecto-title').textContent = 'Nuevo Proyecto'
-    modalProj.classList.add('active')
-  })
-
-  // Escuchadores de botones repetibles de proyecto
-  document.getElementById('btn-add-plano')?.addEventListener('click', () => {
-    document.getElementById('planos-container').insertAdjacentHTML('beforeend', createPlanoRowHTML())
-  })
-  document.getElementById('btn-add-gallery-item')?.addEventListener('click', () => {
-    document.getElementById('gallery-urls-container').insertAdjacentHTML('beforeend', createGalleryRowHTML())
-  })
-
-  // Delegación de eventos para eliminar filas repetibles
-  document.getElementById('planos-container')?.addEventListener('click', (e) => {
-    if (e.target.classList.contains('btn-remove-plano')) {
-      e.target.closest('.plano-row').remove()
-    }
-  })
-  document.getElementById('gallery-urls-container')?.addEventListener('click', (e) => {
-    if (e.target.classList.contains('btn-remove-gallery')) {
-      e.target.closest('.gallery-row').remove()
-    }
-  })
-
-  // Artículos
-  document.getElementById('btn-new-article')?.addEventListener('click', () => {
-    document.getElementById('form-articulo').reset()
-    document.getElementById('art-id').value = ''
-    document.getElementById('modal-articulo-title').textContent = 'Nuevo Artículo'
-    modalArt.classList.add('active')
-  })
-
-  // FAQs
-  document.getElementById('btn-new-faq')?.addEventListener('click', () => {
-    document.getElementById('form-faq').reset()
-    document.getElementById('faq-id').value = ''
-    document.getElementById('modal-faq-title').textContent = 'Nueva Pregunta Frecuente'
-    modalFaq.classList.add('active')
-  })
-
-  // Closes y Cancels
-  const closes = ['modal-proyecto-close', 'modal-proyecto-cancel', 'modal-articulo-close', 'modal-articulo-cancel', 'modal-faq-close', 'modal-faq-cancel']
-  closes.forEach(id => {
-    document.getElementById(id)?.addEventListener('click', () => {
-      modalProj.classList.remove('active')
-      modalArt.classList.remove('active')
-      modalFaq.classList.remove('active')
-    })
-  })
-
-  // Eventos submit de formularios
-  document.getElementById('form-proyecto')?.addEventListener('submit', submitProyecto)
-  document.getElementById('form-articulo')?.addEventListener('submit', submitArticulo)
-  document.getElementById('form-faq')?.addEventListener('submit', submitFaq)
-}
-
 /**
  * Gestión de Formularios
  */
@@ -876,7 +1025,6 @@ async function submitProyecto(e) {
 
   const id = document.getElementById('proj-id').value
 
-  // Recoger planos técnicos repetibles
   const planos = []
   document.querySelectorAll('.plano-row').forEach(row => {
     const title = row.querySelector('.plano-title').value.trim()
@@ -887,7 +1035,6 @@ async function submitProyecto(e) {
     }
   })
 
-  // Recoger URLs de la galería
   const gallery = []
   document.querySelectorAll('.gallery-row').forEach(row => {
     const url = row.querySelector('.gallery-url').value.trim()
@@ -896,7 +1043,6 @@ async function submitProyecto(e) {
     }
   })
 
-  // Recoger estructura del testimonio
   const testimonial = {
     text: document.getElementById('testi-text').value.trim() || null,
     photo: document.getElementById('testi-photo').value.trim() || null,
@@ -933,8 +1079,7 @@ async function submitProyecto(e) {
       const { error } = await adminSupabase.from('projects').insert([payload])
       if (error) throw error
     }
-    document.getElementById('modal-proyecto').classList.remove('active')
-    loadTabData('proyectos')
+    navigateTo('proyectos')
   } catch (err) {
     alert('Error al guardar proyecto: ' + err.message)
   }
@@ -1000,54 +1145,6 @@ async function submitFaq(e) {
 /**
  * Acciones de Edición
  */
-function editProyecto(id) {
-  const proj = projectsList.find(p => String(p.id) === String(id))
-  if (!proj) return
-
-  document.getElementById('proj-id').value = proj.id
-  document.getElementById('proj-title').value = proj.title || ''
-  document.getElementById('proj-slug').value = proj.slug || ''
-  document.getElementById('proj-client').value = proj.client_name || ''
-  document.getElementById('proj-client-info').value = proj.client_info || ''
-  document.getElementById('proj-service-type').value = proj.service_type || 'Rotulación Luminosa'
-  document.getElementById('proj-address').value = proj.address || ''
-  document.getElementById('proj-sector').value = proj.sector || ''
-  document.getElementById('proj-thumbnail').value = proj.thumbnail || ''
-  document.getElementById('proj-image').value = proj.hero_image || ''
-  document.getElementById('proj-video').value = proj.hero_video || ''
-  document.getElementById('proj-desc').value = proj.short_description || ''
-  document.getElementById('proj-challenge').value = proj.challenge_wysiwyg || ''
-  document.getElementById('proj-solution').value = proj.solution_wysiwyg || ''
-  document.getElementById('proj-model-3d').value = proj.model_3d_render || ''
-
-  // Planos Técnicos (Repeatable)
-  const planosContainer = document.getElementById('planos-container')
-  planosContainer.innerHTML = ''
-  const planos = Array.isArray(proj.planos_tecnicos) ? proj.planos_tecnicos : []
-  planos.forEach(p => {
-    planosContainer.insertAdjacentHTML('beforeend', createPlanoRowHTML(p.title, p.description, p.url))
-  })
-
-  // Galería de imágenes (Repeatable)
-  const galleryContainer = document.getElementById('gallery-urls-container')
-  galleryContainer.innerHTML = ''
-  const gallery = Array.isArray(proj.gallery) ? proj.gallery : []
-  gallery.forEach(url => {
-    galleryContainer.insertAdjacentHTML('beforeend', createGalleryRowHTML(url))
-  })
-
-  // Testimonio
-  const testi = proj.testimonial || {}
-  document.getElementById('testi-text').value = testi.text || ''
-  document.getElementById('testi-photo').value = testi.photo || ''
-  document.getElementById('testi-author').value = testi.author || ''
-  document.getElementById('testi-role').value = testi.role || ''
-  document.getElementById('testi-company').value = testi.company || ''
-
-  document.getElementById('modal-proyecto-title').textContent = 'Editar Proyecto'
-  document.getElementById('modal-proyecto').classList.add('active')
-}
-
 function editArticulo(id) {
   const art = blogList.find(a => String(a.id) === String(id))
   if (!art) return
