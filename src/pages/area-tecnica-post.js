@@ -383,56 +383,66 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
     `;
   }
 
+  const summaryVideoHTML = post.heroVideo ? `
+    <div class="summary-video-thumbnail-wrapper gsap-reveal" style="position: relative; cursor: pointer; border-radius: 12px; overflow: hidden; margin-top: 2rem; aspect-ratio: 16/9; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05);">
+      <img src="${post.thumbnail || '/area tecnica/thumb-parking.jpeg'}" alt="Video Resumen" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <div class="video-play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); transition: background 0.3s;">
+        <div class="video-play-button" style="width: 54px; height: 54px; border-radius: 50%; background: var(--color-highlight); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 15px rgba(230, 80, 0, 0.4); transition: transform 0.3s;">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+        </div>
+      </div>
+      <span style="position: absolute; bottom: 0.75rem; left: 0.75rem; color: white; font-weight: 600; font-size: 0.85rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 0.35rem; font-family: var(--font-family-body);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        Ver vídeo resumen
+      </span>
+    </div>
+  ` : '';
+
   const layoutHTML = `
     <main>
       <div class="nav-spacer"></div>
 
-      <!-- Hero Header Section (Ignite Clone) -->
-      <section class="section_blog-header" style="position: relative; overflow: hidden; background-color: var(--color-background);">
-        <!-- Imagen de fondo con baja opacidad -->
-        ${post.thumbnail ? `
-          <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('${post.thumbnail}'); background-size: cover; background-position: center; opacity: 0.12; z-index: 1; pointer-events: none;"></div>
-        ` : ''}
-
-        <div class="padding-global padding-section-large padding-bottom-none" style="position: relative; z-index: 2;">
-          <div class="blog-content_component">
-            
-            <div class="blog_header-top">
-              <h1 class="blog-header_heading gsap-reveal">${post.title}</h1>
-              <div class="spacer-xxlarge"></div>
-            </div>
-
-          </div>
+      <!-- Hero Header Section (Project Hero Redesign) -->
+      <section class="project-hero" style="width: 100%; min-height: 80vh; padding-top: 18vh; padding-bottom: 5vh; background-color: var(--color-background); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; overflow: hidden;">
+        <div class="hero-text-container" style="text-align: center; z-index: 2; position: relative; padding: 0 5vw; margin-bottom: 5vh; width: 100%;">
+          <span class="blog_category-badge" style="font-family: var(--font-family-body); font-size: 0.85rem; font-weight: 700; color: var(--color-highlight); text-transform: uppercase; letter-spacing: 0.15em; display: inline-block; margin-bottom: 1.5rem;">
+            ${post.category || 'INFORME TÉCNICO'} &mdash; POR ${post.author || 'EQUIPO XPRINTA'}
+          </span>
+          <h1 class="hero-title text-large font-serif font-regular text-primary" style="font-size: clamp(2.5rem, 3.5vw, 4.5rem); margin-bottom: 2rem; max-width: 1200px; margin-left: auto; margin-right: auto; line-height: 1.1; font-weight: 500;">
+            ${post.title}
+          </h1>
+          <p style="font-size: 1.15rem; color: var(--color-text-muted); max-width: 800px; margin: 0 auto; line-height: 1.6; font-family: var(--font-family-body);">
+            ${post.intro || "Un buen proyecto de señalización combina diferentes capas. Todas deben funcionar juntas y mantener una lógica visual coherente."}
+          </p>
         </div>
-      </section>
 
-      <!-- Intro Section (Ignite Clone) -->
-      <section class="section_blog-intro">
-        <div class="padding-global padding-section-medium" style="padding-bottom: 0;">
-          <div class="blog-content_component">
-            <div class="blog-intro_text-wrapper">
-              <div class="gsap-reveal">
-                ${post.intro || "Un buen proyecto de señalización combina diferentes capas. Todas deben funcionar juntas y mantener una lógica visual coherente, adaptada tanto a vehículos como a peatones."}
-              </div>
-              <div class="at-scroll-indicator" style="margin-top: 4rem;">
-                <span class="mouse-icon">
-                  <span class="mouse-wheel"></span>
-                </span>
-                <span class="scroll-text">Haz scroll para ver el artículo</span>
-              </div>
-            </div>
-          </div>
+        <div class="hero-media-wrapper" style="width: 95vw; height: 60vh; position: relative; z-index: 1; overflow: hidden; border-radius: 30px; background-color: #000; box-shadow: 0 20px 50px rgba(0,0,0,0.15);">
+          <img class="hero-media" src="${post.thumbnail || '/area tecnica/thumb-parking.jpeg'}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
       </section>
 
       <!-- Content Section -->
-      <section class="blog-content-section">
+      <section class="blog-content-section" style="padding-top: 6rem;">
         <div class="padding-global">
           <div class="blog-content_component">
             
-            <!-- Sidebar: Table of Contents (Span 3) -->
+            <!-- Sidebar Left: Audio Resumen + Video Resumen (Span 3) -->
             <div class="blog-content_content-left">
               ${audioHTML}
+              ${summaryVideoHTML}
+            </div>
+
+            <!-- Main Content Area (Span 6) -->
+            <div class="blog-content_content">
+              <article class="blog-main-content">
+                ${contentHTML}
+                ${faqHTML}
+                ${leadMagnetHTML}
+              </article>
+            </div>
+
+            <!-- Sidebar Right: Table of Contents (Span 3) -->
+            <div class="blog-content_content-right">
               <div class="post-content_sidebar-content">
                 <h4 class="toc-title">Índice de contenidos</h4>
                 <div class="post-content_link-content">
@@ -443,26 +453,24 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
                 </div>
               </div>
             </div>
-
-            <!-- Main Content (Span 6, offset 4) -->
-            <div class="blog-content_content">
-              <article class="blog-main-content">
-                ${post.heroVideo
-                  ? `<video src="${post.heroVideo}" class="blog-content-hero-media gsap-reveal" autoplay loop muted playsinline></video>`
-                  : post.thumbnail
-                    ? `<img src="${post.thumbnail}" alt="${post.title}" class="blog-content-hero-media gsap-reveal" />`
-                    : ''
-                }
-                ${contentHTML}
-                ${faqHTML}
-                ${leadMagnetHTML}
-              </article>
-            </div>
             
           </div>
         </div>
       </section>
 
+      <!-- Modal del reproductor de video (Pop-Up) -->
+      <div id="video-popup-modal" class="cookie-modal" style="display: none;">
+        <div class="cookie-modal-backdrop" id="video-popup-backdrop" style="background-color: rgba(0,0,0,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);"></div>
+        <div class="cookie-modal-content" style="max-width: 960px; width: 90vw; padding: 0; background: transparent; border: none; box-shadow: none; overflow: visible;">
+          <button id="video-popup-close" style="position: absolute; top: -3.5rem; right: 0; background: transparent; border: none; color: white; font-size: 1.25rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; z-index: 100;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            Cerrar
+          </button>
+          <div style="width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 25px 60px rgba(0,0,0,0.8);">
+            <video id="popup-video-element" controls style="width: 100%; height: 100%; object-fit: contain;"></video>
+          </div>
+        </div>
+      </div>
     </main>
   `
 
@@ -652,6 +660,32 @@ export function initAreaTecnicaPostAnimations() {
           .set(successMsg, { display: 'flex' })
           .fromTo(successMsg, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" })
       })
+    }
+
+    // 5. Video Summary Popup Player Logic
+    const videoCard = document.querySelector('.summary-video-thumbnail-wrapper')
+    const videoModal = document.getElementById('video-popup-modal')
+    const popupVideo = document.getElementById('popup-video-element')
+    const videoClose = document.getElementById('video-popup-close')
+    const videoBackdrop = document.getElementById('video-popup-backdrop')
+
+    if (videoCard && videoModal && popupVideo) {
+      videoCard.addEventListener('click', () => {
+        // Encontrar la url del video (por si no se renderiza en línea)
+        const videoSrc = videoCard.closest('main')?.querySelector('.blog-main-content')?.dataset?.heroVideo || '';
+        popupVideo.src = "${post.heroVideo || ''}";
+        videoModal.style.display = 'flex';
+        popupVideo.play();
+      })
+
+      const closeVideoModal = () => {
+        popupVideo.pause();
+        popupVideo.src = '';
+        videoModal.style.display = 'none';
+      }
+
+      if (videoClose) videoClose.addEventListener('click', closeVideoModal)
+      if (videoBackdrop) videoBackdrop.addEventListener('click', closeVideoModal)
     }
 
     ScrollTrigger.refresh()
