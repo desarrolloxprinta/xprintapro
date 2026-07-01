@@ -242,6 +242,8 @@
 /* Cloned from area-tecnica-index.css for header uniformity */
 .at-index-header {
   padding: 180px 15vw 20px 15vw;
+  position: relative;
+  z-index: 45;
 }
 
 .at-index-title {
