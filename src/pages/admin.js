@@ -1654,7 +1654,7 @@ export async function initAdminCMS() {
 
   // Eventos submit de formularios
   document.getElementById('form-proyecto')?.addEventListener('submit', submitProyecto)
-  document.getElementById('form-articulo')?.addEventListener('submit', submitArticulo)
+  document.getElementById('form-article')?.addEventListener('submit', submitArticle)
   document.getElementById('form-faq')?.addEventListener('submit', submitFaq)
 
   // Botón de previsualización de proyecto

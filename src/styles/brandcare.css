@@ -107,6 +107,31 @@ body[data-page="brandcare"] {
   font-weight: 300;
 }
 
+.bc-about-text h3 {
+  font-family: var(--font-family-serif);
+  font-size: 2.25rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: var(--bc-white) !important;
+}
+
+.bc-about-text p {
+  font-family: var(--font-family-base);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.bc-about-text ul, .bc-about-text li {
+  font-family: var(--font-family-base);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-weight: 400;
+}
+
 .bc-about-image img {
   width: 100%;
   border-radius: 8px;
