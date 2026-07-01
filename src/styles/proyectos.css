@@ -17,18 +17,6 @@
   margin-bottom: 3rem;
 }
 
-/* Pseudo-elemento para tapar el "hueco" del top: 120px 
-   y evitar que los proyectos se vean detrás del header */
-.filter-form-sticky::before {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  background-color: var(--color-background);
-  pointer-events: none;
-}
 
 .projects-filters-inline {
   display: flex;
