@@ -722,6 +722,36 @@ function renderDashboardView() {
                     Video o imagen principal del artículo (aparecerá al inicio)
                   </small>
                 </div>
+
+                <!-- Audio Resumen -->
+                <div class="admin-form-group" style="margin-top: 2rem;">
+                  <label for="article-audio-url">Audio Resumen (Opcional)</label>
+                  <div class="file-upload-container" style="display: flex; gap: var(--spacing-3); align-items: flex-start;">
+                    <div style="flex: 1;">
+                      <input
+                        type="file"
+                        id="article-audio-file"
+                        accept="audio/*"
+                        class="admin-input"
+                        style="padding: var(--spacing-2);"
+                      >
+                      <input
+                        type="text"
+                        id="article-audio-url"
+                        class="admin-input"
+                        placeholder="URL del archivo de audio"
+                        style="margin-top: var(--spacing-2);"
+                        readonly
+                      >
+                    </div>
+                    <div id="article-audio-preview" class="file-preview" style="width: 80px; height: 80px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: none; align-items: center; justify-content: center;">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width: 32px; height: 32px; color: var(--color-primary);"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    </div>
+                  </div>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Audio resumen del artículo. Aparecerá como "¿Poco tiempo? Escucha el resumen" (formato MP3, WAV, etc.)
+                  </small>
+                </div>
               </div>
 
               <!-- CARD 3: Bloques de Contenido (Repeatable con WYSIWYG) -->
@@ -945,13 +975,57 @@ function initBlockEditor(blockId, initialContent = '') {
   const editor = new Quill(`#block-editor-${blockId}`, {
     theme: 'snow',
     modules: {
-      toolbar: [
-        [{ 'header': [2, 3, false] }],
-        ['bold', 'italic', 'underline'],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        ['link', 'image'],
-        ['clean']
-      ]
+      toolbar: {
+        container: [
+          [{ 'header': [2, 3, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          ['link', 'image'],
+          ['clean']
+        ],
+        handlers: {
+          image: function() {
+            // Custom image upload handler
+            const input = document.createElement('input')
+            input.setAttribute('type', 'file')
+            input.setAttribute('accept', 'image/*')
+            input.click()
+
+            input.onchange = async () => {
+              const file = input.files[0]
+              if (!file) return
+
+              // Get the current cursor position
+              const range = this.quill.getSelection(true)
+
+              // Insert a temporary placeholder
+              this.quill.insertEmbed(range.index, 'image', '/assets/img/loading.gif')
+              this.quill.setSelection(range.index + 1)
+
+              try {
+                // Upload file to Supabase
+                const publicUrl = await uploadFileToSupabase(file, 'articles/gallery')
+
+                if (publicUrl) {
+                  // Replace placeholder with actual image
+                  this.quill.deleteText(range.index, 1)
+                  this.quill.insertEmbed(range.index, 'image', publicUrl)
+                  this.quill.setSelection(range.index + 1)
+                  console.log(`✅ Image uploaded and inserted: ${publicUrl}`)
+                } else {
+                  // Remove placeholder if upload failed
+                  this.quill.deleteText(range.index, 1)
+                  alert('Error al subir la imagen. Por favor, intenta de nuevo.')
+                }
+              } catch (err) {
+                console.error('❌ Error uploading image:', err)
+                this.quill.deleteText(range.index, 1)
+                alert('Error al subir la imagen: ' + err.message)
+              }
+            }
+          }
+        }
+      }
     },
     placeholder: 'Escribe el contenido de este bloque...'
   })
@@ -1555,6 +1629,32 @@ export async function initAdminCMS() {
     }
   })
 
+  // File upload: Article Audio
+  document.getElementById('article-audio-file')?.addEventListener('change', async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const urlInput = document.getElementById('article-audio-url')
+    const preview = document.getElementById('article-audio-preview')
+
+    urlInput.value = 'Subiendo archivo...'
+    urlInput.style.color = 'var(--color-text-muted)'
+
+    const publicUrl = await uploadFileToSupabase(file, 'articles/audio')
+
+    if (publicUrl) {
+      urlInput.value = publicUrl
+      urlInput.style.color = 'var(--color-text)'
+
+      if (preview) {
+        preview.style.display = 'flex'
+      }
+    } else {
+      urlInput.value = ''
+      urlInput.style.color = 'var(--color-text)'
+    }
+  })
+
   // Botón de preview del artículo
   document.getElementById('btn-article-preview')?.addEventListener('click', () => {
     const slug = document.getElementById('article-slug')?.value?.trim()
@@ -1937,6 +2037,16 @@ async function loadEditingArticleFields() {
       }
     }
 
+    // Audio resumen
+    const audioInput = document.getElementById('article-audio-url')
+    const audioPreview = document.getElementById('article-audio-preview')
+    if (article.audio_url) {
+      audioInput.value = article.audio_url
+      if (audioPreview) {
+        audioPreview.style.display = 'flex'
+      }
+    }
+
     // Bloques de contenido
     const blocksContainer = document.getElementById('article-blocks-container')
     console.log('📦 [Admin] Contenedor de bloques:', blocksContainer)
@@ -2045,7 +2155,8 @@ async function submitArticle(e) {
       summary: document.getElementById('article-summary').value.trim(),
       published: document.getElementById('article-published').checked,
       thumbnail: document.getElementById('article-thumbnail').value.trim() || null,
-      hero_video: document.getElementById('article-intro-media-url').value.trim() || null
+      hero_video: document.getElementById('article-intro-media-url').value.trim() || null,
+      audio_url: document.getElementById('article-audio-url').value.trim() || null
     }
 
     // Recopilar bloques de contenido
