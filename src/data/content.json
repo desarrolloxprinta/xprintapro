@@ -166,8 +166,8 @@
       "previsualizacionNumber": "04 &mdash; Previsualización",
       "realidadNumber": "05 &mdash; Realidad",
       "resultadoFinal": "El Resultado <span style=\"font-style: italic; color: var(--color-highlight);\">Final</span>",
-      "verPlano": "Ver Plano",
-      "verFoto": "Ver Foto"
+      "verPlano": "Ampliar",
+      "verFoto": "Ampliar"
     }
   },
   "servicios_xprinta": [

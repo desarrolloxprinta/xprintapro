@@ -93,8 +93,8 @@
       "height": "60vh"
     },
     {
-      "image": "/proyectos/redeia/20221026_133248-scaled-1.jpg",
-      "alt": "Detalle Montaje",
+      "video": "/proyectos/redeia/redeia_hero_video.mp4",
+      "alt": "Vídeo del despliegue",
       "gridCols": 4,
       "height": "60vh"
     }

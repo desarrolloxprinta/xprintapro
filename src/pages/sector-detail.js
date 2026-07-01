@@ -101,7 +101,7 @@ export async function getSectorDetailHTML(slug = 'industria') {
           
           <!-- Headline Group -->
           <div class="headline-about-b gsap-reveal">
-            <div class="text-caption-badge" style="border-color: var(--color-highlight); color: var(--color-highlight);">Sector Industrial</div>
+            <div class="text-caption-badge" style="border-color: var(--color-highlight); color: var(--color-highlight);">${sector.title}</div>
             <h1 class="heading-jumbo">${sector.hero_title || sector.title}</h1>
           </div>
 

@@ -167,6 +167,7 @@ const renderMapa = () => `
 /**
  * Renderiza la sección de Proceso
  */
+/*
 const renderProceso = () => `
   <div id="proceso-container" style="background-color: var(--color-bg); padding-bottom: 20vh;">
     <section id="proceso" style="height: 100vh; overflow: hidden; display: flex; align-items: center;">
@@ -177,6 +178,76 @@ const renderProceso = () => `
 
           <!-- Background Particles (expanded bounds to prevent clipping) -->
           <div id="lottie-bar" style="position: absolute; top: 82%; left: 43%; transform: translate(-50%, -50%); width: 58%; height: 170%; z-index: 0; pointer-events: none;"></div>
+
+          <!-- Foreground Text -->
+          <div style="position: relative; z-index: 10;">
+            <span class="text-caption">03 / Metodología</span>
+            <h2 class="text-large" style="margin-bottom: 1.5rem;">
+              El Proceso <br>
+              <span class="accent-text italic">Lineal</span>
+            </h2>
+            <p style="margin-top: 2rem; font-size: 1.25rem; color: var(--color-text-muted); max-width: 400px; font-weight: 400;">
+              Estandarizamos la excelencia en 14 pasos precisos, garantizando trazabilidad y ahorro de costes a nivel nacional.
+            </p>
+          </div>
+        </div>
+
+        <!-- Scrolling List -->
+        <div class="process-scroll-container">
+          <div class="process-list-wrapper">
+            ${content.proceso.map((paso, index) => `
+              <div class="process-item-animated">
+                <div class="process-item__header">
+                  <span class="process-item__number">${(index + 1).toString().padStart(2, '0')}</span>
+                  <h3 class="process-item__title">${paso.title}</h3>
+                </div>
+                <p class="process-item__description">${paso.description}</p>
+                <div class="process-item__footer">
+                  <a href="/sistema-xprinta.html" class="nw-link nw-link--medium">
+                    Conocer más
+                    <svg aria-hidden="true" viewBox="0 0 100 100" fill="currentColor" class="nw-link-icon nw-link-icon--inline"><path d="M57.40 20.30L42.50 20.30L66.50 44.30L13 44.30L13 55.10L66.50 55.10L42.50 79.10L57.40 79.10L87 49.70Z"></path></svg>
+                  </a>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+`
+*/
+
+const renderProceso = () => `
+  <div id="proceso-container" style="background-color: var(--color-bg); padding-bottom: 20vh;">
+    <section id="proceso" style="height: 100vh; overflow: hidden; display: flex; align-items: center;">
+      <div class="container-fluid grid grid-cols-2 gap-6" style="width: 100%;">
+
+        <!-- Sticky Sidebar -->
+        <div style="position: relative; display: flex; flex-direction: column; justify-content: flex-start; padding-right: 4rem;">
+
+          <!-- Process Icons Container (Replaces Lottie) -->
+          <div id="process-icons-wrapper" style="position: absolute; top: 81%; left: 35%; transform: translate(-50%, -50%); width: 560px; height: 560px; z-index: 0; pointer-events: none; display: flex; align-items: center; justify-content: center;">
+            ${[
+              '/iconos/nuevos/brandguide.png',
+              '/iconos/nuevos/brandcenter.png',
+              '/iconos/nuevos/auditoria tecnica.png',
+              '/iconos/nuevos/ahorro-costes.png',
+              '/iconos/nuevos/estudio normativo.png',
+              '/iconos/nuevos/auditoria tecnica.png', // Toma de datos
+              '/iconos/nuevos/pic.png',
+              '/iconos/nuevos/aceptacion-cliente.png',
+              '/iconos/nuevos/fabricacion.png',
+              '/iconos/nuevos/INSTALACION.png',
+              '/iconos/nuevos/TRABAJO TERMINADO.png',
+              '/iconos/nuevos/COMUNICACION DIGITAAL.png',
+              '/iconos/nuevos/cobertura audiovisual.png',
+              '/iconos/nuevos/rrss.png'
+            ].map((src, index) => `
+              <img class="process-icon-img process-icon-${index}" src="${src}" alt="Icono Proceso" style="position: absolute; width: 100%; height: 100%; object-fit: contain; opacity: ${index === 0 ? 1 : 0}; transition: opacity 0.5s ease; filter: none; max-width: 560px; max-height: 560px;" />
+            `).join('')}
+          </div>
 
           <!-- Foreground Text -->
           <div style="position: relative; z-index: 10;">

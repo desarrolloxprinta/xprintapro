@@ -369,21 +369,45 @@ export const initProyectoAnimations = () => {
   if (!document.getElementById('nw-lightbox')) {
     const lb = document.createElement('div');
     lb.id = 'nw-lightbox';
-    lb.innerHTML = '<img src="" alt="Zoomed view" />';
+    lb.innerHTML = `
+      <img src="" alt="Zoomed view" style="display: none; max-width: 90%; max-height: 90vh; object-fit: contain;" />
+      <video src="" controls autoplay loop playsinline style="display: none; max-width: 90%; max-height: 90vh; object-fit: contain;"></video>
+    `;
     document.body.appendChild(lb);
 
-    lb.addEventListener('click', () => {
+    // Close lightbox on click
+    lb.addEventListener('click', (e) => {
+      if (e.target.tagName === 'VIDEO') return;
       lb.classList.remove('active');
-      setTimeout(() => lb.querySelector('img').src = '', 400); // clean up after fade
+      const img = lb.querySelector('img');
+      const video = lb.querySelector('video');
+      img.src = '';
+      img.style.display = 'none';
+      video.src = '';
+      video.style.display = 'none';
     });
   }
 
-  // Bind Lightbox clicks to images
-  document.querySelectorAll('.blueprint-pinned-img, .parallax-img').forEach(img => {
-    img.classList.add('lightbox-trigger');
-    img.addEventListener('click', () => {
+  // Bind Lightbox clicks to images/videos
+  document.querySelectorAll('.blueprint-pinned-img, .parallax-img').forEach(el => {
+    el.classList.add('lightbox-trigger');
+    el.addEventListener('click', () => {
       const lb = document.getElementById('nw-lightbox');
-      lb.querySelector('img').src = img.src;
+      const img = lb.querySelector('img');
+      const video = lb.querySelector('video');
+      
+      const isVideo = el.tagName === 'VIDEO';
+      const src = el.src || el.currentSrc || '';
+
+      if (isVideo) {
+        img.style.display = 'none';
+        video.src = src;
+        video.style.display = 'block';
+      } else {
+        video.style.display = 'none';
+        img.src = src;
+        img.style.display = 'block';
+      }
       lb.classList.add('active');
     });
   });

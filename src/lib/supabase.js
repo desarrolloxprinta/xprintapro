@@ -629,6 +629,270 @@ async function getFallbackSectorBySlug(slug) {
     };
   }
 
+  if (slug === 'retail') {
+    return {
+      slug: 'retail',
+      title: 'Sector Retail',
+      hero_title: 'Rotulación Corporativa para Tiendas y Comercios',
+      intro: 'Incluso el comercio mejor situado necesita de una fachada visible y atractiva para captar tráfico de clientes. Diseñamos e implantamos rótulos corpóreos con relieve, cajas de luz, banderines y vinilos de corte a medida.',
+      hero_image: 'https://www.xprinta.com/wp-content/uploads/2015/02/XPRINTA_SECTORES_RETAIL.jpg',
+      capabilities: [
+        {
+          title: "Rótulos Corpóreos con Relieve",
+          description: "Fabricación de letras y logotipos en relieve de metal, metacrilato o PVC mediante corte CNC y retroiluminación LED para lograr máxima elegancia y legibilidad.",
+          icon: "building"
+        },
+        {
+          title: "Toldos y Elementos de Fachada",
+          description: "Integración de toldos corporativos y marquesinas, transformando los sistemas de sombreado en canales publicitarios dinámicos y funcionales.",
+          icon: "shield"
+        },
+        {
+          title: "Rotulación de Cristales y Escaparates",
+          description: "Decoración de escaparates y lunas comerciales usando vinilo de corte y de impresión digital de gran formato para campañas estacionales o branding definitivo.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "PRODUCCIÓN A MEDIDA",
+        title: "Potencia el Atractivo Visual de tu Fachada",
+        image: 'https://www.xprinta.com/wp-content/uploads/2015/02/fondo-comercio.jpg',
+        description: "El comercio a pie de calle tiene en la fachada del local su principal herramienta de ventas. En Xprinta asesoramos sobre la normativa urbana local y gestionamos licencias para que tu implantación comercial sea 100% legal y exitosa."
+      }
+    };
+  }
+
+  if (slug === 'restauracion') {
+    return {
+      slug: 'restauracion',
+      title: 'Sector Restauración',
+      hero_title: 'Rótulos y Señalética para Restaurantes, Cafeterías y Bares',
+      intro: 'El atractivo exterior de un restaurante o cafetería es decisivo para atraer comensales. Diseñamos, fabricamos e implantamos rótulos luminosos LED, banderines corpóreos, vinilos efecto ácido y menuboards a medida.',
+      hero_image: 'https://www.xprinta.com/wp-content/uploads/2021/09/Rotulacion-de-fachada-para-restaurantes.jpg',
+      capabilities: [
+        {
+          title: "Rótulos Luminosos y Letreros LED",
+          description: "Rótulos corpóreos y cajas de luz de bajo consumo e iluminación uniforme para dar máxima visibilidad diurna y nocturna a tu local.",
+          icon: "building"
+        },
+        {
+          title: "Banderines de Doble Cara",
+          description: "Sistemas de rotulación perpendiculares a fachada, perfectos para captar la atención del flujo peatonal en ambos sentidos de la calle.",
+          icon: "shield"
+        },
+        {
+          title: "Menuboards y Señalización Interior",
+          description: "Cartas de menús, cartelería corporativa y rotulación interior en vinilo y fotomurales que unifican el ambiente y la estética del restaurante.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "IMPLANTACIÓN MULTIPUNTO",
+        title: "Soluciones de Imagen para Cadenas y Franquicias",
+        image: 'https://www.xprinta.com/wp-content/uploads/2015/02/banderines-restaurant.jpg',
+        description: "Con nuestras 14 fábricas distribuidas a nivel nacional, damos servicio coordinado en todo el país. Garantizamos el mismo estándar de calidad, precio y plazos de entrega en todos tus locales comerciales."
+      }
+    };
+  }
+
+  if (slug === 'sector-publico') {
+    return {
+      slug: 'sector-publico',
+      title: 'Sector Público',
+      hero_title: 'Señalización y Rótulos para Organismos Públicos e Instituciones',
+      intro: 'Los edificios de la administración pública y de representación ciudadana requieren una señalética exterior clara y accesible. Diseñamos e instalamos directorios, placas institucionales y rótulos oficiales a nivel nacional.',
+      hero_image: 'https://www.xprinta.com/wp-content/uploads/2021/06/rotulo-exterior-colegio.jpg',
+      capabilities: [
+        {
+          title: "Rótulos y Letras Corpóreas Oficiales",
+          description: "Rótulos de fachada y letras monumentales para ministerios, ayuntamientos y juzgados que identifican la sede y transmiten prestigio institucional.",
+          icon: "building"
+        },
+        {
+          title: "Señalética de Orientación y Wayfinding",
+          description: "Directorios curvos y planos para guiar de manera ágil a los ciudadanos en hospitales, colegios públicos y centros administrativos.",
+          icon: "shield"
+        },
+        {
+          title: "Placas Corporativas e Institucionales",
+          description: "Placas grabadas con láser, metacrilatos y directorios de planta normalizados con la imagen corporativa oficial del organismo público.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "DISEÑO NORMALIZADO",
+        title: "Señalética Accesible para Edificios Públicos",
+        image: 'https://www.xprinta.com/wp-content/uploads/2015/02/senalizacion2.jpg',
+        description: "La señalización en el sector público debe ser universal y legible. En Xprinta desarrollamos proyectos llave en mano respetando manuales de identidad institucional y adaptándonos a los procesos de licitación pública y contratación del Estado."
+      }
+    };
+  }
+
+  if (slug === 'corporativo') {
+    return {
+      slug: 'corporativo',
+      title: 'Sector Corporativo',
+      hero_title: 'Trade Marketing y Rotulación Corporativa para Grandes Marcas',
+      intro: 'Impulsamos la presencia de marca y ventas en el punto de venta y canales de distribución. Especialistas en proyectos integrales de trade marketing, stands, rotulación de flotas de vehículos y señalización corporativa.',
+      hero_image: 'https://www.xprinta.com/wp-content/uploads/2016/09/rotulos-exterior.jpg',
+      capabilities: [
+        {
+          title: "Rotulación de Vehículos y Flotas",
+          description: "Rotulación integral y parcial de flotas de vehículos comerciales e industriales con vinilo de alta durabilidad. Publicidad móvil y de gran visibilidad.",
+          icon: "building"
+        },
+        {
+          title: "Stands Feriales y Displays Corporativos",
+          description: "Diseño, fabricación y revestimiento gráfico de stands, tótems y expositores portátiles para ferias, museos y eventos corporativos.",
+          icon: "shield"
+        },
+        {
+          title: "Digital Signage y Menuboards",
+          description: "Sistemas de cartelería digital integrados (en colaboración con partners tecnológicos como Samsung y Chamex) para la actualización en tiempo real de ofertas.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "EFICACIA COMERCIAL",
+        title: "Herramientas Visuales para el Canal de Ventas",
+        image: 'https://www.xprinta.com/wp-content/uploads/2016/09/displays.jpg',
+        description: "El trade marketing une los esfuerzos de ventas y marketing. En Xprinta proveemos a las principales marcas nacionales e internacionales de las mejores herramientas de visibilidad en el punto de venta, garantizando una ejecución impecable y uniforme."
+      }
+    };
+  }
+
+  if (slug === 'distribucion') {
+    return {
+      slug: 'distribucion',
+      title: 'Sector Distribución',
+      hero_title: 'Señalética y Rotulación para Centros de Distribución y Logística',
+      intro: 'Optimizamos el flujo y la seguridad en centros logísticos, almacenes y plataformas de distribución. Diseñamos e instalamos señalización vial interior/exterior, directorios de muelles y rotulación de grandes flotas.',
+      hero_image: '/sectores/sector_industria_hero_large.png',
+      capabilities: [
+        {
+          title: "Señalización Vial y Muelles",
+          description: "Marcación de pavimentos, numeración gigante de muelles y señales reflectantes homologadas para guiar el tráfico de camiones de forma segura.",
+          icon: "building"
+        },
+        {
+          title: "Seguridad e Higiene Industrial",
+          description: "Señalética obligatoria de prevención de riesgos laborales (PRL), rutas de evacuación y delimitación de áreas peatonales dentro de naves.",
+          icon: "shield"
+        },
+        {
+          title: "Flotas de Transporte y Logística",
+          description: "Rotulación de camiones, furgonetas y remolques con vinilos reflectantes homologados de máxima durabilidad y resistencia al desgaste.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "EFICIENCIA Y SEGURIDAD",
+        title: "Señalización Inteligente para Logística 4.0",
+        image: '/sectores/sector_industria_hero_small.png',
+        description: "Un centro de distribución con señalética deficiente reduce la productividad y aumenta los riesgos de accidentes. En Xprinta desarrollamos planes integrales de wayfinding logístico para que la operativa diaria de carga y descarga sea impecable."
+      }
+    };
+  }
+
+  if (slug === 'servicios') {
+    return {
+      slug: 'servicios',
+      title: 'Sector Servicios',
+      hero_title: 'Rotulación y Señalética para Oficinas y Sedes de Servicios',
+      intro: 'Diseñamos entornos de trabajo inspiradores y funcionales. Desde mamparas de cristal decorativas y logotipos corpóreos para recepción hasta directorios generales para complejos empresariales.',
+      hero_image: '/sectores/sector_sanidad_hero_large.png',
+      capabilities: [
+        {
+          title: "Identificación y Recepción",
+          description: "Logotipos en relieve retroiluminados, letras corpóreas de metal pulido o metacrilato para vestíbulos y áreas de bienvenida.",
+          icon: "building"
+        },
+        {
+          title: "Privacidad y Vinilos en Oficinas",
+          description: "Láminas decorativas simulación ácido y vinilos corporativos personalizados para mamparas de vidrio en salas de reuniones.",
+          icon: "shield"
+        },
+        {
+          title: "Directorios y Orientación",
+          description: "Monolitos exteriores, tótems direccionales y placas indicativas para facilitar el guiado de visitas en complejos empresariales.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "DISEÑO CORPORATIVO",
+        title: "Un Espacio de Trabajo que Comunica tu Identidad",
+        image: '/sectores/sector_sanidad_hero_small.png',
+        description: "Las oficinas corporativas son la carta de presentación física de una marca ante sus clientes y talento. En Xprinta integramos soluciones arquitectónicas que combinan funcionalidad, elegancia y estricto respeto a la identidad de marca."
+      }
+    };
+  }
+
+  if (slug === 'educacion') {
+    return {
+      slug: 'educacion',
+      title: 'Sector Educación',
+      hero_title: 'Señalización y Rotulación para Colegios, Institutos y Universidades',
+      intro: 'Creamos entornos educativos seguros, claros y motivadores. Señalética de accesibilidad, directorios de aulas, vinilos didácticos y rotulación exterior de gran formato para centros de enseñanza.',
+      hero_image: '/sectores/sector_sanidad_hero_large.png',
+      capabilities: [
+        {
+          title: "Señalética Escolar y Aulas",
+          description: "Placas indicativas de aulas, directorios de planta y sistemas de guiado accesibles y de esquinas redondeadas para máxima seguridad infantil.",
+          icon: "building"
+        },
+        {
+          title: "Vinilos Didácticos y Decoración",
+          description: "Fotomurales de gran formato y vinilos decorativos de paredes con motivos educativos, fomentando la creatividad en pasillos y zonas comunes.",
+          icon: "shield"
+        },
+        {
+          title: "Rótulos Exteriores de Fachada",
+          description: "Letras gigantes corpóreas o rótulos sin luz de gran durabilidad para identificar de forma profesional el nombre del centro en fachada.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "ENTORNOS SEGUROS",
+        title: "Orientación y Accesibilidad en Centros Educativos",
+        image: '/sectores/sector_sanidad_hero_small.png',
+        description: "Un centro educativo bien señalizado facilita el flujo diario y mejora la percepción de orden y seguridad. En Xprinta implementamos sistemas de wayfinding homologados llave en mano adaptados a las normativas de seguridad escolar vigentes."
+      }
+    };
+  }
+
+  if (slug === 'logistica') {
+    return {
+      slug: 'logistica',
+      title: 'Sector Logística',
+      hero_title: 'Rotulación y Señalización Integral para Operadores Logísticos',
+      intro: 'Soluciones de alto rendimiento para la optimización y seguridad en hubs logísticos. Identificación de almacenes, señalización vial de seguridad y rotulación reflectante de flotas de transporte.',
+      hero_image: '/sectores/sector_industria_hero_large.png',
+      capabilities: [
+        {
+          title: "Señalética de Muelles e Identificación",
+          description: "Números monumentales de muelles, carteles aéreos de pasillos de almacenaje y tótems indicativos de alta durabilidad.",
+          icon: "building"
+        },
+        {
+          title: "Señalización Horizontal y Vialidad",
+          description: "Pintura vial reflectante para delimitación de carriles de carretillas, pasos de peatones y marcas de seguridad en suelo logístico.",
+          icon: "shield"
+        },
+        {
+          title: "Rotulación de Remolques y Flotas",
+          description: "Rotulación corporativa y balizamiento reflectante homologado (ECE 104) de remolques y cabezas tractoras a nivel nacional.",
+          icon: "tool"
+        }
+      ],
+      highlights: {
+        label: "LOGÍSTICA COORDINADA",
+        title: "Señalización de Alto Rendimiento para Hubs",
+        image: '/sectores/sector_industria_hero_small.png',
+        description: "Los operadores logísticos exigen rapidez y uniformidad. En Xprinta nos encargamos de rotular y señalizar toda tu infraestructura a nivel nacional, con las mismas tarifas y la tranquilidad de un único interlocutor."
+      }
+    };
+  }
+
   return null;
 }
 

@@ -271,11 +271,22 @@ const renderGallery = (data) => {
       </div>
 
       <div class="masonry-grid" style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 2vw;">
-        ${data.gallery.map((img, i) => `
-        <div class="masonry-item" style="grid-column: span ${img.gridCols || (i === 0 ? 8 : 4)}; height: ${img.height || (i < 2 ? '80vh' : '60vh')}; overflow: hidden; border-radius: var(--border-radius-md); box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
-          <img src="${img.image || img}" alt="${img.alt || ui.verFoto}" style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" data-cursor="${ui.verFoto}" />
-        </div>
-        `).join('')}
+        ${data.gallery.map((item, i) => {
+          const src = item.image || item.video || (typeof item === 'string' ? item : '');
+          const isVideo = src.endsWith('.mp4') || src.endsWith('.webm') || !!item.video;
+          const alt = item.alt || ui.verFoto;
+          const gridCols = item.gridCols || (i === 0 ? 8 : 4);
+          const height = item.height || (i < 2 ? '80vh' : '60vh');
+          return `
+          <div class="masonry-item" style="grid-column: span ${gridCols}; height: ${height}; overflow: hidden; border-radius: var(--border-radius-md); box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
+            ${isVideo ? `
+              <video src="${src}" autoplay loop muted playsinline style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" data-cursor="${ui.verFoto}"></video>
+            ` : `
+              <img src="${src}" alt="${alt}" style="width: 100%; height: 120%; object-fit: cover; transform: translateY(-10%);" class="parallax-img" data-cursor="${ui.verFoto}" />
+            `}
+          </div>
+          `;
+        }).join('')}
       </div>
     </div>
   </section>

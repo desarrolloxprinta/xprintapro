@@ -487,6 +487,8 @@ function initAnimations() {
   }
 
   // 6. Interactive Pinned Scroll for Process (Must init AFTER Map)
+  // 6. Interactive Pinned Scroll for Process (Must init AFTER Map)
+  /*
   const initProcessAnimation = () => {
     const items = document.querySelectorAll('.process-item-animated');
     if (!items.length) return;
@@ -561,6 +563,78 @@ function initAnimations() {
         duration: 0.4,
         ease: "none"
       }, `step${i}+=0.6`);
+      
+      // READ TIME PAUSE: Wait while user scrolls before moving to next item
+      processTl.to({}, { duration: 1.5 });
+    });
+  }
+  */
+
+  const initProcessAnimation = () => {
+    const items = document.querySelectorAll('.process-item-animated');
+    if (!items.length) return;
+
+    const processTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#proceso-container",
+        pin: true,
+        start: "top top", // Prevent overlap by pinning exactly at top
+        end: "+=1200%", // Very long scroll distance for comfortable reading and pauses
+        scrub: 1
+      }
+    });
+
+    const wrapper = document.querySelector('.process-list-wrapper');
+    const parentHeight = wrapper.parentElement.offsetHeight;
+
+    // Set initial state: first item perfectly centered and fully visible
+    const startY = (parentHeight / 2) - items[0].offsetTop - (items[0].offsetHeight / 2);
+    gsap.set(wrapper, { y: startY });
+    gsap.set(items[0], { opacity: 1 });
+    gsap.set('.process-icon-0', { opacity: 1 });
+
+    // Initial pause for reading the first item
+    processTl.to({}, { duration: 1 });
+
+    items.forEach((item, i) => {
+      if (i === 0) return; // Skip first item as it's already centered
+      
+      const targetY = (parentHeight / 2) - item.offsetTop - (item.offsetHeight / 2);
+      
+      // Move wrapper to center the NEXT item
+      processTl.to(wrapper, {
+        y: targetY,
+        ease: "power2.inOut",
+        duration: 1
+      }, `step${i}`);
+      
+      // Fade out PREVIOUS item
+      processTl.to(items[i - 1], {
+        opacity: 0.1,
+        duration: 0.4,
+        ease: "none"
+      }, `step${i}`);
+
+      // Fade out PREVIOUS icon
+      processTl.to(`.process-icon-${i - 1}`, {
+        opacity: 0,
+        duration: 0.4,
+        ease: "none"
+      }, `step${i}`);
+      
+      // Fade in CURRENT item
+      processTl.to(item, {
+        opacity: 1,
+        duration: 0.4,
+        ease: "none"
+      }, `step${i}+=0.6`);
+
+      // Fade in CURRENT icon
+      processTl.to(`.process-icon-${i}`, {
+        opacity: 1,
+        duration: 0.4,
+        ease: "none"
+      }, `step${i}+=0.4`);
       
       // READ TIME PAUSE: Wait while user scrolls before moving to next item
       processTl.to({}, { duration: 1.5 });
@@ -883,22 +957,45 @@ function initAnimations() {
   if (!document.getElementById('nw-lightbox')) {
     const lb = document.createElement('div');
     lb.id = 'nw-lightbox';
-    lb.innerHTML = '<img src="" alt="Zoomed view" />';
+    lb.innerHTML = `
+      <img src="" alt="Zoomed view" style="display: none; max-width: 90%; max-height: 90vh; object-fit: contain;" />
+      <video src="" controls autoplay loop playsinline style="display: none; max-width: 90%; max-height: 90vh; object-fit: contain;"></video>
+    `;
     document.body.appendChild(lb);
 
     // Close lightbox on click
-    lb.addEventListener('click', () => {
+    lb.addEventListener('click', (e) => {
+      if (e.target.tagName === 'VIDEO') return;
       lb.classList.remove('active');
-      setTimeout(() => lb.querySelector('img').src = '', 400); // clean up after fade
+      const img = lb.querySelector('img');
+      const video = lb.querySelector('video');
+      img.src = '';
+      img.style.display = 'none';
+      video.src = '';
+      video.style.display = 'none';
     });
   }
 
-  // Bind Lightbox clicks to blueprint and gallery images
-  document.querySelectorAll('.blueprint-pinned-img, .parallax-img').forEach(img => {
-    img.classList.add('lightbox-trigger');
-    img.addEventListener('click', () => {
+  // Bind Lightbox clicks to blueprint and gallery images/videos
+  document.querySelectorAll('.blueprint-pinned-img, .parallax-img').forEach(el => {
+    el.classList.add('lightbox-trigger');
+    el.addEventListener('click', () => {
       const lb = document.getElementById('nw-lightbox');
-      lb.querySelector('img').src = img.src;
+      const img = lb.querySelector('img');
+      const video = lb.querySelector('video');
+      
+      const isVideo = el.tagName === 'VIDEO';
+      const src = el.src || el.currentSrc || '';
+
+      if (isVideo) {
+        img.style.display = 'none';
+        video.src = src;
+        video.style.display = 'block';
+      } else {
+        video.style.display = 'none';
+        img.src = src;
+        img.style.display = 'block';
+      }
       lb.classList.add('active');
     });
   });

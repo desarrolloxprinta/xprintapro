@@ -58,7 +58,11 @@
   line-height: 1.6;
 }
 
-/* .text-large eliminado - usar definición global de style.css */
+.page-sector-detail .text-large {
+  font-size: var(--font-size-lg, 1.25rem);
+  line-height: 1.6;
+  color: var(--color-primary, #0A0A0A);
+}
 
 /* ==========================================================================
    1. HERO SECTION (.hero-about-b)
@@ -165,7 +169,7 @@
   height: 280px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 10px;
 }
 
