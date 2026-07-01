@@ -57,6 +57,13 @@ export async function getAreaTecnicaIndexHTML() {
             <span>Directorio de artículos y guías</span>
             <span>${posts.length} Documentos</span>
           </div>
+
+          <div class="at-scroll-indicator gsap-reveal">
+            <span class="mouse-icon">
+              <span class="mouse-wheel"></span>
+            </span>
+            <span class="scroll-text">Haz scroll para ver los artículos</span>
+          </div>
         </div>
       </section>
 
