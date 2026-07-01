@@ -752,6 +752,35 @@ function renderDashboardView() {
                     Audio resumen del artículo. Aparecerá como "¿Poco tiempo? Escucha el resumen" (formato MP3, WAV, etc.)
                   </small>
                 </div>
+
+                <!-- Video Resumen -->
+                <div class="admin-form-group" style="margin-top: 2rem;">
+                  <label for="article-video-summary-url">Video Resumen (Opcional)</label>
+                  <div class="file-upload-container" style="display: flex; gap: var(--spacing-3); align-items: flex-start;">
+                    <div style="flex: 1;">
+                      <input
+                        type="file"
+                        id="article-video-summary-file"
+                        accept="video/*"
+                        class="admin-input"
+                        style="padding: var(--spacing-2);"
+                      >
+                      <input
+                        type="text"
+                        id="article-video-summary-url"
+                        class="admin-input"
+                        placeholder="URL del video resumen"
+                        style="margin-top: var(--spacing-2);"
+                        readonly
+                      >
+                    </div>
+                    <div id="article-video-summary-preview" class="file-preview" style="width: 80px; height: 80px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: none;">
+                    </div>
+                  </div>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Video corto resumiendo el contenido del artículo (formato MP4, WebM, etc.)
+                  </small>
+                </div>
               </div>
 
               <!-- CARD 3: Bloques de Contenido (Repeatable con WYSIWYG) -->
@@ -1677,6 +1706,33 @@ export async function initAdminCMS() {
     }
   })
 
+  // File upload: Article Video Summary
+  document.getElementById('article-video-summary-file')?.addEventListener('change', async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const urlInput = document.getElementById('article-video-summary-url')
+    const preview = document.getElementById('article-video-summary-preview')
+
+    urlInput.value = 'Subiendo archivo...'
+    urlInput.style.color = 'var(--color-text-muted)'
+
+    const publicUrl = await uploadFileToSupabase(file, 'articles/videos')
+
+    if (publicUrl) {
+      urlInput.value = publicUrl
+      urlInput.style.color = 'var(--color-text)'
+
+      if (preview) {
+        preview.style.display = 'block'
+        preview.innerHTML = `<video src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;"></video>`
+      }
+    } else {
+      urlInput.value = ''
+      urlInput.style.color = 'var(--color-text)'
+    }
+  })
+
   // Botón de preview del artículo
   document.getElementById('btn-article-preview')?.addEventListener('click', () => {
     const slug = document.getElementById('article-slug')?.value?.trim()
@@ -2041,9 +2097,16 @@ async function loadEditingArticleFields() {
     const thumbnailPreview = document.getElementById('article-thumbnail-preview')
     if (article.thumbnail) {
       thumbnailInput.value = article.thumbnail
+
+      // Advertencia si la imagen es una ruta local
+      if (!article.thumbnail.startsWith('http')) {
+        console.warn('⚠️ [Admin] Thumbnail usa ruta local:', article.thumbnail)
+        console.warn('💡 [Admin] Recomendación: Sube la imagen a Supabase Storage usando el file picker')
+      }
+
       if (thumbnailPreview) {
         thumbnailPreview.style.display = 'block'
-        thumbnailPreview.innerHTML = `<img src="${article.thumbnail}" style="width: 100%; height: 100%; object-fit: cover;">`
+        thumbnailPreview.innerHTML = `<img src="${article.thumbnail}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<div style=\\'display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-danger);font-size:10px;text-align:center;padding:4px\\'>Imagen no encontrada</div>'">`
       }
     }
 
@@ -2053,6 +2116,13 @@ async function loadEditingArticleFields() {
     if (article.hero_video) {
       introMediaInput.value = article.hero_video
       document.getElementById('intro-type-video').checked = true
+
+      // Advertencia si es ruta externa específica
+      if (article.hero_video.includes('pikaso.cdnpk.net') || article.hero_video.includes('cdnpk.net')) {
+        console.warn('⚠️ [Admin] Hero video usa CDN externo (Pikaso):', article.hero_video)
+        console.warn('💡 [Admin] Este video puede expirar. Considera subirlo a Supabase Storage para permanencia')
+      }
+
       if (introMediaPreview) {
         introMediaPreview.style.display = 'block'
         introMediaPreview.innerHTML = `<video src="${article.hero_video}" style="width: 100%; height: 100%; object-fit: cover;"></video>`
@@ -2066,6 +2136,17 @@ async function loadEditingArticleFields() {
       audioInput.value = article.audio_url
       if (audioPreview) {
         audioPreview.style.display = 'flex'
+      }
+    }
+
+    // Video resumen
+    const videoSummaryInput = document.getElementById('article-video-summary-url')
+    const videoSummaryPreview = document.getElementById('article-video-summary-preview')
+    if (article.video_summary_url) {
+      videoSummaryInput.value = article.video_summary_url
+      if (videoSummaryPreview) {
+        videoSummaryPreview.style.display = 'block'
+        videoSummaryPreview.innerHTML = `<video src="${article.video_summary_url}" style="width: 100%; height: 100%; object-fit: cover;"></video>`
       }
     }
 
@@ -2184,7 +2265,8 @@ async function submitArticle(e) {
       published: document.getElementById('article-published').checked,
       thumbnail: document.getElementById('article-thumbnail').value.trim() || null,
       hero_video: document.getElementById('article-intro-media-url').value.trim() || null,
-      audio_url: document.getElementById('article-audio-url').value.trim() || null
+      audio_url: document.getElementById('article-audio-url').value.trim() || null,
+      video_summary_url: document.getElementById('article-video-summary-url').value.trim() || null
     }
 
     // Recopilar bloques de contenido
