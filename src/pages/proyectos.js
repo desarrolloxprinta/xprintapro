@@ -175,6 +175,26 @@ export const initProyectosDirectory = () => {
     gsap.registerPlugin(gsap.ScrollTrigger);
   }
 
+  // Animación de entrada para los elementos revelados en proyectos (incluye la cabecera)
+  const revealElements = document.querySelectorAll('.page-proyectos-directorio .gsap-reveal');
+  revealElements.forEach((el, index) => {
+    gsap.fromTo(el,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        delay: index * 0.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    )
+  });
+
   const filters = document.querySelectorAll('.filter-inline');
   const navItems = Array.from(document.querySelectorAll('.work_item_toggle'));
   const contentItems = Array.from(document.querySelectorAll('.work_item_content'));
