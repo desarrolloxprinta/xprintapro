@@ -414,7 +414,7 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
               <div class="gsap-reveal">
                 ${post.intro || "Un buen proyecto de señalización combina diferentes capas. Todas deben funcionar juntas y mantener una lógica visual coherente, adaptada tanto a vehículos como a peatones."}
               </div>
-              <div class="at-scroll-indicator gsap-reveal" style="margin-top: 4rem;">
+              <div class="at-scroll-indicator" style="margin-top: 4rem;">
                 <span class="mouse-icon">
                   <span class="mouse-wheel"></span>
                 </span>
