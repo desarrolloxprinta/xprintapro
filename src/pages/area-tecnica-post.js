@@ -383,9 +383,13 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
     `;
   }
 
-  const summaryVideoHTML = post.heroVideo ? `
-    <div class="summary-video-thumbnail-wrapper gsap-reveal" style="position: relative; cursor: pointer; border-radius: 12px; overflow: hidden; margin-top: 2rem; aspect-ratio: 16/9; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05);">
-      <img src="${post.thumbnail || '/area tecnica/thumb-parking.jpeg'}" alt="Video Resumen" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+  const defaultVideoUrl = "https://pikaso.cdnpk.net/private/production/4732017856/c1bfc955-6cc0-4104-81c9-94ef510d6af3-0.mp4?token=exp=1783036800~hmac=f9ba2526230e57f2035b5a99c8f0745b12a86fac7a6a95cefaf3c72c65c774e4";
+  const activeVideoUrl = post.heroVideo || defaultVideoUrl;
+  const activeThumbnailUrl = post.thumbnail || '/area tecnica/parking/ELEMENTOS GRAFICOS/ORIENTACION EN EL PARKING.jpeg';
+
+  const summaryVideoHTML = `
+    <div class="summary-video-thumbnail-wrapper gsap-reveal" style="position: relative; cursor: pointer; border-radius: 12px; overflow: hidden; margin-top: 2rem; aspect-ratio: 16/9; background-color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05);" data-video-src="${activeVideoUrl}">
+      <img src="${activeThumbnailUrl}" alt="Video Resumen" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
       <div class="video-play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); transition: background 0.3s;">
         <div class="video-play-button" style="width: 54px; height: 54px; border-radius: 50%; background: var(--color-highlight); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 15px rgba(230, 80, 0, 0.4); transition: transform 0.3s;">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><polygon points="8 5 19 12 8 19 8 5"/></svg>
@@ -396,7 +400,7 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
         Ver vídeo resumen
       </span>
     </div>
-  ` : '';
+  `;
 
   const layoutHTML = `
     <main>
@@ -671,9 +675,8 @@ export function initAreaTecnicaPostAnimations() {
 
     if (videoCard && videoModal && popupVideo) {
       videoCard.addEventListener('click', () => {
-        // Encontrar la url del video (por si no se renderiza en línea)
-        const videoSrc = videoCard.closest('main')?.querySelector('.blog-main-content')?.dataset?.heroVideo || '';
-        popupVideo.src = "${post.heroVideo || ''}";
+        const videoSrc = videoCard.getAttribute('data-video-src') || '';
+        popupVideo.src = videoSrc;
         videoModal.style.display = 'flex';
         popupVideo.play();
       })
