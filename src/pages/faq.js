@@ -192,7 +192,7 @@ export async function renderFAQ() {
 
       <!-- FAQ LIST SECTION -->
       <div style="width: 100%;">
-        <div class="container-fluid" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem; padding-bottom: 6rem; padding-top: 4rem;">
+        <div class="container-fluid" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem; padding-bottom: 6rem; padding-top: 1rem;">
 
           <!-- Tabs de Filtrado -->
           <div class="filter-form-sticky">
