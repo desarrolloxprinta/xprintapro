@@ -4,8 +4,8 @@
  */
 
 import { createClient } from '@supabase/supabase-js'
+import content from '../data/content.json'
 
-// Inicializar cliente dedicado de Supabase para el panel de administración con persistencia de sesión
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 const cleanUrl = supabaseUrl?.trim().replace(/\s+/g, '')
@@ -60,7 +60,9 @@ function renderLoginView() {
     <main class="page-admin">
       <div class="admin-login-container">
         <div class="admin-login-card">
-          <div class="admin-logo">Xprinta<span>Pro</span></div>
+          <div class="admin-logo-container" style="text-align: center; margin-bottom: 1.5rem;">
+            <img src="${content.header?.logoPath || '/logo-xprina-blanco.svg'}" alt="Xprinta Pro" style="height: 35px; width: auto;" />
+          </div>
           <div class="admin-login-title">Panel de Control CMS</div>
           
           <div id="login-error-msg" class="admin-error-message"></div>
@@ -94,7 +96,10 @@ function renderDashboardView() {
         
         <!-- Header -->
         <header class="admin-header">
-          <div class="admin-logo">Xprinta<span>Pro</span> CMS</div>
+          <div class="admin-logo-container" style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="${content.header?.logoPath || '/logo-xprina-blanco.svg'}" alt="Xprinta Pro" style="height: 28px; width: auto;" />
+            <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a1a1aa; font-weight: 600; margin-top: 2px;">CMS</span>
+          </div>
           <div class="admin-header-right">
             <span class="admin-user-info">${currentUser?.email}</span>
             <button id="admin-logout-btn" class="admin-action-btn" style="text-decoration: underline;">Cerrar Sesión</button>
