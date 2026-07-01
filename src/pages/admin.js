@@ -152,7 +152,7 @@ export async function navigateTo(tab) {
   const app = document.getElementById('app')
   if (app) {
     app.innerHTML = await renderDashboardView()
-    initAdminCMS()
+    await initAdminCMS()
   }
 }
 
@@ -586,7 +586,7 @@ function createGalleryRowHTML(url = '') {
 /**
  * Inicializador del panel CMS y lógica interactiva
  */
-export function initAdminCMS() {
+export async function initAdminCMS() {
   // Manejador del Login
   const loginForm = document.getElementById('admin-login-form')
   if (loginForm) {
@@ -708,7 +708,7 @@ export function initAdminCMS() {
   if (currentUser) {
     // Si estamos editando un proyecto en particular, mapear sus campos
     if (currentTab === 'proyecto-editor') {
-      loadEditingProjectFields()
+      await loadEditingProjectFields()
     } else {
       loadTabData(currentTab)
     }
@@ -718,7 +718,7 @@ export function initAdminCMS() {
 /**
  * Rellena los campos si estamos editando un proyecto
  */
-function loadEditingProjectFields() {
+async function loadEditingProjectFields() {
   if (!editingProjectId) {
     // Nuevo proyecto
     document.getElementById('editor-proyecto-title').textContent = 'Nuevo Proyecto'
@@ -729,8 +729,44 @@ function loadEditingProjectFields() {
     return
   }
 
-  const proj = projectsList.find(p => String(p.id) === String(editingProjectId))
-  if (!proj) return
+  // Si projectsList está vacío, cargar proyectos primero
+  if (!projectsList || projectsList.length === 0) {
+    console.log('🔍 [Admin] Cargando proyectos desde Supabase para edición...')
+    try {
+      const { data, error } = await adminSupabase.from('projects').select('*').order('created_at', { ascending: false })
+      if (error) throw error
+      projectsList = data || []
+    } catch (err) {
+      console.error('❌ [Admin] Error cargando proyectos:', err)
+      alert('Error cargando datos del proyecto: ' + err.message)
+      return
+    }
+  }
+
+  // Buscar el proyecto en la lista
+  let proj = projectsList.find(p => String(p.id) === String(editingProjectId))
+
+  // Si no se encontró en la lista, consultar directamente por ID
+  if (!proj && adminSupabase) {
+    console.log('🔍 [Admin] Proyecto no encontrado en lista, consultando directamente por ID:', editingProjectId)
+    try {
+      const { data, error } = await adminSupabase.from('projects').select('*').eq('id', editingProjectId).single()
+      if (error) throw error
+      proj = data
+      console.log('✅ [Admin] Proyecto cargado:', proj)
+    } catch (err) {
+      console.error('❌ [Admin] Error cargando proyecto por ID:', err)
+      alert('Error: No se pudo cargar el proyecto. ' + err.message)
+      return
+    }
+  }
+
+  if (!proj) {
+    alert('Error: Proyecto no encontrado.')
+    return
+  }
+
+  console.log('📝 [Admin] Rellenando formulario con datos del proyecto:', proj)
 
   document.getElementById('editor-proyecto-title').textContent = 'Editar Proyecto: ' + proj.title
   document.getElementById('proj-id').value = proj.id
@@ -753,6 +789,7 @@ function loadEditingProjectFields() {
   const planosContainer = document.getElementById('planos-container')
   planosContainer.innerHTML = ''
   const planos = Array.isArray(proj.planos_tecnicos) ? proj.planos_tecnicos : []
+  console.log('📋 [Admin] Planos técnicos:', planos.length, 'planos')
   planos.forEach(p => {
     planosContainer.insertAdjacentHTML('beforeend', createPlanoRowHTML(p.title, p.description, p.url))
   })
@@ -761,17 +798,21 @@ function loadEditingProjectFields() {
   const galleryContainer = document.getElementById('gallery-urls-container')
   galleryContainer.innerHTML = ''
   const gallery = Array.isArray(proj.gallery) ? proj.gallery : []
+  console.log('🖼️ [Admin] Galería:', gallery.length, 'items')
   gallery.forEach(url => {
     galleryContainer.insertAdjacentHTML('beforeend', createGalleryRowHTML(url))
   })
 
   // Testimonio
   const testi = proj.testimonial || {}
+  console.log('💬 [Admin] Testimonio:', testi)
   document.getElementById('testi-text').value = testi.text || ''
   document.getElementById('testi-photo').value = testi.photo || ''
   document.getElementById('testi-author').value = testi.author || ''
   document.getElementById('testi-role').value = testi.role || ''
   document.getElementById('testi-company').value = testi.company || ''
+
+  console.log('✅ [Admin] Formulario completado')
 }
 
 /**
