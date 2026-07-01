@@ -5,7 +5,9 @@ export const getBrandCareHTML = async () => {
     <main class="bc-main">
       <!-- HERO -->
       <section class="bc-hero">
-        <div class="bc-hero-bg" style="background-image: url('/servicios/hero_brandcare.jpg');"></div>
+        <div class="bc-hero-bg">
+          <video autoplay loop muted playsinline src="/servicios/videos%20hero/BRANDCARE/0%20Construction%20Workers%20Solar%20Panels%204096X2160low.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);"></video>
+        </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
           <div class="bc-label">Línea de Servicio</div>

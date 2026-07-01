@@ -123,7 +123,7 @@ export const getBrandGuideHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <video id="bc-dynamic-video" autoplay loop muted playsinline src="https://pikaso.cdnpk.net/private/production/4691259679/b2dfb949-bc71-4bb4-ab35-3f1994dd29e9-0.mp4?token=exp=1782518400~hmac=0a32ffe1a1027919178b1bf5492711bb98f96349bc6b8841a5364c8fbad2a707" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);"></video>
+          <video id="bc-dynamic-video" autoplay loop muted playsinline src="/servicios/videos%20hero/BRANDGUIDE/video%20principal%20low.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);"></video>
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
@@ -140,7 +140,7 @@ export const getBrandGuideHTML = async () => {
             <div class="gsap-reveal">
               <div style="width: 100%; aspect-ratio: 1/1; border-radius: 8px; overflow: hidden; background: linear-gradient(135deg, #e5d8d3, #a29baf);">
                  <!-- Imagen abstracta tipo Regius Intro -->
-                 <img src="/servicios/brandguide_manual1.jpg" style="width: 100%; height: 100%; object-fit: cover; mix-blend-mode: overlay; opacity: 0.6;" />
+                 <img src="/servicios/videos%20hero/BRANDGUIDE/magnific_genera-un-mockup-con-esta_vue55KPa47.png" style="width: 100%; height: 100%; object-fit: cover; mix-blend-mode: overlay; opacity: 0.6;" />
               </div>
             </div>
             <div class="gsap-reveal" style="display: flex; flex-direction: column; justify-content: center;">

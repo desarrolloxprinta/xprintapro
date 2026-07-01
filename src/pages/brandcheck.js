@@ -6,7 +6,7 @@ export const getBrandCheckHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <video autoplay loop muted playsinline src="https://videos.pexels.com/video-files/7598770/7598770-hd_1920_1080_30fps.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85);"></video>
+          <video autoplay loop muted playsinline src="/servicios/videos%20hero/BRANDCHECK/1477154%20People%20Business%20low.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85);"></video>
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
@@ -91,7 +91,7 @@ export const getBrandCheckHTML = async () => {
             </ul>
           </div>
           <div class="bc-about-image gsap-reveal" style="transition-delay: 0.2s">
-            <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Corporate Architecture Team" style="border-radius: 12px; height: 100%; object-fit: cover; width: 100%;"/>
+            <img src="/servicios/videos%20hero/BRANDCHECK/close-up-engineers-meeting.jpg" alt="Corporate Architecture Team" style="border-radius: 12px; height: 100%; object-fit: cover; width: 100%;"/>
           </div>
         </div>
       </section>

@@ -197,7 +197,7 @@ export const getBrandLegalHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <img src="/servicios/hero_brandlegal.jpg" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" alt="Legalización de rótulos" />
+          <video autoplay loop muted playsinline src="/servicios/videos%20hero/BRANDLEGAL/2126814_Man_Business_3840x2160%20-%20low.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);"></video>
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
@@ -219,19 +219,19 @@ export const getBrandLegalHTML = async () => {
           <div class="sa-image-grid gsap-reveal">
             <div class="sa-image-card">
               <div class="sa-image-wrapper">
-                <img src="/servicios/brandlegal_doc1.jpg" alt="Revisión documental" />
+                <img src="/servicios/videos%20hero/BRANDLEGAL/asesoramiento%20y%20expedientes.jpg" alt="Revisión documental" />
               </div>
               <h4>Asesoramiento y Expedientes</h4>
             </div>
             <div class="sa-image-card">
               <div class="sa-image-wrapper">
-                <img src="/servicios/brandlegal_doc2.jpg" alt="Análisis técnico en tablet" />
+                <img src="/servicios/videos%20hero/BRANDLEGAL/documentos%20tecnicos.jpg" alt="Análisis técnico en tablet" />
               </div>
               <h4>Proyectos Técnicos</h4>
             </div>
             <div class="sa-image-card">
               <div class="sa-image-wrapper">
-                <img src="/servicios/brandlegal_doc3.jpg" alt="Coordinación de expansión" />
+                <img src="/servicios/videos%20hero/BRANDLEGAL/coordinacion%20con%20fabricacion.png" alt="Coordinación de expansión" />
               </div>
               <h4>Coordinación con Fabricación</h4>
             </div>

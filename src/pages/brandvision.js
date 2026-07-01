@@ -159,7 +159,7 @@ export const getBrandVisionHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <img src="/servicios/BrandVision/hero.jpg" alt="BrandVision Hero" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);" />
+          <video autoplay loop muted playsinline src="/servicios/videos%20hero/BRANDVISION/brandvision%20low.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);"></video>
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
@@ -215,8 +215,8 @@ export const getBrandVisionHTML = async () => {
             </div>
             <div style="position: relative; height: 100%;">
               <div class="lr-tab-image-container">
-                <img src="/servicios/BrandVision/ambiente-1.jpg" class="lr-tab-image active" id="tab-img-1" alt="AR Preview" />
-                <img src="/servicios/BrandVision/ambiente-4.jpg" class="lr-tab-image" id="tab-img-2" alt="Decision Making" />
+                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-ADAMS-LOCAL%20EXTERIOR-VERSION%202.png" class="lr-tab-image active" id="tab-img-1" alt="AR Preview" />
+                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-CITADEL-FACHADA%202025%20-%20VISTA%202%20-%20NOCTURNO.png" class="lr-tab-image" id="tab-img-2" alt="Decision Making" />
                 <img src="/servicios/BrandVision/ambiente-6.jpg" class="lr-tab-image" id="tab-img-3" alt="Sales Support" />
               </div>
             </div>

@@ -7,6 +7,8 @@ import { createClient } from '@supabase/supabase-js'
 import content from '../data/content.json'
 import redeiaData from '../data/projects/redeia.json'
 import arvalData from '../data/projects/arval.json'
+import Quill from 'quill'
+import 'quill/dist/quill.snow.css'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -140,7 +142,8 @@ const mapJsonToDbProject = (jsonData) => {
 
 // Estados globales de la aplicación del panel
 let currentUser = null
-let currentTab = 'proyectos' // 'proyectos', 'blog', 'faqs', 'proyecto-editor'
+let currentTab = 'proyectos' // 'proyectos', 'blog', 'faqs', 'proyecto-editor', 'article-editor'
+let currentEditingArticle = null // Article being edited
 let projectsList = []
 let blogList = []
 let faqsList = []
@@ -216,11 +219,13 @@ function renderLoginView() {
  */
 function renderDashboardView() {
   const isEditingProject = currentTab === 'proyecto-editor'
+  const isEditingArticle = currentTab === 'article-editor'
+  const isEditing = isEditingProject || isEditingArticle
 
   return `
     <main class="page-admin">
       <div class="admin-dashboard">
-        
+
         <!-- Header -->
         <header class="admin-header">
           <div class="admin-logo-container" style="display: flex; align-items: center; gap: 0.75rem;">
@@ -232,16 +237,50 @@ function renderDashboardView() {
           </div>
         </header>
 
-        <!-- Navegación (Se oculta al editar proyectos) -->
-        <nav class="admin-nav-tabs" style="${isEditingProject ? 'display: none;' : ''}">
+        <!-- Navegación (Se oculta al editar) -->
+        <nav class="admin-nav-tabs" style="${isEditing ? 'display: none;' : ''}">
           <button class="admin-tab-btn ${currentTab === 'proyectos' ? 'active' : ''}" data-tab="proyectos">Proyectos</button>
           <button class="admin-tab-btn ${currentTab === 'blog' ? 'active' : ''}" data-tab="blog">Área Técnica</button>
           <button class="admin-tab-btn ${currentTab === 'faqs' ? 'active' : ''}" data-tab="faqs">FAQs</button>
         </nav>
 
+        <!-- Hero del editor de proyectos -->
+        ${isEditingProject ? `
+        <div class="admin-editor-hero">
+          <div class="admin-editor-hero__label">Editor de Proyectos</div>
+          <h1 id="editor-proyecto-title" class="admin-editor-hero__title">Nuevo Proyecto</h1>
+          <p class="admin-editor-hero__description">Completa todos los campos para crear o editar un proyecto</p>
+          <div class="admin-editor-hero__actions">
+            <button type="button" class="admin-hero-btn admin-hero-btn--secondary" id="btn-editor-cancel">
+              ← Volver
+            </button>
+            <button type="button" class="admin-hero-btn admin-hero-btn--primary" id="btn-project-preview">
+              Previsualizar
+            </button>
+          </div>
+        </div>
+        ` : ''}
+
+        <!-- Hero del editor de artículos -->
+        ${isEditingArticle ? `
+        <div class="admin-editor-hero">
+          <div class="admin-editor-hero__label">Editor de Área Técnica</div>
+          <h1 id="editor-article-title" class="admin-editor-hero__title">Nuevo Artículo Técnico</h1>
+          <p class="admin-editor-hero__description">Crea artículos técnicos con bloques de contenido y FAQs relacionadas</p>
+          <div class="admin-editor-hero__actions">
+            <button type="button" class="admin-hero-btn admin-hero-btn--secondary" id="btn-article-editor-cancel">
+              ← Volver
+            </button>
+            <button type="button" class="admin-hero-btn admin-hero-btn--primary" id="btn-article-preview">
+              Previsualizar
+            </button>
+          </div>
+        </div>
+        ` : ''}
+
         <!-- Contenido principal -->
-        <div class="admin-content-area" style="${isEditingProject ? 'padding: 4rem 15vw 8rem 15vw;' : 'padding: 3rem 5vw;'}">
-          
+        <div class="admin-content-area" style="${isEditing ? 'padding: 4rem 15vw 8rem 15vw;' : 'padding: 3rem 5vw;'}">
+
           <!-- TAB PROYECTOS -->
           <section id="tab-proyectos" class="admin-tab-content ${currentTab === 'proyectos' ? 'active' : ''}">
             <div class="admin-section-header">
@@ -319,17 +358,12 @@ function renderDashboardView() {
 
           <!-- VISTA EDITOR DE PROYECTO (PÁGINA COMPLETA) -->
           <section id="tab-proyecto-editor" class="admin-tab-content ${currentTab === 'proyecto-editor' ? 'active' : ''}">
-            <div class="admin-section-header" style="margin-bottom: 3rem;">
-              <h2 id="editor-proyecto-title" class="admin-section-title" style="font-size: 2.2rem; font-weight: 700; color: #111827;">Nuevo Proyecto</h2>
-              <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.6rem 1.5rem;" id="btn-editor-cancel">Volver al Listado</button>
-            </div>
-
             <form id="form-proyecto">
               <input type="hidden" id="proj-id">
               
               <!-- CARD 1: Información General -->
-              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
-                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">1. Información General</h3>
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">1. Información General</h3>
                 <div class="admin-form-row">
                   <div class="admin-form-group">
                     <label for="proj-title">Título del Proyecto</label>
@@ -373,20 +407,93 @@ function renderDashboardView() {
                     <label for="proj-sector">Sector (Categoría secundaria)</label>
                     <input type="text" id="proj-sector" class="admin-input" placeholder="Ej: retail, restauracion" required>
                   </div>
-                  <div class="admin-form-group">
-                    <label for="proj-thumbnail">Miniatura / Thumbnail (URL)</label>
-                    <input type="text" id="proj-thumbnail" class="admin-input" placeholder="/proyectos/thumb-fosters.jpg">
-                  </div>
                 </div>
-                <div class="admin-form-row">
-                  <div class="admin-form-group">
-                    <label for="proj-image">Imagen Hero Principal (URL)</label>
-                    <input type="text" id="proj-image" class="admin-input">
+
+                <!-- Thumbnail Upload -->
+                <div class="admin-form-group">
+                  <label for="proj-thumbnail">Miniatura / Thumbnail</label>
+                  <div class="file-upload-container" style="display: flex; gap: var(--spacing-3); align-items: flex-start;">
+                    <div style="flex: 1;">
+                      <input
+                        type="file"
+                        id="proj-thumbnail-file"
+                        accept="image/*"
+                        class="admin-input"
+                        style="padding: var(--spacing-2);"
+                      >
+                      <input
+                        type="text"
+                        id="proj-thumbnail"
+                        class="admin-input"
+                        placeholder="URL del archivo"
+                        style="margin-top: var(--spacing-2);"
+                        readonly
+                      >
+                    </div>
+                    <div id="proj-thumbnail-preview" class="file-preview" style="width: 80px; height: 80px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: none;">
+                    </div>
                   </div>
-                  <div class="admin-form-group">
-                    <label for="proj-video">Video Hero Principal (URL - Opcional)</label>
-                    <input type="text" id="proj-video" class="admin-input">
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Sube una imagen o la URL se mantendrá vacía
+                  </small>
+                </div>
+
+                <!-- Image Hero Upload -->
+                <div class="admin-form-group">
+                  <label for="proj-image">Imagen Hero Principal</label>
+                  <div class="file-upload-container" style="display: flex; gap: var(--spacing-3); align-items: flex-start;">
+                    <div style="flex: 1;">
+                      <input
+                        type="file"
+                        id="proj-image-file"
+                        accept="image/*"
+                        class="admin-input"
+                        style="padding: var(--spacing-2);"
+                      >
+                      <input
+                        type="text"
+                        id="proj-image"
+                        class="admin-input"
+                        placeholder="URL del archivo"
+                        style="margin-top: var(--spacing-2);"
+                        readonly
+                      >
+                    </div>
+                    <div id="proj-image-preview" class="file-preview" style="width: 80px; height: 80px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: none;">
+                    </div>
                   </div>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Sube una imagen o la URL se mantendrá vacía
+                  </small>
+                </div>
+
+                <!-- Video Hero Upload -->
+                <div class="admin-form-group">
+                  <label for="proj-video">Video Hero Principal (Opcional)</label>
+                  <div class="file-upload-container" style="display: flex; gap: var(--spacing-3); align-items: flex-start;">
+                    <div style="flex: 1;">
+                      <input
+                        type="file"
+                        id="proj-video-file"
+                        accept="video/*"
+                        class="admin-input"
+                        style="padding: var(--spacing-2);"
+                      >
+                      <input
+                        type="text"
+                        id="proj-video"
+                        class="admin-input"
+                        placeholder="URL del archivo"
+                        style="margin-top: var(--spacing-2);"
+                        readonly
+                      >
+                    </div>
+                    <div id="proj-video-preview" class="file-preview" style="width: 80px; height: 80px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: none;">
+                    </div>
+                  </div>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Sube un video o la URL se mantendrá vacía
+                  </small>
                 </div>
                 <div class="admin-form-group">
                   <label for="proj-desc">Descripción Corta</label>
@@ -395,8 +502,8 @@ function renderDashboardView() {
               </div>
 
               <!-- CARD 2: Desafío y Solución -->
-              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
-                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">2. Desafío y Solución</h3>
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">2. Desafío y Solución</h3>
                 <div class="admin-form-group" style="margin-bottom: 2rem;">
                   <label for="proj-challenge">El Desafío (Editor de texto / HTML)</label>
                   <textarea id="proj-challenge" class="admin-input" style="height: 120px; resize: vertical;" placeholder="Detalla los retos técnicos y de marca..."></textarea>
@@ -408,8 +515,8 @@ function renderDashboardView() {
               </div>
 
               <!-- CARD 3: Planos Técnicos (Repeatable) -->
-              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
-                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">3. Planos Técnicos y Bocetos</h3>
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">3. Planos Técnicos y Bocetos</h3>
                 <div id="planos-container" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
                   <!-- Se inyectan filas dinámicamente -->
                 </div>
@@ -417,11 +524,36 @@ function renderDashboardView() {
               </div>
 
               <!-- CARD 4: Render 3D y Galería -->
-              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
-                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">4. Renderizado 3D y Galería</h3>
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">4. Renderizado 3D y Galería</h3>
+
+                <!-- 3D Model Upload -->
                 <div class="admin-form-group" style="margin-bottom: 2rem;">
-                  <label for="proj-model-3d">Modelo 3D Renderizado (URL - Opcional)</label>
-                  <input type="text" id="proj-model-3d" class="admin-input" placeholder="/modelos3d/fosters-coronacion.glb o .gltf">
+                  <label for="proj-model-3d">Modelo 3D Renderizado (Opcional)</label>
+                  <div class="file-upload-container" style="display: flex; gap: var(--spacing-3); align-items: flex-start;">
+                    <div style="flex: 1;">
+                      <input
+                        type="file"
+                        id="proj-model-3d-file"
+                        accept=".glb,.gltf"
+                        class="admin-input"
+                        style="padding: var(--spacing-2);"
+                      >
+                      <input
+                        type="text"
+                        id="proj-model-3d"
+                        class="admin-input"
+                        placeholder="URL del archivo GLB/GLTF"
+                        style="margin-top: var(--spacing-2);"
+                        readonly
+                      >
+                    </div>
+                    <div id="proj-model-3d-preview" class="file-preview" style="width: 80px; height: 80px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: none;">
+                    </div>
+                  </div>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Sube un modelo 3D (.glb o .gltf) o la URL se mantendrá vacía
+                  </small>
                 </div>
                 <label style="display: block; font-size: 0.75rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; font-weight: 600;">Galería de Fotos/Videos del Trabajo Final</label>
                 <div id="gallery-urls-container" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
@@ -431,8 +563,8 @@ function renderDashboardView() {
               </div>
 
               <!-- CARD 5: Testimonio -->
-              <div class="admin-table-container" style="padding: 2.5rem; margin-bottom: 2.5rem; background: #ffffff;">
-                <h3 style="margin: 0 0 1.5rem 0; font-size: 1.25rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e4e4e7; padding-bottom: 0.75rem;">5. Testimonio del Cliente</h3>
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">5. Testimonio del Cliente</h3>
                 <div class="admin-form-group">
                   <label for="testi-text">Testimonio (Cita textual)</label>
                   <textarea id="testi-text" class="admin-input" style="height: 80px; resize: vertical;" placeholder="El servicio de Xprinta ha sido excelente..."></textarea>
@@ -463,6 +595,171 @@ function renderDashboardView() {
               <div style="display: flex; gap: 1rem; justify-content: flex-end;">
                 <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin: 0; padding: 0.8rem 2rem;" id="btn-editor-cancel-bottom">Cancelar</button>
                 <button type="submit" class="admin-btn" style="width: auto; margin: 0; padding: 0.8rem 2.5rem;">Guardar Cambios de Proyecto</button>
+              </div>
+
+            </form>
+          </section>
+
+          <!-- TAB ARTICLE EDITOR (INLINE - SIN MODAL) -->
+          <section id="tab-article-editor" class="admin-tab-content ${currentTab === 'article-editor' ? 'active' : ''}">
+            <form id="form-article">
+              <input type="hidden" id="article-id">
+
+              <!-- CARD 1: Información Básica -->
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">1. Información Básica del Artículo</h3>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="article-title">Título del Artículo</label>
+                    <input type="text" id="article-title" class="admin-input" required>
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="article-slug">Slug (ej: senalizacion-parkings)</label>
+                    <input type="text" id="article-slug" class="admin-input" required>
+                  </div>
+                </div>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="article-subtitle">Subtítulo (Opcional)</label>
+                    <input type="text" id="article-subtitle" class="admin-input" placeholder="Complementa el título principal">
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="article-category">Categoría</label>
+                    <input type="text" id="article-category" class="admin-input" placeholder="Ej: Wayfinding, Rotulación, Iluminación" required>
+                  </div>
+                </div>
+                <div class="admin-form-row">
+                  <div class="admin-form-group">
+                    <label for="article-author">Autor</label>
+                    <input type="text" id="article-author" class="admin-input" value="Equipo Xprinta" required>
+                  </div>
+                  <div class="admin-form-group">
+                    <label for="article-published-date">Fecha de Publicación</label>
+                    <input type="date" id="article-published-date" class="admin-input" required>
+                  </div>
+                </div>
+                <div class="admin-form-group">
+                  <label for="article-summary">Resumen / Introducción</label>
+                  <textarea id="article-summary" class="admin-input" style="height: 80px; resize: vertical;" placeholder="Resumen breve que aparecerá en listados y previsualizaciones" required></textarea>
+                </div>
+                <div class="admin-form-group">
+                  <label for="article-published" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: var(--font-size-sm);">
+                    <input type="checkbox" id="article-published" style="width: 18px; height: 18px; cursor: pointer;">
+                    Publicar inmediatamente
+                  </label>
+                </div>
+              </div>
+
+              <!-- CARD 2: Media Principal -->
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">2. Media Principal</h3>
+
+                <!-- Thumbnail -->
+                <div class="admin-form-group" style="margin-bottom: 2rem;">
+                  <label for="article-thumbnail">Miniatura / Thumbnail</label>
+                  <div class="file-upload-container" style="display: flex; gap: var(--spacing-3); align-items: flex-start;">
+                    <div style="flex: 1;">
+                      <input
+                        type="file"
+                        id="article-thumbnail-file"
+                        accept="image/*"
+                        class="admin-input"
+                        style="padding: var(--spacing-2);"
+                      >
+                      <input
+                        type="text"
+                        id="article-thumbnail"
+                        class="admin-input"
+                        placeholder="URL de la miniatura"
+                        style="margin-top: var(--spacing-2);"
+                        readonly
+                      >
+                    </div>
+                    <div id="article-thumbnail-preview" class="file-preview" style="width: 80px; height: 80px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: none;">
+                    </div>
+                  </div>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Imagen que aparecerá en listados (recomendado: 400x300px)
+                  </small>
+                </div>
+
+                <!-- Media Intro (Video o Imagen) -->
+                <div class="admin-form-group">
+                  <label>Media de Introducción (Video o Imagen Hero)</label>
+                  <div style="margin-bottom: var(--spacing-4);">
+                    <label style="display: flex; align-items: center; gap: var(--spacing-2); cursor: pointer; font-size: var(--font-size-sm);">
+                      <input type="radio" name="intro-media-type" value="video" id="intro-type-video" style="width: 18px; height: 18px; cursor: pointer;">
+                      Video de introducción
+                    </label>
+                    <label style="display: flex; align-items: center; gap: var(--spacing-2); cursor: pointer; font-size: var(--font-size-sm); margin-top: var(--spacing-2);">
+                      <input type="radio" name="intro-media-type" value="image" id="intro-type-image" style="width: 18px; height: 18px; cursor: pointer;" checked>
+                      Imagen hero
+                    </label>
+                  </div>
+
+                  <div class="file-upload-container" style="display: flex; gap: var(--spacing-3); align-items: flex-start;">
+                    <div style="flex: 1;">
+                      <input
+                        type="file"
+                        id="article-intro-media-file"
+                        accept="image/*,video/*"
+                        class="admin-input"
+                        style="padding: var(--spacing-2);"
+                      >
+                      <input
+                        type="text"
+                        id="article-intro-media-url"
+                        class="admin-input"
+                        placeholder="URL del archivo"
+                        style="margin-top: var(--spacing-2);"
+                        readonly
+                      >
+                    </div>
+                    <div id="article-intro-media-preview" class="file-preview" style="width: 80px; height: 80px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: none;">
+                    </div>
+                  </div>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Video o imagen principal del artículo (aparecerá al inicio)
+                  </small>
+                </div>
+              </div>
+
+              <!-- CARD 3: Bloques de Contenido (Repeatable con WYSIWYG) -->
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">3. Bloques de Contenido</h3>
+                <p style="color: var(--color-text-muted); font-size: var(--font-size-sm); margin-bottom: var(--spacing-6);">
+                  Divide el artículo en bloques temáticos. Cada bloque puede tener su propio título y contenido rico.
+                </p>
+                <div id="article-blocks-container" style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem;">
+                  <!-- Se inyectan bloques dinámicamente -->
+                </div>
+                <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.6rem 1.5rem;" id="btn-add-article-block">+ Añadir Bloque de Contenido</button>
+              </div>
+
+              <!-- CARD 4: FAQs Relacionadas -->
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">4. Preguntas Frecuentes Relacionadas</h3>
+                <p style="color: var(--color-text-muted); font-size: var(--font-size-sm); margin-bottom: var(--spacing-6);">
+                  Selecciona las FAQs que estén relacionadas con este artículo técnico.
+                </p>
+                <div id="article-faqs-container" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
+                  <div id="article-faqs-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <!-- Se cargan FAQs disponibles -->
+                  </div>
+                </div>
+                <small style="color: var(--color-text-muted); font-size: var(--font-size-xs);">
+                  Las FAQs seleccionadas aparecerán al final del artículo
+                </small>
+              </div>
+
+              <!-- Botón de Submit -->
+              <div class="admin-table-container" style="display: flex; justify-content: flex-end; gap: var(--spacing-4); border: none; padding: 0; background: transparent; box-shadow: none;">
+                <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin: 0;" id="btn-article-cancel">
+                  Cancelar
+                </button>
+                <button type="submit" class="admin-btn" style="width: auto; margin: 0;">
+                  Guardar Artículo
+                </button>
               </div>
 
             </form>
@@ -564,23 +861,473 @@ function renderDashboardView() {
 }
 
 function createPlanoRowHTML(title = '', desc = '', url = '') {
+  const uniqueId = 'plano-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9)
   return `
-    <div class="plano-row" style="display: flex; gap: 0.75rem; align-items: center; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
-      <input type="text" class="admin-input plano-title" placeholder="Título (ej: Alzado frontal)" value="${title}" style="flex: 2;">
-      <input type="text" class="admin-input plano-desc" placeholder="Descripción" value="${desc}" style="flex: 3;">
-      <input type="text" class="admin-input plano-url" placeholder="URL Boceto/Plano (JPG, PNG, PDF)" value="${url}" style="flex: 3;">
-      <button type="button" class="admin-btn admin-btn-danger btn-remove-plano" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
+    <div class="plano-row" style="display: flex; flex-direction: column; gap: 0.75rem; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
+      <div style="display: flex; gap: 0.75rem; align-items: center;">
+        <input type="text" class="admin-input plano-title" placeholder="Título (ej: Alzado frontal)" value="${title}" style="flex: 2;">
+        <input type="text" class="admin-input plano-desc" placeholder="Descripción" value="${desc}" style="flex: 3;">
+        <button type="button" class="admin-btn admin-btn-danger btn-remove-plano" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
+      </div>
+      <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem;">
+          <input type="file" class="admin-input plano-file" data-url-target="${uniqueId}" accept="image/*,video/*,application/pdf" style="padding: 0.5rem; font-size: 0.875rem;">
+          <input type="text" class="admin-input plano-url" id="${uniqueId}" placeholder="URL del archivo" value="${url}" readonly style="font-size: 0.875rem;">
+          <small style="color: var(--color-text-muted); font-size: 0.75rem;">Sube imagen, video o PDF</small>
+        </div>
+        <div class="plano-preview" style="width: 60px; height: 60px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: ${url ? 'block' : 'none'};">
+          ${url && url.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? `<img src="${url}" style="width: 100%; height: 100%; object-fit: cover;">` : ''}
+          ${url && url.match(/\.(mp4|webm|mov)$/i) ? `<video src="${url}" style="width: 100%; height: 100%; object-fit: cover;"></video>` : ''}
+          ${url && url.match(/\.pdf$/i) ? `<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--color-neutral-50); font-size: 0.75rem;">PDF</div>` : ''}
+        </div>
+      </div>
     </div>
   `
 }
 
 function createGalleryRowHTML(url = '') {
+  const uniqueId = 'gallery-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9)
   return `
-    <div class="gallery-row" style="display: flex; gap: 0.75rem; align-items: center; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
-      <input type="text" class="admin-input gallery-url" placeholder="URL Foto/Video del Trabajo Final" value="${url}" style="flex: 1;">
-      <button type="button" class="admin-btn admin-btn-danger btn-remove-gallery" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
+    <div class="gallery-row" style="display: flex; gap: 0.75rem; align-items: flex-start; background: #fafafa; padding: 0.75rem; border-radius: 8px; border: 1px solid #e4e4e7; margin-bottom: 0.5rem;">
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem;">
+        <input type="file" class="admin-input gallery-file" data-url-target="${uniqueId}" accept="image/*,video/*" style="padding: 0.5rem; font-size: 0.875rem;">
+        <input type="text" class="admin-input gallery-url" id="${uniqueId}" placeholder="URL del archivo" value="${url}" readonly style="font-size: 0.875rem;">
+        <small style="color: var(--color-text-muted); font-size: 0.75rem;">Sube imagen o video</small>
+      </div>
+      <div class="gallery-preview" style="width: 60px; height: 60px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden; display: ${url ? 'block' : 'none'};">
+        ${url && url.match(/\.(jpg|jpeg|png|webp|gif)$/i) ? `<img src="${url}" style="width: 100%; height: 100%; object-fit: cover;">` : ''}
+        ${url && url.match(/\.(mp4|webm|mov)$/i) ? `<video src="${url}" style="width: 100%; height: 100%; object-fit: cover;"></video>` : ''}
+      </div>
+      <button type="button" class="admin-btn admin-btn-danger btn-remove-gallery" style="width: auto; margin: 0; padding: 0.5rem 0.75rem; height: fit-content;">&times;</button>
     </div>
   `
+}
+
+/**
+ * Helper: Crear HTML de un bloque de contenido del artículo
+ */
+function createArticleBlockHTML(blockId = '', blockTitle = '', blockContent = '') {
+  const uniqueId = blockId || ('block-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9))
+
+  return `
+    <div class="article-block" data-block-id="${uniqueId}" style="background: #fafafa; padding: 1.5rem; border-radius: 8px; border: 1px solid #e4e4e7;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <input
+          type="text"
+          class="admin-input block-title"
+          placeholder="Título del bloque (ej: Normativa aplicable, Materiales utilizados)"
+          value="${blockTitle}"
+          style="flex: 1; margin-right: 1rem;"
+        >
+        <button type="button" class="admin-btn admin-btn-danger btn-remove-block" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
+      </div>
+
+      <!-- Hidden textarea for Quill content -->
+      <textarea class="block-content-textarea" data-block-id="${uniqueId}" style="display: none;">${blockContent}</textarea>
+
+      <!-- Quill editor container -->
+      <div class="block-content-editor" id="block-editor-${uniqueId}" style="background: white; min-height: 200px;">
+      </div>
+    </div>
+  `
+}
+
+/**
+ * Helper: Inicializar editor Quill para un bloque
+ */
+function initBlockEditor(blockId, initialContent = '') {
+  const editorContainer = document.getElementById(`block-editor-${blockId}`)
+  if (!editorContainer) {
+    console.warn(`⚠️ Block editor container not found for block: ${blockId}`)
+    return null
+  }
+
+  const editor = new Quill(`#block-editor-${blockId}`, {
+    theme: 'snow',
+    modules: {
+      toolbar: [
+        [{ 'header': [2, 3, false] }],
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        ['link', 'image'],
+        ['clean']
+      ]
+    },
+    placeholder: 'Escribe el contenido de este bloque...'
+  })
+
+  // Set initial content
+  if (initialContent) {
+    editor.root.innerHTML = initialContent
+  }
+
+  // Sync content back to hidden textarea
+  const textarea = document.querySelector(`textarea[data-block-id="${blockId}"]`)
+  if (textarea) {
+    editor.on('text-change', () => {
+      textarea.value = editor.root.innerHTML
+    })
+  }
+
+  console.log(`✅ Block editor initialized: ${blockId}`)
+  return editor
+}
+
+/**
+ * Helper: Cargar lista de FAQs disponibles como checkboxes
+ */
+async function loadAvailableFAQs(selectedFaqIds = []) {
+  const container = document.getElementById('article-faqs-list')
+  if (!container) return
+
+  try {
+    const { data: faqs, error } = await adminSupabase
+      .from('faqs')
+      .select('id, question, category')
+      .order('category', { ascending: true })
+
+    if (error) throw error
+
+    if (!faqs || faqs.length === 0) {
+      container.innerHTML = '<p style="color: var(--color-text-muted); font-size: var(--font-size-sm);">No hay FAQs disponibles</p>'
+      return
+    }
+
+    // Group by category
+    const grouped = faqs.reduce((acc, faq) => {
+      if (!acc[faq.category]) acc[faq.category] = []
+      acc[faq.category].push(faq)
+      return acc
+    }, {})
+
+    let html = ''
+    for (const [category, categoryFaqs] of Object.entries(grouped)) {
+      html += `
+        <div style="margin-bottom: 1rem;">
+          <h4 style="font-size: var(--font-size-sm); font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
+            ${category}
+          </h4>
+          ${categoryFaqs.map(faq => `
+            <label style="display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.5rem; cursor: pointer; font-size: var(--font-size-sm); hover:background: var(--color-neutral-50);">
+              <input
+                type="checkbox"
+                class="faq-checkbox"
+                value="${faq.id}"
+                ${selectedFaqIds.includes(faq.id) ? 'checked' : ''}
+                style="margin-top: 0.25rem; width: 16px; height: 16px; cursor: pointer;"
+              >
+              <span>${faq.question}</span>
+            </label>
+          `).join('')}
+        </div>
+      `
+    }
+
+    container.innerHTML = html
+    console.log(`✅ Loaded ${faqs.length} FAQs`)
+  } catch (err) {
+    console.error('Error loading FAQs:', err)
+    container.innerHTML = '<p style="color: #ef4444; font-size: var(--font-size-sm);">Error cargando FAQs</p>'
+  }
+}
+
+/**
+ * WYSIWYG Editors with Quill.js
+ */
+let challengeEditor = null
+let solutionEditor = null
+let articleBlockEditors = [] // Array de editores Quill para bloques de contenido del artículo
+
+function initWysiwygEditors() {
+  console.log('🔧 Initializing WYSIWYG editors...')
+
+  // Reset editors if they already exist
+  challengeEditor = null
+  solutionEditor = null
+
+  // Initialize Challenge editor
+  const challengeTextarea = document.getElementById('proj-challenge')
+  if (challengeTextarea) {
+    const challengeValue = challengeTextarea.value
+
+    // Remove any existing Quill editor
+    const existingChallengeEditor = document.getElementById('proj-challenge-editor')
+    if (existingChallengeEditor) {
+      existingChallengeEditor.remove()
+    }
+
+    // Create Quill container
+    const challengeEditorDiv = document.createElement('div')
+    challengeEditorDiv.id = 'proj-challenge-editor'
+    challengeEditorDiv.style.height = '200px'
+    challengeEditorDiv.style.background = 'white'
+
+    // Replace textarea with Quill editor
+    challengeTextarea.style.display = 'none'
+    challengeTextarea.parentNode.insertBefore(challengeEditorDiv, challengeTextarea.nextSibling)
+
+    challengeEditor = new Quill('#proj-challenge-editor', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          [{ 'header': [2, 3, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          ['link'],
+          ['clean']
+        ]
+      },
+      placeholder: 'Detalla los retos técnicos y de marca...'
+    })
+
+    // Set initial content
+    if (challengeValue) {
+      challengeEditor.root.innerHTML = challengeValue
+    }
+
+    // Sync Quill content back to textarea on change
+    challengeEditor.on('text-change', () => {
+      challengeTextarea.value = challengeEditor.root.innerHTML
+    })
+
+    console.log('✅ Challenge editor initialized')
+  } else {
+    console.warn('⚠️ Challenge textarea not found')
+  }
+
+  // Initialize Solution editor
+  const solutionTextarea = document.getElementById('proj-solution')
+  if (solutionTextarea) {
+    const solutionValue = solutionTextarea.value
+
+    // Remove any existing Quill editor
+    const existingSolutionEditor = document.getElementById('proj-solution-editor')
+    if (existingSolutionEditor) {
+      existingSolutionEditor.remove()
+    }
+
+    // Create Quill container
+    const solutionEditorDiv = document.createElement('div')
+    solutionEditorDiv.id = 'proj-solution-editor'
+    solutionEditorDiv.style.height = '200px'
+    solutionEditorDiv.style.background = 'white'
+
+    // Replace textarea with Quill editor
+    solutionTextarea.style.display = 'none'
+    solutionTextarea.parentNode.insertBefore(solutionEditorDiv, solutionTextarea.nextSibling)
+
+    solutionEditor = new Quill('#proj-solution-editor', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          [{ 'header': [2, 3, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          ['link'],
+          ['clean']
+        ]
+      },
+      placeholder: 'Explica la solución, materiales y técnicas empleadas...'
+    })
+
+    // Set initial content
+    if (solutionValue) {
+      solutionEditor.root.innerHTML = solutionValue
+    }
+
+    // Sync Quill content back to textarea on change
+    solutionEditor.on('text-change', () => {
+      solutionTextarea.value = solutionEditor.root.innerHTML
+    })
+
+    console.log('✅ Solution editor initialized')
+  } else {
+    console.warn('⚠️ Solution textarea not found')
+  }
+
+  console.log('✅ WYSIWYG editors initialization complete')
+}
+
+/**
+ * File Upload System with Supabase Storage
+ */
+async function uploadFileToSupabase(file, folder = 'projects') {
+  if (!adminSupabase) {
+    console.error('Supabase client not configured')
+    return null
+  }
+
+  try {
+    // Generate unique filename
+    const timestamp = Date.now()
+    const cleanFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
+    const filePath = `${folder}/${timestamp}-${cleanFileName}`
+
+    // Upload to Supabase Storage
+    const { data, error } = await adminSupabase.storage
+      .from('project-media')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+    if (error) throw error
+
+    // Get public URL
+    const { data: urlData } = adminSupabase.storage
+      .from('project-media')
+      .getPublicUrl(filePath)
+
+    return urlData.publicUrl
+  } catch (err) {
+    console.error('Error uploading file:', err)
+    alert('Error al subir el archivo: ' + err.message)
+    return null
+  }
+}
+
+/**
+ * Create file upload input with preview
+ */
+function createFileUploadInput(inputId, label, accept = 'image/*', currentUrl = '') {
+  return `
+    <div class="admin-form-group">
+      <label for="${inputId}">${label}</label>
+      <div class="file-upload-container" style="display: flex; gap: var(--spacing-3); align-items: flex-start;">
+        <div style="flex: 1;">
+          <input
+            type="file"
+            id="${inputId}-file"
+            accept="${accept}"
+            class="admin-input"
+            style="padding: var(--spacing-2);"
+          >
+          <input
+            type="text"
+            id="${inputId}"
+            class="admin-input"
+            placeholder="URL del archivo"
+            value="${currentUrl}"
+            style="margin-top: var(--spacing-2);"
+            readonly
+          >
+        </div>
+        ${currentUrl ? `
+          <div class="file-preview" style="width: 80px; height: 80px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); overflow: hidden;">
+            <img src="${currentUrl}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        ` : ''}
+      </div>
+      <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+        Sube un archivo o la URL se mantendrá vacía
+      </small>
+    </div>
+  `
+}
+
+/**
+ * Initialize file upload handlers for all file inputs
+ */
+function initFileUploadHandlers() {
+  const fileInputIds = [
+    'proj-thumbnail',
+    'proj-image',
+    'proj-video',
+    'proj-model-3d'
+  ]
+
+  fileInputIds.forEach(inputId => {
+    const fileInput = document.getElementById(`${inputId}-file`)
+    const urlInput = document.getElementById(inputId)
+
+    if (fileInput && urlInput) {
+      fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+
+        // Show loading state
+        urlInput.value = 'Subiendo archivo...'
+        urlInput.style.color = 'var(--color-text-muted)'
+
+        // Determine folder based on input type
+        let folder = 'projects'
+        if (inputId.includes('thumbnail')) folder = 'projects/thumbnails'
+        else if (inputId.includes('image')) folder = 'projects/images'
+        else if (inputId.includes('video')) folder = 'projects/videos'
+        else if (inputId.includes('model')) folder = 'projects/models'
+
+        // Upload file
+        const publicUrl = await uploadFileToSupabase(file, folder)
+
+        if (publicUrl) {
+          urlInput.value = publicUrl
+          urlInput.style.color = 'var(--color-text)'
+
+          // Update preview if it exists
+          const previewId = `${inputId}-preview`
+          const preview = document.getElementById(previewId)
+
+          if (preview) {
+            preview.style.display = 'block'
+
+            if (file.type.startsWith('image/')) {
+              preview.innerHTML = `<img src="${publicUrl}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;">`
+            } else if (file.type.startsWith('video/')) {
+              preview.innerHTML = `<video src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;"></video>`
+            } else {
+              preview.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--color-neutral-50); font-size: var(--font-size-xs); color: var(--color-success);">✓</div>`
+            }
+          }
+        } else {
+          urlInput.value = ''
+          urlInput.style.color = 'var(--color-text)'
+        }
+      })
+    }
+  })
+}
+
+/**
+ * Make project title editable inline
+ */
+function initEditableTitle() {
+  const titleElement = document.getElementById('editor-proyecto-title')
+  const titleInput = document.getElementById('proj-title')
+
+  if (titleElement && titleInput) {
+    // Make title contenteditable
+    titleElement.setAttribute('contenteditable', 'true')
+    titleElement.style.cursor = 'text'
+    titleElement.style.outline = 'none'
+    titleElement.style.transition = 'all 0.2s ease'
+
+    // Add visual feedback on focus
+    titleElement.addEventListener('focus', () => {
+      titleElement.style.opacity = '0.8'
+    })
+
+    titleElement.addEventListener('blur', () => {
+      titleElement.style.opacity = '1'
+    })
+
+    // Sync title with hidden input
+    titleElement.addEventListener('input', () => {
+      titleInput.value = titleElement.textContent.trim()
+    })
+
+    // Sync hidden input changes to title
+    titleInput.addEventListener('change', () => {
+      titleElement.textContent = titleInput.value
+    })
+
+    // Prevent line breaks in title
+    titleElement.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        titleElement.blur()
+      }
+    })
+  }
 }
 
 /**
@@ -646,6 +1393,131 @@ export async function initAdminCMS() {
   document.getElementById('btn-editor-cancel')?.addEventListener('click', goBack)
   document.getElementById('btn-editor-cancel-bottom')?.addEventListener('click', goBack)
 
+  // =========== EVENT LISTENERS PARA EDITOR DE ARTÍCULOS ===========
+
+  // Botones de cancelación del editor de artículos
+  const goBackToArticles = () => navigateTo('blog')
+  document.getElementById('btn-article-editor-cancel')?.addEventListener('click', goBackToArticles)
+  document.getElementById('btn-article-cancel')?.addEventListener('click', goBackToArticles)
+
+  // Botón para añadir bloque de contenido
+  document.getElementById('btn-add-article-block')?.addEventListener('click', () => {
+    const container = document.getElementById('article-blocks-container')
+    if (!container) return
+
+    const blockHTML = createArticleBlockHTML()
+    container.insertAdjacentHTML('beforeend', blockHTML)
+
+    // Extraer el blockId del HTML recién insertado
+    const newBlock = container.lastElementChild
+    const blockId = newBlock.getAttribute('data-block-id')
+
+    // Inicializar editor Quill para este bloque
+    setTimeout(() => {
+      const editor = initBlockEditor(blockId)
+      if (editor) {
+        articleBlockEditors.push({ blockId, editor })
+      }
+    }, 100)
+  })
+
+  // Event delegation: remover bloques
+  document.getElementById('article-blocks-container')?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-remove-block')) {
+      const blockDiv = e.target.closest('.article-block')
+      if (!blockDiv) return
+
+      const blockId = blockDiv.getAttribute('data-block-id')
+
+      // Remover editor del array
+      const index = articleBlockEditors.findIndex(item => item.blockId === blockId)
+      if (index !== -1) {
+        articleBlockEditors.splice(index, 1)
+      }
+
+      // Remover el bloque del DOM
+      blockDiv.remove()
+    }
+  })
+
+  // File upload: Article Thumbnail
+  document.getElementById('article-thumbnail-file')?.addEventListener('change', async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const urlInput = document.getElementById('article-thumbnail')
+    const preview = document.getElementById('article-thumbnail-preview')
+
+    urlInput.value = 'Subiendo archivo...'
+    urlInput.style.color = 'var(--color-text-muted)'
+
+    const publicUrl = await uploadFileToSupabase(file, 'articles/thumbnails')
+
+    if (publicUrl) {
+      urlInput.value = publicUrl
+      urlInput.style.color = 'var(--color-text)'
+
+      if (preview && file.type.startsWith('image/')) {
+        preview.style.display = 'block'
+        preview.innerHTML = `<img src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;">`
+      }
+    } else {
+      urlInput.value = ''
+      urlInput.style.color = 'var(--color-text)'
+    }
+  })
+
+  // File upload: Article Intro Media
+  document.getElementById('article-intro-media-file')?.addEventListener('change', async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const urlInput = document.getElementById('article-intro-media-url')
+    const preview = document.getElementById('article-intro-media-preview')
+
+    urlInput.value = 'Subiendo archivo...'
+    urlInput.style.color = 'var(--color-text-muted)'
+
+    const folder = file.type.startsWith('video/') ? 'articles/videos' : 'articles/images'
+    const publicUrl = await uploadFileToSupabase(file, folder)
+
+    if (publicUrl) {
+      urlInput.value = publicUrl
+      urlInput.style.color = 'var(--color-text)'
+
+      if (preview) {
+        preview.style.display = 'block'
+        if (file.type.startsWith('image/')) {
+          preview.innerHTML = `<img src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;">`
+        } else if (file.type.startsWith('video/')) {
+          preview.innerHTML = `<video src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;"></video>`
+        }
+      }
+
+      // Actualizar radio buttons según tipo de archivo
+      if (file.type.startsWith('video/')) {
+        document.getElementById('intro-type-video').checked = true
+      } else if (file.type.startsWith('image/')) {
+        document.getElementById('intro-type-image').checked = true
+      }
+    } else {
+      urlInput.value = ''
+      urlInput.style.color = 'var(--color-text)'
+    }
+  })
+
+  // Botón de preview del artículo
+  document.getElementById('btn-article-preview')?.addEventListener('click', () => {
+    const slug = document.getElementById('article-slug')?.value?.trim()
+    if (slug) {
+      window.open(`/area-tecnica/${slug}`, '_blank')
+    } else {
+      alert('Por favor, ingresa un slug antes de previsualizar.')
+    }
+  })
+
+  // =========== FIN EVENT LISTENERS ARTÍCULOS ===========
+
   document.getElementById('btn-add-plano')?.addEventListener('click', () => {
     document.getElementById('planos-container')?.insertAdjacentHTML('beforeend', createPlanoRowHTML())
   })
@@ -664,15 +1536,96 @@ export async function initAdminCMS() {
     }
   })
 
+  // Event delegation for dynamic plano file uploads
+  document.getElementById('planos-container')?.addEventListener('change', async (e) => {
+    if (e.target.classList.contains('plano-file')) {
+      const file = e.target.files[0]
+      if (!file) return
+
+      const urlTargetId = e.target.getAttribute('data-url-target')
+      const urlInput = document.getElementById(urlTargetId)
+      const previewDiv = e.target.closest('.plano-row').querySelector('.plano-preview')
+
+      if (!urlInput) return
+
+      // Show loading state
+      urlInput.value = 'Subiendo archivo...'
+      urlInput.style.color = 'var(--color-text-muted)'
+
+      // Upload file
+      const publicUrl = await uploadFileToSupabase(file, 'projects/planos')
+
+      if (publicUrl) {
+        urlInput.value = publicUrl
+        urlInput.style.color = 'var(--color-text)'
+
+        // Update preview
+        if (previewDiv) {
+          previewDiv.style.display = 'block'
+
+          if (file.type.startsWith('image/')) {
+            previewDiv.innerHTML = `<img src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;">`
+          } else if (file.type.startsWith('video/')) {
+            previewDiv.innerHTML = `<video src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;"></video>`
+          } else if (file.type === 'application/pdf') {
+            previewDiv.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--color-neutral-50); font-size: 0.75rem;">PDF</div>`
+          }
+        }
+      } else {
+        urlInput.value = ''
+        urlInput.style.color = 'var(--color-text)'
+      }
+    }
+  })
+
+  // Event delegation for dynamic gallery file uploads
+  document.getElementById('gallery-urls-container')?.addEventListener('change', async (e) => {
+    if (e.target.classList.contains('gallery-file')) {
+      const file = e.target.files[0]
+      if (!file) return
+
+      const urlTargetId = e.target.getAttribute('data-url-target')
+      const urlInput = document.getElementById(urlTargetId)
+      const previewDiv = e.target.closest('.gallery-row').querySelector('.gallery-preview')
+
+      if (!urlInput) return
+
+      // Show loading state
+      urlInput.value = 'Subiendo archivo...'
+      urlInput.style.color = 'var(--color-text-muted)'
+
+      // Upload file
+      const publicUrl = await uploadFileToSupabase(file, 'projects/gallery')
+
+      if (publicUrl) {
+        urlInput.value = publicUrl
+        urlInput.style.color = 'var(--color-text)'
+
+        // Update preview
+        if (previewDiv) {
+          previewDiv.style.display = 'block'
+
+          if (file.type.startsWith('image/')) {
+            previewDiv.innerHTML = `<img src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;">`
+          } else if (file.type.startsWith('video/')) {
+            previewDiv.innerHTML = `<video src="${publicUrl}" style="width: 100%; height: 100%; object-fit: cover;"></video>`
+          }
+        }
+      } else {
+        urlInput.value = ''
+        urlInput.style.color = 'var(--color-text)'
+      }
+    }
+  })
+
   // Modales Artículos y FAQs
   const modalArt = document.getElementById('modal-articulo')
   const modalFaq = document.getElementById('modal-faq')
 
   document.getElementById('btn-new-article')?.addEventListener('click', () => {
-    document.getElementById('form-articulo').reset()
-    document.getElementById('art-id').value = ''
-    document.getElementById('modal-articulo-title').textContent = 'Nuevo Artículo'
-    modalArt.classList.add('active')
+    // Abrir editor inline de artículos (NO modal)
+    currentEditingArticle = null
+    navigateTo('article-editor')
   })
 
   document.getElementById('btn-new-faq')?.addEventListener('click', () => {
@@ -704,11 +1657,44 @@ export async function initAdminCMS() {
   document.getElementById('form-articulo')?.addEventListener('submit', submitArticulo)
   document.getElementById('form-faq')?.addEventListener('submit', submitFaq)
 
+  // Botón de previsualización de proyecto
+  document.getElementById('btn-project-preview')?.addEventListener('click', () => {
+    const slug = document.getElementById('proj-slug')?.value?.trim()
+    if (slug) {
+      // Abrir en nueva pestaña
+      window.open(`/proyectos/${slug}`, '_blank')
+    } else {
+      alert('Por favor, ingresa un slug antes de previsualizar.')
+    }
+  })
+
+  // Initialize file upload handlers
+  initFileUploadHandlers()
+
+  // Initialize features only when in project editor
+  if (currentTab === 'proyecto-editor') {
+    // Wait for DOM to be ready
+    setTimeout(() => {
+      initWysiwygEditors()
+      initEditableTitle()
+    }, 100)
+  }
+
+  // Initialize features only when in article editor
+  if (currentTab === 'article-editor') {
+    // Wait for DOM to be ready
+    setTimeout(async () => {
+      await initArticleEditor()
+    }, 100)
+  }
+
   // Carga inicial de datos de la pestaña activa
   if (currentUser) {
     // Si estamos editando un proyecto en particular, mapear sus campos
     if (currentTab === 'proyecto-editor') {
       await loadEditingProjectFields()
+    } else if (currentTab === 'article-editor') {
+      await loadEditingArticleFields()
     } else {
       loadTabData(currentTab)
     }
@@ -813,6 +1799,205 @@ async function loadEditingProjectFields() {
   document.getElementById('testi-company').value = testi.company || ''
 
   console.log('✅ [Admin] Formulario completado')
+}
+
+/**
+ * Inicializar editor de artículos
+ */
+async function initArticleEditor() {
+  console.log('🔧 Initializing Article Editor...')
+
+  // Reset editors array
+  articleBlockEditors = []
+
+  // Update hero title
+  const heroTitle = document.getElementById('editor-article-title')
+  if (heroTitle) {
+    heroTitle.textContent = currentEditingArticle ? 'Editar Artículo' : 'Nuevo Artículo Técnico'
+  }
+
+  // Cargar FAQs disponibles (sin selección inicial)
+  await loadAvailableFAQs([])
+
+  console.log('✅ Article editor initialized')
+}
+
+/**
+ * Cargar datos del artículo si estamos editando
+ */
+async function loadEditingArticleFields() {
+  if (!currentEditingArticle) {
+    // Nuevo artículo
+    console.log('✨ [Admin] Nuevo artículo')
+
+    // Set default date
+    const today = new Date().toISOString().split('T')[0]
+    document.getElementById('article-published-date').value = today
+
+    return
+  }
+
+  console.log('📝 [Admin] Cargando artículo:', currentEditingArticle)
+
+  try {
+    const { data: article, error } = await adminSupabase
+      .from('area_tecnica_posts')
+      .select('*')
+      .eq('id', currentEditingArticle)
+      .single()
+
+    if (error) throw error
+    if (!article) {
+      console.error('❌ Artículo no encontrado')
+      return
+    }
+
+    console.log('📄 [Admin] Datos del artículo:', article)
+
+    // Campos básicos
+    document.getElementById('article-id').value = article.id || ''
+    document.getElementById('article-title').value = article.title || ''
+    document.getElementById('article-slug').value = article.slug || ''
+    document.getElementById('article-subtitle').value = article.subtitle || ''
+    document.getElementById('article-category').value = article.category || ''
+    document.getElementById('article-author').value = article.author || 'Equipo Xprinta'
+    document.getElementById('article-published-date').value = article.published_date || ''
+    document.getElementById('article-summary').value = article.summary || ''
+    document.getElementById('article-published').checked = article.published || false
+
+    // Media
+    const thumbnailInput = document.getElementById('article-thumbnail')
+    const thumbnailPreview = document.getElementById('article-thumbnail-preview')
+    if (article.thumbnail) {
+      thumbnailInput.value = article.thumbnail
+      if (thumbnailPreview) {
+        thumbnailPreview.style.display = 'block'
+        thumbnailPreview.innerHTML = `<img src="${article.thumbnail}" style="width: 100%; height: 100%; object-fit: cover;">`
+      }
+    }
+
+    // Intro media
+    const introMediaInput = document.getElementById('article-intro-media-url')
+    const introMediaPreview = document.getElementById('article-intro-media-preview')
+    if (article.hero_video) {
+      introMediaInput.value = article.hero_video
+      document.getElementById('intro-type-video').checked = true
+      if (introMediaPreview) {
+        introMediaPreview.style.display = 'block'
+        introMediaPreview.innerHTML = `<video src="${article.hero_video}" style="width: 100%; height: 100%; object-fit: cover;"></video>`
+      }
+    }
+
+    // Bloques de contenido
+    const blocksContainer = document.getElementById('article-blocks-container')
+    if (blocksContainer && article.sections && Array.isArray(article.sections)) {
+      blocksContainer.innerHTML = '' // Limpiar
+
+      article.sections.forEach((block) => {
+        const blockHTML = createArticleBlockHTML(block.id, block.title, block.content)
+        blocksContainer.insertAdjacentHTML('beforeend', blockHTML)
+
+        // Inicializar editor Quill para este bloque
+        setTimeout(() => {
+          const editor = initBlockEditor(block.id, block.content)
+          if (editor) {
+            articleBlockEditors.push({ blockId: block.id, editor })
+          }
+        }, 100)
+      })
+    }
+
+    // FAQs relacionadas
+    const relatedFaqIds = article.related_faqs || []
+    await loadAvailableFAQs(relatedFaqIds)
+
+    console.log('✅ [Admin] Artículo cargado')
+  } catch (err) {
+    console.error('❌ Error cargando artículo:', err)
+    alert('Error cargando el artículo: ' + err.message)
+  }
+}
+
+/**
+ * Submit del formulario de artículo
+ */
+async function submitArticle(e) {
+  e.preventDefault()
+
+  if (!adminSupabase) {
+    alert('Error: Cliente de Supabase no configurado.')
+    return
+  }
+
+  console.log('💾 [Admin] Guardando artículo...')
+
+  try {
+    const articleId = document.getElementById('article-id').value.trim()
+    const isNew = !articleId
+
+    // Recopilar datos básicos
+    const articleData = {
+      title: document.getElementById('article-title').value.trim(),
+      slug: document.getElementById('article-slug').value.trim(),
+      subtitle: document.getElementById('article-subtitle').value.trim() || null,
+      category: document.getElementById('article-category').value.trim(),
+      author: document.getElementById('article-author').value.trim(),
+      published_date: document.getElementById('article-published-date').value,
+      summary: document.getElementById('article-summary').value.trim(),
+      published: document.getElementById('article-published').checked,
+      thumbnail: document.getElementById('article-thumbnail').value.trim() || null,
+      hero_video: document.getElementById('article-intro-media-url').value.trim() || null
+    }
+
+    // Recopilar bloques de contenido
+    const blocks = []
+    document.querySelectorAll('.article-block').forEach(blockDiv => {
+      const blockId = blockDiv.getAttribute('data-block-id')
+      const blockTitle = blockDiv.querySelector('.block-title').value.trim()
+      const blockContent = blockDiv.querySelector('.block-content-textarea').value.trim()
+
+      if (blockTitle || blockContent) {
+        blocks.push({
+          id: blockId,
+          title: blockTitle,
+          content: blockContent
+        })
+      }
+    })
+    articleData.sections = blocks
+
+    // Recopilar FAQs seleccionadas
+    const selectedFaqs = []
+    document.querySelectorAll('.faq-checkbox:checked').forEach(checkbox => {
+      selectedFaqs.push(checkbox.value)
+    })
+    articleData.related_faqs = selectedFaqs
+
+    console.log('📦 [Admin] Datos a guardar:', articleData)
+
+    // Guardar en Supabase
+    let result
+    if (isNew) {
+      result = await adminSupabase.from('area_tecnica_posts').insert([articleData]).select()
+    } else {
+      result = await adminSupabase
+        .from('area_tecnica_posts')
+        .update(articleData)
+        .eq('id', articleId)
+        .select()
+    }
+
+    if (result.error) throw result.error
+
+    console.log('✅ [Admin] Artículo guardado:', result.data)
+    alert(isNew ? 'Artículo creado exitosamente' : 'Artículo actualizado exitosamente')
+
+    // Volver a la lista
+    navigateTo('blog')
+  } catch (err) {
+    console.error('❌ Error guardando artículo:', err)
+    alert('Error guardando el artículo: ' + err.message)
+  }
 }
 
 /**

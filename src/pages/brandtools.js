@@ -107,7 +107,7 @@ export const getBrandToolsHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <img src="/servicios/hero_brandtools.png" alt="BrandTools Hero" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" />
+          <video autoplay loop muted playsinline src="/servicios/videos%20hero/BRANDTOOLS/Presupuestos%20nestle%20low.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);"></video>
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
@@ -139,7 +139,7 @@ export const getBrandToolsHTML = async () => {
           <div class="ee-asym-grid">
             <div class="gsap-reveal">
               <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; margin-bottom: 2rem;">
-                <img src="/proyectos/refrencia-brandtools.jpg" alt="Desarrollo Digital" style="width: 100%; height: 100%; object-fit: cover;" />
+                <img src="/servicios/videos%20hero/BRANDTOOLS/Captura%20de%20pantalla%202026-07-01%20121222.png" alt="Desarrollo Digital" style="width: 100%; height: 100%; object-fit: cover;" />
               </div>
             </div>
             <div class="gsap-reveal">

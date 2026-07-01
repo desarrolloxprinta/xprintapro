@@ -118,8 +118,7 @@ export const getBrandSurveysHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <!-- Asset gráfico generado por IA nativa -->
-          <img src="/servicios/hero_brandsurveys.png" alt="Instalación de letras de coronación" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" />
+          <video autoplay loop muted playsinline src="/servicios/videos%20hero/BRANDSURVEYS/4937421%20Repairman%20Improvement%20low.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);"></video>
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
@@ -143,8 +142,7 @@ export const getBrandSurveysHTML = async () => {
               <p class="regius-desc" style="margin-bottom: 2rem;">En proyectos de imagen física, una medición incorrecta puede provocar errores de proporción, piezas que no encajan o instalaciones más complejas. Sirve para disponer de referencias reales antes de tomar decisiones, detectando dimensiones, alturas, obstáculos y puntos de anclaje.</p>
               
               <div style="margin-top: 4rem; width: 100%; border-radius: 8px; overflow: hidden; aspect-ratio: 16/9;">
-                <!-- Imagen de referencia aportada por el usuario -->
-                <img src="/proyectos/referencia.png" alt="Medición de fachada" style="width: 100%; height: 100%; object-fit: cover;" />
+                <img src="/servicios/videos%20hero/BRANDSURVEYS/team-architects-building-site.jpg" alt="Medición de fachada" style="width: 100%; height: 100%; object-fit: cover;" />
               </div>
             </div>
           </div>

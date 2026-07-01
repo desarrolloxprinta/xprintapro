@@ -243,7 +243,7 @@ export const getBrandSignalHTML = async () => {
       <!-- HERO -->
       <section class="bc-hero">
         <div class="bc-hero-bg">
-          <img src="/servicios/hero_brandsignal.jpg" alt="BrandSignal Hero" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);" />
+          <video autoplay loop muted playsinline src="/servicios/videos%20hero/BRANDSIGNAL/VIDEO%20ARANJUEZ%20low.mp4" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7);"></video>
         </div>
         <div class="bc-hero-bg-overlay"></div>
         <div class="bc-hero-content gsap-reveal">
@@ -258,7 +258,7 @@ export const getBrandSignalHTML = async () => {
       <div class="container">
         <div class="about-split">
           <div class="about-left">
-            <img src="/servicios/brandsignal_map.jpg" alt="Directory Map" class="about-left-img" />
+            <img src="/servicios/videos%20hero/BRANDSIGNAL/20250760-ILUNION-FISIOTERAPIA-MIRASIERRA-%20(18).jpeg" alt="Directory Map" class="about-left-img" />
           </div>
           <div class="about-right-content">
             <div class="regius-pill">ACERCA DEL SERVICIO</div>
@@ -316,7 +316,7 @@ export const getBrandSignalHTML = async () => {
             <!-- Stage 1 -->
             <div class="stage-card">
               <div class="stage-number">1</div>
-              <img src="/servicios/brandsignal_stage1.jpg" alt="Stage 1" class="stage-img" />
+              <img src="/servicios/videos%20hero/BRANDSIGNAL/20250080-ONCE-DT-EXTREMADURA-PLANTA-1%20(15).jpeg" alt="Stage 1" class="stage-img" />
               <div class="stage-card-content">
                 <h3 class="stage-title">Análisis del Espacio y Recorridos</h3>
                 <p class="stage-desc">Comenzamos analizando el espacio: accesos, zonas de tránsito, puntos de decisión, servicios y áreas de atención. A partir de este estudio, definimos qué señales son necesarias, dónde deben ubicarse y qué función debe cumplir cada una para evitar puntos de confusión.</p>
@@ -325,7 +325,7 @@ export const getBrandSignalHTML = async () => {
             <!-- Stage 2 -->
             <div class="stage-card">
               <div class="stage-number">2</div>
-              <img src="/servicios/brandsignal_stage2.jpg" alt="Stage 2" class="stage-img" />
+              <img src="/servicios/videos%20hero/BRANDSIGNAL/20250616-ONCE-PERRO-GUIA-EXTERIOR-POSTE-6-LADO-B.jpeg" alt="Stage 2" class="stage-img" />
               <div class="stage-card-content">
                 <h3 class="stage-title">Diseño de Propuesta y Accesibilidad</h3>
                 <p class="stage-desc">Desarrollamos una propuesta de señalética alineada con la identidad visual del cliente. Cuando el proyecto requiere señalética accesible, incorporamos criterios como contraste, lectura táctil, braille, altorrelieve o sistemas de encaminamiento, siguiendo la normativa aplicable.</p>
@@ -334,7 +334,7 @@ export const getBrandSignalHTML = async () => {
             <!-- Stage 3 -->
             <div class="stage-card">
               <div class="stage-number">3</div>
-              <img src="/servicios/brandsignal_stage3.jpg" alt="Stage 3" class="stage-img" />
+              <img src="/servicios/videos%20hero/BRANDSIGNAL/DSC00362.JPG" alt="Stage 3" class="stage-img" />
               <div class="stage-card-content">
                 <h3 class="stage-title">Fabricación e Instalación</h3>
                 <p class="stage-desc">Finalmente, fabricamos e instalamos los elementos, coordinando el proyecto para que el resultado sea claro, funcional y coherente con la marca en interiores, exteriores, fachadas, pasillos y zonas comunes.</p>

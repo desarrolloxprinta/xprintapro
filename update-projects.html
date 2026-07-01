@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Actualizar Proyectos</title>
+</head>
+<body>
+  <h1>Actualizar Proyectos - Xprinta Pro</h1>
+  <p>Esta página actualizará los proyectos Redeia y Arval con sus datos completos.</p>
+  <button onclick="runUpdate()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+    Actualizar Proyectos
+  </button>
+  <pre id="output" style="background: #f5f5f5; padding: 20px; margin-top: 20px;"></pre>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const supabaseUrl = 'https://bdotuurxrdksolhywapd.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkb3R1dXJ4cmRrc29saHl3YXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyMTI5NjYsImV4cCI6MjA5Nzc4ODk2Nn0.8rS4fZ5h_jCtFv4bhlCbt3Qz3W0W47BnGaPxrTjMVws';
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const redeiaUpdate = {
+      planos_tecnicos: [
+        {
+          title: 'Cotas Generales',
+          description: 'Medidas maestras y desarrollo estructural principal. Especificamos las dimensiones generales para la correcta integracion arquitectonica del rotulo en fachada.',
+          url: '/proyectos/redeia/planos-tecnicos-2.png'
+        },
+        {
+          title: 'Despiece de Materiales',
+          description: 'Identificacion de componentes metalicos, perfileria interior y cerramientos frontales. Se asegura que la dilatacion de materiales en exteriores quede compensada.',
+          url: '/proyectos/redeia/planos-tecnicos-3.png'
+        },
+        {
+          title: 'Electrificacion',
+          description: 'Disposicion de los modulos LED, recorridos de cableado y fuentes de alimentacion. Optimizacion para garantizar una luminosidad homogenea sin sombras proyectadas.',
+          url: '/proyectos/redeia/planos-tecnicos-4.png'
+        },
+        {
+          title: 'Anclajes y Fijacion',
+          description: 'Planos de anclaje estructural. Sistema de sujecion calculado para soportar cargas de viento y peso, garantizando la seguridad absoluta de la instalacion.',
+          url: '/proyectos/redeia/planos-tecnicos-5.png'
+        }
+      ],
+      gallery: [
+        '/proyectos/redeia/REDEIA_GAITANES_CORONACION_06.jpeg',
+        '/proyectos/redeia/20221026_135051-scaled-1.jpg',
+        '/proyectos/redeia/20221026_135051-scaled-2.jpg',
+        '/proyectos/redeia/20221026_135051-scaled-3.jpg',
+        '/proyectos/redeia/20221026_135051-scaled-4.jpg'
+      ],
+      testimonial: {
+        text: 'Con este proyecto dejamos claro que proyectos exigentes en cuanto a factores tales como tiempo o compromisos de confidencialidad son posibles gracias a una excelente coordinacion.',
+        photo: null,
+        author: 'Garantia Xprinta',
+        role: 'Equipo Nacional',
+        company: null
+      }
+    };
+
+    const arvalUpdate = {
+      planos_tecnicos: [
+        {
+          title: 'Alzado Principal',
+          description: 'Vista frontal completa del rotulo con dimensiones generales y ubicacion de elementos luminosos.',
+          url: '/proyectos/arval/plano-alzado.jpg'
+        },
+        {
+          title: 'Seccion Constructiva',
+          description: 'Detalle de la estructura interna, sistema de fijacion y componentes electricos.',
+          url: '/proyectos/arval/plano-seccion.jpg'
+        }
+      ],
+      gallery: [
+        '/proyectos/arval/arval-coronacion-01.jpg',
+        '/proyectos/arval/arval-coronacion-02.jpg',
+        '/proyectos/arval/arval-detalle-01.jpg'
+      ],
+      testimonial: {
+        text: 'La instalacion del rotulo de Arval fue ejecutada con precision y profesionalismo, cumpliendo con todos los estandares de calidad exigidos.',
+        photo: null,
+        author: 'Director de Imagen Corporativa',
+        role: 'Director',
+        company: 'Arval Espana'
+      }
+    };
+
+    window.runUpdate = async function() {
+      const output = document.getElementById('output');
+      output.textContent = 'Iniciando actualizacion...\n';
+
+      try {
+        output.textContent += '\nActualizando Redeia...\n';
+        const r1 = await supabase.from('projects').update(redeiaUpdate).eq('slug', 'redeia').select();
+
+        output.textContent += 'Respuesta Redeia: ' + JSON.stringify(r1, null, 2) + '\n\n';
+
+        if (r1.error) {
+          output.textContent += 'ERROR Redeia: ' + JSON.stringify(r1.error) + '\n';
+        } else if (!r1.data || r1.data.length === 0) {
+          output.textContent += 'ADVERTENCIA: No se actualizo ningun registro de Redeia (puede ser por RLS)\n';
+        } else {
+          output.textContent += 'OK Redeia - Planos: ' + r1.data[0].planos_tecnicos.length + ', Galeria: ' + r1.data[0].gallery.length + '\n';
+        }
+
+        output.textContent += '\nActualizando Arval...\n';
+        const r2 = await supabase.from('projects').update(arvalUpdate).eq('slug', 'arval').select();
+
+        output.textContent += 'Respuesta Arval: ' + JSON.stringify(r2, null, 2) + '\n\n';
+
+        if (r2.error) {
+          output.textContent += 'ERROR Arval: ' + JSON.stringify(r2.error) + '\n';
+        } else if (!r2.data || r2.data.length === 0) {
+          output.textContent += 'ADVERTENCIA: No se actualizo ningun registro de Arval (puede ser por RLS)\n';
+        } else {
+          output.textContent += 'OK Arval - Planos: ' + r2.data[0].planos_tecnicos.length + ', Galeria: ' + r2.data[0].gallery.length + '\n';
+        }
+
+        if ((!r1.data || r1.data.length === 0) || (!r2.data || r2.data.length === 0)) {
+          output.textContent += '\n\n=== SOLUCION: DESHABILITAR RLS ===\n';
+          output.textContent += 'Las politicas de Row Level Security impiden la actualizacion.\n';
+          output.textContent += '\nEjecuta en Supabase SQL Editor:\n';
+          output.textContent += 'ALTER TABLE public.projects DISABLE ROW LEVEL SECURITY;\n';
+          output.textContent += '\nLuego vuelve a hacer clic en el boton.\n';
+        } else {
+          output.textContent += '\nLISTO! Ve a http://localhost:5174/admin y edita los proyectos.\n';
+        }
+      } catch (err) {
+        output.textContent += '\nERROR: ' + err.message + '\n';
+        output.textContent += 'Stack: ' + err.stack + '\n';
+      }
+    };
+  </script>
+</body>
+</html>
