@@ -503,6 +503,21 @@ export function initAreaTecnicaPostAnimations() {
       }
     }
 
+    // Scroll indicator fade-out on scroll
+    const scrollIndicator = document.querySelector('.at-scroll-indicator');
+    if (scrollIndicator) {
+      gsap.to(scrollIndicator, {
+        opacity: 0,
+        y: -20,
+        scrollTrigger: {
+          trigger: scrollIndicator,
+          start: 'top 70%',
+          end: 'bottom 30%',
+          scrub: true
+        }
+      });
+    }
+
     // 1. Reveal Animations
     const revealElements = document.querySelectorAll('.gsap-reveal')
     revealElements.forEach((el, index) => {
