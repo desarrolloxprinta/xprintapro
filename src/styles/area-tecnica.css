@@ -833,3 +833,76 @@
   margin: 0;
 }
 
+/* Scroll Indicator for Area Técnica Detail */
+.at-scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+  gap: 0.75rem;
+  opacity: 0.8;
+  cursor: pointer;
+  width: fit-content;
+  margin-left: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.at-scroll-indicator:hover {
+  opacity: 1;
+  transform: translateY(3px);
+}
+
+.at-scroll-indicator .mouse-icon {
+  width: 26px;
+  height: 44px;
+  border: 2px solid var(--color-neutral-900, #000000);
+  border-radius: 13px;
+  position: relative;
+  display: block;
+}
+
+.at-scroll-indicator .mouse-wheel {
+  display: block;
+  width: 4px;
+  height: 8px;
+  background-color: var(--color-neutral-900, #000000);
+  border-radius: 2px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scrollMouseWheel 1.6s infinite ease-in-out;
+}
+
+.at-scroll-indicator .scroll-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-neutral-900, #000000);
+  opacity: 0.7;
+}
+
+@keyframes scrollMouseWheel {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translate(-50%, 8px);
+  }
+  85% {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+}
+

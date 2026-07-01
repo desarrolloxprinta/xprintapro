@@ -400,6 +400,12 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
             <div class="blog_header-top">
               <h1 class="blog-header_heading gsap-reveal">${post.title}</h1>
               <div class="spacer-xxlarge"></div>
+              <div class="at-scroll-indicator gsap-reveal">
+                <span class="mouse-icon">
+                  <span class="mouse-wheel"></span>
+                </span>
+                <span class="scroll-text">Haz scroll para ver el artículo</span>
+              </div>
             </div>
 
           </div>
