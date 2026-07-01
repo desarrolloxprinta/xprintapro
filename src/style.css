@@ -503,7 +503,7 @@ a:hover {
   border: 2px solid rgb(255, 255, 255);
   border-radius: 20px;
   pointer-events: none;
-  z-index: 9999999;
+  z-index: 999999999;
   mix-blend-mode: exclusion;
   transform: translate(-50%, -50%);
   will-change: transform, width, height, border-radius;
@@ -519,7 +519,7 @@ a:hover {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 28px;
   pointer-events: none;
-  z-index: 9999998;
+  z-index: 999999998;
   opacity: 0;
   transform: translate(-50%, -50%);
   display: flex;
