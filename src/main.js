@@ -401,7 +401,7 @@ function initAnimations() {
     }, {
       clipPath: 'inset(0% 0% 0% 0% round 0px)',
       duration: 1.4,
-      delay: 1.5 // Retraso para que el usuario note el efecto inicial
+      delay: 0.5 // Retraso reducido para mayor fluidez
     })
     // 2. El tint se aclara a medida que el frame crece
     .fromTo('[data-hero-tint]', {
