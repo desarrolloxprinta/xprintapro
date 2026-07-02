@@ -89,7 +89,7 @@ const renderHeroOld = () => `
 const renderHero = () => `
   <section id="hero" class="relative min-h-[100svh] overflow-hidden bg-[#080A15] text-white">
     <!-- Frame del vídeo de fondo con clip-path -->
-    <div data-hero-frame="true" class="absolute overflow-hidden bg-[#080A15] shadow-2xl" aria-hidden="true" style="top:0; right:0; bottom:0; left:0; clip-path:inset(22% 18% round 32px); will-change:clip-path">
+    <div data-hero-frame="true" class="absolute overflow-hidden bg-[#080A15] shadow-2xl" aria-hidden="true" style="top:0; right:0; bottom:0; left:0; clip-path:inset(22% 18% 22% 18% round 32px); will-change:clip-path">
       <video autoplay muted loop playsinline preload="auto" class="absolute inset-0 h-full w-full object-cover">
         <source src="/videos/home.mp4" type="video/mp4" />
       </video>

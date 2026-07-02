@@ -397,9 +397,9 @@ function initAnimations() {
 
     // 1. Animación inicial al cargar: El frame se expande desde el centro
     tl.fromTo('[data-hero-frame]', {
-      clipPath: 'inset(22% 18% round 32px)'
+      clipPath: 'inset(22% 18% 22% 18% round 32px)'
     }, {
-      clipPath: 'inset(0% 0% round 0px)',
+      clipPath: 'inset(0% 0% 0% 0% round 0px)',
       duration: 1.4
     })
     // 2. El tint se aclara a medida que el frame crece
