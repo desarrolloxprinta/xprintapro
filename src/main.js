@@ -391,56 +391,22 @@ function initAnimations() {
   const heroFrame = document.querySelector('[data-hero-frame]');
   if (heroFrame) {
     // NUEVA ANIMACIÓN HOME: Clonación exacta de bgslaw.ch
-    const tl = gsap.timeline({
-      defaults: { ease: 'expo.inOut' }
+    // NUEVA ANIMACIÓN HOME: Expansión controlada por scroll
+    
+    // 1. Expansión del frame de video al hacer scroll
+    gsap.to('[data-hero-frame]', {
+      clipPath: 'inset(0% 0% 0% 0% round 0px)',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+        invalidateOnRefresh: true
+      }
     });
 
-    // 1. Animación inicial al cargar: El frame se expande desde el centro
-    tl.fromTo('[data-hero-frame]', {
-      clipPath: 'inset(22% 18% 22% 18% round 32px)'
-    }, {
-      clipPath: 'inset(0% 0% 0% 0% round 0px)',
-      duration: 1.4,
-      delay: 1
-    })
-    // 2. El tint se aclara a medida que el frame crece
-    .fromTo('[data-hero-tint]', {
-      opacity: 1
-    }, {
-      opacity: 0,
-      duration: 1,
-      ease: 'expo.out'
-    }, '<')
-    // 3. El texto sube desde su máscara
-    .fromTo('[data-hero-line]', {
-      yPercent: 110,
-      opacity: 0
-    }, {
-      yPercent: 0,
-      opacity: 1,
-      duration: 0.9,
-      stagger: 0.09,
-      ease: 'expo.out'
-    }, '-=0.55')
-    // 4. Muestra la etiqueta y texto inferior
-    .fromTo('[data-hero-tag]', {
-      opacity: 0,
-      y: 18
-    }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.65,
-      ease: 'power3.out'
-    }, '-=0.35')
-    // 5. Muestra el scroll cue
-    .fromTo('[data-hero-cue]', {
-      opacity: 0
-    }, {
-      opacity: 1,
-      duration: 0.5
-    }, '-=0.2');
-
-    // 2. ANIMACIONES DE SCROLL (ScrollTrigger)
+    // 2. ANIMACIONES DE SCROLL EXISTENTES (ScrollTrigger)
     
     // Parallax del vídeo
     gsap.to('[data-hero-frame] video', {
