@@ -149,15 +149,36 @@ let blogList = []
 let faqsList = []
 let editingProjectId = null // ID del proyecto en edición (vacío para nuevo)
 
-// SPA Router
-export async function navigateTo(tab) {
+// SPA Router con gestión de historial
+export async function navigateTo(tab, skipHistory = false) {
   currentTab = tab
+
+  // Agregar al historial del navegador (excepto en popstate)
+  if (!skipHistory) {
+    const url = new URL(window.location)
+    url.searchParams.set('view', tab)
+    window.history.pushState({ tab }, '', url)
+  }
+
   const app = document.getElementById('app')
   if (app) {
     app.innerHTML = await renderDashboardView()
     await initAdminCMS()
   }
 }
+
+// Manejar botón "Volver" del navegador
+window.addEventListener('popstate', (event) => {
+  if (event.state && event.state.tab) {
+    // Restaurar vista desde el historial
+    navigateTo(event.state.tab, true) // skipHistory = true para no duplicar
+  } else {
+    // Si no hay estado, volver a la vista por defecto
+    const urlParams = new URLSearchParams(window.location.search)
+    const view = urlParams.get('view') || 'proyectos'
+    navigateTo(view, true)
+  }
+})
 
 // Plantilla base HTML del panel
 export async function renderAdmin() {
@@ -1537,6 +1558,14 @@ function initEditableTitle() {
  * Inicializador del panel CMS y lógica interactiva
  */
 export async function initAdminCMS() {
+  // Inicializar historial del navegador si estamos en el dashboard
+  if (currentUser && !window.history.state) {
+    // Primera carga: establecer estado inicial
+    const urlParams = new URLSearchParams(window.location.search)
+    const initialView = urlParams.get('view') || currentTab
+    window.history.replaceState({ tab: initialView }, '', window.location.href)
+  }
+
   // Manejador del Login
   const loginForm = document.getElementById('admin-login-form')
   if (loginForm) {

@@ -409,7 +409,7 @@ function initAnimations() {
       duration: 1.2
     }, '-=1.0');
 
-    // ScrollTrigger para expandir el clipPath de la tarjeta de vídeo
+    // ScrollTrigger para contraer el clipPath de la tarjeta de vídeo a medida que se hace scroll (efecto tarjeta flotante como bgslaw.ch)
     gsap.to('#hero-frame', {
       scrollTrigger: {
         trigger: '#hero',
@@ -418,7 +418,7 @@ function initAnimations() {
         scrub: true,
         invalidateOnRefresh: true
       },
-      clipPath: 'inset(0% round 0px)',
+      clipPath: 'inset(4% 4% 4% 4% round 24px)',
       ease: 'none'
     });
 
