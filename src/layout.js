@@ -124,7 +124,7 @@ export const renderHeader = async () => {
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="javascript:void(0)" class="nav-link">Servicios <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="/servicios.html" class="nav-link">Servicios <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-inner">
               <div class="mega-menu-left">
