@@ -9,7 +9,7 @@
 
 -- 2. Insertar los artículos
 INSERT INTO area_tecnica_posts (
-  slug, title, category, author, thumbnail, published_date, hero_video, audio_url, pdf_url, sections, published
+  slug, title, category, author, thumbnail, published_date, hero_video, audio_url, pdf_url, summary, sections, published
 ) VALUES
 (
   'senalizacion-de-parkings',
@@ -21,6 +21,7 @@ INSERT INTO area_tecnica_posts (
   'https://pikaso.cdnpk.net/private/production/4732017856/c1bfc955-6cc0-4104-81c9-94ef510d6af3-0.mp4?token=exp=1783036800~hmac=f9ba2526230e57f2035b5a99c8f0745b12a86fac7a6a95cefaf3c72c65c774e4',
   '/area tecnica/senalizacion de parkings-audio.m4a',
   '/area tecnica/senalizacion de parkings-informe.pdf',
+  'Guía completa para diseñar sistemas de señalización en parkings: wayfinding, seguridad, normativa y mejores prácticas para ordenar la circulación y mejorar la experiencia del usuario.',
   '[
     {
       "id": "introduccion",
@@ -90,6 +91,7 @@ INSERT INTO area_tecnica_posts (
   '',
   '/area tecnica/Señalética_estratégica_para_edificios_seguros_y_rentables.m4a',
   '/area tecnica/facility management y senaletica.pdf',
+  'Gestión visual integral de edificios: señalética estratégica para seguridad, orientación, cumplimiento normativo y eficiencia operativa en facility management.',
   '[
     {
       "id": "introducci-n",

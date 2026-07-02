@@ -795,19 +795,18 @@ function renderDashboardView() {
                 <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.6rem 1.5rem;" id="btn-add-article-block">+ Añadir Bloque de Contenido</button>
               </div>
 
-              <!-- CARD 4: FAQs Relacionadas -->
+              <!-- CARD 4: Preguntas Frecuentes (FAQs) -->
               <div class="admin-table-container">
                 <h3 class="admin-card-section-title">4. Preguntas Frecuentes Relacionadas</h3>
                 <p style="color: var(--color-text-muted); font-size: var(--font-size-sm); margin-bottom: var(--spacing-6);">
-                  Selecciona las FAQs que estén relacionadas con este artículo técnico.
+                  Agrega preguntas y respuestas frecuentes relacionadas con este artículo. Estas aparecerán al final del contenido principal para SEO y experiencia de usuario.
                 </p>
-                <div id="article-faqs-container" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
-                  <div id="article-faqs-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <!-- Se cargan FAQs disponibles -->
-                  </div>
+                <div id="article-faqs-container" style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem;">
+                  <!-- Se inyectan FAQs dinámicamente -->
                 </div>
-                <small style="color: var(--color-text-muted); font-size: var(--font-size-xs);">
-                  Las FAQs seleccionadas aparecerán al final del artículo
+                <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin-top: 0; padding: 0.6rem 1.5rem;" id="btn-add-article-faq">+ Añadir Pregunta</button>
+                <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-2); display: block;">
+                  Usa preguntas que empiecen con "¿" para mejor SEO. Ejemplo: "¿Qué es la señalización de parkings?"
                 </small>
               </div>
 
@@ -1014,6 +1013,46 @@ function createArticleBlockHTML(blockId = '', blockTitle = '', blockContent = ''
 }
 
 /**
+ * Helper: Crear HTML para un bloque de FAQ (Pregunta/Respuesta)
+ */
+function createArticleFAQHTML(faqId = '', faqQuestion = '', faqAnswer = '') {
+  const uniqueId = faqId || ('faq-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9))
+
+  return `
+    <div class="article-faq" data-faq-id="${uniqueId}" style="background: #f0f9ff; padding: 1.5rem; border-radius: 8px; border: 1px solid #bfdbfe;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem;">
+        <div style="flex: 1;">
+          <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-text-muted); margin-bottom: 0.5rem;">
+            Pregunta (con ¿?)
+          </label>
+          <input
+            type="text"
+            class="admin-input faq-question"
+            placeholder="¿Pregunta frecuente?"
+            value="${faqQuestion}"
+            style="width: 100%;"
+          >
+        </div>
+        <button type="button" class="admin-btn admin-btn-danger btn-remove-faq" style="width: auto; margin: 0; padding: 0.5rem 0.75rem;">&times;</button>
+      </div>
+
+      <div style="margin-bottom: 0.5rem;">
+        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-text-muted); margin-bottom: 0.5rem;">
+          Respuesta
+        </label>
+      </div>
+
+      <!-- Hidden textarea for Quill content -->
+      <textarea class="faq-answer-textarea" data-faq-id="${uniqueId}" style="display: none;">${faqAnswer}</textarea>
+
+      <!-- Quill editor container -->
+      <div class="faq-answer-editor" id="faq-editor-${uniqueId}" style="background: white; min-height: 120px;">
+      </div>
+    </div>
+  `
+}
+
+/**
  * Helper: Inicializar editor Quill para un bloque
  */
 function initBlockEditor(blockId, initialContent = '') {
@@ -1157,11 +1196,50 @@ async function loadAvailableFAQs(selectedFaqIds = []) {
 }
 
 /**
+ * Helper: Inicializar editor Quill para un bloque de FAQ
+ */
+function initFAQEditor(faqId, initialContent = '') {
+  const editorContainer = document.getElementById(`faq-editor-${faqId}`)
+  if (!editorContainer) {
+    console.warn(`⚠️ FAQ editor container not found for FAQ: ${faqId}`)
+    return null
+  }
+
+  const editor = new Quill(`#faq-editor-${faqId}`, {
+    theme: 'snow',
+    modules: {
+      toolbar: [
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        ['link'],
+        ['clean']
+      ]
+    }
+  })
+
+  // Set initial content
+  if (initialContent) {
+    editor.root.innerHTML = initialContent
+  }
+
+  // Sync to hidden textarea on change
+  editor.on('text-change', () => {
+    const textarea = document.querySelector(`.faq-answer-textarea[data-faq-id="${faqId}"]`)
+    if (textarea) {
+      textarea.value = editor.root.innerHTML
+    }
+  })
+
+  return editor
+}
+
+/**
  * WYSIWYG Editors with Quill.js
  */
 let challengeEditor = null
 let solutionEditor = null
 let articleBlockEditors = [] // Array de editores Quill para bloques de contenido del artículo
+let articleFAQEditors = [] // Array de editores Quill para FAQs del artículo
 
 function initWysiwygEditors() {
   console.log('🔧 Initializing WYSIWYG editors...')
@@ -1544,6 +1622,46 @@ export async function initAdminCMS() {
         articleBlockEditors.push({ blockId, editor })
       }
     }, 100)
+  })
+
+  // Botón para añadir FAQ
+  document.getElementById('btn-add-article-faq')?.addEventListener('click', () => {
+    const container = document.getElementById('article-faqs-container')
+    if (!container) return
+
+    const faqHTML = createArticleFAQHTML()
+    container.insertAdjacentHTML('beforeend', faqHTML)
+
+    // Extraer el faqId del HTML recién insertado
+    const newFAQ = container.lastElementChild
+    const faqId = newFAQ.getAttribute('data-faq-id')
+
+    // Inicializar editor Quill para esta FAQ
+    setTimeout(() => {
+      const editor = initFAQEditor(faqId)
+      if (editor) {
+        articleFAQEditors.push({ faqId, editor })
+      }
+    }, 100)
+  })
+
+  // Event delegation: remover FAQs
+  document.getElementById('article-faqs-container')?.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-remove-faq')) {
+      const faqDiv = e.target.closest('.article-faq')
+      if (!faqDiv) return
+
+      const faqId = faqDiv.getAttribute('data-faq-id')
+
+      // Remover editor del array
+      const index = articleFAQEditors.findIndex(item => item.faqId === faqId)
+      if (index !== -1) {
+        articleFAQEditors.splice(index, 1)
+      }
+
+      // Remover el FAQ del DOM
+      faqDiv.remove()
+    }
   })
 
   // Event delegation: remover bloques
@@ -2034,17 +2152,15 @@ async function loadEditingProjectFields() {
 async function initArticleEditor() {
   console.log('🔧 Initializing Article Editor...')
 
-  // Reset editors array
+  // Reset editors arrays
   articleBlockEditors = []
+  articleFAQEditors = []
 
   // Update hero title
   const heroTitle = document.getElementById('editor-article-title')
   if (heroTitle) {
     heroTitle.textContent = currentEditingArticle ? 'Editar Artículo' : 'Nuevo Artículo Técnico'
   }
-
-  // Cargar FAQs disponibles (sin selección inicial)
-  await loadAvailableFAQs([])
 
   console.log('✅ Article editor initialized')
 }
@@ -2160,9 +2276,17 @@ async function loadEditingArticleFields() {
     if (blocksContainer) {
       blocksContainer.innerHTML = '' // Limpiar
 
-      // Si hay bloques guardados, cargarlos
+      // Si hay bloques guardados, cargarlos (EXCEPTO FAQs y separador)
       if (article.sections && Array.isArray(article.sections) && article.sections.length > 0) {
-        article.sections.forEach((block, index) => {
+        // Filtrar: NO cargar secciones que son FAQs (empiezan con "¿") ni el separador
+        const contentBlocks = article.sections.filter(section =>
+          section.id !== 'preguntas-seo-geo-respondidas' &&
+          (!section.title || !section.title.trim().startsWith('¿'))
+        )
+
+        console.log(`📋 [Admin] Bloques de contenido (sin FAQs): ${contentBlocks.length}`)
+
+        contentBlocks.forEach((block, index) => {
           console.log(`📝 [Admin] Creando bloque ${index + 1}:`, block)
           const blockHTML = createArticleBlockHTML(block.id, block.title, block.content)
           blocksContainer.insertAdjacentHTML('beforeend', blockHTML)
@@ -2219,9 +2343,37 @@ async function loadEditingArticleFields() {
       console.log(`✅ [Admin] Cargadas ${article.gallery_images.length} imágenes de galería`)
     }
 
-    // FAQs relacionadas
-    const relatedFaqIds = article.related_faqs || []
-    await loadAvailableFAQs(relatedFaqIds)
+    // FAQs - Extraer de las secciones (las que tienen "¿" en el título)
+    const faqsContainer = document.getElementById('article-faqs-container')
+    if (faqsContainer && article.sections && Array.isArray(article.sections)) {
+      faqsContainer.innerHTML = '' // Limpiar
+
+      // Filtrar secciones que son preguntas (empiezan con "¿")
+      const faqSections = article.sections.filter(section =>
+        section.title && section.title.trim().startsWith('¿')
+      )
+
+      console.log(`📋 [Admin] FAQs encontradas: ${faqSections.length}`)
+
+      // Insertar HTML de todas las FAQs primero
+      faqSections.forEach((faq) => {
+        const faqHTML = createArticleFAQHTML(faq.id, faq.title, faq.content)
+        faqsContainer.insertAdjacentHTML('beforeend', faqHTML)
+      })
+
+      // Luego inicializar todos los editores Quill en un solo setTimeout
+      setTimeout(() => {
+        faqSections.forEach((faq) => {
+          const editor = initFAQEditor(faq.id, faq.content)
+          if (editor) {
+            articleFAQEditors.push({ faqId: faq.id, editor })
+            console.log(`✅ [Admin] Editor FAQ inicializado: ${faq.id}`)
+          } else {
+            console.warn(`⚠️  [Admin] No se pudo inicializar editor para FAQ: ${faq.id}`)
+          }
+        })
+      }, 200)
+    }
 
     // Código embed de Paperform
     const paperformEmbed = document.getElementById('article-paperform-embed')
@@ -2269,7 +2421,7 @@ async function submitArticle(e) {
       video_summary_url: document.getElementById('article-video-summary-url').value.trim() || null
     }
 
-    // Recopilar bloques de contenido
+    // Recopilar bloques de contenido (sin incluir FAQs)
     const blocks = []
     document.querySelectorAll('.article-block').forEach(blockDiv => {
       const blockId = blockDiv.getAttribute('data-block-id')
@@ -2284,7 +2436,39 @@ async function submitArticle(e) {
         })
       }
     })
-    articleData.sections = blocks
+
+    // Recopilar FAQs (preguntas y respuestas)
+    const faqsBlocks = []
+    document.querySelectorAll('.article-faq').forEach(faqDiv => {
+      const faqId = faqDiv.getAttribute('data-faq-id')
+      const faqQuestion = faqDiv.querySelector('.faq-question').value.trim()
+      const faqAnswer = faqDiv.querySelector('.faq-answer-textarea').value.trim()
+
+      if (faqQuestion && faqAnswer) {
+        faqsBlocks.push({
+          id: faqId,
+          title: faqQuestion,
+          content: faqAnswer
+        })
+      }
+    })
+
+    // Fusionar: bloques de contenido + separador + FAQs
+    const allSections = [...blocks]
+
+    if (faqsBlocks.length > 0) {
+      // Añadir sección separadora antes de las FAQs
+      allSections.push({
+        id: 'preguntas-seo-geo-respondidas',
+        title: 'Preguntas SEO/GEO Respondidas',
+        content: ''
+      })
+
+      // Añadir todas las FAQs
+      allSections.push(...faqsBlocks)
+    }
+
+    articleData.sections = allSections
 
     // Recopilar imágenes de galería
     const galleryImages = []
@@ -2304,13 +2488,6 @@ async function submitArticle(e) {
       }
     })
     articleData.gallery_images = galleryImages
-
-    // Recopilar FAQs seleccionadas
-    const selectedFaqs = []
-    document.querySelectorAll('.faq-checkbox:checked').forEach(checkbox => {
-      selectedFaqs.push(checkbox.value)
-    })
-    articleData.related_faqs = selectedFaqs
 
     // Código embed de Paperform
     const paperformEmbed = document.getElementById('article-paperform-embed').value.trim()

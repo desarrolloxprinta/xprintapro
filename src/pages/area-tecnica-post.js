@@ -275,6 +275,7 @@ export async function renderAreaTecnicaPost(slug = 'senalizacion-de-parkings') {
 
   const contentHTML = visibleSections.map(section => `
     <div id="${section.id}" class="blog-section gsap-reveal">
+      ${section.title ? `<h2 class="font-serif" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 600; color: #111827; margin-bottom: 1.5rem; margin-top: 3rem;">${section.title}</h2>` : ''}
       ${formatArticleContent(section.content)}
     </div>
   `).join('')

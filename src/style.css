@@ -2467,3 +2467,12 @@ html.lenis { height: auto; }
   }
 }
 
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+

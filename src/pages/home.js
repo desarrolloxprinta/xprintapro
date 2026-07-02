@@ -13,9 +13,9 @@ import { getRecentProjects } from '../lib/supabase.js'
 let homeProjectsCache = null;
 
 /**
- * Renderiza el Hero con slider de imágenes
- */
-const renderHero = () => `
+ * Renderiza el Hero con slider de imágenes (Comentado temporalmente)
+ *
+const renderHeroOld = () => `
   <section id="hero" class="ark-hero">
     <div class="ark-hero-left">
       <div class="ark-hero-content gsap-reveal">
@@ -77,6 +77,51 @@ const renderHero = () => `
             <div class="hero-slide ${index === 0 ? 'hero-slide--active' : ''}" style="background-image: url('${src}');"></div>
           `;
         }).join('')}
+      </div>
+    </div>
+  </section>
+`
+*/
+
+/**
+ * Nuevo Hero inspirado en bgslaw.ch con frame de vídeo expandible y animacionesGSAP
+ */
+const renderHero = () => `
+  <section id="hero" class="relative min-h-[100vh] overflow-hidden bg-[#080A15] text-white">
+    <!-- Frame del vídeo de fondo con clip-path -->
+    <div id="hero-frame" class="absolute overflow-hidden bg-[#080A15] shadow-2xl" aria-hidden="true" style="top: 0; right: 0; bottom: 0; left: 0; clip-path: inset(3% round 24px); will-change: clip-path;">
+      <video autoplay muted loop playsinline preload="auto" class="absolute inset-0 h-full w-full object-cover">
+        <source src="/videos/home.mp4" type="video/mp4" />
+      </video>
+      <!-- Gradientes y capas de cobertura -->
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/75" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0 bg-[#080A15] opacity-0" id="hero-tint" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-px overflow-hidden bg-white/10">
+        <div class="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-[#E65000] to-transparent opacity-60" style="animation: sweep 4s infinite linear;"></div>
+      </div>
+    </div>
+
+    <!-- Contenido del Hero -->
+    <div id="hero-content" class="relative flex min-h-[100vh] flex-col px-6 pb-16 pt-32 md:px-12 md:pb-24 md:pt-0" style="z-index: 2;">
+      <div class="mx-auto mt-auto w-full max-w-[1400px]">
+        <h1 class="font-serif text-[clamp(2.5rem,7.5vw,6rem)] leading-[1.05] tracking-tight" style="font-weight: 500; color: white;">
+          <span class="block overflow-hidden pb-[0.18em]" style="line-height: 1.1;">
+            <span class="hero-line block" style="transform: translateY(100%);">Implantación de</span>
+          </span>
+          <span class="block overflow-hidden pb-[0.18em]" style="line-height: 1.1;">
+            <span class="hero-line block" style="transform: translateY(100%);">imagen de marca.</span>
+          </span>
+        </h1>
+        <div id="hero-tag" class="mt-12 grid w-full items-end gap-8 md:grid-cols-12" style="opacity: 0; transform: translateY(20px);">
+          <p class="font-body text-xl leading-[1.4] text-white md:col-span-9 md:text-3xl" style="font-family: var(--font-family-body); font-weight: 300;">
+            Fabricación propia, logística y delegaciones en toda España.<br>
+            <span class="block font-medium" style="color: var(--color-highlight, #E65000); margin-top: 0.5rem;">A tu lado en grandes proyectos corporativos.</span>
+          </p>
+          <div id="hero-cue" class="hidden flex-col items-center gap-3 self-end md:col-span-2 md:flex">
+            <span class="font-mono text-xs uppercase tracking-[0.28em]" style="color: rgba(255,255,255,0.6); font-family: var(--font-family-mono);">Descubrir</span>
+            <span id="hero-cue-bar" class="block h-12 w-px origin-top bg-white/40" aria-hidden="true" style="transform: scaleY(0);"></span>
+          </div>
+        </div>
       </div>
     </div>
   </section>

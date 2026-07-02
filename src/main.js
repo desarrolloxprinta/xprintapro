@@ -387,38 +387,87 @@ function initAnimations() {
   })
   gsap.ticker.lagSmoothing(0)
 
-  // 2. Hero Entry Animation (Butter smooth reveal) - Solo para páginas de proyecto
-  const heroElement = document.querySelector('#hero');
-  if (heroElement && document.querySelector('#hero .gsap-reveal')) {
+  // 2. Hero Entry Animation (Butter smooth reveal)
+  const heroFrame = document.querySelector('#hero-frame');
+  if (heroFrame) {
+    // NUEVA ANIMACIÓN HOME: Inspirada en bgslaw.ch con zoom-in y clip-path
     const tl = gsap.timeline({
-      defaults: { ease: 'power4.out', duration: 1.5 },
-      onComplete: () => {
-        document.querySelector('.ark-hero-desc')?.classList.add('revealed');
-      }
-    })
-    tl.to('#hero .gsap-reveal', {
-      y: 0,
-      opacity: 1,
-      visibility: 'visible',
-      stagger: 0.2,
-      duration: 1.5
-    }, "-=1")
+      defaults: { ease: 'power4.out', duration: 1.6 }
+    });
 
-    // Parallax glass scroll effect
-    const arkHeroContent = document.querySelector('.ark-hero-content');
-    if (arkHeroContent) {
-      gsap.to('.ark-hero-content', {
-        scrollTrigger: {
-          trigger: '#hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
-        },
-        y: -80,
-        opacity: 0.15,
-        filter: 'blur(8px)',
-        ease: 'none'
-      });
+    tl.to('.hero-line', {
+      y: '0%',
+      stagger: 0.15
+    })
+    .to('#hero-tag', {
+      opacity: 1,
+      y: 0,
+      duration: 1.2
+    }, '-=1.2')
+    .to('#hero-cue-bar', {
+      scaleY: 1,
+      duration: 1.2
+    }, '-=1.0');
+
+    // ScrollTrigger para expandir el clipPath de la tarjeta de vídeo
+    gsap.to('#hero-frame', {
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+        invalidateOnRefresh: true
+      },
+      clipPath: 'inset(0% round 0px)',
+      ease: 'none'
+    });
+
+    // Desvanecer el contenido de texto al hacer scroll
+    gsap.to('#hero-content', {
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      },
+      y: -100,
+      opacity: 0,
+      ease: 'none'
+    });
+  } else {
+    // ANIMACIÓN PROYECTOS/OTROS: Fallback tradicional
+    const heroElement = document.querySelector('#hero');
+    if (heroElement && document.querySelector('#hero .gsap-reveal')) {
+      const tl = gsap.timeline({
+        defaults: { ease: 'power4.out', duration: 1.5 },
+        onComplete: () => {
+          document.querySelector('.ark-hero-desc')?.classList.add('revealed');
+        }
+      })
+      tl.to('#hero .gsap-reveal', {
+        y: 0,
+        opacity: 1,
+        visibility: 'visible',
+        stagger: 0.2,
+        duration: 1.5
+      }, "-=1")
+
+      // Parallax glass scroll effect
+      const arkHeroContent = document.querySelector('.ark-hero-content');
+      if (arkHeroContent) {
+        gsap.to('.ark-hero-content', {
+          scrollTrigger: {
+            trigger: '#hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+          },
+          y: -80,
+          opacity: 0.15,
+          filter: 'blur(8px)',
+          ease: 'none'
+        });
+      }
     }
   }
 
