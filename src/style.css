@@ -1009,7 +1009,7 @@ a.bento-card:visited {
 .red-nacional-section {
   position: relative;
   padding: 60px 80px;
-  background-color: var(--color-primary);
+  background-color: #1c2d3c;
   color: #FFFFFF;
   border-radius: 40px;
   box-shadow: 0 40px 80px rgba(0,0,0,0.1);
@@ -1483,7 +1483,7 @@ a.btn-regius.outline:hover .btn-regius-text {
 
 /* Outline-light variant (for dark backgrounds like the map) */
 .btn-regius.outline-light .btn-regius-bg {
-  background-color: transparent;
+  background-color: var(--color-highlight);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .btn-regius.outline-light .btn-regius-text {
@@ -1894,7 +1894,7 @@ html.lenis { height: auto; }
 /* --- PROYECTOS SECTION (Noteworthy Exact Style) --- */
 .nw-proyectos-section {
   padding: 8rem 0;
-  background-color: #000;
+  background-color: var(--color-primary);
   color: #fff;
   border-top: 1px solid rgba(255,255,255,0.1);
 }

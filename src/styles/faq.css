@@ -152,8 +152,8 @@
   }
 }
 
-/* Tabs / Filters derived from proyectos.css */
-.filter-form-sticky {
+/* Tabs / Filters derived from proyectos.css but scoped to FAQ to avoid collisions */
+.page-faq .filter-form-sticky {
   position: sticky;
   top: 100px; /* Ajusta según el alto de tu header dinámico */
   z-index: 40;
@@ -163,13 +163,13 @@
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-.projects-filters-inline {
+.page-faq .projects-filters-inline {
   display: flex;
   gap: 2.5rem;
   flex-wrap: wrap;
 }
 
-.filter-inline {
+.page-faq .filter-inline {
   background: none;
   border: none;
   cursor: pointer;
@@ -182,11 +182,12 @@
   font-weight: 500;
 }
 
-.filter-inline:hover, .filter-inline.active {
+.page-faq .filter-inline:hover, 
+.page-faq .filter-inline.active {
   color: #111827;
 }
 
-.filter-inline::after {
+.page-faq .filter-inline::after {
   content: '';
   position: absolute;
   bottom: -6px;
@@ -199,7 +200,8 @@
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.filter-inline:hover::after, .filter-inline.active::after {
+.page-faq .filter-inline:hover::after, 
+.page-faq .filter-inline.active::after {
   transform: scaleX(1);
   transform-origin: left;
 }

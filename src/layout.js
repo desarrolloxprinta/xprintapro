@@ -124,7 +124,7 @@ export const renderHeader = async () => {
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="#servicios" class="nav-link">Servicios <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="javascript:void(0)" class="nav-link">Servicios <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-inner">
               <div class="mega-menu-left">
@@ -169,7 +169,7 @@ export const renderHeader = async () => {
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="#por-que-xprinta" class="nav-link">¿Por qué Xprinta? <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="javascript:void(0)" class="nav-link">¿Por qué Xprinta? <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-inner">
               <div class="mega-menu-left">
@@ -247,7 +247,7 @@ export const renderHeader = async () => {
         </div>
 
         <div class="nav-item-dropdown">
-          <a href="#nosotros" class="nav-link">Nosotros <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <a href="javascript:void(0)" class="nav-link">Nosotros <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
           <div class="mega-menu">
             <div class="container-fluid mega-menu-inner">
               <div class="mega-menu-left">
@@ -268,7 +268,7 @@ export const renderHeader = async () => {
                   </video>
                   <div class="mega-menu-card-content">
                     <h4>Conoce nuestro equipo y filosofía</h4>
-                    <a href="#nosotros" class="btn-regius outline">
+                    <a href="/nosotros.html" class="btn-regius outline">
                       <div class="btn-regius-text-wrapper">
                         <div class="btn-regius-text _1">Sobre Nosotros</div>
                         <div class="btn-regius-text _2">Sobre Nosotros</div>
@@ -283,7 +283,7 @@ export const renderHeader = async () => {
         </div>
 
       </nav>
-      <a href="#contacto" class="btn btn-primary">Contacto</a>
+      <a href="/index.html#contacto" class="btn btn-primary">Contacto</a>
     </div>
   </header>
 `
