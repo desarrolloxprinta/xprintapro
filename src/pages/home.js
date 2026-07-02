@@ -94,7 +94,7 @@ const renderHero = () => `
         <source src="/videos/home.mp4" type="video/mp4" />
       </video>
       <!-- Gradientes y capas de cobertura (personalizadas al color primario) -->
-      <div class="pointer-events-none absolute inset-0" style="background-color: rgba(230, 80, 0, 0.4); mix-blend-mode: multiply;" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background: var(--color-primary, #24394b); opacity: 0.8;" aria-hidden="true"></div>
       <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80" aria-hidden="true"></div>
       <div data-hero-tint="true" class="pointer-events-none absolute inset-0 opacity-0" style="background-color: #080A15;" aria-hidden="true"></div>
       <div data-hero-darken="true" class="pointer-events-none absolute inset-0 opacity-0" style="background-color: #080A15;" aria-hidden="true"></div>
@@ -104,9 +104,9 @@ const renderHero = () => `
     </div>
     
     <!-- Contenido frontal del Hero -->
-    <div data-hero-content="true" class="relative flex flex-col px-6 pb-12 pt-28 md:px-12 md:pb-20 md:pt-0" style="z-index: 2; min-height: 100svh;">
-      <div class="mx-auto mt-auto w-full" style="max-width: 1400px;">
-        <h1 class="font-serif text-[clamp(2.4rem,7vw,6.4rem)] leading-[1.04] tracking-tight" style="font-weight: 500; color: white;">
+    <div data-hero-content="true" class="relative" style="z-index: 2; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: 14rem;">
+      <div class="w-full">
+        <h1 class="leading-[1.04] tracking-tight" style="font-weight: 500; color: white; font-size: 5.5rem; font-family: var(--font-family-base);">
           <span class="block overflow-hidden pb-[0.18em]" style="line-height: 1.1;">
             <span data-hero-line="true" class="block">Implantación de</span>
           </span>
@@ -115,9 +115,9 @@ const renderHero = () => `
           </span>
         </h1>
         <div data-hero-tag="true" class="mt-10 grid w-full items-end gap-8 md:grid-cols-12">
-          <p class="font-body text-xl leading-[1.3] text-white md:col-span-9 md:text-3xl" style="font-family: var(--font-family-body); font-weight: 300;">
+          <p class="leading-[1.3] md:col-span-9" style="font-family: var(--font-family-body); font-weight: 500; color: var(--color-white, #FFFFFF);">
             Fabricación propia, logística y delegaciones en toda España.<br>
-            <span class="block font-medium" style="color: var(--color-highlight, #E65000); margin-top: 0.5rem;">A tu lado en grandes proyectos corporativos.</span>
+            <span class="block" style="color: var(--color-highlight, #E65000); margin-top: 0.5rem; font-weight: 800; font-family: var(--font-family-serif);">Your BRAND under control</span>
           </p>
           <div data-hero-cue="true" class="hidden flex-col items-center gap-3 self-end md:col-span-2 md:flex">
             <span class="font-mono text-xs uppercase tracking-[0.28em]" style="color: rgba(255,255,255,0.6); font-family: var(--font-family-mono);">Descubrir</span>
