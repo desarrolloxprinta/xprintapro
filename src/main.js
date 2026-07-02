@@ -11,6 +11,7 @@ import './styles/area-tecnica.css'
 import './styles/admin.css'
 import content from './data/content.json'
 import puntos from './data/puntos.json'
+import xprintaLocationsData from './data/red-xprinta-locations.json'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from '@studio-freight/lenis'
@@ -187,6 +188,7 @@ async function loadPage() {
   } else {
     // Home usando plantilla universal - CARGA DINÁMICA DESDE SUPABASE
     app.innerHTML = await getHomeHTML();
+    setTimeout(() => initHomeMap(), 0);
   }
 
   // IMPORTANTE: Inicializar header dinámico DESPUÉS de cargar el HTML
@@ -1343,3 +1345,97 @@ function initPaperform() {
 }
 
 // NOTA: initPaperform() se llama dentro de loadPage() después de insertar el HTML
+
+// ==========================================================================
+// Mapa de la Home
+// ==========================================================================
+
+function initHomeMap() {
+  const mapElement = document.getElementById('xprinta-home-map');
+  if (!mapElement) return;
+
+  const centerSpain = { lat: 40.4168, lng: -3.7038 };
+  
+  const mapStyle = [
+    {
+        "featureType": "all",
+        "elementType": "all",
+        "stylers": [ { "visibility": "simplified" }, { "color": "#24394b" }, { "saturation": "11" } ]
+    },
+    { "featureType": "all", "elementType": "geometry", "stylers": [ { "color": "#24394b" } ] },
+    { "featureType": "all", "elementType": "geometry.fill", "stylers": [ { "color": "#24394b" } ] },
+    { "featureType": "all", "elementType": "geometry.stroke", "stylers": [ { "color": "#24394b" } ] },
+    { "featureType": "all", "elementType": "labels", "stylers": [ { "color": "#ffffff" }, { "visibility": "simplified" } ] },
+    { "featureType": "all", "elementType": "labels.text", "stylers": [ { "color": "#f18108" } ] },
+    { "featureType": "all", "elementType": "labels.text.fill", "stylers": [ { "gamma": 0.01 }, { "lightness": 20 }, { "visibility": "simplified" }, { "color": "#ffffff" } ] },
+    { "featureType": "all", "elementType": "labels.text.stroke", "stylers": [ { "saturation": -31 }, { "lightness": -33 }, { "weight": 2 }, { "gamma": 0.8 }, { "color": "#ffffff" } ] },
+    { "featureType": "all", "elementType": "labels.icon", "stylers": [ { "visibility": "off" }, { "color": "#f18108" } ] },
+    { "featureType": "administrative", "elementType": "all", "stylers": [ { "visibility": "simplified" } ] },
+    { "featureType": "administrative", "elementType": "geometry", "stylers": [ { "color": "#24394b" } ] },
+    { "featureType": "administrative", "elementType": "geometry.fill", "stylers": [ { "color": "#f18108" } ] },
+    { "featureType": "administrative", "elementType": "labels.text", "stylers": [ { "color": "#24394b" } ] },
+    { "featureType": "administrative.country", "elementType": "all", "stylers": [ { "visibility": "off" } ] },
+    { "featureType": "administrative.province", "elementType": "all", "stylers": [ { "color": "#f18108" }, { "visibility": "off" } ] },
+    { "featureType": "administrative.province", "elementType": "labels.text", "stylers": [ { "color": "#f18108" } ] },
+    { "featureType": "administrative.locality", "elementType": "all", "stylers": [ { "visibility": "simplified" } ] },
+    { "featureType": "administrative.neighborhood", "elementType": "all", "stylers": [ { "visibility": "off" } ] },
+    { "featureType": "administrative.land_parcel", "elementType": "all", "stylers": [ { "visibility": "off" } ] },
+    { "featureType": "landscape", "elementType": "all", "stylers": [ { "visibility": "off" } ] },
+    { "featureType": "landscape", "elementType": "geometry", "stylers": [ { "lightness": 30 }, { "saturation": 30 } ] },
+    { "featureType": "landscape.man_made", "elementType": "all", "stylers": [ { "visibility": "off" } ] },
+    { "featureType": "landscape.natural", "elementType": "all", "stylers": [ { "visibility": "simplified" }, { "color": "#e9e9e9" } ] },
+    { "featureType": "poi", "elementType": "all", "stylers": [ { "visibility": "off" } ] },
+    { "featureType": "poi", "elementType": "geometry", "stylers": [ { "saturation": 20 } ] },
+    { "featureType": "poi.park", "elementType": "geometry", "stylers": [ { "lightness": 20 }, { "saturation": -20 } ] },
+    { "featureType": "road", "elementType": "all", "stylers": [ { "visibility": "simplified" } ] },
+    { "featureType": "road", "elementType": "geometry", "stylers": [ { "lightness": 10 }, { "saturation": -30 } ] },
+    { "featureType": "road", "elementType": "geometry.stroke", "stylers": [ { "saturation": 25 }, { "lightness": 25 } ] },
+    { "featureType": "road", "elementType": "labels.text", "stylers": [ { "visibility": "simplified" } ] },
+    { "featureType": "road.highway", "elementType": "all", "stylers": [ { "visibility": "simplified" } ] },
+    { "featureType": "road.highway", "elementType": "labels", "stylers": [ { "visibility": "off" } ] },
+    { "featureType": "road.highway.controlled_access", "elementType": "all", "stylers": [ { "visibility": "on" } ] },
+    { "featureType": "road.highway.controlled_access", "elementType": "labels", "stylers": [ { "visibility": "off" } ] },
+    { "featureType": "transit", "elementType": "all", "stylers": [ { "visibility": "off" }, { "color": "#24394b" } ] },
+    { "featureType": "transit.line", "elementType": "all", "stylers": [ { "visibility": "simplified" } ] },
+    { "featureType": "transit.station", "elementType": "all", "stylers": [ { "visibility": "off" } ] },
+    { "featureType": "water", "elementType": "all", "stylers": [ { "lightness": -20 }, { "visibility": "on" } ] }
+  ];
+
+  const map = new google.maps.Map(mapElement, {
+    zoom: 6,
+    center: centerSpain,
+    styles: mapStyle,
+    mapTypeControl: false,
+    streetViewControl: false,
+    fullscreenControl: false,
+    disableDefaultUI: true,
+    scrollwheel: false,
+    draggable: false,
+    disableDoubleClickZoom: true
+  });
+
+  const geocoder = new google.maps.Geocoder();
+
+  xprintaLocationsData.forEach((location, index) => {
+    geocoder.geocode({ address: location.address }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        const position = results[0].geometry.location;
+        new google.maps.Marker({
+          position: position,
+          map: map,
+          title: location.name,
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 6,
+            fillColor: '#FA8029',
+            fillOpacity: 1,
+            strokeColor: '#FFFFFF',
+            strokeWeight: 1
+          },
+          animation: google.maps.Animation.DROP,
+          optimized: false
+        });
+      }
+    });
+  });
+}

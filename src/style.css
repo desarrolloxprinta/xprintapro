@@ -1009,7 +1009,7 @@ a.bento-card:visited {
 .red-nacional-section {
   position: relative;
   padding: 60px 80px;
-  background-color: #0A0A0A;
+  background-color: var(--color-primary);
   color: #FFFFFF;
   border-radius: 40px;
   box-shadow: 0 40px 80px rgba(0,0,0,0.1);
