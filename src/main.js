@@ -395,16 +395,25 @@ function initAnimations() {
       defaults: { ease: 'power4.out', duration: 1.6 }
     });
 
-    tl.to('.hero-line', {
+    tl.fromTo('.hero-line', {
+      y: '100%',
+      opacity: 0
+    }, {
       y: '0%',
+      opacity: 1,
       stagger: 0.15
     })
-    .to('#hero-tag', {
+    .fromTo('#hero-tag', {
+      y: 20,
+      opacity: 0
+    }, {
       opacity: 1,
       y: 0,
       duration: 1.2
     }, '-=1.2')
-    .to('#hero-cue-bar', {
+    .fromTo('#hero-cue-bar', {
+      scaleY: 0
+    }, {
       scaleY: 1,
       duration: 1.2
     }, '-=1.0');
