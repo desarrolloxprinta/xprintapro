@@ -1334,12 +1334,63 @@ function initFAQEditor(faqId, initialContent = '') {
 }
 
 /**
+ * Helper: Inicializar editor Quill para respuesta de FAQ en editor inline
+ */
+function initFaqInlineEditor(initialContent = '') {
+  console.log('🔧 [FAQ Inline] Inicializando editor Quill...')
+
+  const editorContainer = document.getElementById('faq-inline-answer-editor')
+  if (!editorContainer) {
+    console.warn('⚠️ [FAQ Inline] Editor container not found')
+    return null
+  }
+
+  // Limpiar cualquier editor existente
+  if (faqInlineEditor) {
+    console.log('🧹 [FAQ Inline] Limpiando editor existente')
+    faqInlineEditor = null
+  }
+
+  // Crear nuevo editor Quill
+  faqInlineEditor = new Quill('#faq-inline-answer-editor', {
+    theme: 'snow',
+    modules: {
+      toolbar: [
+        [{ 'header': [2, 3, false] }],
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        ['link'],
+        ['clean']
+      ]
+    },
+    placeholder: 'Escribe la respuesta completa de la FAQ...'
+  })
+
+  // Cargar contenido inicial si existe
+  if (initialContent) {
+    faqInlineEditor.root.innerHTML = initialContent
+  }
+
+  // Sincronizar cambios con textarea oculta
+  faqInlineEditor.on('text-change', () => {
+    const textarea = document.getElementById('faq-inline-answer-textarea')
+    if (textarea) {
+      textarea.value = faqInlineEditor.root.innerHTML
+    }
+  })
+
+  console.log('✅ [FAQ Inline] Editor Quill inicializado correctamente')
+  return faqInlineEditor
+}
+
+/**
  * WYSIWYG Editors with Quill.js
  */
 let challengeEditor = null
 let solutionEditor = null
 let articleBlockEditors = [] // Array de editores Quill para bloques de contenido del artículo
 let articleFAQEditors = [] // Array de editores Quill para FAQs del artículo
+let faqInlineEditor = null // Editor Quill para respuesta de FAQ en editor inline
 
 function initWysiwygEditors() {
   console.log('🔧 Initializing WYSIWYG editors...')
@@ -2082,10 +2133,9 @@ export async function initAdminCMS() {
   })
 
   document.getElementById('btn-new-faq')?.addEventListener('click', () => {
-    document.getElementById('form-faq').reset()
-    document.getElementById('faq-id').value = ''
-    document.getElementById('modal-faq-title').textContent = 'Nueva Pregunta Frecuente'
-    modalFaq.classList.add('active')
+    // Abrir editor inline de FAQ (NO modal)
+    currentEditingFaq = null
+    navigateTo('faq-editor')
   })
 
   const closes = ['modal-articulo-close', 'modal-articulo-cancel', 'modal-faq-close', 'modal-faq-cancel']
@@ -2105,10 +2155,21 @@ export async function initAdminCMS() {
     })
   })
 
+  // =========== EVENT LISTENERS PARA EDITOR DE FAQs ===========
+
+  // Botones de cancelación del editor de FAQs
+  const goBackToFaqs = () => {
+    currentEditingFaq = null
+    navigateTo('faqs')
+  }
+  document.getElementById('btn-faq-editor-cancel')?.addEventListener('click', goBackToFaqs)
+  document.getElementById('btn-faq-inline-cancel')?.addEventListener('click', goBackToFaqs)
+
   // Eventos submit de formularios
   document.getElementById('form-proyecto')?.addEventListener('submit', submitProyecto)
   document.getElementById('form-article')?.addEventListener('submit', submitArticle)
   document.getElementById('form-faq')?.addEventListener('submit', submitFaq)
+  document.getElementById('form-faq-inline')?.addEventListener('submit', submitFaqInline)
 
   // Botón de previsualización de proyecto
   document.getElementById('btn-project-preview')?.addEventListener('click', () => {
@@ -2148,6 +2209,8 @@ export async function initAdminCMS() {
       await loadEditingProjectFields()
     } else if (currentTab === 'article-editor') {
       await loadEditingArticleFields()
+    } else if (currentTab === 'faq-editor') {
+      loadEditingFaqFields()
     } else {
       loadTabData(currentTab)
     }
@@ -3006,17 +3069,112 @@ function editArticulo(id) {
 }
 
 function editFaq(id) {
-  const faq = faqsList.find(f => String(f.id) === String(id))
-  if (!faq) return
+  currentEditingFaq = id
+  navigateTo('faq-editor')
+}
 
-  document.getElementById('faq-id').value = faq.id
-  document.getElementById('faq-question').value = faq.question || ''
-  document.getElementById('faq-category').value = faq.category || 'servicios'
-  document.getElementById('faq-icon').value = faq.icon || ''
-  document.getElementById('faq-answer').value = faq.answer || ''
+/**
+ * Submit del formulario de FAQ inline (con Quill)
+ */
+async function submitFaqInline(e) {
+  e.preventDefault()
+  if (!adminSupabase) return
 
-  document.getElementById('modal-faq-title').textContent = 'Editar FAQ'
-  document.getElementById('modal-faq').classList.add('active')
+  console.log('💾 [FAQ Inline] Guardando FAQ...')
+
+  const id = document.getElementById('faq-inline-id').value
+  const question = document.getElementById('faq-inline-question').value.trim()
+  const category = document.getElementById('faq-inline-category').value
+  const icon = document.getElementById('faq-inline-icon').value.trim() || null
+
+  // Obtener respuesta del editor Quill
+  let answer = ''
+  if (faqInlineEditor) {
+    answer = faqInlineEditor.root.innerHTML
+  } else {
+    answer = document.getElementById('faq-inline-answer-textarea').value.trim()
+  }
+
+  if (!question || !category || !answer) {
+    alert('Por favor completa todos los campos requeridos')
+    return
+  }
+
+  const payload = {
+    question,
+    category,
+    icon,
+    answer
+  }
+
+  try {
+    if (id) {
+      console.log('📝 [FAQ Inline] Actualizando FAQ existente:', id)
+      const { error } = await adminSupabase.from('faqs').update(payload).eq('id', id)
+      if (error) throw error
+    } else {
+      console.log('📝 [FAQ Inline] Creando nueva FAQ')
+      const { error } = await adminSupabase.from('faqs').insert([payload])
+      if (error) throw error
+    }
+
+    console.log('✅ [FAQ Inline] FAQ guardada exitosamente')
+
+    // Resetear estado de edición
+    currentEditingFaq = null
+
+    // Volver a la lista de FAQs
+    navigateTo('faqs')
+  } catch (err) {
+    console.error('❌ [FAQ Inline] Error al guardar:', err)
+    alert('Error al guardar FAQ: ' + err.message)
+  }
+}
+
+/**
+ * Cargar campos del FAQ en el editor inline
+ */
+function loadEditingFaqFields() {
+  console.log('📝 [FAQ Editor] Cargando campos de FAQ...', currentEditingFaq)
+
+  const faqId = currentEditingFaq
+  const isNewFaq = !faqId
+
+  if (isNewFaq) {
+    // Nuevo FAQ
+    console.log('📝 [FAQ Editor] Creando nueva FAQ')
+    document.getElementById('editor-faq-title').textContent = 'Nueva Pregunta Frecuente'
+    document.getElementById('faq-inline-id').value = ''
+    document.getElementById('faq-inline-question').value = ''
+    document.getElementById('faq-inline-category').value = ''
+    document.getElementById('faq-inline-icon').value = ''
+    document.getElementById('faq-inline-answer-textarea').value = ''
+
+    // Inicializar editor Quill vacío
+    setTimeout(() => {
+      initFaqInlineEditor('')
+    }, 100)
+  } else {
+    // Editar FAQ existente
+    const faq = faqsList.find(f => String(f.id) === String(faqId))
+    if (!faq) {
+      console.error('❌ [FAQ Editor] FAQ no encontrada:', faqId)
+      return
+    }
+
+    console.log('📝 [FAQ Editor] Cargando FAQ existente:', faq.question)
+    document.getElementById('editor-faq-title').textContent = 'Editar Pregunta Frecuente'
+    document.getElementById('faq-inline-id').value = faq.id
+    document.getElementById('faq-inline-question').value = faq.question || ''
+    document.getElementById('faq-inline-category').value = faq.category || 'servicios'
+    document.getElementById('faq-inline-icon').value = faq.icon || ''
+    document.getElementById('faq-inline-answer-textarea').value = faq.answer || ''
+
+    // Inicializar editor Quill con contenido
+    setTimeout(() => {
+      initFaqInlineEditor(faq.answer || '')
+    }, 100)
+  }
 }
 
 /**

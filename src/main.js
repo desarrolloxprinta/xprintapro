@@ -390,58 +390,100 @@ function initAnimations() {
   // 2. Hero Entry Animation (Butter smooth reveal)
   const heroFrame = document.querySelector('[data-hero-frame]');
   if (heroFrame) {
-    // NUEVA ANIMACIÓN HOME: Inspirada en bgslaw.ch con zoom-in y clip-path
+    // NUEVA ANIMACIÓN HOME: Clonación exacta de bgslaw.ch
     const tl = gsap.timeline({
-      defaults: { ease: 'power4.out', duration: 1.6 }
+      defaults: { ease: 'expo.inOut' }
     });
 
-    tl.fromTo('[data-hero-line]', {
-      y: '100%',
+    // 1. Animación inicial al cargar: El frame se expande desde el centro
+    tl.from('[data-hero-frame]', {
+      clipPath: 'inset(22vh 18vw round 32px)',
+      duration: 1.4
+    })
+    // 2. El tint se aclara a medida que el frame crece
+    .from('[data-hero-tint]', {
+      opacity: 1,
+      duration: 1,
+      ease: 'expo.out'
+    }, '<')
+    // 3. El texto sube desde su máscara
+    .fromTo('[data-hero-line]', {
+      yPercent: 110,
       opacity: 0
     }, {
-      y: '0%',
+      yPercent: 0,
       opacity: 1,
-      stagger: 0.15
-    })
+      duration: 0.9,
+      stagger: 0.09,
+      ease: 'expo.out'
+    }, '-=0.55')
+    // 4. Muestra la etiqueta y texto inferior
     .fromTo('[data-hero-tag]', {
-      y: 20,
-      opacity: 0
+      opacity: 0,
+      y: 18
     }, {
       opacity: 1,
       y: 0,
-      duration: 1.2
-    }, '-=1.2')
-    .fromTo('[data-hero-cue-bar]', {
-      scaleY: 0
+      duration: 0.65,
+      ease: 'power3.out'
+    }, '-=0.35')
+    // 5. Muestra el scroll cue
+    .fromTo('[data-hero-cue]', {
+      opacity: 0
     }, {
-      scaleY: 1,
-      duration: 1.2
-    }, '-=1.0');
+      opacity: 1,
+      duration: 0.5
+    }, '-=0.2');
 
-    // ScrollTrigger para contraer el clipPath de la tarjeta de vídeo a medida que se hace scroll (efecto tarjeta flotante como bgslaw.ch)
-    gsap.to('[data-hero-frame]', {
+    // 2. ANIMACIONES DE SCROLL (ScrollTrigger)
+    
+    // Parallax del vídeo
+    gsap.to('[data-hero-frame] video', {
+      yPercent: 18,
+      scale: 1.08,
+      ease: 'none',
       scrollTrigger: {
         trigger: '#hero',
         start: 'top top',
         end: 'bottom top',
         scrub: true,
         invalidateOnRefresh: true
-      },
-      clipPath: 'inset(4% 4% 4% 4% round 24px)',
-      ease: 'none'
+      }
     });
 
-    // Desvanecer el contenido de texto al hacer scroll
-    gsap.to('[data-hero-content]', {
+    // Oscurece el fondo al hacer scroll para legibilidad
+    gsap.to('[data-hero-darken]', {
+      opacity: 0.85,
+      ease: 'none',
       scrollTrigger: {
         trigger: '#hero',
         start: 'top top',
         end: 'bottom top',
         scrub: true
-      },
-      y: -100,
-      opacity: 0,
-      ease: 'none'
+      }
+    });
+
+    // Desvanecer y subir el contenido de texto al hacer scroll
+    gsap.to('[data-hero-content]', {
+      yPercent: -8,
+      opacity: 0.5,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+
+    // Bucle del cue bar
+    gsap.to('[data-hero-cue-bar]', {
+      scaleY: 0.4,
+      transformOrigin: 'top',
+      repeat: -1,
+      yoyo: true,
+      duration: 1.2,
+      ease: 'sine.inOut'
     });
   } else {
     // ANIMACIÓN PROYECTOS/OTROS: Fallback tradicional
