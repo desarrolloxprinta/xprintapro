@@ -217,7 +217,7 @@ export const getBrandVisionHTML = async () => {
               <div class="lr-tab-image-container">
                 <img src="/servicios/videos%20hero/BRANDVISION/RENDER-CITADEL-FACHADA%202025%20-%20VISTA%202%20-%20NOCTURNO.png" class="lr-tab-image active" id="tab-img-1" alt="AR Preview" />
                 <img src="/servicios/videos%20hero/BRANDVISION/RENDER-ADAMS-LOCAL%20EXTERIOR-VERSION%202.png" class="lr-tab-image" id="tab-img-2" alt="Decision Making" />
-                <img src="/servicios/BrandVision/ambiente-6.jpg" class="lr-tab-image" id="tab-img-3" alt="Sales Support" />
+                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-ROASTELIER-LOCAL%202024-MOBILIARIO%20SIN%20%20MARCA-VISTA%20ESQUINA.png" class="lr-tab-image" id="tab-img-3" alt="Sales Support" />
               </div>
             </div>
           </div>
@@ -249,7 +249,7 @@ export const getBrandVisionHTML = async () => {
             
             <div class="gsap-reveal">
               <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 3/4;">
-                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-IBM-FRONTAL-APAGADO-HDRI-2.tif" alt="Corporate Architecture" style="width: 100%; height: 100%; object-fit: cover;" />
+                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-IBM-FRONTAL-APAGADO-HDRI-2.png" alt="Corporate Architecture" style="width: 100%; height: 100%; object-fit: cover;" />
               </div>
             </div>
           </div>
