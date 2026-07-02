@@ -400,7 +400,8 @@ function initAnimations() {
       clipPath: 'inset(22% 18% 22% 18% round 32px)'
     }, {
       clipPath: 'inset(0% 0% 0% 0% round 0px)',
-      duration: 1.4
+      duration: 1.4,
+      delay: 1
     })
     // 2. El tint se aclara a medida que el frame crece
     .fromTo('[data-hero-tint]', {
