@@ -1057,7 +1057,8 @@ a.bento-card:visited {
   margin-bottom: 2rem;
   color: #FFFFFF;
   line-height: 1.15;
-  opacity: 0.1;
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }
 
 .red-nacional__stats {

@@ -175,7 +175,7 @@ const renderMapa = () => `
 
       <!-- Interactive Background Map (Right Side) -->
       <div class="red-nacional__map-bg">
-        <div id="xprinta-home-map" style="width: 100%; height: 100%; z-index: 0; opacity: 0; mask-image: linear-gradient(to right, transparent 0%, black 30%); -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);"></div>
+        <div id="xprinta-home-map" style="width: 100%; height: 100%; z-index: 0;"></div>
       </div>
 
       <!-- Stats Content (Left side) -->

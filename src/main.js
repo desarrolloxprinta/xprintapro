@@ -579,9 +579,7 @@ function initAnimations() {
         }
       })
 
-      // Fade the map AND the title in throughout the scroll duration
-      tl.to("#xprinta-home-map", { opacity: 0.2, duration: 4 }, 0)
-      tl.to("#red-nacional-title", { opacity: 1, duration: 4 }, 0)
+      // Removed opacity animations for map and title as requested
 
       // Sequence the stats
       const statBlocks = document.querySelectorAll('.stat-block')
@@ -1416,26 +1414,35 @@ function initHomeMap() {
 
   const geocoder = new google.maps.Geocoder();
 
-  xprintaLocationsData.forEach((location, index) => {
-    geocoder.geocode({ address: location.address }, (results, status) => {
-      if (status === 'OK' && results[0]) {
-        const position = results[0].geometry.location;
-        new google.maps.Marker({
-          position: position,
-          map: map,
-          title: location.name,
-          icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 6,
-            fillColor: '#FA8029',
-            fillOpacity: 1,
-            strokeColor: '#FFFFFF',
-            strokeWeight: 1
-          },
-          animation: google.maps.Animation.DROP,
-          optimized: false
-        });
-      }
-    });
+  ScrollTrigger.create({
+    trigger: '#red-nacional',
+    start: 'top 60%',
+    once: true,
+    onEnter: () => {
+      xprintaLocationsData.forEach((location, index) => {
+        setTimeout(() => {
+          geocoder.geocode({ address: location.address }, (results, status) => {
+            if (status === 'OK' && results[0]) {
+              const position = results[0].geometry.location;
+              new google.maps.Marker({
+                position: position,
+                map: map,
+                title: location.name,
+                icon: {
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale: 6,
+                  fillColor: '#FA8029',
+                  fillOpacity: 1,
+                  strokeColor: '#FFFFFF',
+                  strokeWeight: 1
+                },
+                animation: google.maps.Animation.DROP,
+                optimized: false
+              });
+            }
+          });
+        }, index * 20); // Retraso escalonado de 20ms para crear un efecto de lluvia
+      });
+    }
   });
 }
