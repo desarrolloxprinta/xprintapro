@@ -1876,6 +1876,10 @@ html.lenis { height: auto; }
   }
 }
 @media (max-width: 767px) {
+  .footer-right {
+    flex-direction: column;
+    gap: 2rem;
+  }
   .footer-bottom-wrap {
     flex-direction: column;
     align-items: flex-start;
@@ -1888,6 +1892,12 @@ html.lenis { height: auto; }
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+  }
+  .footer-logos {
+    gap: 1rem;
+  }
+  .footer-logos img {
+    height: 36px; /* Shrink logos on mobile */
   }
 }
 
@@ -2492,4 +2502,143 @@ html.lenis { height: auto; }
   left: 0;
 }
 
+/* ==========================================================================
+   MOBILE HEADER / HAMBURGER MENU
+   ========================================================================== */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 20px;
+  position: relative;
+  z-index: 100;
+}
 
+.mobile-menu-toggle span {
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: var(--color-primary);
+  border-radius: 2px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: .25s ease-in-out;
+}
+
+.mobile-menu-toggle span:nth-child(1) { top: 0px; }
+.mobile-menu-toggle span:nth-child(2) { top: 9px; }
+.mobile-menu-toggle span:nth-child(3) { top: 18px; }
+
+.mobile-menu-toggle.is-active span:nth-child(1) {
+  top: 9px;
+  transform: rotate(135deg);
+}
+
+.mobile-menu-toggle.is-active span:nth-child(2) {
+  opacity: 0;
+  left: -40px;
+}
+
+.mobile-menu-toggle.is-active span:nth-child(3) {
+  top: 9px;
+  transform: rotate(-135deg);
+}
+
+@media (max-width: 991px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .navbar-nav {
+    position: fixed;
+    top: 80px; /* Below the header */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background-color: var(--color-tertiary);
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    z-index: 90;
+  }
+
+  .navbar-nav.is-active {
+    transform: translateX(0);
+  }
+
+  .nav-item-dropdown {
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .nav-item-dropdown .nav-link {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Adjust Mega Menu for Mobile: convert to accordion style */
+  .mega-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    box-shadow: none;
+    display: none;
+    width: 100%;
+    padding: 1rem 0;
+    background: transparent;
+  }
+
+  /* Accordion open state */
+  .nav-item-dropdown.mobile-expanded .mega-menu {
+    display: block;
+  }
+
+  /* Rotate icon when expanded */
+  .nav-item-dropdown.mobile-expanded .nav-link .dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Hide right side videos on mobile mega menus */
+  .mega-menu-right {
+    display: none;
+  }
+
+  .mega-menu-left {
+    padding-right: 0;
+    border-right: none;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+  }
+
+  .mega-menu-inner {
+    flex-direction: column;
+  }
+
+  .mega-menu-proyectos-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .mega-menu-proyectos-card {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+}

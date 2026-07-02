@@ -92,6 +92,14 @@ export const renderHeader = async () => {
       <a href="/" class="navbar-brand">
         <img src="/logo-xprina-azul.svg" alt="Xprinta Pro" class="navbar-logo" />
       </a>
+      
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" aria-label="Abrir menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
       <nav class="navbar-nav">
 
         <div class="nav-item-dropdown">
@@ -573,6 +581,55 @@ export function initDynamicHeader() {
     navItem.addEventListener('mouseleave', () => {
       header.style.height = `${HEADER_BASE_HEIGHT}px`;
       isExpanded = false;
+    });
+  });
+
+  // ==========================================================================
+  // Mobile Menu Toggle Logic
+  // ==========================================================================
+  const mobileToggle = document.querySelector('.mobile-menu-toggle');
+  const navbarNav = document.querySelector('.navbar-nav');
+  
+  if (mobileToggle && navbarNav) {
+    mobileToggle.addEventListener('click', () => {
+      const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+      mobileToggle.setAttribute('aria-expanded', !isExpanded);
+      mobileToggle.classList.toggle('is-active');
+      navbarNav.classList.toggle('is-active');
+      header.classList.toggle('mobile-menu-open');
+      
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = !isExpanded ? 'hidden' : '';
+    });
+  }
+
+  // ==========================================================================
+  // Mobile Mega Menu Accordion Logic
+  // ==========================================================================
+  const dropdownLinks = document.querySelectorAll('.nav-item-dropdown > .nav-link');
+  
+  dropdownLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Solo aplicar lógica de acordeón en pantallas móviles (< 991px)
+      if (window.innerWidth <= 991) {
+        const parentDropdown = link.closest('.nav-item-dropdown');
+        
+        // Si no está expandido, prevenimos la navegación y lo expandimos
+        if (!parentDropdown.classList.contains('mobile-expanded')) {
+          e.preventDefault(); // Evita ir a la página
+          
+          // Cerrar los demás acordeones
+          document.querySelectorAll('.nav-item-dropdown.mobile-expanded').forEach(item => {
+            if (item !== parentDropdown) {
+              item.classList.remove('mobile-expanded');
+            }
+          });
+          
+          // Abrir este
+          parentDropdown.classList.add('mobile-expanded');
+        }
+        // Si ya está expandido, el segundo click permite la navegación normal
+      }
     });
   });
 
