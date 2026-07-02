@@ -87,25 +87,25 @@ const renderHeroOld = () => `
  * Nuevo Hero inspirado en bgslaw.ch con frame de vídeo expandible y animacionesGSAP
  */
 const renderHero = () => `
-  <section id="hero" class="relative min-h-[100svh] overflow-hidden bg-[#080A15] text-white">
+  <section id="hero" class="relative overflow-hidden text-white" style="min-height: 100svh; background-color: #080A15;">
     <!-- Frame del vídeo de fondo con clip-path -->
-    <div data-hero-frame="true" class="absolute overflow-hidden bg-[#080A15] shadow-2xl" aria-hidden="true" style="top:0; right:0; bottom:0; left:0; clip-path:inset(22% 18% 22% 18% round 32px); will-change:clip-path">
+    <div data-hero-frame="true" class="absolute overflow-hidden shadow-2xl" aria-hidden="true" style="top:0; right:0; bottom:0; left:0; clip-path:inset(22% 18% 22% 18% round 32px); will-change:clip-path; background-color: #080A15;">
       <video autoplay muted loop playsinline preload="auto" class="absolute inset-0 h-full w-full object-cover">
         <source src="/videos/home.mp4" type="video/mp4" />
       </video>
       <!-- Gradientes y capas de cobertura (personalizadas al color primario) -->
-      <div class="pointer-events-none absolute inset-0 bg-[#E65000]/40" style="mix-blend-mode: multiply;" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-color: rgba(230, 80, 0, 0.4); mix-blend-mode: multiply;" aria-hidden="true"></div>
       <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80" aria-hidden="true"></div>
-      <div data-hero-tint="true" class="pointer-events-none absolute inset-0 bg-[#080A15] opacity-0" aria-hidden="true"></div>
-      <div data-hero-darken="true" class="pointer-events-none absolute inset-0 bg-[#080A15] opacity-0" aria-hidden="true"></div>
+      <div data-hero-tint="true" class="pointer-events-none absolute inset-0 opacity-0" style="background-color: #080A15;" aria-hidden="true"></div>
+      <div data-hero-darken="true" class="pointer-events-none absolute inset-0 opacity-0" style="background-color: #080A15;" aria-hidden="true"></div>
       <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-px overflow-hidden bg-white/10" aria-hidden="true">
-        <div class="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-[#E65000] to-transparent opacity-60" style="animation: sweep 4s infinite linear;"></div>
+        <div class="absolute inset-y-0 left-0 w-1/3 opacity-60" style="background: linear-gradient(to right, transparent, #E65000, transparent); animation: sweep 4s infinite linear;"></div>
       </div>
     </div>
-
-    <!-- Contenido del Hero -->
-    <div data-hero-content="true" class="relative flex min-h-[100svh] flex-col px-6 pb-12 pt-28 md:px-12 md:pb-20 md:pt-0" style="z-index: 2;">
-      <div class="mx-auto mt-auto w-full max-w-[1400px]">
+    
+    <!-- Contenido frontal del Hero -->
+    <div data-hero-content="true" class="relative flex flex-col px-6 pb-12 pt-28 md:px-12 md:pb-20 md:pt-0" style="z-index: 2; min-height: 100svh;">
+      <div class="mx-auto mt-auto w-full" style="max-width: 1400px;">
         <h1 class="font-serif text-[clamp(2.4rem,7vw,6.4rem)] leading-[1.04] tracking-tight" style="font-weight: 500; color: white;">
           <span class="block overflow-hidden pb-[0.18em]" style="line-height: 1.1;">
             <span data-hero-line="true" class="block">Implantación de</span>

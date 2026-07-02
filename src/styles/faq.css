@@ -155,10 +155,10 @@
 /* Tabs / Filters derived from proyectos.css */
 .filter-form-sticky {
   position: sticky;
-  top: 100px;
+  top: 100px; /* Ajusta según el alto de tu header dinámico */
   z-index: 40;
-  background-color: white;
-  padding: 1.5rem 17.5rem;
+  background-color: white; /* Para evitar solapamientos visuales */
+  padding: 1.5rem 0;
   margin-bottom: 3rem;
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }

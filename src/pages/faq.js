@@ -5,76 +5,36 @@
  */
 
 import { createLayout } from '../layout.js'
+import { supabase } from '../lib/supabase.js'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
 /**
- * Datos de las preguntas frecuentes categorizadas y con iconos
+ * Cargar FAQs desde Supabase
  */
-const faqData = [
-  {
-    category: 'servicios',
-    question: '¿Qué tipo de proyectos realiza Xprinta?',
-    answer: 'En Xprinta hacemos proyectos de <strong>rotulación, señalética, rótulos luminosos, vinilos, letras corpóreas, decoración gráfica, rotulación de vehículos</strong> y soluciones para <strong>puntos de venta</strong>.<br><br>Trabajamos con empresas que necesitan cuidar su imagen en locales, oficinas, franquicias, tiendas, fachadas o espacios de atención al público.',
-    icon: '43x4NXx9Aa.svg'
-  },
-  {
-    category: 'metodologia',
-    question: '¿Trabajáis solo proyectos grandes o también trabajos puntuales?',
-    answer: 'Podemos hacer <strong>trabajos puntuales</strong>, pero donde más valor aportamos es en <strong>proyectos que necesitan coordinación</strong>.<br><br>Por ejemplo, cuando una marca tiene varios locales, varias sedes o necesita que todos sus puntos de venta mantengan la misma imagen. Ahí Xprinta ayuda a ordenar el trabajo y a evitar errores.',
-    icon: '8vY8DmgIrU.svg'
-  },
-  {
-    category: 'gestion',
-    question: '¿Podéis ayudar a reducir costes sin perder calidad?',
-    answer: 'Sí. Buscamos soluciones que funcionen bien y que tengan sentido a <strong>nivel técnico y económico</strong>.<br><br>A veces se puede ahorrar eligiendo mejor los materiales, simplificando sistemas, agrupando trabajos o usando soluciones que se puedan repetir en varios locales.<br><br>La clave no es hacer algo más barato sin más, sino <strong>evitar costes innecesarios</strong>.',
-    icon: 'EqeE4pmuuO.svg'
-  },
-  {
-    category: 'metodologia',
-    question: '¿Qué es el Sistema Xprinta?',
-    answer: 'El <strong>Sistema Xprinta</strong> es nuestra forma de trabajar. Nos ayuda a organizar cada proyecto desde el principio hasta el final: revisar la marca, tomar medidas, estudiar la normativa, preparar el presupuesto, fabricar, instalar y dejar todo documentado.<br><br>Así el cliente sabe <strong>qué se va a hacer, cómo se va a hacer y en qué punto está cada trabajo</strong>.',
-    icon: 'EqeEaaAuuO.svg'
-  },
-  {
-    category: 'metodologia',
-    question: '¿Qué significa trabajar con una línea phygital?',
-    answer: 'Significa unir el <strong>trabajo físico con herramientas digitales</strong>.<br><br>El trabajo físico es el rótulo, la señalética, el vinilo, la instalación o el punto de venta. La parte digital es el seguimiento del proyecto, contenido audiovisual, la documentación, los estados de cada trabajo y la información organizada en una plataforma.<br><br>De esta forma, el cliente puede tener <strong>más control sin tener que estar pendiente de cada detalle</strong>.',
-    icon: 'IaW8dActvE.svg'
-  },
-  {
-    category: 'gestion',
-    question: '¿Revisáis la normativa antes de fabricar un rótulo?',
-    answer: 'Sí. Cuando el proyecto lo necesita, revisamos qué se puede instalar y qué límites puede tener la <strong>normativa</strong>.<br><br>Esto puede afectar al tamaño del rótulo, la iluminación, la ubicación, el tipo de fachada o los permisos necesarios.<br><br>Revisarlo antes ayuda a <strong>evitar problemas después</strong>.',
-    icon: 'IaWI2ILtvE.svg'
-  },
-  {
-    category: 'metodologia',
-    question: '¿Podéis gestionar proyectos en diferentes ubicaciones?',
-    answer: 'Sí. Podemos trabajar en <strong>diferentes ciudades y zonas de España y Portugal</strong>.<br><br>La idea es que una marca pueda tener un mismo criterio de imagen en todos sus puntos de venta, aunque estén en ubicaciones distintas.<br><br>Esto ayuda a que todos los locales se vean <strong>coherentes y bien alineados con la marca</strong>.',
-    icon: 'NZLNl276D9.svg'
-  },
-  {
-    category: 'servicios',
-    question: '¿Os encargáis de la medición, fabricación e instalación?',
-    answer: 'Sí. Podemos encargarnos de <strong>todo el proceso</strong>.<br><br>Primero tomamos datos y medidas. Después preparamos la propuesta, fabricamos los elementos y coordinamos la instalación.<br><br>Esto evita que el cliente tenga que hablar con varios proveedores y reduce muchos <strong>errores habituales</strong>.',
-    icon: 'Pix99VX42C.svg'
-  },
-  {
-    category: 'gestion',
-    question: '¿Qué ocurre después de terminar un proyecto?',
-    answer: 'Cuando el trabajo está terminado, <strong>documentamos el resultado con fotos</strong> y dejamos constancia de la instalación.<br><br>Además, podemos ayudar con mantenimiento, revisiones, incidencias o futuras actualizaciones de la imagen.<br><br>El proyecto <strong>no tiene por qué acabar el día de la instalación</strong>.',
-    icon: 'cD9WRxH0eP.svg'
-  },
-  {
-    category: 'servicios',
-    question: '¿También ayudáis con contenidos digitales o audiovisuales del punto de venta?',
-    answer: 'Sí. Algunos proyectos se pueden documentar con <strong>fotos, vídeo o contenido para redes sociales</strong>.<br><br>Esto permite aprovechar el trabajo realizado no solo en el espacio físico, sino también en la <strong>comunicación digital de la marca</strong>.<br><br>Por ejemplo, para mostrar una nueva apertura, una renovación de imagen o una instalación especial.',
-    icon: 'e82esLDdqL.svg'
+async function loadFAQs() {
+  console.log('📋 [FAQ] Cargando FAQs desde Supabase...')
+
+  try {
+    const { data, error } = await supabase
+      .from('faqs')
+      .select('id, question, answer, category')
+      .order('created_at', { ascending: true })
+
+    if (error) {
+      console.error('❌ [FAQ] Error al cargar FAQs:', error)
+      return []
+    }
+
+    console.log(`✅ [FAQ] ${data.length} FAQs cargadas exitosamente`)
+    return data || []
+  } catch (err) {
+    console.error('❌ [FAQ] Error inesperado:', err)
+    return []
   }
-]
+}
 
 /**
  * Inicializa las animaciones y filtros del directorio FAQ
@@ -161,11 +121,61 @@ function initAnimations() {
 }
 
 /**
+ * Obtener categorías únicas de las FAQs
+ */
+function getUniqueCategories(faqs) {
+  const categories = [...new Set(faqs.map(faq => faq.category))].filter(Boolean)
+  return categories
+}
+
+/**
+ * Mapeo de nombres de categorías para display
+ */
+const categoryLabels = {
+  'servicios': 'Servicios',
+  'metodologia': 'Metodología',
+  'gestion': 'Gestión y Costes'
+}
+
+/**
  * Render principal
  */
 export async function renderFAQ() {
+  // Cargar FAQs desde Supabase
+  const faqData = await loadFAQs()
+
+  // Si no hay FAQs, mostrar mensaje
+  if (!faqData || faqData.length === 0) {
+    const layoutHTML = `
+      <main class="w-full bg-white flex-1" style="min-height: 100vh;">
+        <div class="faq-hero">
+          <div class="container-fluid" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <span class="faq-caption">Preguntas Frecuentes</span>
+            <h1 class="faq-title">No hay preguntas frecuentes disponibles en este momento.</h1>
+          </div>
+        </div>
+      </main>
+    `
+    return createLayout({
+      content: layoutHTML,
+      pageClass: 'page-faq'
+    })
+  }
+
+  // Obtener categorías únicas para los filtros
+  const uniqueCategories = getUniqueCategories(faqData)
+
+  // Generar botones de filtro dinámicamente
+  const filterButtons = [
+    '<button class="filter-inline active" data-filter="all">Todas</button>',
+    ...uniqueCategories.map(category =>
+      `<button class="filter-inline" data-filter="${category}">${categoryLabels[category] || category}</button>`
+    )
+  ].join('')
+
+  // Generar items de FAQ
   const faqItems = faqData.map((item) => `
-    <div class="faq-list-item" data-category="${item.category}">
+    <div class="faq-list-item" data-category="${item.category || 'general'}">
       <div style="min-width: 0; flex: 1;">
         <h3>${item.question}</h3>
       </div>
@@ -194,13 +204,10 @@ export async function renderFAQ() {
       <div style="width: 100%;">
         <div class="container-fluid" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem; padding-bottom: 6rem; padding-top: 1rem;">
 
-          <!-- Tabs de Filtrado -->
+          <!-- Tabs de Filtrado (Dinámico) -->
           <div class="filter-form-sticky">
             <div class="projects-filters-inline">
-              <button class="filter-inline active" data-filter="all">Todas</button>
-              <button class="filter-inline" data-filter="servicios">Servicios</button>
-              <button class="filter-inline" data-filter="metodologia">Metodología</button>
-              <button class="filter-inline" data-filter="gestion">Gestión y Costes</button>
+              ${filterButtons}
             </div>
           </div>
 

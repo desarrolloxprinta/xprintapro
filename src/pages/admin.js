@@ -903,21 +903,12 @@ function renderDashboardView() {
                   <label for="faq-inline-category">Categoría</label>
                   <select id="faq-inline-category" class="admin-input" style="background: #ffffff;" required>
                     <option value="">-- Selecciona una categoría --</option>
-                    <option value="general">General</option>
                     <option value="servicios">Servicios</option>
-                    <option value="proyectos">Proyectos</option>
-                    <option value="presupuestos">Presupuestos</option>
-                    <option value="materiales">Materiales</option>
-                    <option value="instalacion">Instalación</option>
-                    <option value="garantias">Garantías y Soporte</option>
+                    <option value="metodologia">Metodología</option>
+                    <option value="gestion">Gestión y Costes</option>
                   </select>
-                </div>
-
-                <div class="admin-form-group">
-                  <label for="faq-inline-icon">Icono (Opcional)</label>
-                  <input type="text" id="faq-inline-icon" class="admin-input" placeholder="📦">
                   <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
-                    Emoji o nombre de icono para representar la categoría
+                    La categoría se usa para filtrar las FAQs en la página pública
                   </small>
                 </div>
 
@@ -1010,19 +1001,13 @@ function renderDashboardView() {
               <label for="faq-question">Pregunta</label>
               <input type="text" id="faq-question" class="admin-input" required>
             </div>
-            <div class="admin-form-row">
-              <div class="admin-form-group">
-                <label for="faq-category">Categoría</label>
-                <select id="faq-category" class="admin-input" style="background: #27272a;" required>
-                  <option value="servicios">Servicios</option>
-                  <option value="metodologia">Metodología</option>
-                  <option value="gestion">Gestión y Costes</option>
-                </select>
-              </div>
-              <div class="admin-form-group">
-                <label for="faq-icon">Icono (Nombre de archivo SVG - Opcional)</label>
-                <input type="text" id="faq-icon" class="admin-input" placeholder="icono.svg">
-              </div>
+            <div class="admin-form-group">
+              <label for="faq-category">Categoría</label>
+              <select id="faq-category" class="admin-input" style="background: #27272a;" required>
+                <option value="servicios">Servicios</option>
+                <option value="metodologia">Metodología</option>
+                <option value="gestion">Gestión y Costes</option>
+              </select>
             </div>
             <div class="admin-form-group">
               <label for="faq-answer">Respuesta (HTML/Texto)</label>
@@ -3040,7 +3025,6 @@ async function submitFaq(e) {
   const payload = {
     question: document.getElementById('faq-question').value.trim(),
     category: document.getElementById('faq-category').value,
-    icon: document.getElementById('faq-icon').value.trim() || null,
     answer: document.getElementById('faq-answer').value.trim()
   }
 
@@ -3085,7 +3069,6 @@ async function submitFaqInline(e) {
   const id = document.getElementById('faq-inline-id').value
   const question = document.getElementById('faq-inline-question').value.trim()
   const category = document.getElementById('faq-inline-category').value
-  const icon = document.getElementById('faq-inline-icon').value.trim() || null
 
   // Obtener respuesta del editor Quill
   let answer = ''
@@ -3103,7 +3086,6 @@ async function submitFaqInline(e) {
   const payload = {
     question,
     category,
-    icon,
     answer
   }
 
@@ -3147,7 +3129,6 @@ function loadEditingFaqFields() {
     document.getElementById('faq-inline-id').value = ''
     document.getElementById('faq-inline-question').value = ''
     document.getElementById('faq-inline-category').value = ''
-    document.getElementById('faq-inline-icon').value = ''
     document.getElementById('faq-inline-answer-textarea').value = ''
 
     // Inicializar editor Quill vacío
@@ -3167,7 +3148,6 @@ function loadEditingFaqFields() {
     document.getElementById('faq-inline-id').value = faq.id
     document.getElementById('faq-inline-question').value = faq.question || ''
     document.getElementById('faq-inline-category').value = faq.category || 'servicios'
-    document.getElementById('faq-inline-icon').value = faq.icon || ''
     document.getElementById('faq-inline-answer-textarea').value = faq.answer || ''
 
     // Inicializar editor Quill con contenido
