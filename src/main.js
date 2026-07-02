@@ -580,7 +580,7 @@ function initAnimations() {
       })
 
       // Fade the map AND the title in throughout the scroll duration
-      tl.to("#static-map-image", { opacity: 0.8, duration: 4 }, 0)
+      tl.to("#xprinta-home-map", { opacity: 0.8, duration: 4 }, 0)
       tl.to("#red-nacional-title", { opacity: 1, duration: 4 }, 0)
 
       // Sequence the stats
