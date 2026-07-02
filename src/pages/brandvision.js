@@ -215,8 +215,8 @@ export const getBrandVisionHTML = async () => {
             </div>
             <div style="position: relative; height: 100%;">
               <div class="lr-tab-image-container">
-                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-ADAMS-LOCAL%20EXTERIOR-VERSION%202.png" class="lr-tab-image active" id="tab-img-1" alt="AR Preview" />
-                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-CITADEL-FACHADA%202025%20-%20VISTA%202%20-%20NOCTURNO.png" class="lr-tab-image" id="tab-img-2" alt="Decision Making" />
+                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-CITADEL-FACHADA%202025%20-%20VISTA%202%20-%20NOCTURNO.png" class="lr-tab-image active" id="tab-img-1" alt="AR Preview" />
+                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-ADAMS-LOCAL%20EXTERIOR-VERSION%202.png" class="lr-tab-image" id="tab-img-2" alt="Decision Making" />
                 <img src="/servicios/BrandVision/ambiente-6.jpg" class="lr-tab-image" id="tab-img-3" alt="Sales Support" />
               </div>
             </div>
@@ -249,7 +249,7 @@ export const getBrandVisionHTML = async () => {
             
             <div class="gsap-reveal">
               <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 3/4;">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800&h=1200" alt="Corporate Architecture" style="width: 100%; height: 100%; object-fit: cover;" />
+                <img src="/servicios/videos%20hero/BRANDVISION/RENDER-IBM-FRONTAL-APAGADO-HDRI-2.tif" alt="Corporate Architecture" style="width: 100%; height: 100%; object-fit: cover;" />
               </div>
             </div>
           </div>
