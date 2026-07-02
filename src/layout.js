@@ -17,7 +17,7 @@
 
 import content from './data/content.json'
 import { getRecentProjects, getAreaTecnicaPosts } from './lib/supabase.js'
-
+import { gsap } from 'gsap'
 // Cache de proyectos recientes para el header
 let headerProjectsCache = null;
 let headerAreaTecnicaCache = null;
@@ -100,7 +100,15 @@ export const renderHeader = async () => {
         <span></span>
       </button>
 
+      <!-- Mobile Menu Animated Backgrounds -->
+      <div class="mobile-menu-bg">
+        <div class="bg-panel bg-panel-1"></div>
+        <div class="bg-panel bg-panel-2"></div>
+        <div class="bg-panel bg-panel-3"></div>
+      </div>
+
       <nav class="navbar-nav">
+
 
         <div class="nav-item-dropdown">
           <a href="/proyectos.html" class="nav-link">Proyectos <svg class="dropdown-icon" viewBox="0 0 12 8"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
@@ -585,21 +593,89 @@ export function initDynamicHeader() {
   });
 
   // ==========================================================================
-  // Mobile Menu Toggle Logic
+  // Mobile Menu Toggle Logic with GSAP Animation
   // ==========================================================================
   const mobileToggle = document.querySelector('.mobile-menu-toggle');
   const navbarNav = document.querySelector('.navbar-nav');
+  const bgPanels = document.querySelectorAll('.bg-panel');
+  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
   
   if (mobileToggle && navbarNav) {
+    let isMenuAnimating = false;
+
     mobileToggle.addEventListener('click', () => {
+      if (isMenuAnimating) return;
+      isMenuAnimating = true;
+
       const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
-      mobileToggle.setAttribute('aria-expanded', !isExpanded);
-      mobileToggle.classList.toggle('is-active');
-      navbarNav.classList.toggle('is-active');
-      header.classList.toggle('mobile-menu-open');
       
-      // Prevent body scroll when menu is open
-      document.body.style.overflow = !isExpanded ? 'hidden' : '';
+      if (!isExpanded) {
+        // OPEN MENU
+        mobileToggle.setAttribute('aria-expanded', 'true');
+        mobileToggle.classList.add('is-active');
+        navbarNav.classList.add('is-active');
+        header.classList.add('mobile-menu-open');
+        document.body.style.overflow = 'hidden';
+
+        const tl = gsap.timeline({ onComplete: () => { isMenuAnimating = false; } });
+        
+        // Reset panels and links
+        gsap.set(bgPanels, { y: '-101%' });
+        gsap.set(navLinks, { y: 40, opacity: 0 });
+
+        // Animate panels down
+        tl.to(bgPanels, {
+          y: '0%',
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'power4.inOut'
+        });
+
+        // Animate links up
+        tl.to(navLinks, {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.05,
+          ease: 'power3.out'
+        }, '-=0.4'); // Start slightly before panels finish
+
+      } else {
+        // CLOSE MENU
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        mobileToggle.classList.remove('is-active');
+        document.body.style.overflow = '';
+
+        const tl = gsap.timeline({ 
+          onComplete: () => { 
+            navbarNav.classList.remove('is-active');
+            header.classList.remove('mobile-menu-open');
+            isMenuAnimating = false; 
+            
+            // Cerrar todos los acordeones abiertos al cerrar el menú
+            document.querySelectorAll('.nav-item-dropdown.mobile-expanded').forEach(item => {
+              item.classList.remove('mobile-expanded');
+            });
+          } 
+        });
+
+        // Animate links up and fade out
+        tl.to(navLinks, {
+          y: -40,
+          opacity: 0,
+          duration: 0.4,
+          stagger: 0.05,
+          ease: 'power3.in'
+        });
+
+        // Animate panels down (or up) to hide
+        tl.to(bgPanels, {
+          y: '101%',
+          duration: 0.8,
+          stagger: -0.1,
+          ease: 'power4.inOut'
+        }, '-=0.2');
+      }
     });
   }
 
