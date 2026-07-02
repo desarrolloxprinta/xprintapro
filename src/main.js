@@ -388,14 +388,14 @@ function initAnimations() {
   gsap.ticker.lagSmoothing(0)
 
   // 2. Hero Entry Animation (Butter smooth reveal)
-  const heroFrame = document.querySelector('#hero-frame');
+  const heroFrame = document.querySelector('[data-hero-frame]');
   if (heroFrame) {
     // NUEVA ANIMACIÓN HOME: Inspirada en bgslaw.ch con zoom-in y clip-path
     const tl = gsap.timeline({
       defaults: { ease: 'power4.out', duration: 1.6 }
     });
 
-    tl.fromTo('.hero-line', {
+    tl.fromTo('[data-hero-line]', {
       y: '100%',
       opacity: 0
     }, {
@@ -403,7 +403,7 @@ function initAnimations() {
       opacity: 1,
       stagger: 0.15
     })
-    .fromTo('#hero-tag', {
+    .fromTo('[data-hero-tag]', {
       y: 20,
       opacity: 0
     }, {
@@ -411,7 +411,7 @@ function initAnimations() {
       y: 0,
       duration: 1.2
     }, '-=1.2')
-    .fromTo('#hero-cue-bar', {
+    .fromTo('[data-hero-cue-bar]', {
       scaleY: 0
     }, {
       scaleY: 1,
@@ -419,7 +419,7 @@ function initAnimations() {
     }, '-=1.0');
 
     // ScrollTrigger para contraer el clipPath de la tarjeta de vídeo a medida que se hace scroll (efecto tarjeta flotante como bgslaw.ch)
-    gsap.to('#hero-frame', {
+    gsap.to('[data-hero-frame]', {
       scrollTrigger: {
         trigger: '#hero',
         start: 'top top',
@@ -432,7 +432,7 @@ function initAnimations() {
     });
 
     // Desvanecer el contenido de texto al hacer scroll
-    gsap.to('#hero-content', {
+    gsap.to('[data-hero-content]', {
       scrollTrigger: {
         trigger: '#hero',
         start: 'top top',

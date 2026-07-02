@@ -142,8 +142,9 @@ const mapJsonToDbProject = (jsonData) => {
 
 // Estados globales de la aplicación del panel
 let currentUser = null
-let currentTab = 'proyectos' // 'proyectos', 'blog', 'faqs', 'proyecto-editor', 'article-editor'
+let currentTab = 'proyectos' // 'proyectos', 'blog', 'faqs', 'proyecto-editor', 'article-editor', 'faq-editor'
 let currentEditingArticle = null // Article being edited
+let currentEditingFaq = null // FAQ being edited
 let projectsList = []
 let blogList = []
 let faqsList = []
@@ -241,7 +242,8 @@ function renderLoginView() {
 function renderDashboardView() {
   const isEditingProject = currentTab === 'proyecto-editor'
   const isEditingArticle = currentTab === 'article-editor'
-  const isEditing = isEditingProject || isEditingArticle
+  const isEditingFaq = currentTab === 'faq-editor'
+  const isEditing = isEditingProject || isEditingArticle || isEditingFaq
 
   return `
     <main class="page-admin">
@@ -294,6 +296,20 @@ function renderDashboardView() {
             </button>
             <button type="button" class="admin-hero-btn admin-hero-btn--primary" id="btn-article-preview">
               Previsualizar
+            </button>
+          </div>
+        </div>
+        ` : ''}
+
+        <!-- Hero del editor de FAQs -->
+        ${isEditingFaq ? `
+        <div class="admin-editor-hero">
+          <div class="admin-editor-hero__label">Editor de FAQs</div>
+          <h1 id="editor-faq-title" class="admin-editor-hero__title">Nueva Pregunta Frecuente</h1>
+          <p class="admin-editor-hero__description">Completa la información de la FAQ para el sitio web</p>
+          <div class="admin-editor-hero__actions">
+            <button type="button" class="admin-hero-btn admin-hero-btn--secondary" id="btn-faq-editor-cancel">
+              ← Volver
             </button>
           </div>
         </div>
@@ -860,6 +876,69 @@ function renderDashboardView() {
                 </button>
                 <button type="submit" class="admin-btn" style="width: auto; margin: 0;">
                   Guardar Artículo
+                </button>
+              </div>
+
+            </form>
+          </section>
+
+          <!-- TAB FAQ EDITOR (INLINE - SIN MODAL) -->
+          <section id="tab-faq-editor" class="admin-tab-content ${currentTab === 'faq-editor' ? 'active' : ''}">
+            <form id="form-faq-inline">
+              <input type="hidden" id="faq-inline-id">
+
+              <!-- CARD: Información de la FAQ -->
+              <div class="admin-table-container">
+                <h3 class="admin-card-section-title">Información de la FAQ</h3>
+
+                <div class="admin-form-group">
+                  <label for="faq-inline-question">Pregunta</label>
+                  <input type="text" id="faq-inline-question" class="admin-input" placeholder="¿Cuál es el plazo de entrega?" required>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Escribe la pregunta tal como el usuario la formularía
+                  </small>
+                </div>
+
+                <div class="admin-form-group">
+                  <label for="faq-inline-category">Categoría</label>
+                  <select id="faq-inline-category" class="admin-input" style="background: #ffffff;" required>
+                    <option value="">-- Selecciona una categoría --</option>
+                    <option value="general">General</option>
+                    <option value="servicios">Servicios</option>
+                    <option value="proyectos">Proyectos</option>
+                    <option value="presupuestos">Presupuestos</option>
+                    <option value="materiales">Materiales</option>
+                    <option value="instalacion">Instalación</option>
+                    <option value="garantias">Garantías y Soporte</option>
+                  </select>
+                </div>
+
+                <div class="admin-form-group">
+                  <label for="faq-inline-icon">Icono (Opcional)</label>
+                  <input type="text" id="faq-inline-icon" class="admin-input" placeholder="📦">
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-top: var(--spacing-1); display: block;">
+                    Emoji o nombre de icono para representar la categoría
+                  </small>
+                </div>
+
+                <div class="admin-form-group">
+                  <label>Respuesta</label>
+                  <small style="color: var(--color-text-muted); font-size: var(--font-size-xs); margin-bottom: var(--spacing-2); display: block;">
+                    Escribe la respuesta completa con formato usando el editor
+                  </small>
+                  <textarea id="faq-inline-answer-textarea" style="display: none;"></textarea>
+                  <div id="faq-inline-answer-editor" style="background: white; min-height: 200px; border: 1px solid var(--color-border); border-radius: var(--border-radius-sm);"></div>
+                </div>
+
+              </div>
+
+              <!-- Botones de Acción -->
+              <div class="admin-table-container" style="display: flex; justify-content: flex-end; gap: var(--spacing-4); border: none; padding: 0; background: transparent; box-shadow: none;">
+                <button type="button" class="admin-btn admin-btn-secondary" style="width: auto; margin: 0;" id="btn-faq-inline-cancel">
+                  Cancelar
+                </button>
+                <button type="submit" class="admin-btn" style="width: auto; margin: 0;">
+                  Guardar FAQ
                 </button>
               </div>
 
