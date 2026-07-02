@@ -93,8 +93,8 @@ const renderHero = () => `
       <video autoplay muted loop playsinline preload="auto" class="absolute inset-0 h-full w-full object-cover">
         <source src="/videos/home.mp4" type="video/mp4" />
       </video>
-      <!-- Capa de oscurecimiento usando var(--color-primary) solicitada por el usuario -->
-      <div class="pointer-events-none absolute inset-0" style="background-color: var(--color-primary); opacity: 0.8; mix-blend-mode: multiply; z-index: 10;" aria-hidden="true"></div>
+      <!-- Capa de oscurecimiento usando var(--color-primary) solicitada por el usuario, mediante clase CSS -->
+      <div class="hero-video-overlay" aria-hidden="true"></div>
       <div data-hero-tint="true" class="pointer-events-none absolute inset-0 opacity-0" style="background-color: var(--color-primary); z-index: 12;" aria-hidden="true"></div>
       <div data-hero-darken="true" class="pointer-events-none absolute inset-0 opacity-0" style="background-color: #080A15; z-index: 13;" aria-hidden="true"></div>
       <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-px overflow-hidden bg-white/10" aria-hidden="true">

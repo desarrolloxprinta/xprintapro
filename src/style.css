@@ -2476,3 +2476,19 @@ html.lenis { height: auto; }
   }
 }
 
+/* ==========================================================================
+   HERO OVERLAY (CUSTOM FIX)
+   ========================================================================== */
+.hero-video-overlay {
+  background-color: var(--color-primary);
+  opacity: 0.8;
+  z-index: 10;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+
