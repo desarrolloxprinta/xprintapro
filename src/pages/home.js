@@ -173,11 +173,9 @@ const renderMapa = () => `
   <div id="red-nacional-container" class="container-fluid red-nacional-container">
     <section id="red-nacional" class="red-nacional-section">
 
-      <!-- Interactive Background Map -->
-      <div class="red-nacional__map-bg" style="position: absolute; inset: 0;">
-        <div id="xprinta-home-map" style="width: 100%; height: 100%; z-index: 0; filter: brightness(0.9);"></div>
-        <!-- Capa overlay sutil para que el texto siga siendo legible encima del mapa -->
-        <div class="pointer-events-none absolute inset-0" style="background: linear-gradient(to right, var(--color-bg) 0%, rgba(8,10,21,0.6) 50%, rgba(8,10,21,0.2) 100%); z-index: 1;"></div>
+      <!-- Interactive Background Map (Right Side) -->
+      <div class="red-nacional__map-bg">
+        <div id="xprinta-home-map" style="width: 100%; height: 100%; z-index: 0; opacity: 0; mask-image: linear-gradient(to right, transparent 0%, black 30%); -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);"></div>
       </div>
 
       <!-- Stats Content (Left side) -->
